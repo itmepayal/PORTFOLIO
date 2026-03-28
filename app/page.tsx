@@ -1,98 +1,75 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { ProfileCard } from "@/components/layout/profile-card";
+import { MenuSheet } from "@/components/layout/menu-sheet";
+
+import { Home } from "@/components/sections/home";
+import { About } from "@/components/sections/about";
+import { Resume } from "@/components/sections/resume";
+import { Projects } from "@/components/sections/projects";
+import { Reviews } from "@/components/sections/reviews";
+import { Contact } from "@/components/sections/contact";
+
+import { Card, CardHeader } from "@/components/ui/card";
+
+// Import your icons (replace with your actual icons)
+import {
+  Home as HomeIcon,
+  User,
+  FileText,
+  Briefcase,
+  Star,
+  Mail,
+} from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 
-const Navbar = () => {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  const links = [
-    { name: "Home", href: "#home" },
-    { name: "Services", href: "#services" },
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Reviews", href: "#reviews" },
-    { name: "Contact", href: "#contact" },
+export default function Page() {
+  const sections = [
+    { id: "home", label: "Home", icon: HomeIcon },
+    { id: "about", label: "About", icon: User },
+    { id: "resume", label: "Resume", icon: FileText },
+    { id: "projects", label: "Projects", icon: Briefcase },
+    { id: "reviews", label: "Reviews", icon: Star },
+    { id: "contact", label: "Contact", icon: Mail },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const [active, setActive] = useState("home");
 
   return (
-    <nav
-      className={`sticky top-0 z-50 w-full px-6 md:px-20 py-6 
-      flex items-center justify-between transition-all duration-300
-      ${
-        scrolled ? "bg-secondary backdrop-blur-lg shadow-lg" : "bg-transparent"
-      }`}
-    >
-      {/* Logo */}
-      <Link href="#home">
-        <div className="flex items-center gap-3 font-poppins text-xl font-semibold cursor-pointer">
-          <span className="bg-linear-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
-            Payal
-          </span>
+    <div className="relative">
+      <ProfileCard />
+      <MenuSheet />
+
+      {/* Main content */}
+      <div className="flex">
+        <div className="hidden md:block w-24" />
+        <div className="flex-1 md:pt-5 px-4 md:px-10 space-y-10">
+          <Home />
+          <About />
+          <Resume />
+          <Projects />
+          <Reviews />
+          <Contact />
         </div>
-      </Link>
-
-      {/* Desktop Links */}
-      <ul className="hidden md:flex gap-10 font-poppins text-base">
-        {links.map((item) => (
-          <li
-            key={item.href}
-            className="relative group cursor-pointer text-gray-300 hover:text-white transition"
-          >
-            <Link href={item.href}>{item.name}</Link>
-
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-          </li>
-        ))}
-      </ul>
-
-      {/* Desktop Button */}
-      <div className="hidden md:block">
-        <Button className="px-6 py-5 text-base rounded-xl bg-white text-black hover:bg-gray-200 transition">
-          Hire Me
-        </Button>
       </div>
 
-      {/* Mobile Menu Icon */}
-      <div className="md:hidden">
-        <button onClick={() => setOpen(!open)}>
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {open && (
-        <div className="absolute top-full left-0 w-full bg-black/90 backdrop-blur-lg flex flex-col items-center gap-6 py-8 md:hidden">
-          {links.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-gray-300 hover:text-white text-lg cursor-pointer"
-              onClick={() => setOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
-
-          <Button className="px-6 py-5 text-base rounded-xl bg-secondary text-black">
-            Hire Me
-          </Button>
+      {/* Fixed Bottom Navbar */}
+      <div className="md:fixed md:bottom-0 md:left-0 md:w-full flex justify-center overflow-hidden py-4  z-50">
+        <div className="flex space-x-3 bg-secondary backdrop-blur-md px-5 py-4 rounded">
+          {sections.map((sec, i) => {
+            const Icon = sec.icon;
+            const isActive = active === sec.id;
+            return (
+              <Link href="#" key={i}>
+                <div className="p-3 rounded-full border bg-secondary transition">
+                  <Icon className="size-4 text-gray-300 hover:text-white" />
+                </div>
+              </Link>
+            );
+          })}
         </div>
-      )}
-    </nav>
+      </div>
+    </div>
   );
-};
-
-export default Navbar;
+}

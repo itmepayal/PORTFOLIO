@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
 import { Poppins, Inter, Geist_Mono, Geist } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import CustomCursor from "@/components/common/custom-cursor";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -53,6 +54,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <TooltipProvider>
+          <CustomCursor />
           {children}
           <Toaster />
         </TooltipProvider>
