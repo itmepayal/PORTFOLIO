@@ -1,54 +1,141 @@
 "use client";
 
 import Image from "next/image";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import Link from "next/link";
 
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
+
 export const ProfileCard = () => {
+  const contactItems = [
+    {
+      icon: Mail,
+      text: "your@email.com",
+      href: "mailto:your@email.com",
+    },
+    {
+      icon: Phone,
+      text: "+91 9876543210",
+      href: "tel:+919876543210",
+    },
+    {
+      icon: MessageCircle,
+      text: "WhatsApp",
+      href: "https://wa.me/919876543210",
+    },
+    {
+      icon: MapPin,
+      text: "Vadodara, India",
+    },
+  ];
+
+  const socials = [
+    { icon: IconBrandGithub, link: "#" },
+    { icon: IconBrandLinkedin, link: "#" },
+  ];
+
   return (
-    <div className="flex items-center justify-center md:fixed md:top-5 md:left-5">
-      <Card className="w-[90vw] max-w-sm md:w-96 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl overflow-hidden transition hover:scale-[1.03]">
-        <div className="relative h-64 md:h-80 w-full overflow-hidden px-4 pb-4 md:px-5">
-          <div className="relative w-full h-full rounded-2xl overflow-hidden">
+    <div className="flex flex-col items-center gap-6 md:fixed md:top-6 md:left-10">
+      <Card className="w-[90vw] max-w-sm md:w-96 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl rounded-3xl p-5">
+        {/* Avatar */}
+        <div className="flex justify-center">
+          <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-white/10 shadow-lg">
             <Image
               src="/profile.jpeg"
-              alt="Payal Yadav profile"
+              alt="profile"
               fill
-              priority
               className="object-cover"
             />
           </div>
-
-          <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent rounded-2xl" />
         </div>
 
-        <CardContent className="flex flex-col items-center text-center px-4 py-3 gap-2">
-          <h2 className="text-lg md:text-xl font-semibold text-white">
-            Payal Yadav
-          </h2>
+        <CardContent className="flex flex-col items-center text-center mt-4 gap-2">
+          <h2 className="text-xl font-semibold text-white">Payal Yadav</h2>
 
-          <p className="text-sm text-gray-300">Full Stack Developer</p>
+          <Badge className="bg-secondary text-white border-none px-2">
+            Full Stack Developer
+          </Badge>
 
-          <p className="text-sm text-gray-400 max-w-55">
-            Building scalable apps, real-time systems & modern UI.
+          <p className="text-sm text-gray-400 max-w-xs">
+            Building scalable backend systems & modern full-stack apps with
+            clean architecture.
           </p>
-
-          <div className="flex gap-3 mt-3">
-            {[IconBrandGithub, IconBrandLinkedin].map((Icon, i) => (
-              <Link href="#" key={i}>
-                <div className="p-3 rounded border border-white/20 hover:bg-white/10 transition">
-                  <Icon className="size-5 text-gray-300 hover:text-white" />
-                </div>
-              </Link>
-            ))}
-          </div>
         </CardContent>
 
-        <CardFooter className="px-4 pb-5">
-          <Button className="w-full rounded-xl py-5 bg-white text-black">
-            Let's Work
+        <CardFooter className="my-4">
+          <Button className="w-full rounded-xl bg-white text-black hover:bg-gray-200 transition">
+            Let’s Work Together
+          </Button>
+        </CardFooter>
+      </Card>
+
+      <Card className="w-[90vw] max-w-sm md:w-96 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl rounded-3xl p-5">
+        <CardHeader className="pb-3">
+          <Badge className="w-fit bg-green-500/20 text-green-400 border-none my-1">
+            Available for work
+          </Badge>
+
+          <CardTitle className="text-white text-lg">Get in Touch</CardTitle>
+
+          <CardDescription className="text-gray-400">
+            Let’s build something amazing together
+          </CardDescription>
+        </CardHeader>
+
+        {/* Contact Items */}
+        <CardContent className="flex flex-col gap-2">
+          {contactItems.map((item, i) => {
+            const Icon = item.icon;
+
+            const content = (
+              <div className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-white/10 transition cursor-pointer">
+                <Icon className="w-4 h-4 text-gray-300" />
+                <span className="text-sm text-gray-200">{item.text}</span>
+              </div>
+            );
+
+            return item.href ? (
+              <Link href={item.href} key={i} target="_blank">
+                {content}
+              </Link>
+            ) : (
+              <div key={i}>{content}</div>
+            );
+          })}
+        </CardContent>
+
+        {/* Footer */}
+        <CardFooter className="flex flex-col gap-4 my-1">
+          {/* Socials */}
+          <div className="flex gap-3">
+            {socials.map((item, i) => {
+              const Icon = item.icon;
+
+              return (
+                <Link href={item.link} key={i} target="_blank">
+                  <div className="p-3 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                    <Icon className="size-5 text-gray-300 hover:text-white" />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* CTA */}
+          <Button className="w-full rounded-xl bg-white text-black hover:bg-gray-200">
+            Contact Me
           </Button>
         </CardFooter>
       </Card>
