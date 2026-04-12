@@ -22,22 +22,22 @@ export const ProfileCard = () => {
   const contactItems = [
     {
       icon: Mail,
-      text: "your@email.com",
-      href: "mailto:your@email.com",
+      text: "itme.payalyadav@gmail.com",
+      href: "mailto:itme.payalyadav@gmail.com",
     },
     {
       icon: Phone,
-      text: "+91 9876543210",
-      href: "tel:+919876543210",
+      text: "+91 7228832443",
+      href: "tel:+7228832443",
     },
     {
       icon: MessageCircle,
       text: "WhatsApp",
-      href: "https://wa.me/919876543210",
+      href: "https://wa.me/7228832443",
     },
     {
       icon: MapPin,
-      text: "Vadodara, India",
+      text: "Bhilad, Valsad District, Gujarat",
     },
   ];
 

@@ -9,7 +9,9 @@ import { Home } from "@/components/sections/home";
 import { Resume } from "@/components/sections/resume";
 import { Projects } from "@/components/sections/projects";
 import { Skills } from "@/components/sections/skills";
+import { Education } from "@/components/sections/education";
 import { Contact } from "@/components/sections/contact";
+import { Footer } from "@/components/sections/footer";
 
 import { SECTIONS } from "@/constants/sections";
 
@@ -27,7 +29,9 @@ export default function Page() {
           <Projects />
           <Resume />
           <Skills />
+          <Education />
           <Contact />
+          <Footer />
         </div>
       </main>
 
