@@ -40,7 +40,7 @@ export const Projects = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <Badge className="flex w-fit items-center gap-2 px-4 py-2.5 rounded-full text-primary border-primary/45 bg-secondary/60 backdrop-blur-md">
+          <Badge className="flex w-fit items-center gap-2 px-4 py-4 rounded-full text-primary border-primary/45 bg-secondary/60 backdrop-blur-md">
             <Sparkles className="size-4" />
             Projects
           </Badge>

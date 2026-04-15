@@ -48,49 +48,56 @@ export const ProfileCard = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 md:fixed md:top-6 md:left-10">
-      <Card className="w-[90vw] max-w-sm md:w-96 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl rounded-3xl p-5">
+      {/* Profile Card */}
+      <Card className="w-[90vw] max-w-sm md:w-96 bg-card border border-border shadow-lg rounded-xl p-6">
         {/* Avatar */}
         <div className="flex justify-center">
-          <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-white/10 shadow-lg">
-            <Image
-              src="/profile.jpeg"
-              alt="profile"
-              fill
-              className="object-cover"
-            />
+          <div className="relative">
+            {/* Avatar */}
+            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-border shadow-sm">
+              <Image
+                src="/profile.jpeg"
+                alt="profile"
+                width={158}
+                height={158}
+                className="object-cover w-full h-full rounded-full"
+              />
+            </div>
+
+            {/* Status Dot */}
+            <span className="absolute bottom-4.5 right-4.5 h-3 w-3 rounded-full bg-green-500 border border-green-500 animate-pulse" />
           </div>
         </div>
 
-        <CardContent className="flex flex-col items-center text-center mt-4 gap-2">
-          <h2 className="text-xl font-semibold text-white">Payal Yadav</h2>
+        <CardContent className="flex flex-col items-center text-center mt-5 gap-2">
+          <h2 className="text-xl font-semibold text-card-foreground">
+            Payal Yadav
+          </h2>
 
-          <Badge className="bg-secondary text-white border-none px-2">
-            Full Stack Developer
-          </Badge>
+          <Badge variant="secondary">Full Stack Developer</Badge>
 
-          <p className="text-sm text-gray-400 max-w-xs">
+          <p className="text-sm text-muted-foreground max-w-xs">
             Building scalable backend systems & modern full-stack apps with
             clean architecture.
           </p>
         </CardContent>
 
-        <CardFooter className="my-4">
-          <Button className="w-full rounded-xl bg-white text-black hover:bg-gray-200 transition">
-            Let’s Work Together
-          </Button>
+        <CardFooter className="mt-4">
+          <Button className="w-full rounded-lg">Let’s Work Together</Button>
         </CardFooter>
       </Card>
 
-      <Card className="w-[90vw] max-w-sm md:w-96 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl rounded-3xl p-5">
+      {/* Contact Card */}
+      <Card className="w-[90vw] max-w-sm md:w-96 bg-card border border-border shadow-lg rounded p-6">
         <CardHeader className="pb-3">
-          <Badge className="w-fit bg-green-500/20 text-green-400 border-none my-1">
+          <Badge variant="outline" className="w-fit">
             Available for work
           </Badge>
 
-          <CardTitle className="text-white text-lg">Get in Touch</CardTitle>
+          <CardTitle className="text-base">Get in Touch</CardTitle>
 
-          <CardDescription className="text-gray-400">
-            Let’s build something amazing together
+          <CardDescription>
+            Let’s build something meaningful together
           </CardDescription>
         </CardHeader>
 
@@ -100,9 +107,11 @@ export const ProfileCard = () => {
             const Icon = item.icon;
 
             const content = (
-              <div className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-white/10 transition cursor-pointer">
-                <Icon className="w-4 h-4 text-gray-300" />
-                <span className="text-sm text-gray-200">{item.text}</span>
+              <div className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent transition cursor-pointer">
+                <Icon className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-card-foreground">
+                  {item.text}
+                </span>
               </div>
             );
 
@@ -117,7 +126,7 @@ export const ProfileCard = () => {
         </CardContent>
 
         {/* Footer */}
-        <CardFooter className="flex flex-col gap-4 my-1">
+        <CardFooter className="flex flex-col gap-4 mt-3">
           {/* Socials */}
           <div className="flex gap-3">
             {socials.map((item, i) => {
@@ -125,8 +134,8 @@ export const ProfileCard = () => {
 
               return (
                 <Link href={item.link} key={i} target="_blank">
-                  <div className="p-3 rounded-xl border border-white/10 hover:bg-white/10 transition">
-                    <Icon className="size-5 text-gray-300 hover:text-white" />
+                  <div className="p-2.5 rounded-lg border border-border hover:bg-accent transition">
+                    <Icon className="size-5 text-muted-foreground hover:text-foreground" />
                   </div>
                 </Link>
               );
@@ -134,7 +143,7 @@ export const ProfileCard = () => {
           </div>
 
           {/* CTA */}
-          <Button className="w-full rounded-xl bg-white text-black hover:bg-gray-200">
+          <Button variant="outline" className="w-full rounded-lg">
             Contact Me
           </Button>
         </CardFooter>
