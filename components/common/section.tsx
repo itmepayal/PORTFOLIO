@@ -11,19 +11,23 @@ export const Section = ({ id, children, className = "" }: SectionProps) => {
     <section
       id={id}
       className={`
-        mt-5 md:mt-0 md:ml-96 md:mr-20
-        px-4 md:px-6 py-6 md:py-10
+        relative
         rounded-2xl
-        border border-border/60
-        bg-background/70 backdrop-blur-xl
-        shadow-sm hover:shadow-md
+        border border-border
+        bg-background/40 backdrop-blur-md
+        shadow-sm
+
+        md:mx-3 md:ml-0
+        md:my-4
+        mx-3
+        p-5 md:p-6 lg:py-14.5
         transition-all duration-300
+        hover:shadow-md
+
         ${className}
       `}
     >
-      <div className="w-full max-w-6xl flex flex-col justify-center">
-        {children}
-      </div>
+      {children}
     </section>
   );
 };

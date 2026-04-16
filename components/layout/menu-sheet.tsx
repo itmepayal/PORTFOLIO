@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
+
 import {
   IconMenu2,
   IconHome,
@@ -21,6 +21,8 @@ import {
   IconStar,
   IconMail,
   IconSend,
+  IconBrandGithub,
+  IconBrandLinkedin,
 } from "@tabler/icons-react";
 
 export const MenuSheet = () => {
@@ -29,28 +31,35 @@ export const MenuSheet = () => {
     { name: "About", href: "#about", icon: IconUser },
     { name: "Resume", href: "#resume", icon: IconFileText },
     { name: "Projects", href: "#projects", icon: IconBriefcase },
-    { name: "Reviews", href: "#reviews", icon: IconStar },
+    { name: "Education", href: "#education", icon: IconStar },
+    { name: "Skills", href: "#skills", icon: IconStar },
     { name: "Contact", href: "#contact", icon: IconMail },
   ];
 
   return (
-    <div className="fixed right-2 top-2 md:right-5 md:top-5 z-50">
+    <div className="fixed right-3 top-3 z-50">
       <Sheet>
+        {/* Trigger */}
         <SheetTrigger asChild>
-          <Button className="flex items-center justify-center h-10 w-10 rounded-full bg-secondary border border-primary hover:scale-105 transition">
+          <Button
+            aria-label="Open menu"
+            className="h-10 w-10 rounded-full bg-secondary border border-primary hover:scale-105 transition"
+          >
             <IconMenu2 className="w-5 h-5 text-white" />
           </Button>
         </SheetTrigger>
 
-        <SheetContent side="right">
+        {/* Content */}
+        <SheetContent side="right" className="flex flex-col">
           <SheetHeader>
             <SheetTitle className="text-white text-lg tracking-wide">
               Menu
             </SheetTitle>
           </SheetHeader>
 
-          <Separator />
+          <Separator className="my-3" />
 
+          {/* Links */}
           <div className="flex flex-col gap-2">
             {links.map((item) => {
               const Icon = item.icon;
@@ -67,25 +76,34 @@ export const MenuSheet = () => {
                 </SheetClose>
               );
             })}
+          </div>
 
-            <Separator />
-            <div className="flex gap-3 my-3 items-center justify-center">
-              {[IconBrandGithub, IconBrandLinkedin].map((Icon, i) => (
-                <Link href="#" key={i}>
-                  <div className="p-3 rounded border border-white/20 hover:bg-white/10 transition">
-                    <Icon className="size-5 text-gray-300 hover:text-white" />
-                  </div>
-                </Link>
-              ))}
-            </div>
+          <Separator className="my-4" />
 
-            <Separator />
+          {/* Socials */}
+          <div className="flex gap-3 justify-center">
+            <Link href="https://github.com/" target="_blank">
+              <div className="p-3 rounded border border-white/20 hover:bg-white/10 transition">
+                <IconBrandGithub className="size-5 text-gray-300 hover:text-white" />
+              </div>
+            </Link>
 
-            <Button className="mx-4 mt-4 py-5 bg-white text-black flex items-center gap-2 justify-center rounded-xl transition-all duration-300 hover:bg-gray-200 hover:scale-[1.02]">
+            <Link href="https://linkedin.com/" target="_blank">
+              <div className="p-3 rounded border border-white/20 hover:bg-white/10 transition">
+                <IconBrandLinkedin className="size-5 text-gray-300 hover:text-white" />
+              </div>
+            </Link>
+          </div>
+
+          <Separator className="my-4" />
+
+          {/* CTA */}
+          <SheetClose asChild>
+            <Button className="mt-auto py-5 bg-white text-black flex items-center gap-2 justify-center rounded-xl transition-all duration-300 hover:bg-gray-200 hover:scale-[1.02]">
               <IconSend className="w-5 h-5" />
               Hire Me
             </Button>
-          </div>
+          </SheetClose>
         </SheetContent>
       </Sheet>
     </div>

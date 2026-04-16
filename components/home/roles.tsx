@@ -11,7 +11,7 @@ interface AnimatedRoleProps {
 export const Roles = ({ roles, interval = 2500 }: AnimatedRoleProps) => {
   const currentRole = useRole(roles, interval);
   return (
-    <span className="relative inline-block h-[1.6em] overflow-hidden align-bottom">
+    <span className="relative inline-block h-[2.5em] overflow-hidden align-bottom">
       <AnimatePresence mode="wait">
         <motion.span
           key={currentRole}
@@ -19,7 +19,7 @@ export const Roles = ({ roles, interval = 2500 }: AnimatedRoleProps) => {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, y: -30, filter: "blur(6px)" }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="block bg-linear-to-b from-secondary via-primary to-secondary bg-clip-text text-transparent"
+          className="block bg-linear-to-b text-xl md:text-5xl from-secondary via-primary to-secondary bg-clip-text text-transparent"
         >
           {currentRole}
         </motion.span>

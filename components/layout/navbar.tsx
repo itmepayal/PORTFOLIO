@@ -15,8 +15,8 @@ type NavbarProps = {
 
 export const Navbar = ({ sections, active, onNavigate }: NavbarProps) => {
   return (
-    <div className="fixed bottom-0 left-0 w-full flex justify-center py-4 z-50">
-      <div className="flex space-x-3 border backdrop-blur-md px-5 py-2.5 rounded-full bg-black/30">
+    <div className="flex justify-center">
+      <div className="flex space-x-3 border border-border/50 backdrop-blur-md px-5 py-2.5 rounded-full bg-background/40 shadow-lg">
         {sections.map((sec, i) => {
           const Icon = sec.icon;
           const isActive = active === sec.id;
@@ -25,11 +25,14 @@ export const Navbar = ({ sections, active, onNavigate }: NavbarProps) => {
             <button
               key={i}
               onClick={() => onNavigate(sec.id)}
-              className={`p-3 rounded-full border transition ${
-                isActive
-                  ? "bg-white text-black"
-                  : "bg-secondary text-gray-300 hover:text-white"
-              }`}
+              className={`
+                p-3 rounded-full border transition-all duration-300
+                ${
+                  isActive
+                    ? "bg-linear-to-br from-primary via-chart-2 to-chart-3 text-primary-foreground border-transparent shadow-md scale-105"
+                    : "bg-secondary/50 text-muted-foreground border-border/50 hover:text-foreground hover:bg-accent/40"
+                }
+              `}
             >
               <Icon className="size-4" />
             </button>

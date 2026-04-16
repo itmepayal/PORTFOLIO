@@ -18,28 +18,19 @@ import { SECTIONS } from "@/constants/sections";
 export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
   return (
-    <div className="relative">
+    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-1 items-start">
       <ProfileCard />
       <MenuSheet />
-
-      <main className="flex">
-        <div className="hidden md:block w-24" />
-        <div className="flex-1 md:pt-5 px-4 md:px-10 space-y-10">
-          <Home />
-          <Projects />
-          <Resume />
-          <Skills />
-          <Education />
-          <Contact />
-          <Footer />
+      <div className="overflow-hidden h-screen relative">
+        <Home />
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+          <Navbar
+            sections={SECTIONS}
+            active={active}
+            onNavigate={scrollToSection}
+          />
         </div>
-      </main>
-
-      <Navbar
-        sections={SECTIONS}
-        active={active}
-        onNavigate={scrollToSection}
-      />
+      </div>
     </div>
   );
 }
