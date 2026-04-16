@@ -98,7 +98,7 @@ export const ProfileCard = () => {
           <CardHeader className="pb-2 sm:pb-3 space-y-2">
             <Badge
               variant="outline"
-              className="w-fit text-xs flex items-center gap-2 px-3 py-2 bg-green-500/20"
+              className="w-fit text-xs flex items-center gap-2 px-3 py-2 bg-green-500/20 capitalize"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
@@ -106,9 +106,7 @@ export const ProfileCard = () => {
               </span>
               Available for work
             </Badge>
-
             <CardTitle className="text-sm sm:text-base">Get in Touch</CardTitle>
-
             <CardDescription className="text-xs sm:text-sm">
               Let’s build something meaningful together
             </CardDescription>

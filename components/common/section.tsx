@@ -16,7 +16,6 @@ export const Section = ({ id, children, className = "" }: SectionProps) => {
         border border-border
         bg-background/40 backdrop-blur-md
         shadow-sm
-
         md:mx-3 md:ml-0
         md:my-4
         mx-3

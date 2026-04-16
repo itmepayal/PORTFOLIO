@@ -9,13 +9,10 @@ import { Roles } from "@/components/home/roles";
 import { CTAButtons } from "@/components/home/cta-buttons";
 
 export const Home = () => {
-  const roles = ["Full Stack Developer", "Backend Developer"];
+  const roles = ["Full-Stack Developer", "Backend Developer", "API Developer"];
 
   return (
-    <Section
-      id="home"
-      className="relative py-20 md:py-28 px-6 md:px-14 overflow-hidden flex flex-col justify-center"
-    >
+    <Section id="home" className="overflow-hidden">
       {/* Background */}
       <BackgroundBlobs />
 

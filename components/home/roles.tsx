@@ -19,7 +19,7 @@ export const Roles = ({ roles, interval = 2500 }: AnimatedRoleProps) => {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, y: -30, filter: "blur(6px)" }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="block bg-linear-to-b text-xl md:text-5xl from-secondary via-primary to-secondary bg-clip-text text-transparent"
+          className="block bg-linear-to-b text-3xl md:text-6xl font-semibold from-secondary via-primary to-secondary bg-clip-text text-transparent"
         >
           {currentRole}
         </motion.span>

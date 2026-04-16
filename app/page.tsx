@@ -19,11 +19,13 @@ export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-1 items-start">
-      <ProfileCard />
-      <MenuSheet />
-      <div className="overflow-hidden h-screen relative">
+      <div className="sticky h-fit">
+        <ProfileCard />
+      </div>
+      <div className="overflow-y-auto h-screen relative">
         <Home />
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+        <Skills />
+        <div className="sticky bottom-6 flex justify-center z-50">
           <Navbar
             sections={SECTIONS}
             active={active}
