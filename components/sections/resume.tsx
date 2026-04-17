@@ -1,106 +1,129 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Download, Sparkles } from "lucide-react";
 import { Section } from "@/components/common/section";
-import { Button } from "@/components/ui/button";
-import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
-import { Badge } from "@/components/ui/badge";
-import { RESUME } from "@/constants/resume";
+import { Card } from "@/components/ui/card";
+import { DSASection } from "../proof/dsa-section";
+import { BackgroundBlobs } from "../backgrounds/background-blobs";
 
-export const Resume = () => {
+const tabs = ["DSA", "System Design"];
+
+const stats = [
+  {
+    title: "LeetCode",
+    solved: 103,
+    total: 3902,
+    easy: 29,
+    medium: 65,
+    hard: 9,
+    description:
+      "Consistently solving algorithmic challenges with a focus on patterns, time-space optimization, and writing production-level clean code.",
+  },
+  {
+    title: "Striver A2Z",
+    solved: 225,
+    total: 1074,
+    easy: 86,
+    medium: 87,
+    hard: 52,
+    description:
+      "Following a structured DSA roadmap, mastering core concepts from basics to advanced topics with a strong emphasis on problem-solving depth.",
+  },
+];
+
+export function Resume() {
+  const [active, setActive] = useState("DSA");
+
   return (
-    <Section
-      id="resume"
-      className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden text-sm"
-    >
+    <Section id="skills-proof">
       <BackgroundBlobs />
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-125 h-125 bg-white/10 blur-3xl rounded-full opacity-30" />
-      </div>
-      <div className="relative  mx-auto max-w-7xl grid md:grid-cols-2 gap-12 items-center">
-        <div className="flex flex-col gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-          >
-            <Badge className="flex w-fit items-center gap-2 px-5 py-4 text-sm rounded-full border border-white/10 bg-white/5 backdrop-blur-xl">
-              <Sparkles className="size-4 text-white/70" />
-              <span className="text-white/80">Available in Oppertunity</span>
-            </Badge>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight"
-          >
-            Build. Scale. <span className="text-white/60">Ship Faster.</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-white/60 text-sm sm:text-base max-w-lg leading-relaxed"
-          >
-            I design and develop high-performance backend systems and modern
-            full-stack applications with scalability, security, and clean
-            architecture at the core.
-          </motion.p>
-          <div className="flex flex-wrap gap-2 text-xs text-white/60">
-            {RESUME.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>{" "}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-          >
-            <Button
-              asChild
-              size="lg"
-              className="group relative overflow-hidden px-7 py-6 text-base rounded-xl bg-white text-black font-medium shadow-lg hover:shadow-2xl transition-all duration-300"
+      {/* TABS */}
+      <div className="flex justify-start">
+        <div className="flex items-center gap-1 p-1 rounded-2xl border border-border bg-muted/40 backdrop-blur-md shadow-sm">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActive(tab)}
+              className="relative px-5 py-2 text-sm font-medium rounded-xl transition-colors"
             >
-              <a href="/resume.pdf" download>
-                <span className="relative z-10 flex items-center gap-2 text-sm">
-                  <Download className="size-5" />
-                  Download Resume
-                </span>
-                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-white/10 transition duration-500" />
-              </a>
-            </Button>
-          </motion.div>
+              {/* Active Background */}
+              {active === tab && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 rounded-xl bg-background border border-border shadow-sm"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+
+              {/* Text */}
+              <span
+                className={`relative z-10 transition-colors duration-200 ${
+                  active === tab
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab}
+              </span>
+            </button>
+          ))}
         </div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 40 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="relative"
-        >
-          <div className="relative p-px rounded-3xl bg-white/10">
-            <div className="rounded-3xl bg-black/60 backdrop-blur-xl border border-white/10 p-8 flex flex-col gap-6">
-              <div className="flex justify-between text-xs text-white/50">
-                <span>Resume Preview</span>
-                <span>PDF • Updated 2026</span>
-              </div>
-              <div className="space-y-3">
-                <div className="h-3 w-2/3 bg-white/10 rounded" />
-                <div className="h-3 w-full bg-white/10 rounded" />
-                <div className="h-3 w-5/6 bg-white/10 rounded" />
-                <div className="h-3 w-3/4 bg-white/10 rounded" />
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                <span className="text-white/60 text-xs">View full details</span>
-                <Download className="size-4 text-white/70" />
-              </div>
-            </div>
-            <div className="absolute inset-0 rounded-3xl blur-2xl opacity-20 bg-white/10" />
-          </div>
-        </motion.div>
       </div>
+
+      {/* CONTENT */}
+      <motion.div
+        key={active}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6"
+      >
+        {/* ================= DSA ================= */}
+        {active === "DSA" && <DSASection active={active} stats={stats} />}
+
+        {/* ================= SYSTEM DESIGN ================= */}
+        {active === "System Design" && (
+          <div className="grid md:grid-cols-2 gap-10">
+            <div className="space-y-4">
+              {[
+                "Client",
+                "Load Balancer",
+                "API Server",
+                "Redis Cache",
+                "Database",
+                "Queue",
+              ].map((step, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-3 h-3 bg-primary rounded-full" />
+                  <div className="p-3 rounded-lg bg-card border flex-1">
+                    {step}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <Card className="p-6 rounded-2xl space-y-4 hover:shadow-xl transition">
+              <h4 className="font-semibold text-lg">Food Delivery System</h4>
+
+              <p className="text-sm text-muted-foreground">
+                Designed a scalable backend architecture handling high traffic
+                using caching and async queues.
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {["Node.js", "Redis", "Kafka", "Scaling"].map((t) => (
+                  <span
+                    key={t}
+                    className="text-xs px-3 py-1 bg-primary/10 text-primary rounded-full"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
+      </motion.div>
     </Section>
   );
-};
+}

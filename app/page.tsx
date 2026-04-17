@@ -6,7 +6,6 @@ import { MenuSheet } from "@/components/layout/menu-sheet";
 import { Navbar } from "@/components/layout/navbar";
 
 import { Home } from "@/components/sections/home";
-import { Resume } from "@/components/sections/resume";
 import { Projects } from "@/components/sections/projects";
 import { Skills } from "@/components/sections/skills";
 import { Education } from "@/components/sections/education";
@@ -14,6 +13,7 @@ import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
 
 import { SECTIONS } from "@/constants/sections";
+import { Resume } from "@/components/sections/resume";
 
 export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
@@ -22,9 +22,13 @@ export default function Page() {
       <div className="sticky h-fit">
         <ProfileCard />
       </div>
+      <MenuSheet />
       <div className="overflow-y-auto h-screen relative">
         <Home />
+
         <Skills />
+        <Resume />
+        <Footer />
         <div className="sticky bottom-6 flex justify-center z-50">
           <Navbar
             sections={SECTIONS}
