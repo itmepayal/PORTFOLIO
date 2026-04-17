@@ -17,9 +17,9 @@ type DSAStat = {
 };
 
 /* ================= CONSTANTS ================= */
-const SIZE = 160;
-const RADIUS = 60;
-const STROKE = 10;
+const SIZE = 200;
+const RADIUS = 80;
+const STROKE = 12;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 /* ================= MAIN ================= */
@@ -122,12 +122,16 @@ export const DSASection = ({
 
                   {/* CENTER */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <p className="text-xl font-bold text-foreground">
-                      {item.solved}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      / {item.total}
-                    </p>
+                    {/* ONE LINE */}
+                    <div className="flex items-baseline gap-1 whitespace-nowrap">
+                      <span className="text-2xl font-bold">{item.solved}</span>
+                      <span className="text-sm text-muted-foreground">
+                        / {item.total}
+                      </span>
+                    </div>
+
+                    {/* STATUS */}
+                    <p className="text-xs text-green-500 mt-1">✔ Solved</p>
                   </div>
                 </div>
 
@@ -214,7 +218,7 @@ const ProgressRow = ({
           initial={{ x: "-100%" }}
           animate={{ x: "100%" }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="absolute top-0 left-0 h-full w-1/3 bg-white/20 blur-sm"
+          className="absolute top-0 left-0 h-full w-1/3 bg-card/20 blur-sm"
         />
       </div>
     </div>
