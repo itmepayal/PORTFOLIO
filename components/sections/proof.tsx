@@ -7,10 +7,11 @@ import { Card } from "@/components/ui/card";
 import { DSASection } from "../proof/dsa-section";
 import { BackgroundBlobs } from "../backgrounds/background-blobs";
 import { useLeetCodeStats } from "@/hooks/use-stats";
+import { SystemDesign } from "../proof/system-section";
 
 const tabs = ["DSA", "System Design"];
 
-export function Resume() {
+export function Proof() {
   const [active, setActive] = useState("DSA");
   const { stats: leetcodeStats, loading, error } = useLeetCodeStats();
 
@@ -72,47 +73,7 @@ export function Resume() {
         {active === "DSA" && <DSASection active={active} stats={finalStats} />}
 
         {/* ================= SYSTEM DESIGN ================= */}
-        {active === "System Design" && (
-          <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-4">
-              {[
-                "Client",
-                "Load Balancer",
-                "API Server",
-                "Redis Cache",
-                "Database",
-                "Queue",
-              ].map((step, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-primary rounded-full" />
-                  <div className="p-3 rounded-lg bg-card border flex-1">
-                    {step}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <Card className="p-6 rounded-2xl space-y-4 hover:shadow-xl transition">
-              <h4 className="font-semibold text-lg">Food Delivery System</h4>
-
-              <p className="text-sm text-muted-foreground">
-                Designed a scalable backend architecture handling high traffic
-                using caching and async queues.
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {["Node.js", "Redis", "Kafka", "Scaling"].map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-3 py-1 bg-primary/10 text-primary rounded-full"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </Card>
-          </div>
-        )}
+        {active === "System Design" && <SystemDesign active={active} />}
       </motion.div>
     </Section>
   );

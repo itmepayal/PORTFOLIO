@@ -1,118 +1,139 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, ExternalLink } from "lucide-react";
+import { ExternalLink, Rocket, Code2, Sparkles } from "lucide-react";
 import { IconBrandGithub } from "@tabler/icons-react";
 
 import { Section } from "@/components/common/section";
 import { Badge } from "@/components/ui/badge";
 import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
-
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 import { Button } from "@/components/ui/button";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+const PROJECTS = [
+  {
+    title: "Food Delivery System",
+    description:
+      "Full-stack platform with authentication, payments, real-time tracking and admin dashboard.",
+    tech: ["Node.js", "MongoDB", "React", "Socket.IO"],
+    github: "#",
+    live: "#",
+    icon: Rocket,
+    image:
+      "https://www.figma.com/community/file/1182197835889504018/portfolio-design",
+  },
+  {
+    title: "Chat Application",
+    description:
+      "Real-time chat with typing indicators, presence, and WebRTC video calls.",
+    tech: ["React", "Socket.IO", "WebRTC", "Redis"],
+    github: "#",
+    live: "#",
+    icon: Sparkles,
+    image:
+      "https://www.figma.com/community/file/1182197835889504018/portfolio-design",
+  },
+  {
+    title: "Portfolio Website",
+    description:
+      "Modern portfolio with animations, theme system and responsive UI.",
+    tech: ["React", "Tailwind", "Framer Motion"],
+    github: "#",
+    live: "#",
+    icon: Code2,
+    image:
+      "https://www.figma.com/community/file/1182197835889504018/portfolio-design",
+  },
+];
 
 export const Projects = () => {
   return (
-    <Section
-      id="projects"
-      className="relative py-20 md:py-28 px-6 md:px-12 overflow-hidden"
-    >
+    <Section id="projects" className="relative overflow-hidden py-16">
       <BackgroundBlobs />
 
-      <div className="flex flex-col gap-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Badge className="flex w-fit items-center gap-2 px-4 py-4 rounded-full text-primary border-primary/45 bg-secondary/60 backdrop-blur-md">
-            <Sparkles className="size-4" />
-            Projects
-          </Badge>
-        </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
+        {PROJECTS.map((project, index) => {
+          const Icon = project.icon;
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Carousel className="w-full max-w-72 md:max-w-fit">
-            <CarouselContent className="-ml-2">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="pl-2 sm:basis-1/2 lg:basis-1/3"
-                >
-                  <div className="p-2">
-                    <Card className="group relative overflow-hidden rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                      {/* Image */}
-                      <div className="relative">
-                        <img
-                          src={`https://picsum.photos/500/300?random=${index}`}
-                          alt="Project"
-                          className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105 brightness-75"
-                        />
+          return (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              viewport={{ once: true }}
+              className="group relative rounded-2xl overflow-hidden border border-white/10
+              bg-white/5 backdrop-blur-xl shadow-md hover:shadow-2xl hover:shadow-primary/20
+              transition-all duration-300 hover:-translate-y-2"
+            >
+              {/* Glow Border Effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 pointer-events-none" />
 
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
+              {/* IMAGE */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                />
 
-                        {/* Top Badge */}
-                        <div className="absolute top-3 left-3 z-10">
-                          <Badge variant="secondary">Featured</Badge>
-                        </div>
-                      </div>
+                {/* Dark Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
-                      {/* Content */}
-                      <CardHeader className="relative z-10">
-                        <CardAction>
-                          <Badge variant="outline">Full Stack</Badge>
-                        </CardAction>
+                {/* Floating Action Buttons */}
+                <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="rounded-full backdrop-blur-md"
+                    asChild
+                  >
+                    <a href={project.github} target="_blank">
+                      <IconBrandGithub size={18} />
+                    </a>
+                  </Button>
 
-                        <CardTitle>Project {index + 1}</CardTitle>
+                  <Button size="icon" className="rounded-full" asChild>
+                    <a href={project.live} target="_blank">
+                      <ExternalLink size={18} />
+                    </a>
+                  </Button>
+                </div>
+              </div>
 
-                        <CardDescription>
-                          Scalable full-stack application with authentication,
-                          API integration, and clean architecture.
-                        </CardDescription>
-                      </CardHeader>
-
-                      {/* Footer */}
-                      <CardFooter className="flex gap-2">
-                        <Button size="sm" className="flex-1 gap-2 py-4 px-5">
-                          <ExternalLink className="size-4" />
-                          Live
-                        </Button>
-
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 gap-2  py-4 px-5"
-                        >
-                          <IconBrandGithub className="size-4" />
-                          GitHub
-                        </Button>
-                      </CardFooter>
-                    </Card>
+              {/* CONTENT */}
+              <div className="p-5 space-y-3">
+                {/* Title Row */}
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <Icon size={18} />
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
-        </motion.div>
+
+                  <h3 className="text-lg font-semibold text-white group-hover:text-primary transition">
+                    {project.title}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm text-white/60 leading-relaxed">
+                  {project.description}
+                </p>
+
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {project.tech.map((tech, i) => (
+                    <Badge
+                      key={i}
+                      className="text-xs px-2 py-1 bg-white/5 border border-white/10
+                      text-white/70 hover:bg-primary/10 hover:text-white transition"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </Section>
   );

@@ -13,7 +13,7 @@ import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
 
 import { SECTIONS } from "@/constants/sections";
-import { Resume } from "@/components/sections/resume";
+import { Proof } from "@/components/sections/proof";
 
 export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
@@ -25,9 +25,11 @@ export default function Page() {
       <MenuSheet />
       <div className="overflow-y-auto h-screen relative">
         <Home />
-
         <Skills />
-        <Resume />
+        <Projects />
+        <Proof />
+        <Education />
+        <Contact />
         <Footer />
         <div className="sticky bottom-6 flex justify-center z-50">
           <Navbar

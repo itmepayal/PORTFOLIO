@@ -2,103 +2,156 @@
 
 import { motion } from "framer-motion";
 import { Sparkles, Mail, MessageSquare, Send } from "lucide-react";
+
 import { Section } from "@/components/common/section";
-import { Badge } from "@/components/ui/badge";
 import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Badge } from "../ui/badge";
 
 export const Contact = () => {
   return (
-    <Section
-      id="contact"
-      className="relative md:py-32 px-6 md:px-12 overflow-hidden text-sm"
-    >
+    <Section id="contact">
       <BackgroundBlobs />
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        <div className="flex flex-col gap-6">
-          <Badge className="flex w-fit items-center gap-2 px-5 py-4 text-sm rounded-full border border-white/10 bg-white/5 backdrop-blur-xl">
-            <Sparkles className="size-4 text-white/70" />
-            <span className="text-white/80">Get In Touch</span>
-          </Badge>
-          <h1 className="text-3xl md:text-5xl font-semibold bg-linear-to-r from-white to-white/60 bg-clip-text text-transparent">
-            Let’s Work Together
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        {/* ================= LEFT ================= */}
+        <div className="w-full flex flex-col gap-6 sm:gap-8 text-center lg:text-left">
+          {/* BADGE */}
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <Badge
+              className="
+      inline-flex items-center gap-2
+      px-5 py-4
+
+      rounded-full
+      border border-border/60
+
+      bg-background/70
+      backdrop-blur-xl
+
+      text-foreground
+
+      shadow-sm
+
+      hover:bg-accent/40
+      transition-all duration-300
+    "
+            >
+              <Sparkles className="size-4 text-primary" />
+              <span className="text-xs font-medium tracking-wide">
+                Let’s Connect
+              </span>
+            </Badge>
+          </motion.div>
+
+          {/* HEADING */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
+            Let’s build something <span className="text-primary">great</span>{" "}
+            together.
           </h1>
-          <p className="text-white/60 leading-relaxed max-w-md">
-            Have a project in mind or just want to say hi? Fill out the form and
-            I’ll get back to you within 24 hours.
+
+          {/* DESC */}
+          <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto lg:mx-0">
+            Whether you have an idea, a project, or just want to connect — I’m
+            always open to meaningful conversations.
           </p>
-          <div className="flex flex-col gap-4 mt-4 text-sm">
-            <div className="flex items-center gap-3 text-white/70">
-              <Mail className="size-4" />
-              itme.payalyadav@gmail.com
-            </div>
-            <div className="flex items-center gap-3 text-white/70">
-              <MessageSquare className="size-4" />
-              <span>Available for freelance & full-time</span>
-            </div>
+
+          {/* CONTACT INFO */}
+          <div className="grid gap-3 sm:gap-4 mt-4">
+            {/* EMAIL */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-card border transition"
+            >
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Mail className="size-4 text-primary" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs text-muted-foreground">Email</p>
+                <p className="text-sm font-medium break-all">
+                  itme.payalyadav@gmail.com
+                </p>
+              </div>
+            </motion.div>
+
+            {/* STATUS */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-card border transition"
+            >
+              <div className="p-2 rounded-lg bg-green-500/10">
+                <MessageSquare className="size-4 text-green-400" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs text-muted-foreground">Status</p>
+                <p className="text-sm font-medium">Available for work</p>
+              </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* ================= RIGHT ================= */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          className="w-full max-w-xl"
         >
-          <div className="p-px rounded-3xl bg-linear-to-br from-white/10 to-white/5">
-            <Card className="rounded-3xl border border-white/10 bg-black/60 backdrop-blur-xl">
-              <CardHeader>
-                <CardTitle className="text-white/90">Send Message</CardTitle>
-                <CardDescription className="text-white/50">
-                  Quick response guaranteed
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="flex flex-col gap-6">
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div className="grid gap-2">
-                      <Label className="text-white/70">Name</Label>
-                      <div className="relative">
-                        <Input
-                          required
-                          placeholder="John Doe"
-                          className="pl-1 bg-white/5 border-white/10 focus:border-white/30"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid gap-2">
-                      <Label className="text-white/70">Email</Label>
-                      <div className="relative">
-                        <Input
-                          required
-                          type="email"
-                          placeholder="john@gmail.com"
-                          className="pl-1 bg-white/5 border-white/10 focus:border-white/30"
-                        />
-                      </div>
-                    </div>
+          <div className="relative">
+            {/* GLOW */}
+            <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-transparent blur-xl opacity-40" />
+
+            <Card className="relative rounded-2xl border bg-background/80 backdrop-blur-xl shadow-xl">
+              <CardContent className="p-6 sm:p-8 space-y-5 sm:space-y-6">
+                {/* TITLE */}
+                <div>
+                  <h3 className="text-lg font-semibold">Send a message</h3>
+                  <p className="text-sm text-muted-foreground">
+                    I’ll get back within 24 hours
+                  </p>
+                </div>
+
+                {/* FORM */}
+                <form className="space-y-4 sm:space-y-5">
+                  {/* NAME */}
+                  <div className="space-y-1.5">
+                    <Label className="font-normal">Name*</Label>
+                    <Input
+                      placeholder="John Doe"
+                      className="bg-transparent! focus-visible:ring-primary"
+                    />
                   </div>
-                  <div className="grid gap-2">
-                    <Label className="text-white/70">Message</Label>
-                    <div className="relative">
-                      <textarea
-                        required
-                        rows={5}
-                        className="pl-1 pr-3 py-2 text-sm rounded-md border border-white/10 bg-white/5 text-white/80 outline-none focus:border-white/30 resize-none w-full"
-                        placeholder="Write your message..."
-                      />
-                    </div>
+
+                  {/* EMAIL */}
+                  <div className="space-y-1.5">
+                    <Label className="font-normal">Email*</Label>
+                    <Input
+                      type="email"
+                      placeholder="john@gmail.com"
+                      className="bg-transparent! focus-visible:ring-primary"
+                    />
                   </div>
-                  <Button className="relative w-full rounded-xl bg-white text-black font-medium transition-all hover:scale-[1.02] disabled:opacity-50">
+
+                  {/* MESSAGE */}
+                  <div className="space-y-1.5">
+                    <Label>Message</Label>
+                    <textarea
+                      rows={4}
+                      placeholder="Tell me about your project..."
+                      className="w-full px-3 py-2 text-sm rounded-md border bg-transparent outline-none focus:ring-1 focus:ring-primary resize-none"
+                    />
+                  </div>
+
+                  {/* BUTTON */}
+                  <Button className="w-full h-10 sm:h-11 rounded-lg text-sm font-medium group">
                     Send Message
-                    <Send className="ml-2 size-4" />
+                    <Send className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </form>
               </CardContent>
