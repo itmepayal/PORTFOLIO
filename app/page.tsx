@@ -26,7 +26,6 @@ export default function Page() {
       <div className="overflow-y-auto h-screen relative">
         <Home />
         <Skills />
-        <Projects />
         <Proof />
         <Education />
         <Contact />
