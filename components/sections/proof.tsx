@@ -30,7 +30,7 @@ export function Proof() {
   ];
 
   return (
-    <Section id="skills-proof" className="mt-3 md:mt-0">
+    <Section id="proof" className="mt-3 md:mt-0">
       <BackgroundBlobs />
       <div className="flex justify-start">
         <div className="flex items-center gap-1 p-1 rounded-2xl border border-border bg-muted/40 backdrop-blur-md shadow-sm">

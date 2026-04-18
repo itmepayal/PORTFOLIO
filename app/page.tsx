@@ -6,7 +6,6 @@ import { MenuSheet } from "@/components/layout/menu-sheet";
 import { Navbar } from "@/components/layout/navbar";
 
 import { Home } from "@/components/sections/home";
-import { Projects } from "@/components/sections/projects";
 import { Skills } from "@/components/sections/skills";
 import { Education } from "@/components/sections/education";
 import { Contact } from "@/components/sections/contact";
