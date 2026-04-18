@@ -78,7 +78,7 @@ export const DSASection = ({
                 </span>
               </div>
 
-              <div className="flex items-center gap-6">
+              <div className="flex flex-col md:flex-row items-center gap-6">
                 {/* ================= CIRCLE ================= */}
                 <div className="relative w-36 h-36">
                   <svg
@@ -136,7 +136,7 @@ export const DSASection = ({
                 </div>
 
                 {/* ================= STATS ================= */}
-                <div className="flex-1 space-y-3">
+                <div className="flex-1 space-y-3 w-full">
                   <ProgressRow
                     label="Easy"
                     value={item.easy}

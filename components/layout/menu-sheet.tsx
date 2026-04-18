@@ -37,7 +37,7 @@ export const MenuSheet = () => {
   ];
 
   return (
-    <div className="fixed right-3 top-3 z-50">
+    <div className="fixed right-3 top-3 md:right-5 md:top-3 z-50">
       <Sheet>
         {/* Trigger */}
         <SheetTrigger asChild>

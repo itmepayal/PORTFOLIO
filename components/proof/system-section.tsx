@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -18,11 +16,11 @@ const systems = [
       { name: "Kafka Queue", desc: "Async processing" },
     ],
     features: [
-      "⚡ Horizontal scaling",
-      "🚀 Redis caching",
-      "📩 Kafka queues",
-      "🔒 Auth & rate limiting",
-      "📦 Microservices ready",
+      "Horizontal scaling",
+      "Redis caching",
+      "Kafka queues",
+      "Auth & rate limiting",
+      "Microservices ready",
     ],
     tech: ["Node.js", "Redis", "Kafka", "MongoDB", "Docker", "Nginx"],
   },
@@ -37,10 +35,10 @@ const systems = [
       { name: "DB", desc: "Message storage" },
     ],
     features: [
-      "⚡ Real-time messaging",
-      "📡 WebSockets",
-      "🟢 Presence tracking",
-      "📩 Message queue",
+      "Real-time messaging",
+      "WebSockets",
+      "Presence tracking",
+      "Message queue",
     ],
     tech: ["Node.js", "Socket.io", "Redis", "MongoDB"],
   },
@@ -53,82 +51,105 @@ export const SystemDesign = ({ active }: { active: string }) => {
   if (active !== "System Design") return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* ================= SYSTEM SWITCH ================= */}
-      <div className="flex gap-2 flex-wrap">
-        {systems.map((sys) => (
-          <button
-            key={sys.name}
-            onClick={() => setActiveSystem(sys)}
-            className={`px-4 py-2 rounded-xl text-sm border transition-all duration-200 ${
-              activeSystem.name === sys.name
-                ? "bg-primary/10 text-white shadow-md"
-                : "bg-muted text-muted-foreground hover:bg-accent"
-            }`}
-          >
-            {sys.icon} {sys.name}
-          </button>
-        ))}
+      <div className="flex gap-3 flex-wrap">
+        {systems.map((sys) => {
+          const isActive = activeSystem.name === sys.name;
+
+          return (
+            <button
+              key={sys.name}
+              onClick={() => setActiveSystem(sys)}
+              className={`relative px-5 py-2.5 rounded-xl text-sm border transition-all duration-300 ${
+                isActive
+                  ? "bg-primary text-white shadow-lg border-primary"
+                  : "bg-background/60 text-muted-foreground hover:bg-accent border-border"
+              }`}
+            >
+              <span className="relative z-10">
+                {sys.icon} {sys.name}
+              </span>
+
+              {/* glow */}
+              {isActive && (
+                <span className="absolute inset-0 rounded-xl bg-primary/20 blur-md opacity-70" />
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* ================= MAIN GRID ================= */}
-      <div className="grid lg:grid-cols-2 gap-10 h-112.5 md:h-125 lg:h-137.5">
-        {/* ================= LEFT FLOW ================= */}
-        <div className="space-y-4 overflow-y-auto pr-2 custom-scroll">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* ================= FLOW ================= */}
+        <div className="relative space-y-6">
+          {/* vertical line */}
+          <div className="absolute left-2 top-0 h-full w-0.5 bg-linear-to-b from-primary via-primary/40 to-transparent" />
+
           {activeSystem.flow.map((step, i) => (
-            <div key={i} className="flex items-start gap-4 group">
-              {/* DOT + LINE */}
-              <div className="flex flex-col items-center">
-                <div className="w-3 h-3 bg-primary rounded-full" />
-                {i !== activeSystem.flow.length - 1 && (
-                  <div className="w-0.5 h-10 bg-border group-hover:bg-primary transition" />
-                )}
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.08 }}
+              className="relative flex items-start gap-4 group"
+            >
+              {/* DOT */}
+              <div className="relative z-10">
+                <div className="w-4 h-4 rounded-full bg-primary shadow-md group-hover:scale-110 transition" />
               </div>
 
-              {/* STEP CARD */}
+              {/* CARD */}
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="p-4 rounded-xl bg-card border flex-1 hover:shadow-md transition"
+                whileHover={{ y: -4 }}
+                className="flex-1 p-4 rounded-xl border bg-background/70 backdrop-blur-xl hover:shadow-lg transition-all"
               >
-                <p className="text-sm font-medium">{step.name}</p>
+                <p className="text-sm font-semibold">{step.name}</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   {step.desc}
                 </p>
               </motion.div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* ================= RIGHT CARD ================= */}
-        <Card className="p-6 rounded-2xl flex flex-col justify-between h-87.5">
-          {/* ================= TOP CONTENT ================= */}
-          <div className="space-y-5 overflow-y-auto pr-1 custom-scroll">
-            {/* HEADER */}
+        {/* ================= DETAILS ================= */}
+        <Card className="relative p-6 rounded-2xl border bg-background/70 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+          {/* glow */}
+          <div className="absolute -inset-1 bg-linear-to-r from-primary/10 to-transparent blur-xl opacity-40" />
+
+          {/* TOP */}
+          <div className="relative space-y-6">
             <div>
-              <h4 className="font-semibold text-lg">
+              <h4 className="text-lg font-semibold">
                 {activeSystem.icon} {activeSystem.name}
               </h4>
               <p className="text-sm text-muted-foreground mt-2">
-                Scalable system design handling high traffic with optimized
-                latency and reliability.
+                Scalable system handling high traffic with optimized latency and
+                reliability.
               </p>
             </div>
 
             {/* FEATURES */}
-            <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {activeSystem.features.map((f, i) => (
-                <p key={i} className="text-xs text-muted-foreground">
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.03 }}
+                  className="text-xs px-3 py-2 rounded-lg bg-muted/50 border"
+                >
                   {f}
-                </p>
+                </motion.div>
               ))}
             </div>
 
-            {/* TECH STACK */}
+            {/* TECH */}
             <div className="flex flex-wrap gap-2">
               {activeSystem.tech.map((t) => (
                 <span
                   key={t}
-                  className="text-xs px-3 py-1 bg-primary/10 text-primary rounded-full"
+                  className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
                 >
                   {t}
                 </span>
@@ -136,23 +157,24 @@ export const SystemDesign = ({ active }: { active: string }) => {
             </div>
           </div>
 
-          {/* ================= BOTTOM METRICS ================= */}
-          <div className="grid grid-cols-3 gap-4 pt-4 border-t">
-            <div>
-              <p className="text-sm font-semibold">1M+</p>
-              <p className="text-xs text-muted-foreground">Users</p>
-            </div>
-            <div>
-              <p className="text-sm font-semibold">99.9%</p>
-              <p className="text-xs text-muted-foreground">Uptime</p>
-            </div>
-            <div>
-              <p className="text-sm font-semibold">&lt;200ms</p>
-              <p className="text-xs text-muted-foreground">Latency</p>
-            </div>
+          {/* BOTTOM METRICS */}
+          <div className="grid grid-cols-3 gap-4 pt-6 border-t mt-6">
+            <Metric label="Users" value="1M+" />
+            <Metric label="Uptime" value="99.9%" />
+            <Metric label="Latency" value="<200ms" />
           </div>
         </Card>
       </div>
+    </div>
+  );
+};
+
+/* ================= METRIC ================= */
+const Metric = ({ label, value }: { label: string; value: string }) => {
+  return (
+    <div className="text-center">
+      <p className="text-sm font-semibold">{value}</p>
+      <p className="text-xs text-muted-foreground">{label}</p>
     </div>
   );
 };

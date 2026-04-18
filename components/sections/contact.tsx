@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Mail, MessageSquare, Send } from "lucide-react";
+import { Sparkles, Mail, Send, Clock } from "lucide-react";
 
 import { Section } from "@/components/common/section";
 import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
@@ -10,131 +10,100 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Badge } from "../ui/badge";
 
 export const Contact = () => {
   return (
-    <Section id="contact">
+    <Section id="contact" className="mt-3 md:mt-0">
       <BackgroundBlobs />
-      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* ================= LEFT ================= */}
-        <div className="w-full flex flex-col gap-6 sm:gap-8 text-center lg:text-left">
-          {/* BADGE */}
-          <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <Badge
-              className="
-      inline-flex items-center gap-2
-      px-5 py-4
 
-      rounded-full
-      border border-border/60
-
-      bg-background/70
-      backdrop-blur-xl
-
-      text-foreground
-
-      shadow-sm
-
-      hover:bg-accent/40
-      transition-all duration-300
-    "
-            >
-              <Sparkles className="size-4 text-primary" />
-              <span className="text-xs font-medium tracking-wide">
-                Let’s Connect
-              </span>
-            </Badge>
-          </motion.div>
-
-          {/* HEADING */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
-            Let’s build something <span className="text-primary">great</span>{" "}
-            together.
-          </h1>
-
-          {/* DESC */}
-          <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto lg:mx-0">
-            Whether you have an idea, a project, or just want to connect — I’m
-            always open to meaningful conversations.
-          </p>
-
-          {/* CONTACT INFO */}
-          <div className="grid gap-3 sm:gap-4 mt-4">
-            {/* EMAIL */}
+      <div className="mx-auto px-0 sm:px-6">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* ================= LEFT ================= */}
+          <div className="space-y-6 text-center lg:text-left">
+            {/* BADGE */}
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-card border transition"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border bg-background/60 backdrop-blur text-xs">
+                <Sparkles className="size-4 text-primary" />
+                Let’s Connect
+              </div>
+            </motion.div>
+
+            {/* HEADING */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
+              Have an idea? <br />
+              <span className="bg-linear-to-r from-primary via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Let’s build it.
+              </span>
+            </h2>
+
+            {/* DESC */}
+            <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto lg:mx-0">
+              I help turn ideas into scalable products. Whether it's a startup,
+              feature, or system design — I’m open to collaborating.
+            </p>
+
+            {/* EMAIL CARD */}
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              className="flex items-center gap-3 p-4 rounded-xl border bg-background/50 backdrop-blur"
             >
               <div className="p-2 rounded-lg bg-primary/10">
                 <Mail className="size-4 text-primary" />
               </div>
               <div className="text-left">
-                <p className="text-xs text-muted-foreground">Email</p>
+                <p className="text-xs text-muted-foreground">Email me</p>
                 <p className="text-sm font-medium break-all">
                   itme.payalyadav@gmail.com
                 </p>
               </div>
             </motion.div>
 
-            {/* STATUS */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-card border transition"
-            >
-              <div className="p-2 rounded-lg bg-green-500/10">
-                <MessageSquare className="size-4 text-green-400" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-muted-foreground">Status</p>
-                <p className="text-sm font-medium">Available for work</p>
-              </div>
-            </motion.div>
+            <p className="flex items-center justify-center lg:justify-start gap-2 text-xs text-muted-foreground">
+              <Clock className="size-3.5 text-primary" />
+              Usually replies within a few hours
+            </p>
           </div>
-        </div>
 
-        {/* ================= RIGHT ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="w-full max-w-xl"
-        >
-          <div className="relative">
+          {/* ================= RIGHT ================= */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="relative"
+          >
             {/* GLOW */}
-            <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-transparent blur-xl opacity-40" />
+            <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-pink-400/10 blur-2xl opacity-40 rounded-2xl" />
 
-            <Card className="relative rounded-2xl border bg-background/80 backdrop-blur-xl shadow-xl">
-              <CardContent className="p-6 sm:p-8 space-y-5 sm:space-y-6">
+            <Card className="relative rounded-2xl border bg-background/80 backdrop-blur-xl shadow-2xl">
+              <CardContent className="p-6 sm:p-8 space-y-6">
                 {/* TITLE */}
                 <div>
                   <h3 className="text-lg font-semibold">Send a message</h3>
                   <p className="text-sm text-muted-foreground">
-                    I’ll get back within 24 hours
+                    I typically respond within a few hours
                   </p>
                 </div>
 
                 {/* FORM */}
-                <form className="space-y-4 sm:space-y-5">
+                <form className="space-y-5">
                   {/* NAME */}
                   <div className="space-y-1.5">
-                    <Label className="font-normal">Name*</Label>
+                    <Label>Name</Label>
                     <Input
-                      placeholder="John Doe"
-                      className="bg-transparent! focus-visible:ring-primary"
+                      placeholder="Your name"
+                      className="text-sm bg-transparent! focus-visible:ring-primary"
                     />
                   </div>
 
                   {/* EMAIL */}
                   <div className="space-y-1.5">
-                    <Label className="font-normal">Email*</Label>
+                    <Label>Email</Label>
                     <Input
                       type="email"
-                      placeholder="john@gmail.com"
-                      className="bg-transparent! focus-visible:ring-primary"
+                      placeholder="your@email.com"
+                      className="text-sm bg-transparent! focus-visible:ring-primary"
                     />
                   </div>
 
@@ -143,21 +112,21 @@ export const Contact = () => {
                     <Label>Message</Label>
                     <textarea
                       rows={4}
-                      placeholder="Tell me about your project..."
-                      className="w-full px-3 py-2 text-sm rounded-md border bg-transparent outline-none focus:ring-1 focus:ring-primary resize-none"
+                      placeholder="Tell me about your idea..."
+                      className="w-full px-3 py-2 text-sm rounded-md border bg-background/50 outline-none focus:ring-1 focus:ring-primary resize-none"
                     />
                   </div>
 
                   {/* BUTTON */}
-                  <Button className="w-full h-10 sm:h-11 rounded-lg text-sm font-medium group">
+                  <Button className="w-full h-11 rounded-lg text-sm font-medium group bg-primary hover:bg-primary/90">
                     Send Message
                     <Send className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </form>
               </CardContent>
             </Card>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </Section>
   );
