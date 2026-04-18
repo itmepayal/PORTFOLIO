@@ -1,9 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#000"/>
-  <path d="M26 44V20H36C41 20 44 23 44 28C44 33 41 36 36 36H26"
-        fill="none"
-        stroke="#fff"
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="18" fill="#0b0f1a"/>
+
+  <path d="M26 44 V20 H36 
+           C40 20 44 24 44 30 
+           C44 36 40 40 36 40 H30"
+        stroke="url(#grad)"
         stroke-width="4"
         stroke-linecap="round"
-        stroke-linejoin="round"/>
+        fill="none"/>
 </svg>
