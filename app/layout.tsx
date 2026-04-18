@@ -25,7 +25,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Payal Portfolio",
+  title: "Payal Yadav",
   description: "Full Stack Developer Portfolio",
   icons: {
     icon: "/favicon.svg",
