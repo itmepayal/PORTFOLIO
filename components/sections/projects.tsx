@@ -66,7 +66,7 @@ export const Projects = () => {
               transition-all duration-300 hover:-translate-y-2"
             >
               {/* Glow Border Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 pointer-events-none" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-linear-to-r from-primary/20 via-transparent to-primary/20 pointer-events-none" />
 
               {/* IMAGE */}
               <div className="relative h-48 overflow-hidden">
@@ -77,7 +77,7 @@ export const Projects = () => {
                 />
 
                 {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
 
                 {/* Floating Action Buttons */}
                 <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition">
