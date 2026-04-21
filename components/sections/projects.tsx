@@ -1,140 +1,287 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Rocket, Code2, Sparkles } from "lucide-react";
-import { IconBrandGithub } from "@tabler/icons-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  ExternalLink,
+  Zap,
+} from "lucide-react";
+import { IconGitBranch } from "@tabler/icons-react";
 
 import { Section } from "@/components/common/section";
-import { Badge } from "@/components/ui/badge";
-import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "../ui/badge";
 
-const PROJECTS = [
+const projects = [
   {
-    title: "Food Delivery System",
+    id: 1,
+    type: "backend",
+    title: "Authentication System",
     description:
-      "Full-stack platform with authentication, payments, real-time tracking and admin dashboard.",
-    tech: ["Node.js", "MongoDB", "React", "Socket.IO"],
+      "Secure and scalable authentication system with advanced security layers.",
+    tech: ["Node.js", "MongoDB", "JWT", "2FA"],
+    highlights: [
+      "OTP + 2FA based login flow",
+      "Refresh token rotation & blacklist",
+      "Role-based access control",
+    ],
+    metrics: [
+      { label: "Requests / Day", value: "10K+" },
+      { label: "Latency Reduction", value: "35%" },
+      { label: "Security", value: "Protected" },
+    ],
     github: "#",
     live: "#",
-    icon: Rocket,
-    image:
-      "https://www.figma.com/community/file/1182197835889504018/portfolio-design",
   },
   {
-    title: "Chat Application",
+    id: 2,
+    type: "backend",
+    title: "Submission Service",
     description:
-      "Real-time chat with typing indicators, presence, and WebRTC video calls.",
-    tech: ["React", "Socket.IO", "WebRTC", "Redis"],
+      "Distributed code execution service using queue-based architecture.",
+    tech: ["Node.js", "Redis", "BullMQ", "Workers"],
+    highlights: [
+      "Queue-based async processing",
+      "Auto retry & failure handling",
+      "Horizontally scalable workers",
+    ],
+    metrics: [
+      { label: "Jobs / Day", value: "5K+" },
+      { label: "Failure Handling", value: "Auto Retry" },
+      { label: "Scalability", value: "Horizontal" },
+    ],
     github: "#",
     live: "#",
-    icon: Sparkles,
-    image:
-      "https://www.figma.com/community/file/1182197835889504018/portfolio-design",
   },
   {
-    title: "Portfolio Website",
+    id: 3,
+    type: "fullstack",
+    title: "E-Commerce",
     description:
-      "Modern portfolio with animations, theme system and responsive UI.",
-    tech: ["React", "Tailwind", "Framer Motion"],
+      "Full-stack e-commerce platform with authentication, cart, and payments.",
+    tech: ["React", "Node.js", "MongoDB", "Stripe"],
+    highlights: [
+      "User authentication & cart system",
+      "Product filtering & search",
+      "Secure checkout flow",
+    ],
+    image: "/projects/ecom/main.png",
+    screens: ["/projects/ecom/1.png", "/projects/ecom/2.png"],
     github: "#",
     live: "#",
-    icon: Code2,
-    image:
-      "https://www.figma.com/community/file/1182197835889504018/portfolio-design",
   },
 ];
 
-export const Projects = () => {
-  return (
-    <Section id="projects" className="relative overflow-hidden py-16">
-      <BackgroundBlobs />
+export function Projects() {
+  const [selected, setSelected] = useState<any>(null);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
-        {PROJECTS.map((project, index) => {
-          const Icon = project.icon;
+  // ================= DETAIL VIEW =================
+  if (selected) {
+    return (
+      <Section id="#" className="space-y-12">
+        {/* Back */}
+        <Button
+          variant="outline"
+          onClick={() => setSelected(null)}
+          className="gap-2 text-muted-foreground"
+        >
+          <ArrowLeft size={16} /> Back
+        </Button>
 
-          return (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 40, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.12 }}
-              viewport={{ once: true }}
-              className="group relative rounded-2xl overflow-hidden border border-white/10
-              bg-white/5 backdrop-blur-xl shadow-md hover:shadow-2xl hover:shadow-primary/20
-              transition-all duration-300 hover:-translate-y-2"
-            >
-              {/* Glow Border Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-linear-to-r from-primary/20 via-transparent to-primary/20 pointer-events-none" />
+        {/* Title */}
+        <div className="space-y-3 max-w-2xl">
+          <h1 className="text-xl md:text-2xl font-semibold">
+            {selected.title}
+          </h1>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {selected.description}
+          </p>
+        </div>
 
-              {/* IMAGE */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                />
+        {/* Hero */}
+        {selected.type === "fullstack" && selected.image && (
+          <div className="rounded-xl overflow-hidden border">
+            <img src={selected.image} className="w-full" />
+          </div>
+        )}
 
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
-
-                {/* Floating Action Buttons */}
-                <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition">
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="rounded-full backdrop-blur-md"
-                    asChild
+        {/* Layout */}
+        <div className="grid lg:grid-cols-3 gap-10">
+          {/* LEFT */}
+          <div className="lg:col-span-2 space-y-10">
+            {/* Tech */}
+            <div>
+              <h3 className="text-xs uppercase text-muted-foreground mb-2">
+                Tech Stack
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {selected.tech.map((t: string, i: number) => (
+                  <span
+                    key={i}
+                    className="text-xs px-2.5 py-1 rounded-md border text-muted-foreground"
                   >
-                    <a href={project.github} target="_blank">
-                      <IconBrandGithub size={18} />
-                    </a>
-                  </Button>
-
-                  <Button size="icon" className="rounded-full" asChild>
-                    <a href={project.live} target="_blank">
-                      <ExternalLink size={18} />
-                    </a>
-                  </Button>
-                </div>
+                    {t}
+                  </span>
+                ))}
               </div>
+            </div>
 
-              {/* CONTENT */}
-              <div className="p-5 space-y-3">
-                {/* Title Row */}
-                <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                    <Icon size={18} />
+            {/* Features */}
+            <div>
+              <h3 className="text-xs uppercase text-muted-foreground mb-3">
+                {selected.type === "fullstack" ? "Features" : "Highlights"}
+              </h3>
+
+              <div className="space-y-3">
+                {selected.highlights.map((h: string, i: number) => (
+                  <div key={i} className="flex items-start gap-3 text-sm">
+                    <CheckCircle2
+                      size={16}
+                      className="text-muted-foreground mt-0.5"
+                    />
+                    <p className="text-muted-foreground">{h}</p>
                   </div>
+                ))}
+              </div>
+            </div>
 
-                  <h3 className="text-lg font-semibold text-white group-hover:text-primary transition">
-                    {project.title}
-                  </h3>
-                </div>
+            {/* Screens */}
+            {selected.type === "fullstack" && selected.screens && (
+              <div>
+                <h3 className="text-xs uppercase text-muted-foreground mb-3">
+                  UI Preview
+                </h3>
 
-                {/* Description */}
-                <p className="text-sm text-white/60 leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {project.tech.map((tech, i) => (
-                    <Badge
-                      key={i}
-                      className="text-xs px-2 py-1 bg-white/5 border border-white/10
-                      text-white/70 hover:bg-primary/10 hover:text-white transition"
-                    >
-                      {tech}
-                    </Badge>
+                <div className="grid grid-cols-2 gap-3">
+                  {selected.screens.map((img: string, i: number) => (
+                    <img key={i} src={img} className="rounded-lg border" />
                   ))}
                 </div>
               </div>
-            </motion.div>
-          );
-        })}
+            )}
+
+            {/* Actions */}
+            <div className="flex gap-3 pt-4">
+              <Button asChild size="sm">
+                <a href={selected.github} target="_blank">
+                  <IconGitBranch size={14} />
+                  Code
+                </a>
+              </Button>
+
+              <Button variant="outline" asChild size="sm">
+                <a href={selected.live} target="_blank">
+                  <ExternalLink size={14} />
+                  Live
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          {selected.type === "backend" && (
+            <div className="space-y-4">
+              <h3 className="text-xs uppercase text-muted-foreground">
+                Impact
+              </h3>
+
+              {selected.metrics.map((m: any, i: number) => (
+                <div key={i} className="p-4 rounded-lg border">
+                  <p className="text-lg font-medium">{m.value}</p>
+                  <p className="text-xs text-muted-foreground">{m.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Section>
+    );
+  }
+
+  // ================= LIST =================
+  return (
+    <Section id="projects" className="space-y-10">
+      <div className="grid md:grid-cols-3 gap-8">
+        {projects.map((p, i) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: i * 0.06 }}
+          >
+            <Card className="group relative overflow-hidden border bg-background/80 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-md hover:-translate-y-1">
+              {/* Subtle Glow Accent */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-linear-to-br from-primary/5 to-transparent" />
+
+              <CardContent className="relative z-10 p-5 space-y-4">
+                {/* Header */}
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-[15px] font-semibold leading-snug tracking-tight group-hover:text-primary transition">
+                    {p.title}
+                  </h3>
+
+                  <span
+                    className={`flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md border
+  ${
+    p.type === "fullstack"
+      ? "text-green-500 border-green-500/20 bg-green-500/5"
+      : "text-blue-500 border-blue-500/20 bg-blue-500/5"
+  }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full
+    ${p.type === "fullstack" ? "bg-green-500" : "bg-blue-500"}`}
+                    />
+                    {p.type === "fullstack" ? "Fullstack" : "Backend"}
+                  </span>
+                </div>
+
+                {/* Description */}
+                <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-3">
+                  {p.description}
+                </p>
+
+                {/* Tech */}
+                <div className="flex flex-wrap gap-1.5">
+                  {p.tech.slice(0, 3).map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[10px] px-2 py-0.5 rounded-md bg-muted/40 text-muted-foreground group-hover:bg-muted/60 transition"
+                    >
+                      {t}
+                    </span>
+                  ))}
+
+                  {p.tech.length > 3 && (
+                    <span className="text-[10px] text-muted-foreground">
+                      +{p.tech.length - 3}
+                    </span>
+                  )}
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-border/60 group-hover:bg-border transition" />
+
+                {/* Footer */}
+                <button
+                  onClick={() => setSelected(p)}
+                  className="text-[13px] text-muted-foreground hover:text-primary flex items-center gap-1 transition"
+                >
+                  View Project
+                  <ArrowRight
+                    size={14}
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                  />
+                </button>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
     </Section>
   );
-};
+}

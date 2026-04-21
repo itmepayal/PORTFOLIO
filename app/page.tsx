@@ -13,6 +13,7 @@ import { Footer } from "@/components/sections/footer";
 
 import { SECTIONS } from "@/constants/sections";
 import { Proof } from "@/components/sections/proof";
+import { Projects } from "@/components/sections/projects";
 
 export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
@@ -25,6 +26,7 @@ export default function Page() {
       <div className="overflow-y-auto h-screen relative">
         <Home />
         <Skills />
+        <Projects />
         <Proof />
         <Education />
         <Contact />
