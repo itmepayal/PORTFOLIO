@@ -1,60 +1,58 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  MessageCircle,
+  GraduationCap,
+  Code2,
+  Target,
+  Activity,
+  CheckCircle2,
+} from "lucide-react";
+import {
+  Server,
+  GitBranch,
+  Link as LinkIcon,
+  Database,
+  Layers,
+} from "lucide-react";
 
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconBrandLeetcode,
+} from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
-import { Mail, MapPin, Phone, MessageCircle, Circle } from "lucide-react";
-import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
-
+// =========================================
+// PROFILE DASHBOARD
+// =========================================
 export const ProfileCard = () => {
-  const contactItems = [
-    {
-      icon: Mail,
-      text: "itme.payalyadav@gmail.com",
-      href: "mailto:itme.payalyadav@gmail.com",
-    },
-    {
-      icon: Phone,
-      text: "+91 7228832443",
-      href: "tel:+917228832443",
-    },
-    {
-      icon: MessageCircle,
-      text: "WhatsApp",
-      href: "https://wa.me/917228832443",
-    },
-    {
-      icon: MapPin,
-      text: "Bhilad, Valsad District, Gujarat",
-    },
-  ];
+  const problemSolving = {
+    total: 366,
+    leetcode: 111,
+    striver: 255,
+  };
 
-  const socials = [
-    { icon: IconBrandGithub, link: "#" },
-    { icon: IconBrandLinkedin, link: "#" },
+  const nowWorking = [
+    { name: "Backend Systems", icon: Server, progress: 85 },
+    { name: "System Design", icon: GitBranch, progress: 70 },
+    { name: "DSA", icon: Code2, progress: 75 },
   ];
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-between min-h-screen py-4 px-4">
-      {/* Profile Card */}
-      <div>
-        <Card className="w-[92vw] max-w-sm md:w-96 bg-transparent border border-border shadow-lg rounded-xl p-5 sm:p-6">
-          {/* Avatar */}
+    <div className="flex justify-center min-h-screen px-3 py-3 bg-linear-to-b from-background to-muted/20">
+      {/* ================= FIXED CARD ================= */}
+      <div className="w-full max-w-sm rounded-3xl border backdrop-blur-2xl shadow-2xl px-5 py-5 space-y-3">
+        {/* ================= HEADER ================= */}
+        <div className="text-center space-y-3">
           <div className="flex justify-center">
             <div className="relative">
-              <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-border shadow-sm">
+              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
                 <Image
                   src="/profile.jpeg"
                   alt="profile"
@@ -63,97 +61,135 @@ export const ProfileCard = () => {
                   className="object-cover w-full h-full"
                 />
               </div>
-
-              {/* Status Dot */}
-              <span className="absolute bottom-4.5 right-4.5 h-3.5 w-3.5 rounded-full bg-green-500 border-2 border-green-700 animate-pulse" />
+              <span className="absolute bottom-2 right-2 h-3 w-3 rounded-full bg-green-500 animate-pulse" />
             </div>
           </div>
 
-          <CardContent className="flex flex-col items-center text-center mt-4 sm:mt-5 gap-2.5">
-            <h2 className="text-lg sm:text-xl font-semibold text-card-foreground">
-              Payal Yadav
-            </h2>
+          <h2 className="text-2xl font-bold bg-linear-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+            Payal Yadav
+          </h2>
 
-            <Badge variant="secondary" className="text-xs sm:text-sm">
-              Full Stack Developer
-            </Badge>
+          <Badge className="text-xs bg-primary/10 text-primary px-3 py-1">
+            Full Stack Developer
+          </Badge>
 
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-xs leading-relaxed">
-              Building scalable backend systems & modern full-stack apps with
-              clean architecture.
+          {/* ================= EDUCATION INLINE ================= */}
+          <p className="flex items-center justify-center gap-1 text-muted-foreground">
+            <GraduationCap className="w-3.5 h-3.5 text-primary" />
+            <span className="font-medium text-foreground text-sm">
+              MCA • Computer Science
+            </span>
+          </p>
+
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Backend-focused developer building scalable systems & clean APIs
+            with production-ready architecture.
+          </p>
+        </div>
+
+        {/* ================= PROBLEM SOLVING ================= */}
+        <div className="rounded-2xl border bg-background/20 p-4 space-y-3">
+          <div className="flex items-center gap-2 justify-center">
+            <Code2 className="w-4 h-4 text-primary" />
+            <p className="text-xs font-semibold tracking-wide uppercase text-muted-foreground">
+              Problem Solving
             </p>
-          </CardContent>
+          </div>
 
-          <CardFooter className="mt-4 sm:mt-5">
-            <Button className="w-full rounded-lg h-10 sm:h-11">
-              Let’s Work Together
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
+          <div className="text-center">
+            <p className="text-3xl font-bold">{problemSolving.total}+</p>
+            <p className="text-xs text-muted-foreground">
+              Problems solved across platforms
+            </p>
+          </div>
 
-      {/* Contact Card */}
-      <div>
-        <Card className="w-[92vw] max-w-sm md:w-96 bg-transparent border border-border shadow-lg rounded-xl p-5 sm:p-6">
-          <CardHeader className="pb-2 sm:pb-3 space-y-2">
-            <Badge
-              variant="outline"
-              className="w-fit text-xs flex items-center gap-2 px-3 py-2 bg-green-500/20 capitalize"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-sm p-2 rounded-xl bg-background/30">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                Total
               </span>
-              Available for work
-            </Badge>
-            <CardTitle className="text-sm sm:text-base">Get in Touch</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">
-              Let’s build something meaningful together
-            </CardDescription>
-          </CardHeader>
+              <span className="font-semibold">{problemSolving.total}</span>
+            </div>
 
-          {/* Contact Items */}
-          <CardContent className="flex flex-col gap-1.5 sm:gap-2 mt-2">
-            {contactItems.map((item, i) => {
+            <div className="flex items-center justify-between text-sm p-2 rounded-xl bg-background/30">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-blue-500" />
+                LeetCode
+              </span>
+              <span className="font-semibold">{problemSolving.leetcode}</span>
+            </div>
+
+            <div className="flex items-center justify-between text-sm p-2 rounded-xl bg-background/30">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-purple-500" />
+                Striver
+              </span>
+              <span className="font-semibold">{problemSolving.striver}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= FOCUS AREAS ================= */}
+        <div className="rounded-2xl border bg-background/20 p-4 space-y-3">
+          <div className="flex items-center gap-2 justify-center">
+            <Target className="w-4 h-4 text-primary" />
+            <p className="text-xs uppercase tracking-widest text-muted-foreground">
+              Technical Focus
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { name: "Backend", icon: Server },
+              { name: "APIs", icon: LinkIcon },
+              { name: "System", icon: GitBranch },
+              { name: "Database", icon: Database },
+              { name: "Arch", icon: Layers },
+              { name: "Scale", icon: Activity },
+            ].map((item) => {
               const Icon = item.icon;
 
-              const content = (
-                <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-accent transition-all duration-200 cursor-pointer">
-                  <Icon className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <span className="text-xs sm:text-sm text-card-foreground truncate">
-                    {item.text}
-                  </span>
+              return (
+                <div
+                  key={item.name}
+                  className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-background/30 text-[10px] text-center"
+                >
+                  <Icon className="w-4 h-4 text-primary" />
+                  <span className="leading-tight">{item.name}</span>
                 </div>
               );
+            })}
+          </div>
+        </div>
 
-              return item.href ? (
-                <Link href={item.href} key={i} target="_blank">
-                  {content}
-                </Link>
-              ) : (
-                <div key={i}>{content}</div>
+        {/* ================= CURRENT WORK ================= */}
+        {/* ================= CURRENT FOCUS ================= */}
+        {/* ================= CURRENT FOCUS (COMPACT) ================= */}
+        <div className="rounded-2xl border bg-background/20 p-3 space-y-2">
+          <div className="flex items-center gap-2 justify-center">
+            <Activity className="w-4 h-4 text-primary" />
+            <p className="text-xs uppercase tracking-widest text-muted-foreground">
+              Current Focus
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            {nowWorking.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.name}
+                  className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-background/30 text-[10px]"
+                >
+                  <Icon className="w-4 h-4 text-primary" />
+                  <span className="leading-tight text-center">{item.name}</span>
+                </div>
               );
             })}
-          </CardContent>
-
-          {/* Footer */}
-          <CardFooter className="flex flex-col gap-3 mt-4">
-            {/* Socials */}
-            <div className="flex gap-2 sm:gap-3">
-              {socials.map((item, i) => {
-                const Icon = item.icon;
-
-                return (
-                  <Link href={item.link} key={i} target="_blank">
-                    <div className="p-2 sm:p-2.5 rounded-lg border border-border hover:bg-accent transition-all duration-200">
-                      <Icon className="size-4 sm:size-5 text-muted-foreground hover:text-foreground" />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
