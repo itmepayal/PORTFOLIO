@@ -122,7 +122,7 @@ export function Projects() {
   // ================= DETAIL VIEW =================
   if (selected) {
     return (
-      <Section className="space-y-10">
+      <Section id="" className="space-y-10">
         <Button
           variant="outline"
           onClick={() => setSelected(null)}
@@ -231,7 +231,7 @@ export function Projects() {
 
   // ================= LIST VIEW =================
   return (
-    <Section className="space-y-10">
+    <Section id="#" className="space-y-10">
       <div className="grid md:grid-cols-3 gap-8">
         {paginated.map((p, i) => (
           <motion.div

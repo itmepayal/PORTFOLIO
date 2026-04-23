@@ -46,9 +46,7 @@ export const ProfileCard = () => {
 
   return (
     <div className="flex justify-center min-h-screen px-3 py-3 bg-linear-to-b from-background to-muted/20">
-      {/* ================= FIXED CARD ================= */}
       <div className="w-full max-w-sm rounded-3xl border backdrop-blur-2xl shadow-2xl px-5 py-5 space-y-3">
-        {/* ================= HEADER ================= */}
         <div className="text-center space-y-3">
           <div className="flex justify-center">
             <div className="relative">
@@ -73,7 +71,6 @@ export const ProfileCard = () => {
             Full Stack Developer
           </Badge>
 
-          {/* ================= EDUCATION INLINE ================= */}
           <p className="flex items-center justify-center gap-1 text-muted-foreground">
             <GraduationCap className="w-3.5 h-3.5 text-primary" />
             <span className="font-medium text-foreground text-sm">
@@ -87,7 +84,6 @@ export const ProfileCard = () => {
           </p>
         </div>
 
-        {/* ================= PROBLEM SOLVING ================= */}
         <div className="rounded-2xl border bg-background/20 p-4 space-y-3">
           <div className="flex items-center gap-2 justify-center">
             <Code2 className="w-4 h-4 text-primary" />
@@ -130,7 +126,6 @@ export const ProfileCard = () => {
           </div>
         </div>
 
-        {/* ================= FOCUS AREAS ================= */}
         <div className="rounded-2xl border bg-background/20 p-4 space-y-3">
           <div className="flex items-center gap-2 justify-center">
             <Target className="w-4 h-4 text-primary" />
@@ -163,9 +158,6 @@ export const ProfileCard = () => {
           </div>
         </div>
 
-        {/* ================= CURRENT WORK ================= */}
-        {/* ================= CURRENT FOCUS ================= */}
-        {/* ================= CURRENT FOCUS (COMPACT) ================= */}
         <div className="rounded-2xl border bg-background/20 p-3 space-y-2">
           <div className="flex items-center gap-2 justify-center">
             <Activity className="w-4 h-4 text-primary" />
