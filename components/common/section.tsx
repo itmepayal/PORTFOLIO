@@ -19,7 +19,7 @@ export const Section = ({ id, children, className = "" }: SectionProps) => {
         md:mx-3 md:ml-0
         md:my-4
         mx-3
-        p-5 md:p-6 lg:py-14.5
+        p-5 md:p-12 lg:py-14.5
         transition-all duration-300
         hover:shadow-md
 
