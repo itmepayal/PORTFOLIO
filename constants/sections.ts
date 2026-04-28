@@ -1,5 +1,4 @@
-// types.ts or same file
-import { Home, FileText, Star, Mail } from "lucide-react";
+import { Home, Wrench, Code, Briefcase, Mail } from "lucide-react";
 
 export type SectionType = {
   id: string;
@@ -10,8 +9,18 @@ export type SectionType = {
 
 export const SECTIONS: SectionType[] = [
   { id: "home", label: "Home", href: "#home", icon: Home },
-  { id: "skills", label: "Skills", href: "#skills", icon: Star },
-  { id: "achievements", label: "Achievements", href: "#proof", icon: Star },
-  { id: "education", label: "Education", href: "#education", icon: FileText },
-  { id: "contact", label: "Contact", href: "#contact", icon: Mail },
+  { id: "skills", label: "Skills", href: "#skills", icon: Wrench },
+  { id: "projects", label: "Projects", href: "#projects", icon: Code },
+  {
+    id: "experience",
+    label: "Experience",
+    href: "#experience",
+    icon: Briefcase,
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    href: "#contact",
+    icon: Mail,
+  },
 ];

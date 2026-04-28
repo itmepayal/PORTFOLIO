@@ -2,8 +2,8 @@
 
 import { useScroll } from "@/hooks/use-scroll";
 import { Profile } from "@/components/profile/ProfileCard";
-import { MenuSheet } from "@/components/layout/menu-sheet";
-import { Navbar } from "@/components/layout/navbar";
+import { MenuSheet } from "@/components/layout/Menu";
+import { Navbar } from "@/components/layout/Navbar";
 
 import { Home } from "@/components/sections/home";
 import { Skills } from "@/components/sections/skills";

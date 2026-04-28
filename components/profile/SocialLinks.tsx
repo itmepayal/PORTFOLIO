@@ -1,14 +1,31 @@
+"use client";
+
+/* =========================
+   EXTERNAL DEPENDENCIES
+   ========================= */
 import { motion } from "framer-motion";
 
+/* =========================
+   TYPES
+   ========================= */
 type IconType = React.ComponentType<{ className?: string }>;
 
 type Props = {
   socials: { icon: IconType; url: string }[];
 };
 
+/* =========================================================
+   COMPONENT: SocialLinks
+   ========================================================= */
 export const SocialLinks = ({ socials }: Props) => {
   return (
+    /* =========================
+       WRAPPER 
+       ========================= */
     <div className="flex justify-center gap-5 pt-2">
+      {/* -------------------------
+          SOCIAL ICON LINKS
+         ------------------------- */}
       {socials.map(({ icon: Icon, url }, i) => (
         <motion.a
           key={i}

@@ -1,63 +1,90 @@
+"use client";
+
+/* =========================
+  DEPENDENCIES
+   ========================= */
 import Link from "next/link";
 import { useState } from "react";
 
+/* =========================
+  DATA
+   ========================= */
+import { SECTIONS } from "@/constants/sections";
+
+/* =========================
+  UI COMPONENTS
+   ========================= */
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
   SheetClose,
+  SheetTitle,
 } from "@/components/ui/sheet";
-
 import { Separator } from "@/components/ui/separator";
 
-import { IconMenu2, IconHome, IconStar, IconMail } from "@tabler/icons-react";
+/* =========================
+  ICONS
+   ========================= */
+import { Menu } from "lucide-react";
 
+/* =========================================================
+  COMPONENT: MenuSheet
+   ========================================================= */
 export const MenuSheet = () => {
+  /* -------------------------
+    STATE
+     ------------------------- */
   const [active, setActive] = useState("#home");
 
-  const links = [
-    { name: "Home", href: "#home", icon: IconHome },
-    { name: "Skills", href: "#skills", icon: IconStar },
-    { name: "Proof", href: "#proof", icon: IconStar },
-    { name: "Education", href: "#education", icon: IconStar },
-    { name: "Contact", href: "#contact", icon: IconMail },
-  ];
   return (
+    /* =========================
+      FLOATING WRAPPER
+       ========================= */
     <div className="fixed right-2 top-2 z-50">
       <Sheet>
-        {/* Trigger */}
+        {/* -------------------------
+            TRIGGER BUTTON
+           ------------------------- */}
         <SheetTrigger asChild>
           <button
             aria-label="Open Menu"
             className="h-10 w-10 rounded-full bg-primary text-primary-foreground shadow-md hover:shadow-lg transition flex items-center justify-center"
           >
-            <IconMenu2 className="w-4 h-4" />
+            <Menu className="w-4 h-4" />
           </button>
         </SheetTrigger>
 
-        {/* Content */}
+        {/* -------------------------
+            SHEET CONTENT
+           ------------------------- */}
         <SheetContent
           side="right"
           className="flex flex-col w-80 bg-card border-l border-border"
         >
-          {/* Header */}
+          {/* -------------------------
+              HEADER
+             ------------------------- */}
           <div className="px-6 py-5">
             <p className="text-xs text-muted-foreground tracking-wider uppercase">
               Navigation
             </p>
-            <h2 className="text-lg font-semibold mt-1">Menu</h2>
+
+            <SheetTitle className="text-lg font-semibold mt-1">Menu</SheetTitle>
           </div>
 
           <Separator />
 
-          {/* Links */}
+          {/* -------------------------
+              NAVIGATION
+             ------------------------- */}
           <nav className="flex flex-col px-3 gap-1">
-            {links.map((item) => {
+            {SECTIONS.map((item) => {
               const Icon = item.icon;
               const isActive = active === item.href;
 
               return (
-                <SheetClose asChild key={item.href}>
+                <SheetClose asChild key={item.id}>
                   <Link
                     href={item.href}
                     onClick={() => setActive(item.href)}
@@ -72,7 +99,7 @@ export const MenuSheet = () => {
                     `}
                   >
                     <Icon className="w-4 h-4" />
-                    {item.name}
+                    {item.label}
                   </Link>
                 </SheetClose>
               );
@@ -81,7 +108,9 @@ export const MenuSheet = () => {
 
           <Separator />
 
-          {/* Footer */}
+          {/* -------------------------
+              FOOTER
+             ------------------------- */}
           <div className="mt-auto px-6 py-5 text-center">
             <p className="text-xs text-muted-foreground">© 2026 Payal Yadav</p>
           </div>
