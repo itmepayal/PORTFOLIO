@@ -6,12 +6,17 @@ import {
   IconMail,
   IconArrowUpRight,
   IconSparkles,
+  IconBrandLeetcode,
 } from "@tabler/icons-react";
 
 export const Footer = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const socialIcons = [
+    {
+      icon: IconBrandLeetcode,
+      link: "https://leetcode.com/Payal_Leet_Code",
+    },
     { icon: IconBrandGithub, link: "https://github.com/itmepayal" },
     {
       icon: IconBrandLinkedin,
@@ -20,7 +25,7 @@ export const Footer = () => {
     { icon: IconMail, link: "mailto:yourmail@gmail.com" },
   ];
 
-  const links = ["Home", "Skills", "Projects", "Proof", "Education", "Contact"];
+  const links = ["Home", "About Us", "Skills", "Projects", "Contact"];
 
   /* ================= CURSOR LIGHT ================= */
   const mouseX = useMotionValue(0);

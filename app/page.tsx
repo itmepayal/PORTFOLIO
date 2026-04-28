@@ -7,13 +7,10 @@ import { Navbar } from "@/components/layout/navbar";
 
 import { Home } from "@/components/sections/home";
 import { Skills } from "@/components/sections/skills";
-import { Education } from "@/components/sections/education";
 import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
 
 import { SECTIONS } from "@/constants/sections";
-import { Proof } from "@/components/sections/proof";
-import { Projects } from "@/components/sections/projects";
 
 export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
@@ -26,9 +23,6 @@ export default function Page() {
       <div className="overflow-y-auto h-screen relative">
         <Home />
         <Skills />
-        <Projects />
-        <Proof />
-        <Education />
         <Contact />
         <Footer />
         <div className="sticky bottom-6 flex justify-center z-50">
