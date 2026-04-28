@@ -16,8 +16,8 @@ export const Contact = () => {
     <Section id="contact" className="mt-3 md:mt-0">
       <BackgroundBlobs />
 
-      <div className="mx-auto px-0 sm:px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="mx-auto px-0">
+        <div className="grid lg:grid-cols-2 gap-5 md:gap-12 items-center">
           {/* ================= LEFT ================= */}
           <div className="space-y-6 text-center lg:text-left">
             {/* BADGE */}
@@ -77,7 +77,7 @@ export const Contact = () => {
             <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-pink-400/10 blur-2xl opacity-40 rounded-2xl" />
 
             <Card className="relative rounded-2xl border bg-background/80 backdrop-blur-xl shadow-2xl">
-              <CardContent className="p-6 sm:p-8 space-y-6">
+              <CardContent className="p-4 md:px-8 space-y-6">
                 {/* TITLE */}
                 <div>
                   <h3 className="text-lg font-semibold">Send a message</h3>
