@@ -96,7 +96,7 @@ export const Home = () => {
       </div>
 
       {/* MAIN GRID */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center w-full">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 items-center w-full">
         {/* IMAGE */}
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}

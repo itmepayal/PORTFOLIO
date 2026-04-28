@@ -44,7 +44,7 @@ export const Skills = () => {
   return (
     <Section
       id="skills"
-      className="relative overflow-hidden space-y-10 mt-5 md:mt-0"
+      className="relative overflow-hidden space-y-5 md:space-y-10 mt-5 md:mt-0"
     >
       <BackgroundBlobs />
 
