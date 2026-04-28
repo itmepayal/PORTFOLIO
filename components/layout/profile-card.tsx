@@ -24,7 +24,7 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 
-/* ---------------- CONSTANTS ---------------- */
+/* ---------------- CONFIG ---------------- */
 
 const PROBLEM_SOLVING = {
   total: 366,
@@ -32,7 +32,14 @@ const PROBLEM_SOLVING = {
   striver: 255,
 };
 
-const SOCIAL_ICONS = [IconBrandGithub, IconBrandLinkedin, IconBrandLeetcode];
+const SOCIALS = [
+  { icon: IconBrandGithub, url: "https://github.com/itmepayal" },
+  {
+    icon: IconBrandLinkedin,
+    url: "https://www.linkedin.com/in/payal-yadav-dev",
+  },
+  { icon: IconBrandLeetcode, url: "https://leetcode.com/Payal_Leet_Code" },
+];
 
 const TECH_STACK = [
   { name: "Backend Development", icon: Server },
@@ -42,6 +49,15 @@ const TECH_STACK = [
   { name: "Software Architecture", icon: Layers },
   { name: "Scalability Engineering", icon: Activity },
 ];
+
+/* ---------------- STYLES ---------------- */
+
+const CARD =
+  "rounded-2xl backdrop-blur-2xl px-6 py-6 space-y-5 border border-border transition-all";
+
+const BADGE_BASE = "text-xs px-3 py-1 border";
+
+const PROGRESS_BG = "h-2 bg-white/10 rounded-full overflow-hidden";
 
 /* ---------------- HOOK ---------------- */
 
@@ -69,60 +85,101 @@ const useCounter = (end: number, duration = 1200) => {
   return count;
 };
 
-/* ---------------- COMPONENT ---------------- */
+/* ---------------- SMALL COMPONENTS ---------------- */
+
+const SocialIcon = ({ Icon, url }: { Icon: any; url: string }) => (
+  <motion.a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    whileHover={{ y: -3, scale: 1.1 }}
+    className="cursor-pointer text-gray-400 hover:text-white transition"
+  >
+    <Icon className="w-5 h-5" />
+  </motion.a>
+);
+
+const ProgressBar = ({
+  label,
+  value,
+  total,
+}: {
+  label: string;
+  value: number;
+  total: number;
+}) => (
+  <div className="space-y-1">
+    <div className="flex justify-between text-xs text-gray-400">
+      <span>{label}</span>
+      <span>{value}</span>
+    </div>
+
+    <div className={PROGRESS_BG}>
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: `${(value / total) * 100}%` }}
+        className="h-full bg-linear-to-r from-blue-500 to-purple-500"
+      />
+    </div>
+  </div>
+);
+
+/* ---------------- MAIN ---------------- */
 
 export const ProfileCard = () => {
   const total = useCounter(PROBLEM_SOLVING.total, 1000);
   const leetcode = useCounter(PROBLEM_SOLVING.leetcode, 1400);
   const striver = useCounter(PROBLEM_SOLVING.striver, 1800);
 
-  const progressData = [
+  const progress = [
     { label: "LeetCode", value: leetcode },
     { label: "Striver", value: striver },
   ];
 
   return (
     <div className="flex items-center justify-center min-h-screen px-3">
-      <motion.div
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        className="relative w-full max-w-sm"
-      >
-        <div className="absolute inset-0 rounded-[28px]  blur-2xl opacity-40" />
-        <div className="relative rounded-[28px] p-px">
-          <div className="rounded-[28px] backdrop-blur-2xl px-6 py-6 space-y-5 border border-border transition-all duration-300">
-            <div className="text-center space-y-2.5">
+      <div className="relative w-full max-w-sm">
+        <div className="absolute inset-0 rounded blur-2xl opacity-40" />
+
+        <div className="relative p-px">
+          <div className={CARD}>
+            {/* PROFILE */}
+            <div className="text-center space-y-3">
               <motion.div whileHover={{ scale: 1.05 }}>
                 <div className="relative mx-auto w-fit">
-                  <div className="border-4 border-white/10 rounded-full">
+                  <div className="border-4 border-border rounded-full">
                     <div className="w-32 h-32 rounded-full overflow-hidden">
                       <Image
                         src="/profile.jpeg"
                         alt="profile"
                         width={160}
                         height={160}
-                        className="object-cover w-full h-full hover:scale-110 transition duration-500"
+                        className="object-cover w-full h-full hover:scale-110 transition"
                       />
                     </div>
                   </div>
 
-                  {/* Status */}
-                  <span className="absolute bottom-3 right-3 flex h-4 w-4">
+                  {/* STATUS */}
+                  <span className="absolute bottom-4 right-4 flex h-3 w-3">
                     <span className="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75" />
-                    <span className="relative h-4 w-4 rounded-full bg-green-500" />
+                    <span className="relative h-3 w-3 rounded-full bg-green-500" />
                   </span>
                 </div>
               </motion.div>
 
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
+              <h2 className="text-2xl font-bold bg-linear-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
                 Payal Yadav
               </h2>
 
               <div className="flex justify-center gap-2 flex-wrap">
-                <Badge className="text-xs bg-white/10 text-white px-3 py-1 border border-white/10">
+                <Badge
+                  className={`${BADGE_BASE} bg-card text-white border border-border`}
+                >
                   Full Stack Developer
                 </Badge>
-                <Badge className="text-xs bg-green-500/10 text-green-400 border border-green-500/20">
+                <Badge
+                  className={`${BADGE_BASE} bg-green-500/10 text-green-400 border-green-500/20`}
+                >
                   Available
                 </Badge>
               </div>
@@ -135,20 +192,14 @@ export const ProfileCard = () => {
               </p>
 
               <p className="text-sm text-gray-400 max-w-xs mx-auto">
-                Backend-focused developer building scalable systems & clean APIs
-                with production-ready architecture.
+                Backend-focused developer building scalable systems & clean
+                APIs.
               </p>
 
               {/* SOCIAL */}
               <div className="flex justify-center gap-5 pt-2">
-                {SOCIAL_ICONS.map((Icon, i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{ y: -3, scale: 1.1 }}
-                    className="cursor-pointer text-gray-400 hover:text-white transition"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </motion.div>
+                {SOCIALS.map(({ icon: Icon, url }, i) => (
+                  <SocialIcon key={i} Icon={Icon} url={url} />
                 ))}
               </div>
             </div>
@@ -167,23 +218,8 @@ export const ProfileCard = () => {
                 <p className="text-xs text-gray-400">Problems solved</p>
               </div>
 
-              {progressData.map(({ label, value }) => (
-                <div key={label} className="space-y-1">
-                  <div className="flex justify-between text-xs text-gray-400">
-                    <span>{label}</span>
-                    <span>{value}</span>
-                  </div>
-
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: `${(value / total) * 100}%`,
-                      }}
-                      className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
-                    />
-                  </div>
-                </div>
+              {progress.map((item) => (
+                <ProgressBar key={item.label} {...item} total={total} />
               ))}
             </div>
 
@@ -201,7 +237,7 @@ export const ProfileCard = () => {
                   <motion.div
                     key={name}
                     whileHover={{ scale: 1.05 }}
-                    className="flex flex-col items-center justify-center gap-1 p-3 rounded-xl border border-white/10 text-xs text-center hover:border-white/20 transition"
+                    className="flex flex-col items-center gap-1 p-3 rounded-xl border border-white/10 text-xs text-center hover:border-white/20 transition"
                   >
                     <Icon className="w-4 h-4 text-white" />
                     <span className="text-gray-300">{name}</span>
@@ -211,7 +247,7 @@ export const ProfileCard = () => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

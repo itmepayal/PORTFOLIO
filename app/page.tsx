@@ -1,7 +1,7 @@
 "use client";
 
 import { useScroll } from "@/hooks/use-scroll";
-import { ProfileCard } from "@/components/layout/profile-card";
+import { Profile } from "@/components/profile/ProfileCard";
 import { MenuSheet } from "@/components/layout/menu-sheet";
 import { Navbar } from "@/components/layout/navbar";
 
@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-1 items-start">
       <div className="sticky h-fit">
-        <ProfileCard />
+        <Profile />
       </div>
       <MenuSheet />
       <div className="overflow-y-auto h-screen relative">

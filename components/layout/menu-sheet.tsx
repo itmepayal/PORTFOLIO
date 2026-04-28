@@ -23,15 +23,15 @@ export const MenuSheet = () => {
     { name: "Contact", href: "#contact", icon: IconMail },
   ];
   return (
-    <div className="fixed right-4 top-4 z-50">
+    <div className="fixed right-2 top-2 z-50">
       <Sheet>
         {/* Trigger */}
         <SheetTrigger asChild>
           <button
             aria-label="Open Menu"
-            className="h-11 w-11 rounded-full bg-primary text-primary-foreground shadow-md hover:shadow-lg transition flex items-center justify-center"
+            className="h-10 w-10 rounded-full bg-primary text-primary-foreground shadow-md hover:shadow-lg transition flex items-center justify-center"
           >
-            <IconMenu2 className="w-5 h-5" />
+            <IconMenu2 className="w-4 h-4" />
           </button>
         </SheetTrigger>
 
