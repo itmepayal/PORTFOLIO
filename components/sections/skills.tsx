@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
 import { Section } from "@/components/common/section";
@@ -10,7 +10,7 @@ import { SKILLS } from "@/constants/skills";
 
 /* ---------------- ANIMATION CONFIG ---------------- */
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -19,13 +19,20 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.96 },
+const cardVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.96,
+  },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.4, ease: "easeOut" },
+    transition: {
+      duration: 0.4,
+      ease: [0.25, 0.1, 0.25, 1], // ✅ fixed easing
+    },
   },
 };
 
@@ -43,13 +50,13 @@ export const Skills = () => {
 
       {/* HEADER */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={reduceMotion ? {} : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <Badge
           className="
           inline-flex items-center gap-2
-          px-5 py-5
+          px-5 py-2.5
           rounded-full
           border border-border/60
           bg-background/60 backdrop-blur-xl
