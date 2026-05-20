@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 Developer Portfolio
 
-## Getting Started
+A modern, responsive, and animated developer portfolio built using Next.js, React, Tailwind CSS, and Framer Motion.
 
-First, run the development server:
+This portfolio showcases my projects, experience, skills, and contact information with a clean UI and smooth animations.
+
+---
+
+## ✨ Features
+
+- ⚡ Modern UI/UX Design
+- 🎨 Fully Responsive Layout
+- 🌙 Dark Mode Ready
+- 🎥 Framer Motion Animations
+- 📱 Mobile Friendly
+- 🧩 Reusable Components
+- 🚀 Optimized Performance
+- 📂 Projects Showcase
+- 🧠 Skills & Experience Sections
+- 📬 Contact Form
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- Next.js
+- React.js
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+
+### UI & Icons
+
+- shadcn/ui
+- Lucide React
+- React Icons
+
+### Deployment
+
+- Vercel
+
+---
+
+## 📁 Folder Structure
 
 ```bash
+.
+├── app
+├── components
+├── public
+│   ├── projects
+│   └── logos
+├── styles
+├── lib
+└── utils
+
+⚙️ Installation
+
+Clone the repository:
+
+git clone https://github.com/your-username/portfolio.git
+
+Navigate to the project folder:
+
+cd portfolio
+
+Install dependencies:
+
+npm install
+
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🚀 Build for Production
+npm run build
+npm start
+🎨 Customization
+
+You can easily customize:
+
+Personal Information
+Projects
+Skills
+Experience
+Social Links
+Theme Colors
+Animations
+
+Update the data files or component content according to your needs.
+
+📸 Screenshots
+
+Add your portfolio screenshots here.
+
+![Home Page](./public/screenshots/home.png)
+🌍 Live Demo
+https://your-portfolio-url.vercel.app
+📬 Contact
+
+Feel free to connect with me:
+
+LinkedIn: https://linkedin.com/in/your-profile
+GitHub: https://github.com/your-username
+Email: your-email@example.com
+📄 License
+
+This project is licensed under the MIT License.
+
+⭐ Support
+
+If you like this project, consider giving it a ⭐ on GitHub!
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
