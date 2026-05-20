@@ -1,193 +1,300 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { Sparkles } from "lucide-react";
-
-import { Section } from "@/components/common/section";
-import { Badge } from "@/components/ui/badge";
-import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
+import { motion } from "framer-motion";
 import { SKILLS } from "@/constants/skills";
 
-/* ---------------- ANIMATION CONFIG ---------------- */
-
-const containerVariants: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 40,
-    scale: 0.96,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-      ease: [0.25, 0.1, 0.25, 1], // ✅ fixed easing
-    },
-  },
-};
-
-/* ---------------- COMPONENT ---------------- */
-
 export const Skills = () => {
-  const reduceMotion = useReducedMotion();
-
   return (
-    <Section
-      id="skills"
-      className="relative overflow-hidden space-y-5 md:space-y-10 mt-5 md:mt-0"
+    <section
+      className="
+        relative
+        overflow-hidden
+
+        py-20
+        sm:py-24
+        md:py-28
+      "
     >
-      <BackgroundBlobs />
+      {/* ================================================================ */}
+      {/* CONTAINER */}
+      {/* ================================================================ */}
 
-      {/* HEADER */}
-      <motion.div
-        initial={reduceMotion ? {} : { opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <Badge
-          className="
-          inline-flex items-center gap-2
-          px-5 py-4
-          rounded-full
-          border border-border/60
-          bg-background/60 backdrop-blur-xl
-          text-foreground/80
-          shadow-sm
-          hover:bg-accent/40
-          transition-all duration-300
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          w-full
+          px-4
+          sm:px-6
+          md:px-10
+          lg:px-16
+          xl:px-20
         "
-        >
-          <Sparkles className="size-4 text-primary" />
-          <span className="text-xs font-medium tracking-wide">
-            Skills & Technologies
-          </span>
-        </Badge>
-      </motion.div>
-
-      {/* GRID */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"
       >
-        {SKILLS.map((category) => {
-          const CategoryIcon = category.icon;
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="relative overflow-hidden"
+        >
+          {/* ================================================================ */}
+          {/* TITLE */}
+          {/* ================================================================ */}
 
-          return (
-            <motion.div
-              key={category.title}
-              variants={cardVariants}
-              className="group relative rounded-2xl"
-            >
-              {/* Gradient Glow */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-accent/20 opacity-0 group-hover:opacity-100 blur-xl transition duration-500" />
+          <div className="text-center mb-10 sm:mb-14">
+            <p
+              className="
+                text-primary
+                uppercase
+                tracking-[0.25em]
 
-              {/* CARD */}
-              <div
-                className="
-                relative h-full p-6 rounded-2xl
-                bg-background/60 backdrop-blur-xl
-                border border-border/70
-                shadow-lg
-
-                transition-all duration-300
-                group-hover:-translate-y-2
-                group-hover:shadow-2xl
+                text-[10px]
+                sm:text-xs
+                md:text-sm
               "
-              >
-                {/* HEADER */}
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2.5 rounded-xl bg-primary/15 border border-primary/20 shadow-inner">
-                    <CategoryIcon className="w-5 h-5 text-primary" />
+            >
+              Tech Stack
+            </p>
+
+            <h2
+              className="
+                mt-3
+
+                text-2xl
+                xs:text-3xl
+                sm:text-4xl
+                md:text-5xl
+
+                font-black
+                tracking-[-0.03em]
+                leading-tight
+              "
+            >
+              Skills & Technologies
+            </h2>
+
+            <p
+              className="
+                mt-4
+
+                max-w-xs
+                xs:max-w-md
+                sm:max-w-2xl
+
+                mx-auto
+
+                text-xs
+                xs:text-sm
+                sm:text-base
+
+                text-muted-foreground
+                leading-6
+                sm:leading-7
+              "
+            >
+              Technologies and tools I use to build scalable backend systems,
+              modern web applications, and enterprise-grade architectures.
+            </p>
+          </div>
+
+          {/* ================================================================ */}
+          {/* LEFT FADE */}
+          {/* ================================================================ */}
+
+          <div
+            className="
+              absolute
+              left-0
+              top-0
+
+              h-full
+
+              w-8
+              sm:w-16
+              md:w-24
+              lg:w-40
+
+              bg-linear-to-r
+              from-background
+              to-transparent
+
+              z-10
+              pointer-events-none
+            "
+          />
+
+          {/* ================================================================ */}
+          {/* RIGHT FADE */}
+          {/* ================================================================ */}
+
+          <div
+            className="
+              absolute
+              right-0
+              top-0
+
+              h-full
+
+              w-8
+              sm:w-16
+              md:w-24
+              lg:w-40
+
+              bg-linear-to-l
+              from-background
+              to-transparent
+
+              z-10
+              pointer-events-none
+            "
+          />
+
+          {/* ================================================================ */}
+          {/* SLIDER */}
+          {/* ================================================================ */}
+
+          <motion.div
+            animate={{
+              x: ["0%", "-50%"],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="
+              flex
+              gap-3
+              sm:gap-4
+              md:gap-5
+
+              min-w-max
+            "
+          >
+            {[...SKILLS, ...SKILLS].map((skill, i) => {
+              const Icon = skill.icon;
+
+              return (
+                <div
+                  key={i}
+                  className="
+                    flex
+                    items-center
+
+                    gap-3
+                    sm:gap-4
+
+                    px-4
+                    sm:px-5
+                    md:px-6
+
+                    py-3
+                    sm:py-4
+
+                    rounded-2xl
+
+                    border
+                    border-border
+
+                    bg-background/60
+                    backdrop-blur-xl
+
+                    min-w-55
+                    xs:min-w-[240px]
+                    sm:min-w-65
+
+                    hover:border-primary/40
+                    hover:bg-primary/5
+
+                    transition-all
+                    duration-300
+
+                    hover:scale-[1.02]
+                  "
+                >
+                  {/* ================================================================ */}
+                  {/* ICON */}
+                  {/* ================================================================ */}
+
+                  <div
+                    className="
+                      flex
+                      items-center
+                      justify-center
+
+                      w-10
+                      h-10
+
+                      sm:w-11
+                      sm:h-11
+
+                      md:w-12
+                      md:h-12
+
+                      rounded-xl
+
+                      bg-primary/10
+                      text-primary
+
+                      shrink-0
+                    "
+                  >
+                    <Icon
+                      className="
+                        w-5
+                        h-5
+
+                        sm:w-6
+                        sm:h-6
+                      "
+                    />
                   </div>
 
-                  <h3 className="text-sm font-semibold text-foreground/90 tracking-wide">
-                    {category.title}
-                  </h3>
+                  {/* ================================================================ */}
+                  {/* CONTENT */}
+                  {/* ================================================================ */}
+
+                  <div className="text-left min-w-0">
+                    <p
+                      className="
+                        text-[10px]
+                        sm:text-xs
+
+                        text-muted-foreground
+                      "
+                    >
+                      Technology
+                    </p>
+
+                    <h3
+                      className="
+                        font-semibold
+
+                        text-sm
+                        sm:text-base
+
+                        truncate
+                      "
+                    >
+                      {skill.title}
+                    </h3>
+                  </div>
                 </div>
-
-                {/* SKILLS */}
-                <div className="grid grid-cols-3 gap-4">
-                  {category.items.map((skill) => {
-                    const Icon = skill.icon;
-
-                    return (
-                      <motion.a
-                        key={skill.name}
-                        href={skill.link || "#"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Open ${skill.name} documentation`}
-                        whileHover={reduceMotion ? {} : { scale: 1.05, y: -3 }}
-                        className="
-                          group/item relative flex flex-col items-center gap-2
-                          p-3 rounded-xl
-                          border border-border/60
-                          bg-background/40 backdrop-blur-md
-
-                          hover:bg-primary/10
-                          hover:border-primary/30
-
-                          transition-all duration-300
-                          cursor-pointer
-                        "
-                      >
-                        {/* Glow */}
-                        <div
-                          className="
-                          absolute inset-0 rounded-xl
-                          opacity-0 group-hover/item:opacity-100
-                          bg-gradient-to-br from-primary/20 to-transparent
-                          blur-lg transition duration-300
-                        "
-                        />
-
-                        {/* External Icon */}
-                        <span className="absolute top-1 right-1 text-[10px] opacity-0 group-hover/item:opacity-100 transition">
-                          ↗
-                        </span>
-
-                        {Icon && (
-                          <Icon
-                            className="
-                            relative w-5 h-5
-                            text-foreground/60
-                            group-hover/item:text-primary
-                            transition
-                          "
-                          />
-                        )}
-
-                        <span
-                          className="
-                          relative text-[11px]
-                          text-foreground/60 text-center
-                          group-hover/item:text-foreground
-                          transition
-                        "
-                        >
-                          {skill.name}
-                        </span>
-                      </motion.a>
-                    );
-                  })}
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
-    </Section>
+              );
+            })}
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
   );
 };

@@ -1,314 +1,770 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  ExternalLink,
-  Zap,
-} from "lucide-react";
-
-import { IconBrandGithub } from "@tabler/icons-react";
-
-import { Section } from "@/components/common/section";
-import { Card, CardContent } from "@/components/ui/card";
+import { HiArrowRight } from "react-icons/hi";
+import { FaNodeJs, FaReact, FaGithub } from "react-icons/fa6";
+import { SiNextdotjs, SiMongodb, SiPostgresql } from "react-icons/si";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
-// =========================================
-// TYPES
-// =========================================
-type ProjectType = "backend" | "fullstack";
+/* ====================================================================== */
+/* PROJECTS */
+/* ====================================================================== */
 
-interface Project {
-  id: number;
-  type: ProjectType;
-  title: string;
-  description: string;
-  tech: string[];
-  highlights: string[];
-  metrics?: { label: string; value: string }[];
-  image?: string;
-  github: string;
-  live: string;
-}
-
-// =========================================
-// DATA
-// =========================================
-const projects: Project[] = [
+const projects = [
   {
-    id: 1,
-    type: "backend",
-    title: "Authentication System",
+    title: "TaskHub Pro",
+
     description:
-      "Secure authentication system with JWT, refresh tokens, OTP and 2FA security layer.",
-    tech: ["Node.js", "MongoDB", "JWT", "2FA"],
-    highlights: [
-      "OTP + 2FA login flow",
-      "Refresh token rotation",
-      "Role-based access control",
+      "A production-grade project management backend system with workspaces, RBAC, task management, realtime collaboration, analytics, and scalable API architecture.",
+
+    tech: [
+      {
+        name: "Node.js",
+        icon: FaNodeJs,
+      },
+
+      {
+        name: "React",
+        icon: FaReact,
+      },
+
+      {
+        name: "PostgreSQL",
+        icon: SiPostgresql,
+      },
+
+      {
+        name: "Next.js",
+        icon: SiNextdotjs,
+      },
     ],
-    image: "/projects/auth.png",
-    metrics: [
-      { label: "Requests / Day", value: "10K+" },
-      { label: "Latency", value: "-35%" },
-      { label: "Security", value: "High" },
+
+    features: [
+      "Authentication & RBAC",
+      "Realtime Infrastructure",
+      "Redis Caching Layer",
     ],
+
     github: "#",
     live: "#",
   },
+
   {
-    id: 2,
-    type: "backend",
-    title: "Queue Service",
+    title: "Realtime ChatSphere",
+
     description:
-      "Distributed job processing system using Redis + BullMQ workers.",
-    tech: ["Node.js", "Redis", "BullMQ"],
-    highlights: [
-      "Queue-based processing",
-      "Auto retry mechanism",
-      "Worker scaling support",
+      "Realtime chat platform with WebRTC video calls, Socket.IO architecture, online presence, notifications, and Redis scaling.",
+
+    tech: [
+      {
+        name: "Node.js",
+        icon: FaNodeJs,
+      },
+
+      {
+        name: "React",
+        icon: FaReact,
+      },
+
+      {
+        name: "MongoDB",
+        icon: SiMongodb,
+      },
+
+      {
+        name: "Next.js",
+        icon: SiNextdotjs,
+      },
     ],
-    image: "/projects/queue.png",
-    metrics: [
-      { label: "Jobs / Day", value: "5K+" },
-      { label: "Reliability", value: "99.9%" },
-      { label: "Scaling", value: "Auto" },
+
+    features: [
+      "Socket.IO Scaling",
+      "WebRTC Video Calls",
+      "Presence & Notifications",
     ],
+
     github: "#",
     live: "#",
   },
+
   {
-    id: 3,
-    type: "fullstack",
-    title: "E-Commerce Platform",
+    title: "BABY MART",
+
     description:
-      "Full-stack ecommerce app with cart, payments, auth and admin dashboard.",
-    tech: ["React", "Node.js", "MongoDB", "Stripe"],
-    highlights: [
-      "Cart & checkout system",
-      "Secure payments",
-      "Admin dashboard",
+      "Scalable e-commerce platform with authentication, payments, cart system, inventory management, analytics dashboard, and order tracking.",
+
+    tech: [
+      {
+        name: "Next.js",
+        icon: SiNextdotjs,
+      },
+
+      {
+        name: "Node.js",
+        icon: FaNodeJs,
+      },
+
+      {
+        name: "PostgreSQL",
+        icon: SiPostgresql,
+      },
+
+      {
+        name: "MongoDB",
+        icon: SiMongodb,
+      },
     ],
-    image: "/projects/ecom.png",
+
+    features: [
+      "Stripe Payment Gateway",
+      "Admin Analytics",
+      "Inventory Management",
+    ],
+
     github: "#",
     live: "#",
   },
 ];
 
-// =========================================
-// CONFIG
-// =========================================
-const ITEMS_PER_PAGE = 2;
+/* ====================================================================== */
+/* PROJECTS */
+/* ====================================================================== */
 
-// =========================================
-// COMPONENT
-// =========================================
-export function Projects() {
-  const [selected, setSelected] = useState<Project | null>(null);
-  const [page, setPage] = useState(1);
-
-  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
-
-  const paginated = useMemo(() => {
-    const start = (page - 1) * ITEMS_PER_PAGE;
-    return projects.slice(start, start + ITEMS_PER_PAGE);
-  }, [page]);
-
-  // ================= DETAIL VIEW =================
-  if (selected) {
-    return (
-      <Section id="" className="space-y-10">
-        <Button
-          variant="outline"
-          onClick={() => setSelected(null)}
-          className="gap-2"
-        >
-          <ArrowLeft size={16} />
-          Back
-        </Button>
-
-        {/* HERO */}
-        {selected.image && (
-          <div className="rounded-2xl overflow-hidden border shadow-lg">
-            <img
-              src={selected.image}
-              alt={selected.title}
-              className="w-full h-[320px] object-cover"
-            />
-          </div>
-        )}
-
-        {/* TITLE */}
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold">{selected.title}</h1>
-          <p className="text-muted-foreground text-sm max-w-2xl">
-            {selected.description}
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-10">
-          {/* LEFT */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* TECH */}
-            <div>
-              <h3 className="text-xs uppercase text-muted-foreground mb-3">
-                Tech Stack
-              </h3>
-
-              <div className="flex flex-wrap gap-2">
-                {selected.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-3 py-1 rounded-full border bg-background/40"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* FEATURES */}
-            <div>
-              <h3 className="text-xs uppercase text-muted-foreground mb-3">
-                Highlights
-              </h3>
-
-              <div className="space-y-2">
-                {selected.highlights.map((h) => (
-                  <div key={h} className="flex gap-2 text-sm">
-                    <CheckCircle2 size={16} className="text-primary" />
-                    {h}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ACTIONS */}
-            <div className="flex gap-3">
-              <Button asChild size="sm">
-                <a href={selected.github} target="_blank">
-                  <IconBrandGithub size={14} />
-                  Code
-                </a>
-              </Button>
-
-              <Button variant="outline" asChild size="sm">
-                <a href={selected.live} target="_blank">
-                  <ExternalLink size={14} />
-                  Live
-                </a>
-              </Button>
-            </div>
-          </div>
-
-          {/* METRICS */}
-          {selected.metrics && (
-            <div className="space-y-4">
-              <h3 className="text-xs uppercase text-muted-foreground">
-                Impact
-              </h3>
-
-              {selected.metrics.map((m) => (
-                <div
-                  key={m.label}
-                  className="p-4 rounded-xl border bg-background/40 hover:shadow-md transition"
-                >
-                  <p className="text-lg font-semibold">{m.value}</p>
-                  <p className="text-xs text-muted-foreground">{m.label}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </Section>
-    );
-  }
-
-  // ================= LIST VIEW =================
+export const Projects = () => {
   return (
-    <Section id="#" className="space-y-10">
-      <div className="grid md:grid-cols-3 gap-8">
-        {paginated.map((p, i) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
+    <section
+      className="
+        relative
+        overflow-hidden
+        pt-24
+        sm:pt-28
+      "
+    >
+      {/* ====================================================== */}
+      {/* BACKGROUND */}
+      {/* ====================================================== */}
+
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div
+          className="
+            absolute
+            top-0
+            left-1/2
+            -translate-x-1/2
+
+            w-125
+            h-125
+
+            rounded-full
+
+            bg-primary/10
+            blur-3xl
+          "
+        />
+      </div>
+
+      {/* ====================================================== */}
+      {/* CONTAINER */}
+      {/* ====================================================== */}
+
+      <div
+        className="
+          relative
+          z-10
+
+          mx-auto
+
+          px-4
+          sm:px-6
+          md:px-10
+          lg:px-16
+          xl:px-20
+        "
+      >
+        {/* ====================================================== */}
+        {/* HEADER */}
+        {/* ====================================================== */}
+
+        <div
+          className="
+            flex
+            flex-col
+            lg:flex-row
+
+            lg:items-end
+            lg:justify-between
+
+            gap-10
+
+            mb-14
+            sm:mb-16
+          "
+        >
+          {/* LEFT */}
+
+          <div className="max-w-3xl">
+            <p
+              className="
+                text-primary
+                uppercase
+                tracking-[0.25em]
+
+                text-[10px]
+                sm:text-xs
+                md:text-sm
+              "
+            >
+              Backend Engineering
+            </p>
+
+            <h2
+              className="
+                mt-4
+
+                text-3xl
+                sm:text-4xl
+                md:text-5xl
+                lg:text-6xl
+
+                font-black
+                tracking-[-0.04em]
+                leading-[0.95]
+              "
+            >
+              Scalable Systems
+              <span
+                className="
+                  block
+
+                  bg-linear-to-r
+                  from-primary
+                  to-violet-500
+
+                  bg-clip-text
+                  text-transparent
+                "
+              >
+                & Production APIs
+              </span>
+            </h2>
+
+            <p
+              className="
+                mt-6
+
+                max-w-2xl
+
+                text-sm
+                sm:text-base
+
+                leading-7
+                sm:leading-8
+
+                text-muted-foreground
+              "
+            >
+              I specialize in building enterprise-grade backend systems with
+              authentication, RBAC, WebSockets, caching layers, scalable APIs,
+              payment systems, and realtime infrastructure.
+            </p>
+          </div>
+
+          {/* RIGHT STATS */}
+
+          <div
+            className="
+              grid
+              grid-cols-3
+
+              gap-3
+              sm:gap-4
+
+              w-full
+              lg:w-auto
+            "
           >
-            <Card className="group overflow-hidden border bg-background/60 backdrop-blur-xl hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl">
-              {/* IMAGE */}
-              {p.image && (
-                <div className="h-40 overflow-hidden">
-                  <img
-                    src={p.image}
-                    className="w-full h-full object-cover group-hover:scale-105 transition"
-                    alt={p.title}
-                  />
-                </div>
-              )}
+            {[
+              {
+                label: "Projects",
+                value: "12+",
+              },
 
-              <CardContent className="p-5 space-y-4">
-                {/* HEADER */}
-                <div className="flex justify-between">
-                  <h3 className="font-semibold group-hover:text-primary transition">
-                    {p.title}
-                  </h3>
+              {
+                label: "APIs",
+                value: "50+",
+              },
 
-                  <Badge variant="outline">{p.type}</Badge>
-                </div>
+              {
+                label: "Uptime",
+                value: "99.9%",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                whileHover={{
+                  y: -5,
+                }}
+                className="
+                  rounded-2xl
 
-                {/* DESCRIPTION */}
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {p.description}
+                  border
+                  border-white/10
+
+                  bg-background/40
+                  backdrop-blur-xl
+
+                  px-4
+                  sm:px-5
+
+                  py-5
+
+                  text-center
+
+                  min-w-22.5
+                  sm:min-w-27.5
+
+                  transition-all
+                  duration-300
+
+                  hover:border-primary/30
+                "
+              >
+                <h3
+                  className="
+                    text-xl
+                    sm:text-2xl
+
+                    font-black
+                  "
+                >
+                  {item.value}
+                </h3>
+
+                <p
+                  className="
+                    mt-1
+
+                    text-[10px]
+                    sm:text-xs
+
+                    text-muted-foreground
+                  "
+                >
+                  {item.label}
                 </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
-                {/* CTA */}
-                <div className="flex justify-between items-center pt-2">
-                  <button
-                    onClick={() => setSelected(p)}
-                    className="text-sm flex items-center gap-1 hover:text-primary"
+        {/* ====================================================== */}
+        {/* SLIDER WRAPPER */}
+        {/* ====================================================== */}
+
+        <div className="relative overflow-hidden">
+          {/* LEFT FADE */}
+
+          <div
+            className="
+              absolute
+              left-0
+              top-0
+
+              z-20
+
+              h-full
+              w-14
+              sm:w-20
+              md:w-28
+
+              bg-linear-to-r
+              from-background
+              to-transparent
+            "
+          />
+
+          {/* RIGHT FADE */}
+
+          <div
+            className="
+              absolute
+              right-0
+              top-0
+
+              z-20
+
+              h-full
+              w-14
+              sm:w-20
+              md:w-28
+
+              bg-linear-to-l
+              from-background
+              to-transparent
+            "
+          />
+
+          {/* ====================================================== */}
+          {/* SLIDER */}
+          {/* ====================================================== */}
+
+          <motion.div
+            animate={{
+              x: ["0%", "-50%"],
+            }}
+            transition={{
+              duration: 28,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="
+              flex
+              gap-5
+              sm:gap-6
+
+              min-w-max
+            "
+          >
+            {[...projects, ...projects].map((project, i) => (
+              <motion.div
+                key={i}
+                whileHover={{
+                  y: -8,
+                }}
+                className="
+                  group
+
+                  flex
+                  shrink-0
+
+                  w-75
+                  sm:w-90
+                  lg:w-105
+                "
+              >
+                {/* ====================================================== */}
+                {/* CARD */}
+                {/* ====================================================== */}
+
+                <div
+                  className="
+                    relative
+
+                    flex
+                    flex-col
+
+                    h-full
+                    min-h-155
+
+                    overflow-hidden
+
+                    rounded-4xl
+
+                    border
+                    border-white/10
+
+                    bg-background/60
+                    backdrop-blur-2xl
+
+                    transition-all
+                    duration-500
+
+                    hover:border-primary/30
+                    hover:shadow-[0_0_80px_rgba(120,119,255,0.12)]
+                  "
+                >
+                  {/* ====================================================== */}
+                  {/* GLOW */}
+                  {/* ====================================================== */}
+
+                  <div
+                    className="
+                      absolute
+                      top-0
+                      right-0
+
+                      w-56
+                      h-56
+
+                      rounded-full
+
+                      bg-primary/10
+                      blur-[120px]
+
+                      opacity-0
+                      group-hover:opacity-100
+
+                      transition-all
+                      duration-700
+                    "
+                  />
+
+                  {/* ====================================================== */}
+                  {/* CONTENT */}
+                  {/* ====================================================== */}
+
+                  <div
+                    className="
+                      relative
+                      z-10
+
+                      flex
+                      flex-col
+
+                      h-full
+
+                      p-5
+                      sm:p-7
+                    "
                   >
-                    View Case Study <ArrowRight size={14} />
-                  </button>
+                    {/* BADGE */}
 
-                  <Zap
-                    size={14}
-                    className="opacity-50 group-hover:opacity-100"
+                    <div
+                      className="
+                        inline-flex
+                        items-center
+                        gap-2
+
+                        w-fit
+
+                        rounded-full
+
+                        border
+                        border-primary/20
+
+                        bg-primary/10
+
+                        px-3
+                        py-1.5
+
+                        text-[10px]
+                        sm:text-[11px]
+
+                        uppercase
+                        tracking-[0.2em]
+
+                        text-primary
+                      "
+                    >
+                      Backend System
+                    </div>
+
+                    {/* TITLE */}
+
+                    <h3
+                      className="
+                        mt-5
+
+                        text-2xl
+                        sm:text-3xl
+
+                        font-black
+
+                        tracking-[-0.03em]
+                        leading-tight
+                      "
+                    >
+                      {project.title}
+                    </h3>
+
+                    {/* DESCRIPTION */}
+
+                    <p
+                      className="
+                        mt-4
+
+                        text-sm
+                        sm:text-base
+
+                        leading-7
+
+                        text-muted-foreground
+                      "
+                    >
+                      {project.description}
+                    </p>
+
+                    {/* TECH STACK */}
+
+                    <div
+                      className="
+                        flex
+                        flex-wrap
+
+                        gap-3
+
+                        mt-8
+                      "
+                    >
+                      {project.tech.map((tech, idx) => {
+                        const Icon = tech.icon;
+
+                        return (
+                          <motion.div
+                            key={idx}
+                            whileHover={{
+                              scale: 1.05,
+                            }}
+                            className="
+                              flex
+                              items-center
+                              gap-2
+
+                              rounded-2xl
+
+                              border
+                              border-white/10
+
+                              bg-background/40
+
+                              px-3
+                              py-2
+
+                              text-sm
+
+                              transition-all
+
+                              hover:border-primary/30
+                              hover:bg-primary/5
+                            "
+                          >
+                            <div
+                              className="
+                                flex
+                                items-center
+                                justify-center
+
+                                size-8
+
+                                rounded-xl
+
+                                bg-primary/10
+                                text-primary
+                              "
+                            >
+                              <Icon className="size-4" />
+                            </div>
+
+                            <span className="font-medium">{tech.name}</span>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+
+                    {/* FEATURES */}
+
+                    <div className="space-y-3 mt-8">
+                      {project.features.map((feature, idx) => (
+                        <div
+                          key={idx}
+                          className="
+                            flex
+                            items-center
+                            gap-3
+
+                            rounded-2xl
+
+                            border
+                            border-white/5
+
+                            bg-background/30
+
+                            px-4
+                            py-3
+                          "
+                        >
+                          <div
+                            className="
+                              size-2
+
+                              rounded-full
+
+                              bg-primary
+
+                              shadow-[0_0_20px_rgba(120,119,255,1)]
+                            "
+                          />
+
+                          <span
+                            className="
+                              text-sm
+                              text-muted-foreground
+                            "
+                          >
+                            {feature}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* PUSH BUTTONS TO BOTTOM */}
+
+                    <div className="mt-auto pt-8">
+                      <div className="flex gap-3">
+                        <Button
+                          className="
+                            flex-1
+                            h-11
+                            sm:h-12
+
+                            rounded-2xl
+
+                            text-sm
+
+                            shadow-lg
+                            shadow-primary/20
+                          "
+                        >
+                          Live API
+                          <HiArrowRight className="ml-2 size-4" />
+                        </Button>
+
+                        <Button
+                          variant="outline"
+                          className="
+                            h-11
+                            sm:h-12
+
+                            aspect-square
+
+                            rounded-2xl
+
+                            border-white/10
+                            bg-background/40
+                          "
+                        >
+                          <FaGithub className="size-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ====================================================== */}
+                  {/* HOVER BORDER */}
+                  {/* ====================================================== */}
+
+                  <div
+                    className="
+                      absolute
+                      inset-0
+
+                      rounded-4xl
+
+                      border
+                      border-primary/0
+
+                      group-hover:border-primary/20
+
+                      transition-all
+                      duration-500
+                    "
                   />
                 </div>
-              </CardContent>
-            </Card>
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
+        </div>
       </div>
-
-      {/* PAGINATION */}
-      <div className="flex justify-center items-center gap-3">
-        <Button
-          variant="outline"
-          disabled={page === 1}
-          onClick={() => setPage((p) => p - 1)}
-        >
-          Prev
-        </Button>
-
-        <span className="text-sm text-muted-foreground">
-          {page} / {totalPages}
-        </span>
-
-        <Button
-          variant="outline"
-          disabled={page === totalPages}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          Next
-        </Button>
-      </div>
-    </Section>
+    </section>
   );
-}
+};

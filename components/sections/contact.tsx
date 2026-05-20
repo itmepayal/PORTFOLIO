@@ -1,124 +1,432 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Mail, Send, Clock } from "lucide-react";
+import { Sparkles, Mail, Clock, Send } from "lucide-react";
 
-import { Section } from "@/components/common/section";
-import { BackgroundBlobs } from "@/components/backgrounds/background-blobs";
-
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 
 export const Contact = () => {
   return (
-    <Section id="contact" className="mt-3 md:mt-0">
-      <div className="mx-auto px-0">
-        <div className="grid lg:grid-cols-2 gap-5 md:gap-12 items-center">
-          {/* ================= LEFT ================= */}
-          <div className="space-y-6 text-center lg:text-left">
+    <section className="relative overflow-hidden pt-24 sm:pt-28">
+      {/* BACKGROUND */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div
+          className="
+            absolute
+            left-1/2
+            top-0
+            h-112.5
+            w-112.5
+            -translate-x-1/2
+            rounded-full
+            bg-primary/10
+            blur-3xl
+          "
+        />
+      </div>
+
+      {/* CONTAINER */}
+
+      <div className="mx-auto px-4 sm:px-6 lg:px-20">
+        <div
+          className="
+            grid
+            gap-14
+            lg:grid-cols-2
+            lg:gap-16
+            items-center
+          "
+        >
+          {/* ====================================================== */}
+          {/* LEFT */}
+          {/* ====================================================== */}
+
+          <div className="space-y-7 text-center lg:text-left">
             {/* BADGE */}
+
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 backdrop-blur text-xs">
+              <div
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+
+                  rounded-full
+
+                  border
+                  border-white/10
+
+                  bg-background/50
+
+                  px-4
+                  py-2
+
+                  text-xs
+                  sm:text-sm
+
+                  backdrop-blur-xl
+                "
+              >
                 <Sparkles className="size-4 text-primary" />
                 Let’s Connect
               </div>
             </motion.div>
 
-            {/* HEADING */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
-              Have an idea? <br />
-              <span className="bg-linear-to-r from-primary via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Let’s build it.
-              </span>
-            </h2>
+            {/* TITLE */}
 
-            {/* DESC */}
-            <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto lg:mx-0">
-              I help turn ideas into scalable products. Whether it's a startup,
-              feature, or system design — I’m open to collaborating.
-            </p>
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 25,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                delay: 0.1,
+              }}
+            >
+              <h2
+                className="
+                  text-4xl
+                  sm:text-5xl
+                  lg:text-6xl
+
+                  font-black
+
+                  leading-none
+                  tracking-[-0.04em]
+                "
+              >
+                Have an idea?
+                <br />
+                <span
+                  className="
+                    bg-linear-to-r
+                    from-primary
+                    via-purple-400
+                    to-pink-400
+
+                    bg-clip-text
+                    text-transparent
+                  "
+                >
+                  Let’s build it.
+                </span>
+              </h2>
+            </motion.div>
+
+            {/* DESCRIPTION */}
+
+            <motion.p
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                delay: 0.15,
+              }}
+              className="
+                max-w-xl
+
+                mx-auto
+                lg:mx-0
+
+                text-sm
+                sm:text-base
+
+                leading-7
+                sm:leading-8
+
+                text-muted-foreground
+              "
+            >
+              I help turn ideas into scalable digital products. Whether it’s a
+              startup, feature, backend system, or realtime platform — I’m open
+              to collaborating on impactful projects.
+            </motion.p>
 
             {/* EMAIL CARD */}
+
             <motion.div
-              whileHover={{ scale: 1.03 }}
-              className="flex items-center gap-3 p-4 rounded-xl border bg-background/50 backdrop-blur"
+              whileHover={{
+                y: -4,
+              }}
+              className="
+                group
+
+                flex
+                items-center
+                gap-4
+
+                rounded-3xl
+
+                border
+                border-white/10
+
+                bg-background/50
+
+                p-5
+                sm:p-6
+
+                backdrop-blur-xl
+
+                transition-all
+                duration-300
+
+                hover:border-primary/30
+              "
             >
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Mail className="size-4 text-primary" />
+              <div
+                className="
+                  flex
+                  size-14
+                  items-center
+                  justify-center
+
+                  rounded-2xl
+
+                  bg-primary/10
+                  text-primary
+                "
+              >
+                <Mail className="size-5" />
               </div>
+
               <div className="text-left">
                 <p className="text-xs text-muted-foreground">Email me</p>
-                <p className="text-sm font-medium break-all">
+
+                <p
+                  className="
+                    text-sm
+                    sm:text-base
+
+                    font-medium
+
+                    break-all
+                  "
+                >
                   itme.payalyadav@gmail.com
                 </p>
               </div>
             </motion.div>
 
-            <p className="flex items-center justify-center lg:justify-start gap-2 text-xs text-muted-foreground">
-              <Clock className="size-3.5 text-primary" />
+            {/* RESPONSE TIME */}
+
+            <div
+              className="
+                flex
+                items-center
+                justify-center
+                lg:justify-start
+
+                gap-2
+
+                text-xs
+                sm:text-sm
+
+                text-muted-foreground
+              "
+            >
+              <Clock className="size-4 text-primary" />
               Usually replies within a few hours
-            </p>
+            </div>
           </div>
 
-          {/* ================= RIGHT ================= */}
+          {/* ====================================================== */}
+          {/* RIGHT */}
+          {/* ====================================================== */}
+
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              duration: 0.6,
+            }}
             className="relative"
           >
             {/* GLOW */}
-            <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-pink-400/10 blur-2xl opacity-40 rounded-2xl" />
 
-            <Card className="relative rounded-2xl border bg-background/80 backdrop-blur-xl shadow-2xl">
-              <CardContent className="p-4 md:px-8 space-y-6">
-                {/* TITLE */}
-                <div>
-                  <h3 className="text-lg font-semibold">Send a message</h3>
-                  <p className="text-sm text-muted-foreground">
+            <div
+              className="
+                absolute
+                -inset-1
+
+                rounded-4xl
+
+                bg-linear-to-r
+                from-primary/20
+                to-pink-400/10
+
+                blur-2xl
+                opacity-40
+              "
+            />
+
+            {/* CARD */}
+
+            <Card
+              className="
+                relative
+
+                overflow-hidden
+
+                rounded-4xl
+
+                border
+                border-white/10
+
+                bg-background/80
+
+                backdrop-blur-2xl
+
+                shadow-[0_10px_60px_rgba(0,0,0,0.35)]
+              "
+            >
+              <CardContent className="p-6 sm:p-8 lg:p-10">
+                {/* HEADER */}
+
+                <div className="mb-8">
+                  <h3 className="text-2xl font-bold">Send a message</h3>
+
+                  <p className="mt-2 text-sm text-muted-foreground">
                     I typically respond within a few hours
                   </p>
                 </div>
 
                 {/* FORM */}
+
                 <form className="space-y-5">
                   {/* NAME */}
-                  <div className="space-y-1.5">
+
+                  <div className="space-y-2">
                     <Label>Name</Label>
+
                     <Input
                       placeholder="Your name"
-                      className="text-sm bg-transparent! focus-visible:ring-primary"
+                      className="
+                        h-12
+                        rounded-xl
+                        border-white/10
+                        bg-background/50
+                      "
                     />
                   </div>
 
                   {/* EMAIL */}
-                  <div className="space-y-1.5">
+
+                  <div className="space-y-2">
                     <Label>Email</Label>
+
                     <Input
                       type="email"
                       placeholder="your@email.com"
-                      className="text-sm bg-transparent! focus-visible:ring-primary"
+                      className="
+                        h-12
+                        rounded-xl
+                        border-white/10
+                        bg-background/50
+                      "
                     />
                   </div>
 
                   {/* MESSAGE */}
-                  <div className="space-y-1.5">
+
+                  <div className="space-y-2">
                     <Label>Message</Label>
+
                     <textarea
-                      rows={4}
+                      rows={6}
                       placeholder="Tell me about your idea..."
-                      className="w-full px-3 py-2 text-sm rounded-md border bg-background/50 outline-none focus:ring-1 focus:ring-primary resize-none"
+                      className="
+                        w-full
+
+                        rounded-2xl
+
+                        border
+                        border-white/10
+
+                        bg-background/50
+
+                        px-4
+                        py-4
+
+                        text-sm
+
+                        outline-none
+                        resize-none
+
+                        transition-all
+
+                        focus:border-primary/40
+                        focus:ring-2
+                        focus:ring-primary/20
+                      "
                     />
                   </div>
 
                   {/* BUTTON */}
-                  <Button className="w-full h-11 rounded-lg text-sm font-medium group bg-primary hover:bg-primary/90">
+
+                  <Button
+                    className="
+                      group
+
+                      h-12
+                      w-full
+
+                      rounded-xl
+
+                      text-sm
+                      font-medium
+                    "
+                  >
                     Send Message
-                    <Send className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                    <Send
+                      className="
+                        ml-2
+                        size-4
+
+                        transition-transform
+                        duration-300
+
+                        group-hover:translate-x-1
+                      "
+                    />
                   </Button>
                 </form>
               </CardContent>
@@ -126,6 +434,6 @@ export const Contact = () => {
           </motion.div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
