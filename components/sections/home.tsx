@@ -981,7 +981,7 @@ export const Home = () => {
             px-5
             py-5
             text-center
-            min-w-[110px]
+            min-w-27.5
           "
                 >
                   <h3 className="text-2xl font-black">{item.value}</h3>
@@ -1324,7 +1324,7 @@ export const Home = () => {
               left-0
               h-px
               w-full
-              bg-gradient-to-r
+              bg-linear-to-r
               from-transparent
               via-primary/60
               to-transparent
