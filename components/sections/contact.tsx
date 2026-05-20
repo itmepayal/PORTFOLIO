@@ -14,8 +14,6 @@ import { Button } from "@/components/ui/button";
 export const Contact = () => {
   return (
     <Section id="contact" className="mt-3 md:mt-0">
-      <BackgroundBlobs />
-
       <div className="mx-auto px-0">
         <div className="grid lg:grid-cols-2 gap-5 md:gap-12 items-center">
           {/* ================= LEFT ================= */}
@@ -25,7 +23,7 @@ export const Contact = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border bg-background/60 backdrop-blur text-xs">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 backdrop-blur text-xs">
                 <Sparkles className="size-4 text-primary" />
                 Let’s Connect
               </div>

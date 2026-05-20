@@ -12,9 +12,6 @@ export const Section = ({ id, children, className = "" }: SectionProps) => {
       id={id}
       className={`
         relative
-        rounded-2xl
-        border border-border
-        bg-background/40 backdrop-blur-md
         shadow-sm
         md:mx-3 md:ml-0
         md:my-4

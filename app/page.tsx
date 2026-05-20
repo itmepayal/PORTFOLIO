@@ -15,15 +15,10 @@ import { SECTIONS } from "@/constants/sections";
 export default function Page() {
   const { active, scrollToSection } = useScroll(SECTIONS);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-1 items-start">
-      <div className="sticky h-fit">
-        <Profile />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-1 items-start">
       <MenuSheet />
       <div className="overflow-y-auto h-screen relative">
         <Home />
-        <Skills />
-        <Contact />
         <Footer />
         <div className="sticky bottom-6 flex justify-center z-50">
           <Navbar

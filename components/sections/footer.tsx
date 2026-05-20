@@ -46,7 +46,7 @@ export const Footer = () => {
   }, []);
 
   return (
-    <footer className="relative border-t border-border overflow-hidden mt-3">
+    <footer className="relative border-t border-border overflow-hidden mt-3 px-36">
       {/* Cursor Glow */}
       <motion.div
         className="pointer-events-none absolute inset-0 -z-10"
