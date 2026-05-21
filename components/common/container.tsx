@@ -10,7 +10,7 @@ export const Container = ({ children }: ContainerProps) => {
       className="
         relative
         overflow-hidden
-        py-24
+        py-8
         sm:py-28
       "
     >
