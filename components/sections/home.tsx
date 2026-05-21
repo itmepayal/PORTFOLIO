@@ -15,57 +15,140 @@ export const Home = () => {
         relative
         min-h-screen
         overflow-hidden
+
         bg-background
+
         flex
         items-center
         justify-center
       "
     >
       {/* ====================================================== */}
-      {/* BACKGROUND */}
+      {/* GRID BACKGROUND */}
       {/* ====================================================== */}
+
       <div
         className="
           absolute
           inset-0
-          opacity-[0.20]
-          bg-[linear-gradient(to_right,#999_1px,transparent_1px),linear-gradient(to_bottom,#999_1px,transparent_1px)]
+
+          opacity-[0.35]
+
+          bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
+
           bg-size-[60px_60px]
+
           sm:bg-size-[72px_72px]
         "
       />
 
+      {/* ====================================================== */}
+      {/* GLOW */}
+      {/* ====================================================== */}
+
       <div
         className="
           absolute
+
           top-[-10%]
           left-1/2
           -translate-x-1/2
-          w-75
-          h-75
+
+          w-[320px]
+          h-80
+
           sm:w-125
           sm:h-125
-          bg-primary/10
+
           rounded-full
+
+          bg-primary/20
+
           blur-3xl
         "
       />
 
-      <div className="absolute inset-0 bg-background/80" />
+      {/* ====================================================== */}
+      {/* OVERLAY */}
+      {/* ====================================================== */}
+
+      <div
+        className="
+          absolute
+          inset-0
+
+          bg-background/80
+
+          backdrop-blur-[2px]
+        "
+      />
+
+      {/* ====================================================== */}
+      {/* THEME TOGGLE */}
+      {/* ====================================================== */}
+
+      <div
+        className="
+          absolute
+
+          top-5
+          right-5
+
+          sm:top-7
+          sm:right-7
+
+          z-50
+        "
+      >
+        <div
+          className="
+            flex
+            items-center
+            justify-center
+
+            rounded-2xl
+
+            border
+            border-border/60
+
+            bg-card/70
+
+            backdrop-blur-xl
+
+            shadow-lg
+
+            p-1.5
+
+            transition-all
+            duration-300
+
+            hover:border-primary/40
+            hover:shadow-primary/10
+          "
+        >
+          <ModeToggle />
+        </div>
+      </div>
 
       {/* ====================================================== */}
       {/* CONTENT */}
       {/* ====================================================== */}
+
       <div
         className="
           relative
           z-10
+
           w-full
+          max-w-7xl
+
           mx-auto
+
           px-5
           sm:px-8
           md:px-12
           lg:px-20
+
           py-16
           sm:py-24
         "
@@ -74,14 +157,17 @@ export const Home = () => {
           className="
             flex
             flex-col
+
             items-center
             justify-center
+
             text-center
           "
         >
           {/* ====================================================== */}
           {/* PROFILE */}
           {/* ====================================================== */}
+
           <motion.div
             initial={{
               opacity: 0,
@@ -100,9 +186,13 @@ export const Home = () => {
               className="
                 absolute
                 inset-0
+
                 rounded-full
-                bg-primary/20
+
+                bg-primary/30
+
                 blur-3xl
+
                 scale-125
               "
             />
@@ -110,25 +200,31 @@ export const Home = () => {
             <div
               className="
                 relative
+
                 rounded-full
-                p-0.5
+
+                p-0.75
+
                 bg-linear-to-br
-                from-primary/50
-                via-transparent
-                to-violet-500/50
+                from-primary
+                via-chart-3/50
+                to-chart-2
               "
             >
               <Image
                 src="/profile.jpeg"
                 alt="Payal Yadav"
-                width={200}
-                height={200}
+                width={220}
+                height={220}
                 priority
                 className="
                   rounded-full
                   object-cover
+
                   border
-                  border-white/10
+                  border-border
+
+                  bg-card
 
                   w-28
                   h-28
@@ -150,37 +246,9 @@ export const Home = () => {
           </motion.div>
 
           {/* ====================================================== */}
-          {/* THEME TOGGLE */}
-          {/* ====================================================== */}
-
-          <div
-            className="
-    absolute
-    top-5
-    right-5
-    sm:top-8
-    sm:right-8
-    z-20
-  "
-          >
-            <div
-              className="
-      rounded-2xl
-      border
-      border-border/50
-      bg-background/70
-      backdrop-blur-xl
-      shadow-lg
-      p-1
-    "
-            >
-              <ModeToggle />
-            </div>
-          </div>
-
-          {/* ====================================================== */}
           {/* NAME */}
           {/* ====================================================== */}
+
           <motion.h1
             initial={{
               opacity: 0,
@@ -193,20 +261,24 @@ export const Home = () => {
             transition={{
               delay: 0.1,
             }}
+            text-4xl
             className="
-              text-4xl
-              xs:text-4xl
-              sm:text-5xl
-              md:text-6xl
-              lg:text-7xl
+              xs:text-5xl
+              sm:text-6xl
+              md:text-7xl
+              lg:text-8xl
 
               font-black
-              tracking-[-0.04em]
+
+              tracking-[-0.06em]
+
               leading-[0.95]
 
               bg-linear-to-r
               from-foreground
-              to-foreground/70
+              via-primary
+              to-chart-3
+
               bg-clip-text
               text-transparent
             "
@@ -217,6 +289,7 @@ export const Home = () => {
           {/* ====================================================== */}
           {/* ROLE */}
           {/* ====================================================== */}
+
           <motion.p
             initial={{
               opacity: 0,
@@ -238,14 +311,17 @@ export const Home = () => {
               lg:text-2xl
 
               text-muted-foreground
+
               font-medium
 
               max-w-3xl
+
               leading-relaxed
             "
           >
             Backend Engineer • MERN Stack Developer • System Design
           </motion.p>
+
           {/* ====================================================== */}
           {/* DESCRIPTION */}
           {/* ====================================================== */}
@@ -277,7 +353,6 @@ export const Home = () => {
               sm:leading-8
 
               text-muted-foreground
-              capitalize
             "
           >
             I build scalable backend systems, enterprise-grade APIs, and
@@ -319,15 +394,21 @@ export const Home = () => {
               w-full
             "
           >
+            {/* ====================================================== */}
+            {/* RESUME BUTTON */}
+            {/* ====================================================== */}
+
             <Button
               className="
+                group
+
                 h-12
                 sm:h-14
 
                 w-full
                 sm:w-auto
 
-                min-w-45
+                min-w-48
 
                 rounded-2xl
 
@@ -336,12 +417,18 @@ export const Home = () => {
 
                 font-medium
 
+                bg-primary
+                text-primary-foreground
+
                 shadow-lg
                 shadow-primary/20
 
                 transition-all
                 duration-300
+
                 hover:scale-105
+                hover:shadow-xl
+                hover:shadow-primary/30
               "
             >
               <a
@@ -351,20 +438,37 @@ export const Home = () => {
                 className="flex items-center"
               >
                 Resume
-                <HiArrowRight className="ml-2 size-4" />
+                <HiArrowRight
+                  className="
+                    ml-2
+
+                    size-4
+
+                    transition-transform
+                    duration-300
+
+                    group-hover:translate-x-1
+                  "
+                />
               </a>
             </Button>
+
+            {/* ====================================================== */}
+            {/* CONTACT BUTTON */}
+            {/* ====================================================== */}
 
             <Button
               variant="outline"
               className="
+                group
+
                 h-12
                 sm:h-14
 
                 w-full
                 sm:w-auto
 
-                min-w-45
+                min-w-48
 
                 rounded-2xl
 
@@ -373,17 +477,34 @@ export const Home = () => {
 
                 font-medium
 
-                border-white/10
-                bg-background/40
+                border-border
+
+                bg-card/60
+
                 backdrop-blur-xl
 
                 transition-all
                 duration-300
+
+                hover:bg-accent
+                hover:text-accent-foreground
+                hover:border-primary/30
                 hover:scale-105
               "
             >
               <a href="tel:+7228832443" className="flex items-center">
-                <HiOutlineMail className="mr-2 size-4" />
+                <HiOutlineMail
+                  className="
+                    mr-2
+
+                    size-4
+
+                    transition-transform
+                    duration-300
+
+                    group-hover:rotate-6
+                  "
+                />
                 Contact Me
               </a>
             </Button>
@@ -392,6 +513,7 @@ export const Home = () => {
           {/* ====================================================== */}
           {/* SOCIALS */}
           {/* ====================================================== */}
+
           <motion.div
             initial={{
               opacity: 0,
@@ -452,21 +574,23 @@ export const Home = () => {
                     sm:w-12
                     sm:h-12
 
-                    rounded-xl
+                    rounded-2xl
 
                     border
-                    border-white/10
+                    border-border
 
-                    bg-background/40
+                    bg-card/60
+
                     backdrop-blur-xl
 
-                    text-foreground/60
+                    text-muted-foreground
 
                     transition-all
                     duration-300
 
                     hover:text-primary
                     hover:border-primary/40
+                    hover:bg-accent
                     hover:scale-110
                   "
                 >
@@ -474,9 +598,6 @@ export const Home = () => {
                     className="
                       w-5
                       h-5
-
-                      sm:w-5.5
-                      sm:h-5.5
                     "
                   />
                 </a>

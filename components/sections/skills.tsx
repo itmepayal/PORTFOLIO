@@ -1,292 +1,427 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 import { SKILLS } from "@/constants/skills";
+
 import { Container } from "../common/container";
 
 export const Skills = () => {
   return (
     <Container>
       {/* ================================================================ */}
-      {/* CONTAINER */}
+      {/* SECTION */}
       {/* ================================================================ */}
 
-      <div
+      <section
         className="
           relative
-          z-10
-          mx-auto
-          w-full
-          px-4
-          sm:px-6
-          md:px-10
-          lg:px-16
-          xl:px-20
+          py-6
+          md:py-10
+          overflow-hidden
         "
       >
-        <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          whileInView={{
-            opacity: 1,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
-          className="relative overflow-hidden"
+        {/* ================================================================ */}
+        {/* BACKGROUND GLOW */}
+        {/* ================================================================ */}
+
+        <div
+          className="
+            absolute
+
+            top-1/2
+            left-1/2
+
+            -translate-x-1/2
+            -translate-y-1/2
+
+            w-125
+            h-125
+
+            rounded-full
+
+            bg-primary/10
+
+            blur-3xl
+          "
+        />
+
+        {/* ================================================================ */}
+        {/* CONTAINER */}
+        {/* ================================================================ */}
+
+        <div
+          className="
+            relative
+            z-10
+
+            mx-auto
+            w-full
+
+            px-4
+            sm:px-6
+            md:px-10
+            lg:px-16
+            xl:px-20
+          "
         >
-          {/* ================================================================ */}
-          {/* TITLE */}
-          {/* ================================================================ */}
-
-          <div className="text-center mb-10 sm:mb-14">
-            <p
-              className="
-                text-primary
-                uppercase
-                tracking-[0.25em]
-
-                text-[10px]
-                sm:text-xs
-                md:text-sm
-              "
-            >
-              Tech Stack
-            </p>
-
-            <h2
-              className="
-                mt-3
-
-                text-2xl
-                xs:text-3xl
-                sm:text-4xl
-                md:text-5xl
-
-                font-black
-                tracking-[-0.03em]
-                leading-tight
-              "
-            >
-              Skills & Technologies
-            </h2>
-
-            <p
-              className="
-                mt-4
-
-                max-w-xs
-                xs:max-w-md
-                sm:max-w-2xl
-
-                mx-auto
-
-                text-xs
-                xs:text-sm
-                sm:text-base
-
-                text-muted-foreground
-                leading-6
-                sm:leading-7
-              "
-            >
-              Technologies and tools I use to build scalable backend systems,
-              modern web applications, and enterprise-grade architectures.
-            </p>
-          </div>
-
-          {/* ================================================================ */}
-          {/* LEFT FADE */}
-          {/* ================================================================ */}
-
-          <div
-            className="
-              absolute
-              left-0
-              top-0
-
-              h-full
-
-              w-8
-              sm:w-16
-              md:w-24
-              lg:w-40
-
-              bg-linear-to-r
-              from-background
-              to-transparent
-
-              z-10
-              pointer-events-none
-            "
-          />
-
-          {/* ================================================================ */}
-          {/* RIGHT FADE */}
-          {/* ================================================================ */}
-
-          <div
-            className="
-              absolute
-              right-0
-              top-0
-
-              h-full
-
-              w-8
-              sm:w-16
-              md:w-24
-              lg:w-40
-
-              bg-linear-to-l
-              from-background
-              to-transparent
-
-              z-10
-              pointer-events-none
-            "
-          />
-
-          {/* ================================================================ */}
-          {/* SLIDER */}
-          {/* ================================================================ */}
-
           <motion.div
-            animate={{
-              x: ["0%", "-50%"],
+            initial={{
+              opacity: 0,
+              y: 30,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
             }}
             transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear",
+              duration: 0.7,
             }}
-            className="
-              flex
-              gap-3
-              sm:gap-4
-              md:gap-5
-
-              min-w-max
-            "
+            className="relative overflow-hidden"
           >
-            {[...SKILLS, ...SKILLS].map((skill, i) => {
-              const Icon = skill.icon;
+            {/* ================================================================ */}
+            {/* TITLE */}
+            {/* ================================================================ */}
 
-              return (
-                <div
-                  key={i}
-                  className="
-                    flex
-                    items-center
+            <div className="text-center mb-10 sm:mb-14">
+              <p
+                className="
+                  inline-flex
+                  items-center
+                  justify-center
 
-                    gap-3
-                    sm:gap-4
+                  rounded-full
 
-                    px-4
-                    sm:px-5
-                    md:px-6
+                  border
+                  border-primary/20
 
-                    py-3
-                    sm:py-4
+                  bg-primary/10
 
-                    rounded-2xl
+                  px-4
+                  py-1.5
 
-                    border
-                    border-border
+                  text-primary
 
-                    bg-background/60
-                    backdrop-blur-xl
+                  uppercase
+                  tracking-[0.25em]
 
-                    min-w-55
-                    xs:min-w-[240px]
-                    sm:min-w-65
+                  text-[10px]
+                  sm:text-xs
+                  md:text-sm
 
-                    hover:border-primary/40
-                    hover:bg-primary/5
+                  font-semibold
+                "
+              >
+                Tech Stack
+              </p>
 
-                    transition-all
-                    duration-300
+              <h2
+                className="
+                  mt-5
 
-                    hover:scale-[1.02]
-                  "
-                >
-                  {/* ================================================================ */}
-                  {/* ICON */}
-                  {/* ================================================================ */}
+                  text-3xl
+                  xs:text-3xl
+                  sm:text-4xl
+                  md:text-5xl
 
+                  font-black
+
+                  tracking-[-0.05em]
+
+                  leading-none
+
+                  bg-linear-to-r
+                  from-foreground
+                  via-primary
+                  to-chart-3
+
+                  bg-clip-text
+                  text-transparent
+                "
+              >
+                Skills & Technologies
+              </h2>
+
+              <p
+                className="
+                  mt-5
+
+                  max-w-xs
+                  xs:max-w-md
+                  sm:max-w-2xl
+                  lg:max-w-3xl
+
+                  mx-auto
+
+                  text-xs
+                  xs:text-sm
+                  sm:text-base
+                  md:text-lg
+
+                  text-muted-foreground
+
+                  leading-6
+                  sm:leading-7
+                "
+              >
+                Technologies and tools I use to build scalable backend systems,
+                modern web applications, and enterprise-grade architectures.
+              </p>
+            </div>
+
+            {/* ================================================================ */}
+            {/* LEFT FADE */}
+            {/* ================================================================ */}
+
+            <div
+              className="
+                absolute
+                left-0
+                top-0
+
+                h-full
+
+                w-10
+                sm:w-16
+                md:w-24
+                lg:w-40
+
+                bg-linear-to-r
+                from-background
+                via-background/90
+                to-transparent
+
+                z-20
+
+                pointer-events-none
+              "
+            />
+
+            {/* ================================================================ */}
+            {/* RIGHT FADE */}
+            {/* ================================================================ */}
+
+            <div
+              className="
+                absolute
+                right-0
+                top-0
+
+                h-full
+
+                w-10
+                sm:w-16
+                md:w-24
+                lg:w-40
+
+                bg-linear-to-l
+                from-background
+                via-background/90
+                to-transparent
+
+                z-20
+
+                pointer-events-none
+              "
+            />
+
+            {/* ================================================================ */}
+            {/* SLIDER */}
+            {/* ================================================================ */}
+
+            <motion.div
+              animate={{
+                x: ["0%", "-50%"],
+              }}
+              transition={{
+                duration: 22,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="
+                flex
+
+                gap-4
+                sm:gap-5
+                md:gap-6
+
+                min-w-max
+
+                py-4
+              "
+            >
+              {[...SKILLS, ...SKILLS].map((skill, i) => {
+                const Icon = skill.icon;
+
+                return (
                   <div
+                    key={i}
                     className="
+                      group
+
+                      relative
+
                       flex
                       items-center
-                      justify-center
 
-                      w-10
-                      h-10
+                      gap-3
+                      sm:gap-4
 
-                      sm:w-11
-                      sm:h-11
+                      px-4
+                      sm:px-5
+                      md:px-6
 
-                      md:w-12
-                      md:h-12
+                      py-4
+                      sm:py-5
 
-                      rounded-xl
+                      rounded-3xl
 
-                      bg-primary/10
-                      text-primary
+                      border
+                      border-border/70
 
-                      shrink-0
+                      bg-card/70
+
+                      backdrop-blur-xl
+
+                      shadow-lg
+
+                      min-w-55
+                      xs:min-w-[240px]
+                      sm:min-w-65
+
+                      overflow-hidden
+
+                      transition-all
+                      duration-500
+
+                      hover:border-primary/40
+                      hover:bg-accent/50
+                      hover:shadow-primary/10
+                      hover:-translate-y-1
                     "
                   >
-                    <Icon
-                      className="
-                        w-5
-                        h-5
+                    {/* ================================================================ */}
+                    {/* HOVER GLOW */}
+                    {/* ================================================================ */}
 
-                        sm:w-6
-                        sm:h-6
+                    <div
+                      className="
+                        absolute
+                        inset-0
+
+                        opacity-0
+
+                        bg-linear-to-r
+                        from-primary/5
+                        via-chart-3/5
+                        to-chart-2/5
+
+                        transition-opacity
+                        duration-500
+
+                        group-hover:opacity-100
                       "
                     />
-                  </div>
 
-                  {/* ================================================================ */}
-                  {/* CONTENT */}
-                  {/* ================================================================ */}
+                    {/* ================================================================ */}
+                    {/* ICON */}
+                    {/* ================================================================ */}
 
-                  <div className="text-left min-w-0">
-                    <p
+                    <div
                       className="
-                        text-[10px]
-                        sm:text-xs
+                        relative
+                        z-10
 
-                        text-muted-foreground
+                        flex
+                        items-center
+                        justify-center
+
+                        w-11
+                        h-11
+
+                        sm:w-12
+                        sm:h-12
+
+                        md:w-14
+                        md:h-14
+
+                        rounded-2xl
+
+                        bg-primary/10
+
+                        text-primary
+
+                        border
+                        border-primary/10
+
+                        shrink-0
+
+                        transition-all
+                        duration-300
+
+                        group-hover:scale-110
+                        group-hover:bg-primary/15
                       "
                     >
-                      Technology
-                    </p>
+                      <Icon
+                        className="
+                          w-5
+                          h-5
 
-                    <h3
-                      className="
-                        font-semibold
+                          sm:w-6
+                          sm:h-6
+                        "
+                      />
+                    </div>
 
-                        text-sm
-                        sm:text-base
+                    {/* ================================================================ */}
+                    {/* CONTENT */}
+                    {/* ================================================================ */}
 
-                        truncate
-                      "
-                    >
-                      {skill.title}
-                    </h3>
+                    <div className="relative z-10 text-left min-w-0">
+                      <p
+                        className="
+                          text-[10px]
+                          sm:text-xs
+
+                          uppercase
+
+                          tracking-[0.18em]
+
+                          text-muted-foreground
+                        "
+                      >
+                        Technology
+                      </p>
+
+                      <h3
+                        className="
+                          mt-1
+
+                          font-semibold
+
+                          text-sm
+                          sm:text-base
+                          md:text-lg
+
+                          text-foreground
+
+                          truncate
+                        "
+                      >
+                        {skill.title}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
     </Container>
   );
 };

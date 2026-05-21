@@ -78,6 +78,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             justify-center
 
             bg-background
+            text-foreground
           "
         >
           {/* ====================================================== */}
@@ -89,9 +90,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               absolute
               inset-0
 
-              opacity-[0.04]
+              opacity-[0.05]
 
-              bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)]
+              bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
 
               bg-size-[70px_70px]
             "
@@ -136,7 +137,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
               rounded-full
 
-              bg-primary/20
+              bg-primary/15
 
               blur-[140px]
             "
@@ -162,7 +163,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
               rounded-full
 
-              bg-violet-500/10
+              bg-chart-2/15
 
               blur-[120px]
             "
@@ -188,7 +189,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
               rounded-full
 
-              bg-cyan-500/10
+              bg-chart-3/15
 
               blur-[120px]
             "
@@ -230,9 +231,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 rounded-full
 
                 border
-                border-white/10
+                border-border/60
 
-                bg-background/50
+                bg-card/70
 
                 px-5
                 py-2.5
@@ -281,7 +282,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                   border
                   border-dashed
-                  border-primary/10
+                  border-primary/20
                 "
               />
 
@@ -304,7 +305,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rounded-full
 
                   border
-                  border-primary/20
+                  border-primary/30
                 "
               />
 
@@ -325,7 +326,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                   rounded-full
 
-                  bg-primary/10
+                  bg-primary/15
 
                   blur-3xl
                 "
@@ -368,9 +369,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                         rounded-2xl
 
                         border
-                        border-white/10
+                        border-border/60
 
-                        bg-background/60
+                        bg-card/70
 
                         backdrop-blur-xl
                       "
@@ -405,13 +406,13 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rounded-4xl
 
                   border
-                  border-white/10
+                  border-border/60
 
-                  bg-background/60
+                  bg-card/70
 
                   backdrop-blur-2xl
 
-                  shadow-[0_20px_80px_rgba(0,0,0,0.5)]
+                  shadow-2xl
                 "
               >
                 {/* INNER GLOW */}
@@ -424,7 +425,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                     rounded-3xl
 
                     border
-                    border-primary/10
+                    border-primary/20
                   "
                 />
 
@@ -448,8 +449,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                     bg-linear-to-r
                     from-primary
-                    via-violet-400
-                    to-cyan-400
+                    via-chart-2
+                    to-chart-3
 
                     bg-clip-text
                     text-transparent
@@ -611,7 +612,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                   rounded-full
 
-                  bg-white/5
+                  bg-muted
                 "
               >
                 <motion.div
@@ -636,10 +637,10 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                     bg-linear-to-r
                     from-primary
-                    via-violet-400
-                    to-cyan-400
+                    via-chart-2
+                    to-chart-3
 
-                    shadow-[0_0_30px_rgba(139,92,246,0.8)]
+                    shadow-lg
                   "
                 />
               </div>
@@ -676,7 +677,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                     rounded-full
 
-                    bg-emerald-400
+                    bg-chart-4
                   "
                 />
 
@@ -689,7 +690,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                     rounded-full
 
                     border
-                    border-emerald-400/40
+                    border-chart-4/40
 
                     animate-ping
                   "

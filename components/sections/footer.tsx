@@ -1,5 +1,8 @@
+"use client";
+
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
+
 import {
   IconBrandGithub,
   IconBrandLinkedin,
@@ -9,8 +12,16 @@ import {
   IconBrandLeetcode,
 } from "@tabler/icons-react";
 
+/* ====================================================================== */
+/* FOOTER */
+/* ====================================================================== */
+
 export const Footer = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  /* ====================================================================== */
+  /* SOCIALS */
+  /* ====================================================================== */
 
   const socialIcons = [
     {
@@ -30,15 +41,19 @@ export const Footer = () => {
 
     {
       icon: IconMail,
-      link: "mailto:yourmail@gmail.com",
+      link: "mailto:itme.payalyadav@gmail.com",
     },
   ];
 
-  const links = ["Home", "About", "Skills", "Projects", "Contact"];
+  /* ====================================================================== */
+  /* NAV LINKS */
+  /* ====================================================================== */
 
-  /* ====================================================== */
+  const links = ["Home", "Skills", "Experience", "Projects", "Contact"];
+
+  /* ====================================================================== */
   /* CURSOR LIGHT */
-  /* ====================================================== */
+  /* ====================================================================== */
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -71,7 +86,9 @@ export const Footer = () => {
         overflow-hidden
 
         border-t
-        border-border
+        border-border/70
+
+        bg-background
 
         mt-16
         sm:mt-20
@@ -91,7 +108,7 @@ export const Footer = () => {
         style={{
           background: `radial-gradient(
             500px at ${smoothX}px ${smoothY}px,
-            rgba(99,102,241,0.12),
+            color-mix(in oklab, var(--color-primary) 12%, transparent),
             transparent 80%
           )`,
         }}
@@ -101,26 +118,43 @@ export const Footer = () => {
       {/* BACKGROUND GLOW */}
       {/* ====================================================== */}
 
-      <div className="absolute inset-0 -z-20">
+      <div className="absolute inset-0 -z-20 overflow-hidden">
         <div
           className="
             absolute
             left-1/2
             top-0
 
-            h-64
-            w-125
-
-            sm:h-80
-            sm:w-175
+            h-72
+            w-105
 
             -translate-x-1/2
 
-            bg-primary/10
+            rounded-full
+
+            bg-primary/8
+
             blur-[120px]
           "
         />
       </div>
+
+      {/* ====================================================== */}
+      {/* GRID PATTERN */}
+      {/* ====================================================== */}
+
+      <div
+        className="
+          absolute
+          inset-0
+          -z-30
+
+          bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
+          bg-size-[40px_40px]
+
+          opacity-[0.03]
+        "
+      />
 
       {/* ====================================================== */}
       {/* CONTAINER */}
@@ -170,16 +204,53 @@ export const Footer = () => {
             sm:mb-20
           "
         >
+          {/* BADGE */}
+
+          <div
+            className="
+              inline-flex
+              items-center
+              gap-2
+
+              rounded-full
+
+              border
+              border-primary/15
+
+              bg-primary/8
+
+              px-4
+              py-2
+
+              text-[11px]
+              sm:text-xs
+
+              uppercase
+              tracking-[0.22em]
+
+              text-primary
+
+              backdrop-blur-xl
+            "
+          >
+            <IconSparkles size={14} />
+            Available For Work
+          </div>
+
+          {/* TITLE */}
+
           <h2
             className="
-              text-2xl
-              xs:text-3xl
+              mt-6
+
+              text-3xl
               sm:text-4xl
               md:text-5xl
 
-              font-bold
+              font-black
+
               leading-tight
-              tracking-[-0.03em]
+              tracking-[-0.04em]
             "
           >
             Let’s build something{" "}
@@ -187,8 +258,8 @@ export const Footer = () => {
               className="
                 bg-linear-to-r
                 from-primary
-                via-purple-400
-                to-pink-400
+                via-primary/80
+                to-chart-3
 
                 bg-clip-text
                 text-transparent
@@ -198,9 +269,11 @@ export const Footer = () => {
             </span>
           </h2>
 
+          {/* DESCRIPTION */}
+
           <p
             className="
-              mt-4
+              mt-5
 
               max-w-xs
               xs:max-w-md
@@ -208,17 +281,18 @@ export const Footer = () => {
 
               mx-auto
 
-              text-xs
-              xs:text-sm
+              text-sm
               sm:text-base
 
+              leading-7
+              sm:leading-8
+
               text-muted-foreground
-              leading-6
-              sm:leading-7
             "
           >
-            Full Stack Developer specializing in scalable API-first systems
-            using MERN, Next.js, Django & FastAPI.
+            Full Stack Developer specializing in scalable backend systems,
+            realtime applications, authentication architecture, and API-first
+            engineering using MERN, Next.js, Django & FastAPI.
           </p>
 
           {/* ====================================================== */}
@@ -227,51 +301,59 @@ export const Footer = () => {
 
           <div
             className="
-              mt-6
+              mt-8
 
               flex
               items-center
               justify-center
               flex-wrap
 
-              gap-2
+              gap-2.5
               sm:gap-3
             "
           >
             {[
-              "Javascript",
+              "JavaScript",
               "Python",
               "TypeScript",
               "MERN",
               "Next.js",
               "Django",
               "FastAPI",
-              "RESTAPI",
+              "REST API",
             ].map((tech) => (
               <motion.span
                 key={tech}
                 whileHover={{
-                  scale: 1.05,
+                  y: -2,
+                  scale: 1.04,
                 }}
                 className="
-                  px-3
-                  py-1.5
-
-                  text-[10px]
-                  sm:text-xs
-
-                  rounded-full
+                  rounded-2xl
 
                   border
-                  border-primary/20
+                  border-border
 
-                  bg-background/50
-                  backdrop-blur-xl
+                  bg-background/70
+
+                  px-4
+                  py-2
+
+                  text-[11px]
+                  sm:text-xs
+
+                  font-medium
 
                   text-muted-foreground
 
-                  hover:border-primary/40
+                  backdrop-blur-xl
+
                   transition-all
+                  duration-300
+
+                  hover:border-primary/25
+                  hover:bg-primary/5
+                  hover:text-foreground
                 "
               >
                 {tech}
@@ -286,10 +368,11 @@ export const Footer = () => {
           <motion.a
             href="#contact"
             whileHover={{
-              scale: 1.05,
+              y: -2,
+              scale: 1.02,
             }}
             whileTap={{
-              scale: 0.95,
+              scale: 0.98,
             }}
             className="
               group
@@ -299,28 +382,35 @@ export const Footer = () => {
               items-center
               gap-2
 
-              mt-8
+              overflow-hidden
+
+              mt-9
+
+              rounded-2xl
+
+              border
+              border-primary/20
+
+              bg-primary/10
 
               px-6
               sm:px-7
 
               py-3
 
-              text-xs
-              sm:text-sm
+              text-sm
+              font-semibold
 
-              rounded-full
+              text-primary
 
-              border
-              border-primary/30
-
-              bg-primary/10
-              hover:bg-primary/20
+              backdrop-blur-xl
 
               transition-all
               duration-300
 
-              shadow-md
+              hover:border-primary/35
+              hover:bg-primary/15
+              hover:shadow-lg
             "
           >
             <span
@@ -330,20 +420,28 @@ export const Footer = () => {
 
                 bg-linear-to-r
                 from-transparent
-                via-white/20
+                via-white/10
                 to-transparent
 
-                opacity-0
-                group-hover:opacity-100
+                translate-x-[-120%]
 
-                transition
-                duration-700
+                group-hover:translate-x-[120%]
 
-                blur-sm
+                transition-transform
+                duration-1000
               "
             />
             Let’s Work Together
-            <IconArrowUpRight size={16} />
+            <IconArrowUpRight
+              size={16}
+              className="
+                transition-transform
+                duration-300
+
+                group-hover:translate-x-0.5
+                group-hover:-translate-y-0.5
+              "
+            />
           </motion.a>
         </motion.div>
 
@@ -381,10 +479,12 @@ export const Footer = () => {
           >
             <h3
               className="
-                text-lg
-                sm:text-xl
+                text-xl
+                sm:text-2xl
 
-                font-semibold
+                font-black
+
+                tracking-tight
               "
             >
               Payal Yadav
@@ -394,8 +494,7 @@ export const Footer = () => {
               className="
                 mt-2
 
-                text-xs
-                sm:text-sm
+                text-sm
 
                 text-muted-foreground
               "
@@ -405,7 +504,7 @@ export const Footer = () => {
 
             <div
               className="
-                mt-4
+                mt-5
 
                 flex
                 items-center
@@ -418,7 +517,18 @@ export const Footer = () => {
             >
               <span
                 className="
+                  rounded-full
+
+                  border
+                  border-border
+
+                  bg-background/70
+
+                  px-3
+                  py-1.5
+
                   text-[11px]
+
                   text-muted-foreground
                 "
               >
@@ -429,20 +539,23 @@ export const Footer = () => {
                 className="
                   flex
                   items-center
-                  gap-1.5
-
-                  px-3
-                  py-1
+                  gap-2
 
                   rounded-full
 
                   border
-                  border-green-400/30
+                  border-green-500/20
 
-                  bg-green-400/10
-                  text-green-500
+                  bg-green-500/10
+
+                  px-3
+                  py-1.5
 
                   text-[11px]
+                  font-medium
+
+                  text-green-600
+                  dark:text-green-400
                 "
               >
                 <span className="relative flex h-2 w-2">
@@ -452,10 +565,10 @@ export const Footer = () => {
                       inline-flex
                       h-full
                       w-full
-                      rounded-full
-                      bg-green-400
-                      opacity-75
                       animate-ping
+                      rounded-full
+                      bg-green-500
+                      opacity-75
                     "
                   />
 
@@ -476,10 +589,9 @@ export const Footer = () => {
 
             <p
               className="
-                mt-3
+                mt-4
 
-                text-[11px]
-                sm:text-xs
+                text-xs
 
                 text-muted-foreground
               "
@@ -499,11 +611,8 @@ export const Footer = () => {
               justify-center
               flex-wrap
 
-              gap-4
-              sm:gap-6
-
-              text-xs
-              sm:text-sm
+              gap-5
+              sm:gap-7
             "
           >
             {links.map((link) => (
@@ -511,15 +620,17 @@ export const Footer = () => {
                 key={link}
                 href={`#${link.toLowerCase()}`}
                 className="
+                  group
                   relative
 
+                  text-sm
+
                   text-muted-foreground
-                  hover:text-primary
 
                   transition-all
                   duration-300
 
-                  group
+                  hover:text-primary
                 "
               >
                 {link}
@@ -562,6 +673,7 @@ export const Footer = () => {
           >
             {socialIcons.map((item, i) => {
               const Icon = item.icon;
+
               const isActive = activeIndex === i;
 
               return (
@@ -574,23 +686,21 @@ export const Footer = () => {
                   onMouseLeave={() => setActiveIndex(null)}
                   whileHover={{
                     y: -5,
-                    scale: 1.08,
+                    scale: 1.05,
                   }}
                   whileTap={{
-                    scale: 0.95,
+                    scale: 0.96,
                   }}
                   className="relative"
                 >
-                  {/* ====================================================== */}
                   {/* GRADIENT RING */}
-                  {/* ====================================================== */}
 
                   <div
                     className={`
                       absolute
                       inset-0
 
-                      rounded-xl
+                      rounded-2xl
                       p-px
 
                       transition-all
@@ -598,17 +708,15 @@ export const Footer = () => {
 
                       ${
                         isActive
-                          ? "bg-linear-to-tr from-green-400 via-purple-500 to-pink-500 opacity-100"
+                          ? "bg-linear-to-br from-primary via-chart-3 to-chart-2 opacity-100"
                           : "opacity-0"
                       }
                     `}
                   >
-                    <div className="h-full w-full rounded-xl bg-background" />
+                    <div className="h-full w-full rounded-2xl bg-background" />
                   </div>
 
-                  {/* ====================================================== */}
                   {/* ICON BOX */}
-                  {/* ====================================================== */}
 
                   <div
                     className={`
@@ -618,15 +726,13 @@ export const Footer = () => {
                       items-center
                       justify-center
 
-                      w-11
-                      h-11
+                      size-11
+                      sm:size-12
 
-                      sm:w-12
-                      sm:h-12
-
-                      rounded-xl
+                      rounded-2xl
 
                       border
+
                       backdrop-blur-xl
 
                       transition-all
@@ -634,8 +740,8 @@ export const Footer = () => {
 
                       ${
                         isActive
-                          ? "border-primary bg-primary/10"
-                          : "border-border bg-background/50"
+                          ? "border-primary/30 bg-primary/10 shadow-lg"
+                          : "border-border bg-background/70"
                       }
                     `}
                   >
@@ -661,11 +767,11 @@ export const Footer = () => {
 
         <div
           className="
-            mt-12
-            pt-5
+            mt-14
+            pt-6
 
             border-t
-            border-border
+            border-border/70
 
             flex
             flex-col
@@ -676,8 +782,7 @@ export const Footer = () => {
 
             gap-3
 
-            text-[10px]
-            sm:text-xs
+            text-xs
 
             text-muted-foreground
           "
@@ -692,10 +797,10 @@ export const Footer = () => {
               items-center
               gap-1.5
 
-              opacity-70
-              hover:opacity-100
-
               transition-all
+              duration-300
+
+              hover:text-foreground
             "
           >
             Designed & Built with precision

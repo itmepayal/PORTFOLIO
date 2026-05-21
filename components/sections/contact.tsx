@@ -1,10 +1,13 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { Sparkles, Mail, Clock, Send } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import { Container } from "../common/container";
 
 export const Contact = () => {
@@ -13,21 +16,43 @@ export const Contact = () => {
       {/* ====================================================== */}
       {/* BACKGROUND */}
       {/* ====================================================== */}
+
       <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* TOP GLOW */}
+
         <div
           className="
             absolute
             left-1/2
             top-0
 
-            h-112.5
-            w-112.5
+            h-80
+            w-80
 
             -translate-x-1/2
 
             rounded-full
 
-            bg-primary/10
+            bg-primary/12
+
+            blur-3xl
+          "
+        />
+
+        {/* SIDE GLOW */}
+
+        <div
+          className="
+            absolute
+            right-0
+            bottom-0
+
+            h-72
+            w-72
+
+            rounded-full
+
+            bg-accent/20
 
             blur-3xl
           "
@@ -38,9 +63,22 @@ export const Contact = () => {
       {/* MAIN CONTAINER */}
       {/* ====================================================== */}
 
-      <div className="mx-auto px-4 sm:px-6 lg:px-20">
+      <div
+        className="
+          relative
+          z-10
+
+          mx-auto
+
+          px-4
+          sm:px-6
+          md:px-10
+          lg:px-16
+          xl:px-20
+        "
+      >
         {/* ====================================================== */}
-        {/* GRID LAYOUT */}
+        {/* GRID */}
         {/* ====================================================== */}
 
         <div
@@ -58,7 +96,7 @@ export const Contact = () => {
           {/* LEFT CONTENT */}
           {/* ====================================================== */}
 
-          <div className="space-y-7 text-center lg:text-left">
+          <div className="space-y-8 text-center lg:text-left">
             {/* ====================================================== */}
             {/* BADGE */}
             {/* ====================================================== */}
@@ -85,21 +123,35 @@ export const Contact = () => {
                   rounded-full
 
                   border
-                  border-white/10
+                  border-border
 
-                  bg-background/50
+                  bg-background/70
 
                   px-4
-                  py-2
-
-                  text-xs
-                  sm:text-sm
+                  py-2.5
 
                   backdrop-blur-xl
+
+                  shadow-sm
                 "
               >
                 <Sparkles className="size-4 text-primary" />
-                Let’s Connect
+
+                <span
+                  className="
+                    text-[11px]
+                    sm:text-xs
+
+                    font-semibold
+                    uppercase
+
+                    tracking-[0.22em]
+
+                    text-primary
+                  "
+                >
+                  Let&apos;s Connect
+                </span>
               </div>
             </motion.div>
 
@@ -125,30 +177,33 @@ export const Contact = () => {
             >
               <h2
                 className="
-                  text-4xl
-                  sm:text-5xl
-                  lg:text-6xl
+                  text-3xl
+                  sm:text-3xl
+                  md:text-4xl
+                  lg:text-5xl
 
                   font-black
 
-                  leading-none
-                  tracking-[-0.04em]
+                  tracking-[-0.05em]
+                  leading-[0.95]
                 "
               >
                 Have an idea?
-                <br />
                 <span
                   className="
+                    mt-2
+                    block
+
                     bg-linear-to-r
                     from-primary
-                    via-purple-400
-                    to-pink-400
+                    via-chart-3
+                    to-chart-4
 
                     bg-clip-text
                     text-transparent
                   "
                 >
-                  Let’s build it.
+                  Let&apos;s build it.
                 </span>
               </h2>
             </motion.div>
@@ -187,85 +242,145 @@ export const Contact = () => {
                 text-muted-foreground
               "
             >
-              I help turn ideas into scalable digital products. Whether it’s a
-              startup, feature, backend system, or realtime platform — I’m open
-              to collaborating on impactful projects.
+              I help transform ideas into scalable digital products with
+              enterprise-grade backend systems, realtime infrastructure,
+              authentication, caching, APIs, and modern user experiences.
             </motion.p>
 
             {/* ====================================================== */}
-            {/* EMAIL CARD */}
+            {/* CONTACT INFO CARD */}
             {/* ====================================================== */}
 
-            <motion.div
+            <motion.a
+              href="mailto:itme.payalyadav@gmail.com"
               whileHover={{
                 y: -4,
               }}
+              whileTap={{
+                scale: 0.98,
+              }}
               className="
-                group
+    group
+    relative
+    block
 
-                flex
-                items-center
-                gap-4
+    overflow-hidden
 
-                rounded-3xl
+    rounded-3xl
 
-                border
-                border-white/10
+    border
+    border-border
 
-                bg-background/50
+    bg-background/70
 
-                p-5
-                sm:p-6
+    p-5
+    sm:p-6
 
-                backdrop-blur-xl
+    backdrop-blur-2xl
 
-                transition-all
-                duration-300
+    shadow-sm
 
-                hover:border-primary/30
-              "
+    transition-all
+    duration-300
+
+    hover:border-primary/30
+    hover:shadow-xl
+  "
             >
-              {/* ====================================================== */}
-              {/* ICON */}
-              {/* ====================================================== */}
+              {/* GLOW */}
 
               <div
                 className="
-                  flex
-                  size-14
-                  items-center
-                  justify-center
+      absolute
+      right-0
+      top-0
 
-                  rounded-2xl
+      h-32
+      w-32
 
-                  bg-primary/10
-                  text-primary
-                "
-              >
-                <Mail className="size-5" />
-              </div>
+      rounded-full
 
-              {/* ====================================================== */}
-              {/* EMAIL INFO */}
-              {/* ====================================================== */}
+      bg-primary/10
 
-              <div className="text-left">
-                <p className="text-xs text-muted-foreground">Email me</p>
+      blur-3xl
 
-                <p
+      opacity-0
+      transition-opacity
+      duration-500
+
+      group-hover:opacity-100
+    "
+              />
+
+              {/* CONTENT */}
+
+              <div className="relative z-10 flex items-center gap-4">
+                {/* ICON */}
+
+                <div
                   className="
-                    text-sm
-                    sm:text-base
+        flex
+        size-14
+        items-center
+        justify-center
 
-                    font-medium
+        rounded-2xl
 
-                    break-all
-                  "
+        border
+        border-primary/15
+
+        bg-primary/10
+
+        text-primary
+
+        transition-all
+        duration-300
+
+        group-hover:bg-primary/15
+      "
                 >
-                  itme.payalyadav@gmail.com
-                </p>
+                  <Mail className="size-5" />
+                </div>
+
+                {/* INFO */}
+
+                <div className="text-left">
+                  <p
+                    className="
+          text-[11px]
+          sm:text-xs
+
+          uppercase
+          tracking-[0.2em]
+
+          text-muted-foreground
+        "
+                  >
+                    Email Me
+                  </p>
+
+                  <p
+                    className="
+          mt-1
+
+          text-sm
+          sm:text-base
+
+          font-semibold
+
+          break-all
+
+          transition-colors
+          duration-300
+
+          group-hover:text-primary
+        "
+                  >
+                    itme.payalyadav@gmail.com
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </motion.a>
 
             {/* ====================================================== */}
             {/* RESPONSE TIME */}
@@ -292,7 +407,7 @@ export const Contact = () => {
           </div>
 
           {/* ====================================================== */}
-          {/* RIGHT CONTENT */}
+          {/* RIGHT SIDE */}
           {/* ====================================================== */}
 
           <motion.div
@@ -313,7 +428,7 @@ export const Contact = () => {
             className="relative"
           >
             {/* ====================================================== */}
-            {/* CARD GLOW */}
+            {/* OUTER GLOW */}
             {/* ====================================================== */}
 
             <div
@@ -325,15 +440,17 @@ export const Contact = () => {
 
                 bg-linear-to-r
                 from-primary/20
-                to-pink-400/10
+                via-chart-3/10
+                to-chart-4/10
 
                 blur-2xl
+
                 opacity-40
               "
             />
 
             {/* ====================================================== */}
-            {/* CONTACT CARD */}
+            {/* CARD */}
             {/* ====================================================== */}
 
             <Card
@@ -345,80 +462,127 @@ export const Contact = () => {
                 rounded-4xl
 
                 border
-                border-white/10
+                border-border
 
                 bg-background/80
 
                 backdrop-blur-2xl
 
-                shadow-[0_10px_60px_rgba(0,0,0,0.35)]
+                shadow-2xl
               "
             >
-              <CardContent className="p-6 sm:p-8 lg:p-10">
+              {/* TOP BORDER GLOW */}
+
+              <div
+                className="
+                  absolute
+                  inset-x-0
+                  top-0
+
+                  h-px
+
+                  bg-linear-to-r
+                  from-transparent
+                  via-primary/50
+                  to-transparent
+                "
+              />
+
+              <CardContent className="relative z-10 p-6 sm:p-8 lg:p-10">
                 {/* ====================================================== */}
-                {/* FORM HEADER */}
+                {/* HEADER */}
                 {/* ====================================================== */}
 
                 <div className="mb-8">
-                  <h3 className="text-2xl font-bold">Send a message</h3>
+                  <h3
+                    className="
+                      text-2xl
+                      sm:text-3xl
 
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    I typically respond within a few hours
+                      font-black
+                      tracking-tight
+                    "
+                  >
+                    Send a message
+                  </h3>
+
+                  <p
+                    className="
+                      mt-2
+
+                      text-sm
+
+                      text-muted-foreground
+                    "
+                  >
+                    Let&apos;s discuss your next backend or full-stack project.
                   </p>
                 </div>
 
                 {/* ====================================================== */}
-                {/* CONTACT FORM */}
+                {/* FORM */}
                 {/* ====================================================== */}
 
                 <form className="space-y-5">
-                  {/* ====================================================== */}
-                  {/* NAME INPUT */}
-                  {/* ====================================================== */}
+                  {/* NAME */}
 
                   <div className="space-y-2">
-                    <Label>Name</Label>
+                    <Label className="text-sm font-medium">Name</Label>
 
                     <Input
                       placeholder="Your name"
                       className="
                         h-12
-                        rounded-xl
-                        border-white/10
-                        bg-background/50
+
+                        rounded-2xl
+
+                        border-border
+
+                        bg-background/60
+
+                        transition-all
+                        duration-300
+
+                        focus-visible:border-primary/40
+                        focus-visible:ring-primary/20
                       "
                     />
                   </div>
 
-                  {/* ====================================================== */}
-                  {/* EMAIL INPUT */}
-                  {/* ====================================================== */}
+                  {/* EMAIL */}
 
                   <div className="space-y-2">
-                    <Label>Email</Label>
+                    <Label className="text-sm font-medium">Email</Label>
 
                     <Input
                       type="email"
                       placeholder="your@email.com"
                       className="
                         h-12
-                        rounded-xl
-                        border-white/10
-                        bg-background/50
+
+                        rounded-2xl
+
+                        border-border
+
+                        bg-background/60
+
+                        transition-all
+                        duration-300
+
+                        focus-visible:border-primary/40
+                        focus-visible:ring-primary/20
                       "
                     />
                   </div>
 
-                  {/* ====================================================== */}
-                  {/* MESSAGE TEXTAREA */}
-                  {/* ====================================================== */}
+                  {/* MESSAGE */}
 
                   <div className="space-y-2">
-                    <Label>Message</Label>
+                    <Label className="text-sm font-medium">Message</Label>
 
                     <textarea
                       rows={6}
-                      placeholder="Tell me about your idea..."
+                      placeholder="Tell me about your project..."
                       className="
                         w-full
 
@@ -428,9 +592,9 @@ export const Contact = () => {
                         rounded-2xl
 
                         border
-                        border-white/10
+                        border-border
 
-                        bg-background/50
+                        bg-background/60
 
                         px-4
                         py-4
@@ -438,17 +602,16 @@ export const Contact = () => {
                         text-sm
 
                         transition-all
+                        duration-300
 
                         focus:border-primary/40
-                        focus:ring-2
-                        focus:ring-primary/20
+                        focus:ring-4
+                        focus:ring-primary/10
                       "
                     />
                   </div>
 
-                  {/* ====================================================== */}
-                  {/* SUBMIT BUTTON */}
-                  {/* ====================================================== */}
+                  {/* BUTTON */}
 
                   <Button
                     className="
@@ -457,10 +620,18 @@ export const Contact = () => {
                       h-12
                       w-full
 
-                      rounded-xl
+                      rounded-2xl
 
                       text-sm
-                      font-medium
+                      font-semibold
+
+                      shadow-lg
+                      shadow-primary/20
+
+                      transition-all
+                      duration-300
+
+                      hover:shadow-primary/30
                     "
                   >
                     Send Message
