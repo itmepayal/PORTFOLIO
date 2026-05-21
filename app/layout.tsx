@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
 import { Poppins, Inter, Geist_Mono, Geist } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 import CustomCursor from "@/components/common/custom-cursor";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -48,15 +49,22 @@ export default function RootLayout({
         geistMono.variable,
         "font-sans",
         geist.variable,
-        "dark",
       )}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>
-          <CustomCursor />
-          {children}
-          <Toaster />
-        </TooltipProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>
+            <CustomCursor />
+            {children}
+            <Toaster />
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

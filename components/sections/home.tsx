@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { HiArrowRight, HiOutlineMail } from "react-icons/hi";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
+import { ModeToggle } from "../common/theme-button";
 
 export const Home = () => {
   return (
@@ -60,7 +61,6 @@ export const Home = () => {
           relative
           z-10
           w-full
-          max-w-7xl
           mx-auto
           px-5
           sm:px-8
@@ -148,6 +148,35 @@ export const Home = () => {
               />
             </div>
           </motion.div>
+
+          {/* ====================================================== */}
+          {/* THEME TOGGLE */}
+          {/* ====================================================== */}
+
+          <div
+            className="
+    absolute
+    top-5
+    right-5
+    sm:top-8
+    sm:right-8
+    z-20
+  "
+          >
+            <div
+              className="
+      rounded-2xl
+      border
+      border-border/50
+      bg-background/70
+      backdrop-blur-xl
+      shadow-lg
+      p-1
+    "
+            >
+              <ModeToggle />
+            </div>
+          </div>
 
           {/* ====================================================== */}
           {/* NAME */}
