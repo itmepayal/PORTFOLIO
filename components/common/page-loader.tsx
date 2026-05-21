@@ -1,21 +1,53 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+/* ====================================================================== */
+/* IMPORTS */
+/* ====================================================================== */
+
+import { AnimatePresence, motion } from "framer-motion";
+
+import { Code2, Database, Globe, ShieldCheck } from "lucide-react";
 
 /* ====================================================================== */
-/* PAGE LOADER */
+/* TYPES */
 /* ====================================================================== */
 
 interface PageLoaderProps {
   loading: boolean;
 }
 
+/* ====================================================================== */
+/* CONSTANTS */
+/* ====================================================================== */
+
 const title = "PAYAL YADAV";
 
 const role = "BACKEND ENGINEER";
 
+const technologies = [
+  {
+    icon: Code2,
+    label: "API",
+  },
+
+  {
+    icon: Database,
+    label: "DATABASE",
+  },
+
+  {
+    icon: Globe,
+    label: "REALTIME",
+  },
+
+  {
+    icon: ShieldCheck,
+    label: "SECURITY",
+  },
+];
+
 /* ====================================================================== */
-/* COMPONENT */
+/* PAGE LOADER */
 /* ====================================================================== */
 
 export const PageLoader = ({ loading }: PageLoaderProps) => {
@@ -28,9 +60,10 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
           }}
           exit={{
             opacity: 0,
+            scale: 1.02,
           }}
           transition={{
-            duration: 0.8,
+            duration: 0.9,
             ease: "easeInOut",
           }}
           className="
@@ -65,12 +98,30 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
           />
 
           {/* ====================================================== */}
-          {/* GLOW ORBS */}
+          {/* TOP GRADIENT */}
+          {/* ====================================================== */}
+
+          <div
+            className="
+              absolute
+              inset-x-0
+              top-0
+
+              h-72
+
+              bg-linear-to-b
+              from-primary/10
+              to-transparent
+            "
+          />
+
+          {/* ====================================================== */}
+          {/* FLOATING ORBS */}
           {/* ====================================================== */}
 
           <motion.div
             animate={{
-              scale: [1, 1.15, 1],
+              scale: [1, 1.2, 1],
               opacity: [0.2, 0.45, 0.2],
             }}
             transition={{
@@ -80,8 +131,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             className="
               absolute
 
-              w-125
-              h-125
+              h-105
+              w-105
 
               rounded-full
 
@@ -93,24 +144,51 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
           <motion.div
             animate={{
-              scale: [1.1, 1.3, 1.1],
-              opacity: [0.15, 0.35, 0.15],
+              x: [0, 30, 0],
+              y: [0, -20, 0],
             }}
             transition={{
-              duration: 7,
+              duration: 10,
               repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="
+              absolute
+              right-0
+              top-1/3
+
+              h-80
+              w-80
+
+              rounded-full
+
+              bg-violet-500/10
+
+              blur-[120px]
+            "
+          />
+
+          <motion.div
+            animate={{
+              x: [0, -40, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut",
             }}
             className="
               absolute
               bottom-0
-              right-0
+              left-0
 
-              w-[320px]
               h-80
+              w-80
 
               rounded-full
 
-              bg-chart-3/20
+              bg-cyan-500/10
 
               blur-[120px]
             "
@@ -131,7 +209,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             "
           >
             {/* ====================================================== */}
-            {/* TOP LABEL */}
+            {/* TOP BADGE */}
             {/* ====================================================== */}
 
             <motion.div
@@ -152,16 +230,14 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 rounded-full
 
                 border
-                border-border
+                border-white/10
 
-                bg-card/60
+                bg-background/50
 
                 px-5
-                py-2
+                py-2.5
 
                 backdrop-blur-xl
-
-                shadow-lg
               "
             >
               <p
@@ -171,40 +247,41 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                   uppercase
 
-                  tracking-[0.35em]
+                  tracking-[0.4em]
 
                   text-muted-foreground
                 "
               >
-                Portfolio Initializing
+                Initializing Portfolio
               </p>
             </motion.div>
 
             {/* ====================================================== */}
-            {/* LOGO AREA */}
+            {/* CENTER SYSTEM */}
             {/* ====================================================== */}
 
             <div className="relative flex items-center justify-center">
-              {/* OUTER RING */}
+              {/* OUTER SPIN */}
 
               <motion.div
                 animate={{
                   rotate: 360,
                 }}
                 transition={{
-                  duration: 14,
+                  duration: 18,
                   repeat: Infinity,
                   ease: "linear",
                 }}
                 className="
                   absolute
 
-                  size-44
+                  size-80
 
                   rounded-full
 
                   border
-                  border-primary/20
+                  border-dashed
+                  border-primary/10
                 "
               />
 
@@ -215,51 +292,100 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rotate: -360,
                 }}
                 transition={{
-                  duration: 10,
+                  duration: 12,
                   repeat: Infinity,
                   ease: "linear",
                 }}
                 className="
                   absolute
 
-                  size-34
+                  size-60
 
                   rounded-full
 
-                  border-2
-                  border-dashed
-                  border-primary/30
+                  border
+                  border-primary/20
                 "
               />
 
-              {/* INNER PULSE */}
+              {/* INNER RING */}
 
               <motion.div
                 animate={{
-                  scale: [1, 1.08, 1],
+                  scale: [1, 1.05, 1],
                 }}
                 transition={{
-                  duration: 2.5,
+                  duration: 3,
                   repeat: Infinity,
                 }}
                 className="
                   absolute
 
-                  size-24
+                  size-40
 
                   rounded-full
 
                   bg-primary/10
 
-                  blur-2xl
+                  blur-3xl
                 "
               />
+
+              {/* FLOATING TECH ICONS */}
+
+              {technologies.map((item, index) => {
+                const Icon = item.icon;
+
+                const positions = [
+                  "top-0 left-1/2 -translate-x-1/2",
+                  "right-0 top-1/2 -translate-y-1/2",
+                  "bottom-0 left-1/2 -translate-x-1/2",
+                  "left-0 top-1/2 -translate-y-1/2",
+                ];
+
+                return (
+                  <motion.div
+                    key={item.label}
+                    animate={{
+                      y: [0, -10, 0],
+                    }}
+                    transition={{
+                      duration: 2 + index,
+                      repeat: Infinity,
+                    }}
+                    className={`
+                      absolute
+                      ${positions[index]}
+                    `}
+                  >
+                    <div
+                      className="
+                        flex
+                        size-14
+                        items-center
+                        justify-center
+
+                        rounded-2xl
+
+                        border
+                        border-white/10
+
+                        bg-background/60
+
+                        backdrop-blur-xl
+                      "
+                    >
+                      <Icon className="size-5 text-primary" />
+                    </div>
+                  </motion.div>
+                );
+              })}
 
               {/* CENTER CARD */}
 
               <motion.div
                 animate={{
-                  y: [0, -6, 0],
+                  y: [0, -10, 0],
                 }}
                 transition={{
                   duration: 4,
@@ -270,33 +396,51 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   relative
 
                   flex
+                  flex-col
                   items-center
                   justify-center
 
-                  size-28
+                  size-52
 
                   rounded-4xl
 
                   border
-                  border-border
+                  border-white/10
 
-                  bg-card/70
+                  bg-background/60
 
                   backdrop-blur-2xl
 
-                  shadow-2xl
+                  shadow-[0_20px_80px_rgba(0,0,0,0.5)]
                 "
               >
+                {/* INNER GLOW */}
+
+                <div
+                  className="
+                    absolute
+                    inset-4
+
+                    rounded-3xl
+
+                    border
+                    border-primary/10
+                  "
+                />
+
+                {/* LOGO */}
+
                 <motion.span
                   animate={{
-                    opacity: [0.6, 1, 0.6],
+                    opacity: [0.5, 1, 0.5],
+                    scale: [1, 1.05, 1],
                   }}
                   transition={{
-                    duration: 1.8,
+                    duration: 2,
                     repeat: Infinity,
                   }}
                   className="
-                    text-4xl
+                    text-6xl
 
                     font-black
 
@@ -304,7 +448,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                     bg-linear-to-r
                     from-primary
-                    to-chart-3
+                    via-violet-400
+                    to-cyan-400
 
                     bg-clip-text
                     text-transparent
@@ -312,6 +457,24 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 >
                   PY
                 </motion.span>
+
+                {/* STATUS */}
+
+                <p
+                  className="
+                    mt-4
+
+                    text-[10px]
+
+                    uppercase
+
+                    tracking-[0.35em]
+
+                    text-muted-foreground
+                  "
+                >
+                  SYSTEM ONLINE
+                </p>
               </motion.div>
             </div>
 
@@ -319,7 +482,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             {/* NAME */}
             {/* ====================================================== */}
 
-            <div className="mt-14 flex overflow-hidden">
+            <div className="mt-16 flex overflow-hidden">
               {title.split("").map((char, index) => (
                 <motion.span
                   key={index}
@@ -336,9 +499,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                     duration: 0.5,
                   }}
                   className="
-                    text-2xl
-                    sm:text-3xl
-                    md:text-5xl
+                    text-3xl
+                    sm:text-5xl
+                    md:text-6xl
 
                     font-black
 
@@ -366,7 +529,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 y: 0,
               }}
               transition={{
-                delay: 0.9,
+                delay: 0.8,
               }}
               className="
                 mt-5
@@ -376,7 +539,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                 uppercase
 
-                tracking-[0.45em]
+                tracking-[0.5em]
 
                 text-muted-foreground
               "
@@ -385,86 +548,117 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             </motion.p>
 
             {/* ====================================================== */}
-            {/* LOADING BAR */}
+            {/* ADVANCED LOADING BAR */}
             {/* ====================================================== */}
 
-            <div
-              className="
-                relative
-
-                mt-12
-
-                h-1.5
-                w-72
-                sm:w-96
-
-                overflow-hidden
-
-                rounded-full
-
-                bg-muted
-              "
-            >
-              {/* TRACK GLOW */}
+            <div className="mt-12 w-80 sm:w-105">
+              {/* TOP LABEL */}
 
               <div
                 className="
-                  absolute
-                  inset-0
+                  mb-3
 
-                  bg-linear-to-r
-                  from-transparent
-                  via-primary/10
-                  to-transparent
+                  flex
+                  items-center
+                  justify-between
                 "
-              />
+              >
+                <span
+                  className="
+                    text-[10px]
 
-              {/* ACTIVE BAR */}
+                    uppercase
 
-              <motion.div
-                initial={{
-                  x: "-100%",
-                }}
-                animate={{
-                  x: "100%",
-                }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                    tracking-[0.3em]
+
+                    text-muted-foreground
+                  "
+                >
+                  Loading Assets
+                </span>
+
+                <motion.span
+                  animate={{
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                  className="
+                    text-[10px]
+
+                    uppercase
+
+                    tracking-[0.3em]
+
+                    text-primary
+                  "
+                >
+                  Processing
+                </motion.span>
+              </div>
+
+              {/* BAR */}
+
+              <div
                 className="
-                  absolute
-                  inset-y-0
+                  relative
 
-                  w-1/2
+                  h-2
+
+                  overflow-hidden
 
                   rounded-full
 
-                  bg-linear-to-r
-                  from-primary
-                  via-chart-3
-                  to-primary
-
-                  shadow-[0_0_30px_hsl(var(--primary)/0.8)]
+                  bg-white/5
                 "
-              />
+              >
+                <motion.div
+                  initial={{
+                    x: "-100%",
+                  }}
+                  animate={{
+                    x: "100%",
+                  }}
+                  transition={{
+                    duration: 1.8,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="
+                    absolute
+                    inset-y-0
+
+                    w-1/2
+
+                    rounded-full
+
+                    bg-linear-to-r
+                    from-primary
+                    via-violet-400
+                    to-cyan-400
+
+                    shadow-[0_0_30px_rgba(139,92,246,0.8)]
+                  "
+                />
+              </div>
             </div>
 
             {/* ====================================================== */}
-            {/* STATUS */}
+            {/* BOTTOM STATUS */}
             {/* ====================================================== */}
 
             <motion.div
               animate={{
-                opacity: [0.4, 1, 0.4],
+                opacity: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: 1.8,
+                duration: 2,
                 repeat: Infinity,
               }}
               className="
-                mt-7
+                mt-8
 
                 flex
                 items-center
@@ -475,22 +669,14 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 text-muted-foreground
               "
             >
-              <div
-                className="
-                  relative
-
-                  flex
-                  items-center
-                  justify-center
-                "
-              >
+              <div className="relative flex items-center justify-center">
                 <div
                   className="
                     size-2
 
                     rounded-full
 
-                    bg-primary
+                    bg-emerald-400
                   "
                 />
 
@@ -498,18 +684,18 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   className="
                     absolute
 
-                    size-4
+                    size-5
 
                     rounded-full
 
                     border
-                    border-primary/40
+                    border-emerald-400/40
 
                     animate-ping
                   "
                 />
               </div>
-              Initializing Production Systems...
+              Initializing Production Infrastructure...
             </motion.div>
           </div>
         </motion.div>
