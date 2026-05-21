@@ -315,8 +315,15 @@ export const Home = () => {
                 hover:scale-105
               "
             >
-              Resume
-              <HiArrowRight className="ml-2 size-4" />
+              <a
+                href="/pdf/PAYAL_YADAV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center"
+              >
+                Resume
+                <HiArrowRight className="ml-2 size-4" />
+              </a>
             </Button>
 
             <Button

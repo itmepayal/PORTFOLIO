@@ -1,6 +1,5 @@
 export async function GET(req) {
   const username = "Payal_Leet_Code";
-
   const query = `
     query getUserProfile($username: String!) {
       matchedUser(username: $username) {
