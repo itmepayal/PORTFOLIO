@@ -44,7 +44,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             items-center
             justify-center
 
-            bg-[#050505]
+            bg-background
           "
         >
           {/* ====================================================== */}
@@ -55,23 +55,26 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             className="
               absolute
               inset-0
-              opacity-[0.035]
-              bg-[linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)]
+
+              opacity-[0.04]
+
+              bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)]
+
               bg-size-[70px_70px]
             "
           />
 
           {/* ====================================================== */}
-          {/* GLOW */}
+          {/* GLOW ORBS */}
           {/* ====================================================== */}
 
           <motion.div
             animate={{
               scale: [1, 1.15, 1],
-              opacity: [0.25, 0.5, 0.25],
+              opacity: [0.2, 0.45, 0.2],
             }}
             transition={{
-              duration: 5,
+              duration: 6,
               repeat: Infinity,
             }}
             className="
@@ -85,6 +88,31 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               bg-primary/20
 
               blur-[140px]
+            "
+          />
+
+          <motion.div
+            animate={{
+              scale: [1.1, 1.3, 1.1],
+              opacity: [0.15, 0.35, 0.15],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+            }}
+            className="
+              absolute
+              bottom-0
+              right-0
+
+              w-[320px]
+              h-80
+
+              rounded-full
+
+              bg-chart-3/20
+
+              blur-[120px]
             "
           />
 
@@ -124,14 +152,16 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 rounded-full
 
                 border
-                border-white/10
+                border-border
 
-                bg-white/3
+                bg-card/60
 
                 px-5
                 py-2
 
                 backdrop-blur-xl
+
+                shadow-lg
               "
             >
               <p
@@ -151,7 +181,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             </motion.div>
 
             {/* ====================================================== */}
-            {/* LOGO */}
+            {/* LOGO AREA */}
             {/* ====================================================== */}
 
             <div className="relative flex items-center justify-center">
@@ -162,7 +192,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rotate: 360,
                 }}
                 transition={{
-                  duration: 12,
+                  duration: 14,
                   repeat: Infinity,
                   ease: "linear",
                 }}
@@ -174,7 +204,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rounded-full
 
                   border
-                  border-primary/15
+                  border-primary/20
                 "
               />
 
@@ -185,7 +215,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rotate: -360,
                 }}
                 transition={{
-                  duration: 8,
+                  duration: 10,
                   repeat: Infinity,
                   ease: "linear",
                 }}
@@ -196,21 +226,45 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                   rounded-full
 
-                  border
+                  border-2
                   border-dashed
                   border-primary/30
                 "
               />
 
-              {/* CENTER */}
+              {/* INNER PULSE */}
 
               <motion.div
                 animate={{
-                  scale: [1, 1.05, 1],
+                  scale: [1, 1.08, 1],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
+                }}
+                className="
+                  absolute
+
+                  size-24
+
+                  rounded-full
+
+                  bg-primary/10
+
+                  blur-2xl
+                "
+              />
+
+              {/* CENTER CARD */}
+
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
                 }}
                 className="
                   relative
@@ -224,13 +278,13 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   rounded-4xl
 
                   border
-                  border-white/10
+                  border-border
 
-                  bg-white/4
+                  bg-card/70
 
                   backdrop-blur-2xl
 
-                  shadow-[0_0_60px_rgba(120,119,255,0.25)]
+                  shadow-2xl
                 "
               >
                 <motion.span
@@ -250,7 +304,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                     bg-linear-to-r
                     from-primary
-                    to-violet-400
+                    to-chart-3
 
                     bg-clip-text
                     text-transparent
@@ -278,19 +332,19 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                     y: 0,
                   }}
                   transition={{
-                    delay: index * 0.04,
+                    delay: index * 0.05,
                     duration: 0.5,
                   }}
                   className="
                     text-2xl
                     sm:text-3xl
-                    md:text-4xl
+                    md:text-5xl
 
                     font-black
 
                     tracking-[0.18em]
 
-                    text-white
+                    text-foreground
                   "
                 >
                   {char === " " ? "\u00A0" : char}
@@ -312,7 +366,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 y: 0,
               }}
               transition={{
-                delay: 0.8,
+                delay: 0.9,
               }}
               className="
                 mt-5
@@ -331,7 +385,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             </motion.p>
 
             {/* ====================================================== */}
-            {/* LOADING LINE */}
+            {/* LOADING BAR */}
             {/* ====================================================== */}
 
             <div
@@ -340,7 +394,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                 mt-12
 
-                h-0.5
+                h-1.5
                 w-72
                 sm:w-96
 
@@ -348,9 +402,25 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                 rounded-full
 
-                bg-white/10
+                bg-muted
               "
             >
+              {/* TRACK GLOW */}
+
+              <div
+                className="
+                  absolute
+                  inset-0
+
+                  bg-linear-to-r
+                  from-transparent
+                  via-primary/10
+                  to-transparent
+                "
+              />
+
+              {/* ACTIVE BAR */}
+
               <motion.div
                 initial={{
                   x: "-100%",
@@ -359,7 +429,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   x: "100%",
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 1.6,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
@@ -373,10 +443,10 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
 
                   bg-linear-to-r
                   from-primary
-                  via-violet-400
+                  via-chart-3
                   to-primary
 
-                  shadow-[0_0_30px_rgba(120,119,255,0.9)]
+                  shadow-[0_0_30px_hsl(var(--primary)/0.8)]
                 "
               />
             </div>
@@ -390,11 +460,11 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 opacity: [0.4, 1, 0.4],
               }}
               transition={{
-                duration: 1.6,
+                duration: 1.8,
                 repeat: Infinity,
               }}
               className="
-                mt-6
+                mt-7
 
                 flex
                 items-center
@@ -407,15 +477,38 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             >
               <div
                 className="
-                  size-2
+                  relative
 
-                  rounded-full
-
-                  bg-primary
-
-                  shadow-[0_0_20px_rgba(120,119,255,1)]
+                  flex
+                  items-center
+                  justify-center
                 "
-              />
+              >
+                <div
+                  className="
+                    size-2
+
+                    rounded-full
+
+                    bg-primary
+                  "
+                />
+
+                <div
+                  className="
+                    absolute
+
+                    size-4
+
+                    rounded-full
+
+                    border
+                    border-primary/40
+
+                    animate-ping
+                  "
+                />
+              </div>
               Initializing Production Systems...
             </motion.div>
           </div>
