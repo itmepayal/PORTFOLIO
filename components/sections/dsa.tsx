@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Container } from "../common/container";
 
 /* ====================================================================== */
 /* DSA */
@@ -31,12 +32,7 @@ const dsaCards = [
 
 export const DSA = () => {
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-      "
-    >
+    <Container>
       {/* ====================================================== */}
       {/* CONTAINER */}
       {/* ====================================================== */}
@@ -364,6 +360,6 @@ export const DSA = () => {
           </div>
         </motion.div>
       </div>
-    </section>
+    </Container>
   );
 };

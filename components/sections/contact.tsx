@@ -1,51 +1,67 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { Sparkles, Mail, Clock, Send } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Container } from "../common/container";
 
 export const Contact = () => {
   return (
-    <section className="relative overflow-hidden pt-24 sm:pt-28">
+    <Container>
+      {/* ====================================================== */}
       {/* BACKGROUND */}
+      {/* ====================================================== */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div
           className="
             absolute
             left-1/2
             top-0
+
             h-112.5
             w-112.5
+
             -translate-x-1/2
+
             rounded-full
+
             bg-primary/10
+
             blur-3xl
           "
         />
       </div>
 
-      {/* CONTAINER */}
+      {/* ====================================================== */}
+      {/* MAIN CONTAINER */}
+      {/* ====================================================== */}
 
       <div className="mx-auto px-4 sm:px-6 lg:px-20">
+        {/* ====================================================== */}
+        {/* GRID LAYOUT */}
+        {/* ====================================================== */}
+
         <div
           className="
             grid
+            items-center
+
             gap-14
+
             lg:grid-cols-2
             lg:gap-16
-            items-center
           "
         >
           {/* ====================================================== */}
-          {/* LEFT */}
+          {/* LEFT CONTENT */}
           {/* ====================================================== */}
 
           <div className="space-y-7 text-center lg:text-left">
+            {/* ====================================================== */}
             {/* BADGE */}
+            {/* ====================================================== */}
 
             <motion.div
               initial={{
@@ -87,7 +103,9 @@ export const Contact = () => {
               </div>
             </motion.div>
 
+            {/* ====================================================== */}
             {/* TITLE */}
+            {/* ====================================================== */}
 
             <motion.div
               initial={{
@@ -135,7 +153,9 @@ export const Contact = () => {
               </h2>
             </motion.div>
 
+            {/* ====================================================== */}
             {/* DESCRIPTION */}
+            {/* ====================================================== */}
 
             <motion.p
               initial={{
@@ -172,7 +192,9 @@ export const Contact = () => {
               to collaborating on impactful projects.
             </motion.p>
 
+            {/* ====================================================== */}
             {/* EMAIL CARD */}
+            {/* ====================================================== */}
 
             <motion.div
               whileHover={{
@@ -203,6 +225,10 @@ export const Contact = () => {
                 hover:border-primary/30
               "
             >
+              {/* ====================================================== */}
+              {/* ICON */}
+              {/* ====================================================== */}
+
               <div
                 className="
                   flex
@@ -218,6 +244,10 @@ export const Contact = () => {
               >
                 <Mail className="size-5" />
               </div>
+
+              {/* ====================================================== */}
+              {/* EMAIL INFO */}
+              {/* ====================================================== */}
 
               <div className="text-left">
                 <p className="text-xs text-muted-foreground">Email me</p>
@@ -237,7 +267,9 @@ export const Contact = () => {
               </div>
             </motion.div>
 
+            {/* ====================================================== */}
             {/* RESPONSE TIME */}
+            {/* ====================================================== */}
 
             <div
               className="
@@ -260,7 +292,7 @@ export const Contact = () => {
           </div>
 
           {/* ====================================================== */}
-          {/* RIGHT */}
+          {/* RIGHT CONTENT */}
           {/* ====================================================== */}
 
           <motion.div
@@ -280,7 +312,9 @@ export const Contact = () => {
             }}
             className="relative"
           >
-            {/* GLOW */}
+            {/* ====================================================== */}
+            {/* CARD GLOW */}
+            {/* ====================================================== */}
 
             <div
               className="
@@ -298,7 +332,9 @@ export const Contact = () => {
               "
             />
 
-            {/* CARD */}
+            {/* ====================================================== */}
+            {/* CONTACT CARD */}
+            {/* ====================================================== */}
 
             <Card
               className="
@@ -319,7 +355,9 @@ export const Contact = () => {
               "
             >
               <CardContent className="p-6 sm:p-8 lg:p-10">
-                {/* HEADER */}
+                {/* ====================================================== */}
+                {/* FORM HEADER */}
+                {/* ====================================================== */}
 
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold">Send a message</h3>
@@ -329,10 +367,14 @@ export const Contact = () => {
                   </p>
                 </div>
 
-                {/* FORM */}
+                {/* ====================================================== */}
+                {/* CONTACT FORM */}
+                {/* ====================================================== */}
 
                 <form className="space-y-5">
-                  {/* NAME */}
+                  {/* ====================================================== */}
+                  {/* NAME INPUT */}
+                  {/* ====================================================== */}
 
                   <div className="space-y-2">
                     <Label>Name</Label>
@@ -348,7 +390,9 @@ export const Contact = () => {
                     />
                   </div>
 
-                  {/* EMAIL */}
+                  {/* ====================================================== */}
+                  {/* EMAIL INPUT */}
+                  {/* ====================================================== */}
 
                   <div className="space-y-2">
                     <Label>Email</Label>
@@ -365,7 +409,9 @@ export const Contact = () => {
                     />
                   </div>
 
-                  {/* MESSAGE */}
+                  {/* ====================================================== */}
+                  {/* MESSAGE TEXTAREA */}
+                  {/* ====================================================== */}
 
                   <div className="space-y-2">
                     <Label>Message</Label>
@@ -375,6 +421,9 @@ export const Contact = () => {
                       placeholder="Tell me about your idea..."
                       className="
                         w-full
+
+                        resize-none
+                        outline-none
 
                         rounded-2xl
 
@@ -388,9 +437,6 @@ export const Contact = () => {
 
                         text-sm
 
-                        outline-none
-                        resize-none
-
                         transition-all
 
                         focus:border-primary/40
@@ -400,7 +446,9 @@ export const Contact = () => {
                     />
                   </div>
 
-                  {/* BUTTON */}
+                  {/* ====================================================== */}
+                  {/* SUBMIT BUTTON */}
+                  {/* ====================================================== */}
 
                   <Button
                     className="
@@ -434,6 +482,6 @@ export const Contact = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </Container>
   );
 };

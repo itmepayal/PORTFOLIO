@@ -1,0 +1,20 @@
+import { ReactNode } from "react";
+
+interface ContainerProps {
+  children: ReactNode;
+}
+
+export const Container = ({ children }: ContainerProps) => {
+  return (
+    <section
+      className="
+        relative
+        overflow-hidden
+        py-24
+        sm:py-28
+      "
+    >
+      {children}
+    </section>
+  );
+};

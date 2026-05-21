@@ -1,7 +1,6 @@
-"use client";
-
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Container } from "../common/container";
 import { BriefcaseBusiness, CalendarDays } from "lucide-react";
 
 /* ====================================================================== */
@@ -22,18 +21,15 @@ const experiences = [
 ];
 
 /* ====================================================================== */
-/* COMPONENT */
+/* EXPERIENCE COMPONENT */
 /* ====================================================================== */
 
 export const Experience = () => {
   return (
-    <section
-      className="relative
-        overflow-hidden
-        pt-24
-        sm:pt-28"
-    >
-      {/* BACKGROUND */}
+    <Container>
+      {/* ====================================================== */}
+      {/* BACKGROUND GLOW */}
+      {/* ====================================================== */}
 
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div
@@ -49,22 +45,38 @@ export const Experience = () => {
         />
       </div>
 
-      {/* CONTAINER */}
+      {/* ====================================================== */}
+      {/* MAIN CONTAINER */}
+      {/* ====================================================== */}
 
       <div className="mx-auto px-4 sm:px-6 lg:px-20">
+        {/* ====================================================== */}
         {/* HEADER */}
+        {/* ====================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
           className="
             flex flex-col gap-10
             lg:flex-row lg:items-end lg:justify-between
           "
         >
-          {/* LEFT */}
+          {/* ====================================================== */}
+          {/* LEFT CONTENT */}
+          {/* ====================================================== */}
 
           <div className="max-w-3xl">
             <p
@@ -110,14 +122,18 @@ export const Experience = () => {
             </p>
           </div>
 
-          {/* RIGHT */}
+          {/* ====================================================== */}
+          {/* EXPERIENCE STATS */}
+          {/* ====================================================== */}
 
           <motion.div
-            whileHover={{ y: -4 }}
+            whileHover={{
+              y: -4,
+            }}
             className="
               flex w-full items-center gap-4
-              rounded-3xl border 
-               px-5 py-5
+              rounded-3xl border
+              px-5 py-5
               backdrop-blur-xl
               sm:w-fit sm:px-6
             "
@@ -139,10 +155,14 @@ export const Experience = () => {
           </motion.div>
         </motion.div>
 
+        {/* ====================================================== */}
         {/* EXPERIENCE LIST */}
+        {/* ====================================================== */}
 
         <div className="relative mt-16 sm:mt-20">
-          {/* TIMELINE */}
+          {/* ====================================================== */}
+          {/* TIMELINE LINE */}
+          {/* ====================================================== */}
 
           <div
             className="
@@ -151,19 +171,33 @@ export const Experience = () => {
             "
           />
 
+          {/* ====================================================== */}
+          {/* EXPERIENCE CARDS */}
+          {/* ====================================================== */}
+
           {experiences.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              initial={{
+                opacity: 0,
+                y: 35,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
               transition={{
                 duration: 0.5,
                 delay: i * 0.1,
               }}
               className="relative md:pl-16 lg:pl-20"
             >
+              {/* ====================================================== */}
               {/* TIMELINE ICON */}
+              {/* ====================================================== */}
 
               <div
                 className="
@@ -176,10 +210,14 @@ export const Experience = () => {
                 <BriefcaseBusiness className="size-5 text-primary" />
               </div>
 
-              {/* CARD */}
+              {/* ====================================================== */}
+              {/* EXPERIENCE CARD */}
+              {/* ====================================================== */}
 
               <motion.div
-                whileHover={{ y: -5 }}
+                whileHover={{
+                  y: -5,
+                }}
                 className="
                   group relative overflow-hidden
                   rounded-3xl border
@@ -190,7 +228,9 @@ export const Experience = () => {
                   hover:shadow-[0_10px_50px_rgba(120,119,255,0.15)]
                 "
               >
-                {/* GLOW */}
+                {/* ====================================================== */}
+                {/* CARD GLOW */}
+                {/* ====================================================== */}
 
                 <div
                   className="
@@ -203,10 +243,14 @@ export const Experience = () => {
                   "
                 />
 
-                {/* CONTENT */}
+                {/* ====================================================== */}
+                {/* CARD CONTENT */}
+                {/* ====================================================== */}
 
                 <div className="relative z-10 p-5 sm:p-7 lg:p-10">
-                  {/* TOP */}
+                  {/* ====================================================== */}
+                  {/* TOP SECTION */}
+                  {/* ====================================================== */}
 
                   <div
                     className="
@@ -215,10 +259,14 @@ export const Experience = () => {
                       lg:justify-between
                     "
                   >
-                    {/* LEFT */}
+                    {/* ====================================================== */}
+                    {/* LEFT INFO */}
+                    {/* ====================================================== */}
 
                     <div className="flex items-start gap-4 sm:gap-5">
-                      {/* LOGO */}
+                      {/* ====================================================== */}
+                      {/* COMPANY LOGO */}
+                      {/* ====================================================== */}
 
                       <div
                         className="
@@ -238,10 +286,14 @@ export const Experience = () => {
                         />
                       </div>
 
-                      {/* INFO */}
+                      {/* ====================================================== */}
+                      {/* ROLE INFO */}
+                      {/* ====================================================== */}
 
                       <div className="min-w-0">
-                        {/* TYPE */}
+                        {/* ====================================================== */}
+                        {/* TYPE BADGE */}
+                        {/* ====================================================== */}
 
                         <div
                           className="
@@ -265,7 +317,9 @@ export const Experience = () => {
                           </span>
                         </div>
 
-                        {/* ROLE */}
+                        {/* ====================================================== */}
+                        {/* ROLE TITLE */}
+                        {/* ====================================================== */}
 
                         <h3
                           className="
@@ -278,7 +332,9 @@ export const Experience = () => {
                           {item.role}
                         </h3>
 
-                        {/* COMPANY */}
+                        {/* ====================================================== */}
+                        {/* COMPANY NAME */}
+                        {/* ====================================================== */}
 
                         <p
                           className="
@@ -292,7 +348,9 @@ export const Experience = () => {
                       </div>
                     </div>
 
+                    {/* ====================================================== */}
                     {/* DURATION */}
+                    {/* ====================================================== */}
 
                     <div
                       className="
@@ -315,7 +373,9 @@ export const Experience = () => {
                     </div>
                   </div>
 
+                  {/* ====================================================== */}
                   {/* DESCRIPTION */}
+                  {/* ====================================================== */}
 
                   <p
                     className="
@@ -328,13 +388,17 @@ export const Experience = () => {
                     {item.description}
                   </p>
 
+                  {/* ====================================================== */}
                   {/* TECH STACK */}
+                  {/* ====================================================== */}
 
                   <div className="mt-8 flex flex-wrap gap-3">
                     {item.tech.map((tech, idx) => (
                       <motion.div
                         key={idx}
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{
+                          scale: 1.05,
+                        }}
                         className="
                           rounded-2xl border border-white/10
                           bg-background/40
@@ -356,6 +420,6 @@ export const Experience = () => {
           ))}
         </div>
       </div>
-    </section>
+    </Container>
   );
 };

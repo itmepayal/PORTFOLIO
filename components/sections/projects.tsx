@@ -1,10 +1,10 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { HiArrowRight } from "react-icons/hi";
+import { Button } from "@/components/ui/button";
+import { Container } from "../common/container";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaNodeJs, FaReact, FaGithub } from "react-icons/fa6";
 import { SiNextdotjs, SiMongodb, SiPostgresql } from "react-icons/si";
-import { Button } from "@/components/ui/button";
 
 /* ====================================================================== */
 /* PROJECTS */
@@ -124,22 +124,144 @@ const projects = [
     github: "#",
     live: "#",
   },
+
+  {
+    title: "CloudSync API",
+
+    description:
+      "Enterprise cloud file management backend with chunk uploads, storage optimization, RBAC, secure file sharing, and audit logging.",
+
+    tech: [
+      {
+        name: "Node.js",
+        icon: FaNodeJs,
+      },
+
+      {
+        name: "React",
+        icon: FaReact,
+      },
+
+      {
+        name: "MongoDB",
+        icon: SiMongodb,
+      },
+
+      {
+        name: "Next.js",
+        icon: SiNextdotjs,
+      },
+    ],
+
+    features: ["Chunk File Uploads", "Secure File Sharing", "Audit Logs"],
+
+    github: "#",
+    live: "#",
+  },
+
+  {
+    title: "FinanceFlow",
+
+    description:
+      "Advanced finance management system with realtime analytics, role permissions, invoice management, and payment automation.",
+
+    tech: [
+      {
+        name: "Node.js",
+        icon: FaNodeJs,
+      },
+
+      {
+        name: "PostgreSQL",
+        icon: SiPostgresql,
+      },
+
+      {
+        name: "React",
+        icon: FaReact,
+      },
+
+      {
+        name: "Next.js",
+        icon: SiNextdotjs,
+      },
+    ],
+
+    features: ["Realtime Analytics", "Invoice Automation", "Role-Based Access"],
+
+    github: "#",
+    live: "#",
+  },
+
+  {
+    title: "DevConnect",
+
+    description:
+      "Developer collaboration platform with realtime messaging, GitHub integrations, team management, and project workspaces.",
+
+    tech: [
+      {
+        name: "React",
+        icon: FaReact,
+      },
+
+      {
+        name: "Node.js",
+        icon: FaNodeJs,
+      },
+
+      {
+        name: "MongoDB",
+        icon: SiMongodb,
+      },
+
+      {
+        name: "Next.js",
+        icon: SiNextdotjs,
+      },
+    ],
+
+    features: [
+      "Realtime Messaging",
+      "GitHub Integration",
+      "Workspace Management",
+    ],
+
+    github: "#",
+    live: "#",
+  },
 ];
+
+/* ====================================================================== */
+/* CONSTANTS */
+/* ====================================================================== */
+
+const ITEMS_PER_PAGE = 3;
 
 /* ====================================================================== */
 /* PROJECTS */
 /* ====================================================================== */
 
 export const Projects = () => {
+  const [page, setPage] = useState(0);
+
+  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+
+  const paginatedProjects = projects.slice(
+    page * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [totalPages]);
+
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-        pt-24
-        sm:pt-28
-      "
-    >
+    <Container>
       {/* ====================================================== */}
       {/* BACKGROUND */}
       {/* ====================================================== */}
@@ -358,413 +480,408 @@ export const Projects = () => {
         </div>
 
         {/* ====================================================== */}
-        {/* SLIDER WRAPPER */}
+        {/* PROJECT GRID */}
         {/* ====================================================== */}
 
-        <div className="relative overflow-hidden">
-          {/* LEFT FADE */}
-
-          <div
-            className="
-              absolute
-              left-0
-              top-0
-
-              z-20
-
-              h-full
-              w-14
-              sm:w-20
-              md:w-28
-
-              bg-linear-to-r
-              from-background
-              to-transparent
-            "
-          />
-
-          {/* RIGHT FADE */}
-
-          <div
-            className="
-              absolute
-              right-0
-              top-0
-
-              z-20
-
-              h-full
-              w-14
-              sm:w-20
-              md:w-28
-
-              bg-linear-to-l
-              from-background
-              to-transparent
-            "
-          />
-
-          {/* ====================================================== */}
-          {/* SLIDER */}
-          {/* ====================================================== */}
-
-          <motion.div
-            animate={{
-              x: ["0%", "-50%"],
-            }}
-            transition={{
-              duration: 28,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="
-              flex
-              gap-5
-              sm:gap-6
-
-              min-w-max
-            "
-          >
-            {[...projects, ...projects].map((project, i) => (
-              <motion.div
-                key={i}
-                whileHover={{
-                  y: -8,
-                }}
-                className="
-                  group
-
-                  flex
-                  shrink-0
-
-                  w-75
-                  sm:w-90
-                  lg:w-105
-                "
-              >
-                {/* ====================================================== */}
-                {/* CARD */}
-                {/* ====================================================== */}
-
-                <div
-                  className="
-                    relative
-
-                    flex
-                    flex-col
-
-                    h-full
-                    min-h-155
-
-                    overflow-hidden
-
-                    rounded-4xl
-
-                    border
-                    border-white/10
-
-                    bg-background/60
-                    backdrop-blur-2xl
-
-                    transition-all
-                    duration-500
-
-                    hover:border-primary/30
-                    hover:shadow-[0_0_80px_rgba(120,119,255,0.12)]
-                  "
+        <div className="relative min-h-175">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={page}
+              initial={{
+                opacity: 0,
+                y: 30,
+                filter: "blur(10px)",
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+              }}
+              exit={{
+                opacity: 0,
+                y: -30,
+                filter: "blur(10px)",
+              }}
+              transition={{
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        xl:grid-cols-3
+        gap-6
+        lg:gap-7
+      "
+            >
+              {paginatedProjects.map((project, i) => (
+                <motion.div
+                  key={project.title}
+                  layout
+                  initial={{
+                    opacity: 0,
+                    y: 40,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    delay: i * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  whileHover={{
+                    y: -10,
+                  }}
+                  className="group"
                 >
                   {/* ====================================================== */}
-                  {/* GLOW */}
+                  {/* CARD */}
                   {/* ====================================================== */}
 
                   <div
                     className="
-                      absolute
-                      top-0
-                      right-0
+              relative
 
-                      w-56
-                      h-56
+              flex
+              flex-col
 
-                      rounded-full
+              h-full
+              min-h-155
 
-                      bg-primary/10
-                      blur-[120px]
+              overflow-hidden
 
-                      opacity-0
-                      group-hover:opacity-100
+              rounded-4xl
 
-                      transition-all
-                      duration-700
-                    "
-                  />
+              border
+              border-white/10
 
-                  {/* ====================================================== */}
-                  {/* CONTENT */}
-                  {/* ====================================================== */}
+              bg-background/60
+              backdrop-blur-2xl
 
-                  <div
-                    className="
-                      relative
-                      z-10
+              transition-all
+              duration-500
 
-                      flex
-                      flex-col
-
-                      h-full
-
-                      p-5
-                      sm:p-7
-                    "
+              hover:border-primary/30
+              hover:shadow-[0_0_80px_rgba(120,119,255,0.12)]
+            "
                   >
-                    {/* BADGE */}
+                    {/* GLOW */}
 
                     <div
                       className="
-                        inline-flex
+                absolute
+                top-0
+                right-0
+
+                w-56
+                h-56
+
+                rounded-full
+
+                bg-primary/10
+                blur-[120px]
+
+                opacity-0
+                group-hover:opacity-100
+
+                transition-all
+                duration-700
+              "
+                    />
+
+                    {/* CONTENT */}
+
+                    <div
+                      className="
+                relative
+                z-10
+
+                flex
+                flex-col
+
+                h-full
+
+                p-5
+                sm:p-7
+              "
+                    >
+                      {/* BADGE */}
+
+                      <div
+                        className="
+                  inline-flex
+                  items-center
+                  gap-2
+
+                  w-fit
+
+                  rounded-full
+
+                  border
+                  border-primary/20
+
+                  bg-primary/10
+
+                  px-3
+                  py-1.5
+
+                  text-[10px]
+                  sm:text-[11px]
+
+                  uppercase
+                  tracking-[0.2em]
+
+                  text-primary
+                "
+                      >
+                        Backend System
+                      </div>
+
+                      {/* TITLE */}
+
+                      <h3
+                        className="
+                  mt-5
+
+                  text-2xl
+                  sm:text-3xl
+
+                  font-black
+
+                  tracking-[-0.03em]
+                  leading-tight
+                "
+                      >
+                        {project.title}
+                      </h3>
+
+                      {/* DESCRIPTION */}
+
+                      <p
+                        className="
+                  mt-4
+
+                  text-sm
+                  sm:text-base
+
+                  leading-7
+
+                  text-muted-foreground
+                "
+                      >
+                        {project.description}
+                      </p>
+
+                      {/* TECH STACK */}
+
+                      <div
+                        className="
+                  flex
+                  flex-wrap
+
+                  gap-3
+
+                  mt-8
+                "
+                      >
+                        {project.tech.map((tech, idx) => {
+                          const Icon = tech.icon;
+
+                          return (
+                            <motion.div
+                              key={idx}
+                              whileHover={{
+                                scale: 1.05,
+                              }}
+                              className="
+                        flex
                         items-center
                         gap-2
 
-                        w-fit
-
-                        rounded-full
+                        rounded-2xl
 
                         border
-                        border-primary/20
+                        border-white/10
 
-                        bg-primary/10
+                        bg-background/40
 
                         px-3
-                        py-1.5
-
-                        text-[10px]
-                        sm:text-[11px]
-
-                        uppercase
-                        tracking-[0.2em]
-
-                        text-primary
-                      "
-                    >
-                      Backend System
-                    </div>
-
-                    {/* TITLE */}
-
-                    <h3
-                      className="
-                        mt-5
-
-                        text-2xl
-                        sm:text-3xl
-
-                        font-black
-
-                        tracking-[-0.03em]
-                        leading-tight
-                      "
-                    >
-                      {project.title}
-                    </h3>
-
-                    {/* DESCRIPTION */}
-
-                    <p
-                      className="
-                        mt-4
+                        py-2
 
                         text-sm
-                        sm:text-base
 
-                        leading-7
+                        transition-all
 
-                        text-muted-foreground
+                        hover:border-primary/30
+                        hover:bg-primary/5
                       "
-                    >
-                      {project.description}
-                    </p>
+                            >
+                              <div
+                                className="
+                          flex
+                          items-center
+                          justify-center
 
-                    {/* TECH STACK */}
+                          size-8
 
-                    <div
-                      className="
-                        flex
-                        flex-wrap
+                          rounded-xl
 
-                        gap-3
+                          bg-primary/10
+                          text-primary
+                        "
+                              >
+                                <Icon className="size-4" />
+                              </div>
 
-                        mt-8
-                      "
-                    >
-                      {project.tech.map((tech, idx) => {
-                        const Icon = tech.icon;
+                              <span className="font-medium">{tech.name}</span>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
 
-                        return (
-                          <motion.div
+                      {/* FEATURES */}
+
+                      <div className="space-y-3 mt-8">
+                        {project.features.map((feature, idx) => (
+                          <div
                             key={idx}
-                            whileHover={{
-                              scale: 1.05,
-                            }}
                             className="
-                              flex
-                              items-center
-                              gap-2
+                      flex
+                      items-center
+                      gap-3
 
-                              rounded-2xl
+                      rounded-2xl
 
-                              border
-                              border-white/10
+                      border
+                      border-white/5
 
-                              bg-background/40
+                      bg-background/30
 
-                              px-3
-                              py-2
-
-                              text-sm
-
-                              transition-all
-
-                              hover:border-primary/30
-                              hover:bg-primary/5
-                            "
+                      px-4
+                      py-3
+                    "
                           >
                             <div
                               className="
-                                flex
-                                items-center
-                                justify-center
+                        size-2
 
-                                size-8
+                        rounded-full
 
-                                rounded-xl
+                        bg-primary
 
-                                bg-primary/10
-                                text-primary
-                              "
+                        shadow-[0_0_20px_rgba(120,119,255,1)]
+                      "
+                            />
+
+                            <span
+                              className="
+                        text-sm
+                        text-muted-foreground
+                      "
                             >
-                              <Icon className="size-4" />
-                            </div>
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
 
-                            <span className="font-medium">{tech.name}</span>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
+                      {/* BUTTONS */}
 
-                    {/* FEATURES */}
-
-                    <div className="space-y-3 mt-8">
-                      {project.features.map((feature, idx) => (
-                        <div
-                          key={idx}
-                          className="
-                            flex
-                            items-center
-                            gap-3
-
-                            rounded-2xl
-
-                            border
-                            border-white/5
-
-                            bg-background/30
-
-                            px-4
-                            py-3
-                          "
-                        >
-                          <div
+                      <div className="mt-auto pt-8">
+                        <div className="flex gap-3">
+                          <Button
                             className="
-                              size-2
+                      flex-1
+                      h-11
+                      sm:h-12
 
-                              rounded-full
+                      rounded-2xl
 
-                              bg-primary
+                      text-sm
 
-                              shadow-[0_0_20px_rgba(120,119,255,1)]
-                            "
-                          />
-
-                          <span
-                            className="
-                              text-sm
-                              text-muted-foreground
-                            "
+                      shadow-lg
+                      shadow-primary/20
+                    "
                           >
-                            {feature}
-                          </span>
+                            Live API
+                            <HiArrowRight className="ml-2 size-4" />
+                          </Button>
+
+                          <Button
+                            variant="outline"
+                            className="
+                      h-11
+                      sm:h-12
+
+                      aspect-square
+
+                      rounded-2xl
+
+                      border-white/10
+                      bg-background/40
+                    "
+                          >
+                            <FaGithub className="size-4" />
+                          </Button>
                         </div>
-                      ))}
-                    </div>
-
-                    {/* PUSH BUTTONS TO BOTTOM */}
-
-                    <div className="mt-auto pt-8">
-                      <div className="flex gap-3">
-                        <Button
-                          className="
-                            flex-1
-                            h-11
-                            sm:h-12
-
-                            rounded-2xl
-
-                            text-sm
-
-                            shadow-lg
-                            shadow-primary/20
-                          "
-                        >
-                          Live API
-                          <HiArrowRight className="ml-2 size-4" />
-                        </Button>
-
-                        <Button
-                          variant="outline"
-                          className="
-                            h-11
-                            sm:h-12
-
-                            aspect-square
-
-                            rounded-2xl
-
-                            border-white/10
-                            bg-background/40
-                          "
-                        >
-                          <FaGithub className="size-4" />
-                        </Button>
                       </div>
                     </div>
+
+                    {/* HOVER BORDER */}
+
+                    <div
+                      className="
+                absolute
+                inset-0
+
+                rounded-4xl
+
+                border
+                border-primary/0
+
+                group-hover:border-primary/20
+
+                transition-all
+                duration-500
+              "
+                    />
                   </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-                  {/* ====================================================== */}
-                  {/* HOVER BORDER */}
-                  {/* ====================================================== */}
+        {/* ====================================================== */}
+        {/* PAGINATION */}
+        {/* ====================================================== */}
 
-                  <div
-                    className="
-                      absolute
-                      inset-0
+        <div className="flex items-center justify-center gap-3 mt-14">
+          {Array.from({
+            length: totalPages,
+          }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setPage(idx)}
+              className={`
+                h-3
+                rounded-full
+                transition-all
+                duration-300
 
-                      rounded-4xl
-
-                      border
-                      border-primary/0
-
-                      group-hover:border-primary/20
-
-                      transition-all
-                      duration-500
-                    "
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                ${
+                  page === idx
+                    ? "w-10 bg-primary"
+                    : "w-3 bg-white/20 hover:bg-white/40"
+                }
+              `}
+            />
+          ))}
         </div>
       </div>
-    </section>
+    </Container>
   );
 };

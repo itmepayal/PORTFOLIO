@@ -2,19 +2,11 @@
 
 import { motion } from "framer-motion";
 import { SKILLS } from "@/constants/skills";
+import { Container } from "../common/container";
 
 export const Skills = () => {
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-
-        py-20
-        sm:py-24
-        md:py-28
-      "
-    >
+    <Container>
       {/* ================================================================ */}
       {/* CONTAINER */}
       {/* ================================================================ */}
@@ -295,6 +287,6 @@ export const Skills = () => {
           </motion.div>
         </motion.div>
       </div>
-    </section>
+    </Container>
   );
 };
