@@ -261,8 +261,8 @@ export const Home = () => {
             transition={{
               delay: 0.1,
             }}
-            text-4xl
             className="
+              text-5xl
               xs:text-5xl
               sm:text-6xl
               md:text-7xl
