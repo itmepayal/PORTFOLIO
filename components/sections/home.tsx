@@ -492,7 +492,7 @@ export const Home = () => {
                 hover:scale-105
               "
             >
-              <a href="tel:+7228832443" className="flex items-center">
+              <a href="tel:+917228832443" className="flex items-center">
                 <HiOutlineMail
                   className="
                     mr-2
