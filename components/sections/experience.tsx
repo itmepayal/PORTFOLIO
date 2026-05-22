@@ -33,7 +33,7 @@ export const Experience = () => {
       {/* SECTION */}
       {/* ====================================================== */}
 
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden py-6 md:py-12">
         {/* ====================================================== */}
         {/* BACKGROUND */}
         {/* ====================================================== */}
