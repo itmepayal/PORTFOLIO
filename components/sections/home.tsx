@@ -2,10 +2,15 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+
 import { Button } from "@/components/ui/button";
+
 import { HiArrowRight, HiOutlineMail, HiSparkles } from "react-icons/hi";
+
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
+
 import { SiLeetcode } from "react-icons/si";
+
 import { ModeToggle } from "../common/theme-button";
 
 const socials = [
@@ -30,16 +35,12 @@ export const Home = () => {
     <section
       className="
         relative
-
-        min-h-screen
-
-        overflow-hidden
-
-        bg-background
-
         flex
+        min-h-screen
         items-center
         justify-center
+        overflow-hidden
+        bg-background
       "
     >
       {/* ====================================================== */}
@@ -51,11 +52,13 @@ export const Home = () => {
           absolute
           inset-0
 
-          opacity-90
+          opacity-60
 
           bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
 
-          bg-size-[64px_64px]
+          bg-size-[50px_50px]
+
+          sm:bg-size-[64px_64px]
         "
       />
 
@@ -66,48 +69,57 @@ export const Home = () => {
       <div
         className="
           absolute
+          left-[-20%]
+          top-[-10%]
 
-          top-[-15%]
-          left-[-10%]
-
-          w-125
-          h-125
+          h-72
+          w-72
 
           rounded-full
 
           bg-primary/20
 
-          blur-[140px]
+          blur-3xl
+
+          sm:h-112
+          sm:w-md
+
+          lg:h-136
+          lg:w-136
         "
       />
 
       <div
         className="
           absolute
+          bottom-[-15%]
+          right-[-15%]
 
-          bottom-[-20%]
-          right-[-10%]
-
-          w-125
-          h-125
+          h-72
+          w-72
 
           rounded-full
 
           bg-chart-3/20
 
-          blur-[140px]
+          blur-3xl
+
+          sm:h-112
+          sm:w-md
+
+          lg:h-136
+          lg:w-136
         "
       />
 
       <div
         className="
           absolute
-
           left-1/2
           top-1/2
 
-          w-87.5
-          h-87.5
+          h-56
+          w-56
 
           -translate-x-1/2
           -translate-y-1/2
@@ -116,12 +128,15 @@ export const Home = () => {
 
           bg-chart-2/10
 
-          blur-[120px]
+          blur-3xl
+
+          sm:h-80
+          sm:w-80
         "
       />
 
       {/* ====================================================== */}
-      {/* NOISE OVERLAY */}
+      {/* OVERLAY */}
       {/* ====================================================== */}
 
       <div
@@ -142,19 +157,17 @@ export const Home = () => {
       <div
         className="
           absolute
-
-          top-5
-          right-5
+          right-4
+          top-4
 
           z-50
+
+          sm:right-6
+          sm:top-6
         "
       >
         <div
           className="
-            flex
-            items-center
-            justify-center
-
             rounded-2xl
 
             border
@@ -162,11 +175,11 @@ export const Home = () => {
 
             bg-card/70
 
-            backdrop-blur-xl
+            p-1.5
 
             shadow-xl
 
-            p-1.5
+            backdrop-blur-xl
           "
         >
           <ModeToggle />
@@ -182,16 +195,18 @@ export const Home = () => {
           relative
           z-10
 
+          mx-auto
+
           w-full
           max-w-7xl
 
-          mx-auto
-
-          px-6
-          sm:px-10
+          px-5
+          sm:px-8
+          md:px-12
           lg:px-20
 
           py-24
+          sm:py-28
         "
       >
         <div
@@ -210,18 +225,10 @@ export const Home = () => {
           {/* ====================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: -10,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.5,
-            }}
-            className="mb-8"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-7 sm:mb-8"
           >
             <div
               className="
@@ -238,12 +245,15 @@ export const Home = () => {
 
                 bg-card/60
 
-                backdrop-blur-xl
+                px-4
+                py-2
 
-                px-5
-                py-2.5
+                sm:px-5
+                sm:py-2.5
 
                 shadow-lg
+
+                backdrop-blur-xl
 
                 transition-all
                 duration-300
@@ -254,11 +264,10 @@ export const Home = () => {
               <div
                 className="
                   flex
+                  h-6
+                  w-6
                   items-center
                   justify-center
-
-                  w-6
-                  h-6
 
                   rounded-full
 
@@ -272,10 +281,12 @@ export const Home = () => {
 
               <span
                 className="
-                  text-sm
+                  text-xs
                   font-medium
 
                   text-foreground
+
+                  sm:text-sm
                 "
               >
                 Available for Freelance & Full-Time Work
@@ -288,24 +299,12 @@ export const Home = () => {
           {/* ====================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.9,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            transition={{
-              duration: 0.6,
-            }}
-            className="
-              relative
-
-              mb-10
-            "
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="relative mb-8 sm:mb-10"
           >
-            {/* OUTER GLOW */}
+            {/* GLOW */}
 
             <div
               className="
@@ -325,9 +324,7 @@ export const Home = () => {
             {/* ROTATING BORDER */}
 
             <motion.div
-              animate={{
-                rotate: 360,
-              }}
+              animate={{ rotate: 360 }}
               transition={{
                 duration: 12,
                 repeat: Infinity,
@@ -346,7 +343,7 @@ export const Home = () => {
               "
             />
 
-            {/* IMAGE WRAPPER */}
+            {/* IMAGE */}
 
             <div
               className="
@@ -354,9 +351,9 @@ export const Home = () => {
 
                 rounded-full
 
-                p-1
-
                 bg-background
+
+                p-1
               "
             >
               <Image
@@ -369,28 +366,31 @@ export const Home = () => {
                   relative
                   z-10
 
+                  h-28
+                  w-28
+
                   rounded-full
 
-                  object-cover
-
-                  border-[6px]
+                  border-[5px]
                   border-card
 
                   bg-card
 
+                  object-cover
+
                   shadow-2xl
 
-                  w-32
-                  h-32
+                  xs:h-32
+                  xs:w-32
 
-                  sm:w-40
                   sm:h-40
+                  sm:w-40
 
-                  md:w-48
                   md:h-48
+                  md:w-48
 
-                  lg:w-56
                   lg:h-56
+                  lg:w-56
                 "
               />
             </div>
@@ -401,30 +401,22 @@ export const Home = () => {
           {/* ====================================================== */}
 
           <motion.h1
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.1,
-            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
             className="
-              text-5xl
-              sm:text-6xl
-              md:text-7xl
-              lg:text-8xl
+              max-w-5xl
 
+              text-4xl
               font-black
 
+              leading-[0.95]
               tracking-[-0.07em]
 
-              leading-[0.92]
-
-              max-w-5xl
+              sm:text-5xl
+              md:text-6xl
+              lg:text-7xl
+              xl:text-8xl
 
               bg-linear-to-r
               from-foreground
@@ -443,26 +435,24 @@ export const Home = () => {
           {/* ====================================================== */}
 
           <motion.p
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: 0.2,
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
             className="
-              mt-6
+              mt-5
+
+              px-2
 
               text-sm
+              font-medium
+
+              leading-relaxed
+
+              text-muted-foreground
+
               sm:text-base
               md:text-lg
               lg:text-xl
-
-              font-medium
-
-              text-muted-foreground
             "
           >
             Backend Engineer • MERN Stack Developer • System Design
@@ -473,27 +463,26 @@ export const Home = () => {
           {/* ====================================================== */}
 
           <motion.p
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: 0.3,
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
             className="
-              mt-8
+              mt-6
 
               max-w-3xl
 
-              text-sm
-              sm:text-base
-              md:text-lg
+              px-2
 
-              leading-8
+              text-sm
+
+              leading-7
 
               text-muted-foreground
+
+              sm:text-base
+              sm:leading-8
+
+              md:text-lg
             "
           >
             I build scalable backend systems, enterprise-grade APIs, and
@@ -503,32 +492,29 @@ export const Home = () => {
           </motion.p>
 
           {/* ====================================================== */}
-          {/* CTA */}
+          {/* BUTTONS */}
           {/* ====================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.4,
-            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
             className="
-              mt-12
+              mt-10
 
               flex
+              w-full
               flex-col
-              sm:flex-row
 
               items-center
               justify-center
 
-              gap-5
+              gap-4
+
+              sm:mt-12
+              sm:w-auto
+              sm:flex-row
+              sm:gap-5
             "
           >
             {/* PRIMARY */}
@@ -539,18 +525,19 @@ export const Home = () => {
 
                 relative
 
-                h-14
+                h-13
+                w-full
 
-                min-w-52
+                max-w-sm
+
+                overflow-hidden
 
                 rounded-2xl
 
                 px-8
 
-                text-base
+                text-sm
                 font-semibold
-
-                overflow-hidden
 
                 shadow-2xl
                 shadow-primary/20
@@ -558,7 +545,11 @@ export const Home = () => {
                 transition-all
                 duration-300
 
-                hover:scale-[1.03]
+                hover:scale-[1.02]
+
+                sm:h-14
+                sm:min-w-52
+                sm:text-base
               "
             >
               <div
@@ -583,6 +574,7 @@ export const Home = () => {
 
                   flex
                   items-center
+                  justify-center
                 "
               >
                 View Resume
@@ -607,9 +599,10 @@ export const Home = () => {
               className="
                 group
 
-                h-14
+                h-13
+                w-full
 
-                min-w-52
+                max-w-sm
 
                 rounded-2xl
 
@@ -617,19 +610,23 @@ export const Home = () => {
 
                 bg-card/50
 
-                backdrop-blur-xl
-
-                text-base
+                text-sm
                 font-semibold
 
                 shadow-lg
 
+                backdrop-blur-xl
+
                 transition-all
                 duration-300
 
+                hover:scale-[1.02]
                 hover:border-primary/40
                 hover:bg-accent/50
-                hover:scale-[1.03]
+
+                sm:h-14
+                sm:min-w-52
+                sm:text-base
               "
             >
               <a
@@ -637,6 +634,7 @@ export const Home = () => {
                 className="
                   flex
                   items-center
+                  justify-center
                 "
               >
                 <HiOutlineMail
@@ -660,24 +658,22 @@ export const Home = () => {
           {/* ====================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: 0.5,
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
             className="
+              mt-12
+
               flex
-              items-center
-              justify-center
               flex-wrap
 
-              gap-5
+              items-center
+              justify-center
 
-              mt-14
+              gap-4
+
+              sm:mt-14
+              sm:gap-5
             "
           >
             {socials.map((item, index) => {
@@ -689,23 +685,21 @@ export const Home = () => {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{
-                    y: -5,
-                  }}
-                  whileTap={{
-                    scale: 0.96,
-                  }}
+                  whileHover={{ y: -5 }}
+                  whileTap={{ scale: 0.96 }}
                   className="
                     group
 
                     relative
 
                     flex
+                    h-12
+                    w-12
+
                     items-center
                     justify-center
 
-                    w-14
-                    h-14
+                    overflow-hidden
 
                     rounded-2xl
 
@@ -714,19 +708,20 @@ export const Home = () => {
 
                     bg-card/50
 
-                    backdrop-blur-xl
-
                     text-muted-foreground
 
                     shadow-lg
 
-                    overflow-hidden
+                    backdrop-blur-xl
 
                     transition-all
                     duration-300
 
                     hover:border-primary/40
                     hover:text-primary
+
+                    sm:h-14
+                    sm:w-14
                   "
                 >
                   <div
@@ -734,9 +729,9 @@ export const Home = () => {
                       absolute
                       inset-0
 
-                      opacity-0
-
                       bg-primary/10
+
+                      opacity-0
 
                       transition-opacity
                       duration-300
@@ -750,8 +745,8 @@ export const Home = () => {
                       relative
                       z-10
 
-                      w-5
                       h-5
+                      w-5
                     "
                   />
                 </motion.a>
