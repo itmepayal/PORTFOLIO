@@ -3,17 +3,36 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { HiArrowRight, HiOutlineMail } from "react-icons/hi";
+import { HiArrowRight, HiOutlineMail, HiSparkles } from "react-icons/hi";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
 import { ModeToggle } from "../common/theme-button";
+
+const socials = [
+  {
+    icon: FaGithub,
+    href: "https://github.com/itmepayal",
+  },
+
+  {
+    icon: FaLinkedin,
+    href: "https://linkedin.com/in/payal-yadav-dev",
+  },
+
+  {
+    icon: SiLeetcode,
+    href: "https://leetcode.com/Payal_Leet_Code",
+  },
+];
 
 export const Home = () => {
   return (
     <section
       className="
         relative
+
         min-h-screen
+
         overflow-hidden
 
         bg-background
@@ -24,7 +43,7 @@ export const Home = () => {
       "
     >
       {/* ====================================================== */}
-      {/* GRID BACKGROUND */}
+      {/* GRID */}
       {/* ====================================================== */}
 
       <div
@@ -32,44 +51,77 @@ export const Home = () => {
           absolute
           inset-0
 
-          opacity-[0.35]
+          opacity-90
 
           bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
 
-          bg-size-[60px_60px]
-
-          sm:bg-size-[72px_72px]
+          bg-size-[64px_64px]
         "
       />
 
       {/* ====================================================== */}
-      {/* GLOW */}
+      {/* AURORA */}
       {/* ====================================================== */}
 
       <div
         className="
           absolute
 
-          top-[-10%]
-          left-1/2
-          -translate-x-1/2
+          top-[-15%]
+          left-[-10%]
 
-          w-[320px]
-          h-80
-
-          sm:w-125
-          sm:h-125
+          w-125
+          h-125
 
           rounded-full
 
           bg-primary/20
 
-          blur-3xl
+          blur-[140px]
+        "
+      />
+
+      <div
+        className="
+          absolute
+
+          bottom-[-20%]
+          right-[-10%]
+
+          w-125
+          h-125
+
+          rounded-full
+
+          bg-chart-3/20
+
+          blur-[140px]
+        "
+      />
+
+      <div
+        className="
+          absolute
+
+          left-1/2
+          top-1/2
+
+          w-87.5
+          h-87.5
+
+          -translate-x-1/2
+          -translate-y-1/2
+
+          rounded-full
+
+          bg-chart-2/10
+
+          blur-[120px]
         "
       />
 
       {/* ====================================================== */}
-      {/* OVERLAY */}
+      {/* NOISE OVERLAY */}
       {/* ====================================================== */}
 
       <div
@@ -94,9 +146,6 @@ export const Home = () => {
           top-5
           right-5
 
-          sm:top-7
-          sm:right-7
-
           z-50
         "
       >
@@ -115,15 +164,9 @@ export const Home = () => {
 
             backdrop-blur-xl
 
-            shadow-lg
+            shadow-xl
 
             p-1.5
-
-            transition-all
-            duration-300
-
-            hover:border-primary/40
-            hover:shadow-primary/10
           "
         >
           <ModeToggle />
@@ -144,13 +187,11 @@ export const Home = () => {
 
           mx-auto
 
-          px-5
-          sm:px-8
-          md:px-12
+          px-6
+          sm:px-10
           lg:px-20
 
-          py-16
-          sm:py-24
+          py-24
         "
       >
         <div
@@ -165,37 +206,147 @@ export const Home = () => {
           "
         >
           {/* ====================================================== */}
-          {/* PROFILE */}
+          {/* BADGE */}
           {/* ====================================================== */}
 
           <motion.div
             initial={{
               opacity: 0,
-              y: -30,
+              y: -10,
             }}
             animate={{
               opacity: 1,
               y: 0,
             }}
             transition={{
+              duration: 0.5,
+            }}
+            className="mb-8"
+          >
+            <div
+              className="
+                group
+
+                inline-flex
+                items-center
+                gap-2
+
+                rounded-full
+
+                border
+                border-primary/20
+
+                bg-card/60
+
+                backdrop-blur-xl
+
+                px-5
+                py-2.5
+
+                shadow-lg
+
+                transition-all
+                duration-300
+
+                hover:border-primary/40
+              "
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-center
+
+                  w-6
+                  h-6
+
+                  rounded-full
+
+                  bg-primary/15
+
+                  text-primary
+                "
+              >
+                <HiSparkles className="size-3.5" />
+              </div>
+
+              <span
+                className="
+                  text-sm
+                  font-medium
+
+                  text-foreground
+                "
+              >
+                Available for Freelance & Full-Time Work
+              </span>
+            </div>
+          </motion.div>
+
+          {/* ====================================================== */}
+          {/* PROFILE IMAGE */}
+          {/* ====================================================== */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              scale: 0.9,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            transition={{
               duration: 0.6,
             }}
-            className="relative mb-8 sm:mb-10"
+            className="
+              relative
+
+              mb-10
+            "
           >
+            {/* OUTER GLOW */}
+
             <div
               className="
                 absolute
                 inset-0
 
+                scale-125
+
                 rounded-full
 
-                bg-primary/30
+                bg-primary/25
 
                 blur-3xl
-
-                scale-125
               "
             />
+
+            {/* ROTATING BORDER */}
+
+            <motion.div
+              animate={{
+                rotate: 360,
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="
+                absolute
+                -inset-1
+
+                rounded-full
+
+                bg-conic
+                from-primary
+                via-chart-2
+                to-chart-3
+              "
+            />
+
+            {/* IMAGE WRAPPER */}
 
             <div
               className="
@@ -203,43 +354,43 @@ export const Home = () => {
 
                 rounded-full
 
-                p-0.75
+                p-1
 
-                bg-linear-to-br
-                from-primary
-                via-chart-3/50
-                to-chart-2
+                bg-background
               "
             >
               <Image
                 src="/profile.jpeg"
                 alt="Payal Yadav"
-                width={220}
-                height={220}
+                width={240}
+                height={240}
                 priority
                 className="
+                  relative
+                  z-10
+
                   rounded-full
+
                   object-cover
 
-                  border
-                  border-border
+                  border-[6px]
+                  border-card
 
                   bg-card
 
-                  w-28
-                  h-28
+                  shadow-2xl
 
-                  xs:w-32
-                  xs:h-32
+                  w-32
+                  h-32
 
                   sm:w-40
                   sm:h-40
 
-                  md:w-44
-                  md:h-44
+                  md:w-48
+                  md:h-48
 
-                  lg:w-48
-                  lg:h-48
+                  lg:w-56
+                  lg:h-56
                 "
               />
             </div>
@@ -263,16 +414,17 @@ export const Home = () => {
             }}
             className="
               text-5xl
-              xs:text-5xl
               sm:text-6xl
               md:text-7xl
               lg:text-8xl
 
               font-black
 
-              tracking-[-0.06em]
+              tracking-[-0.07em]
 
-              leading-[0.95]
+              leading-[0.92]
+
+              max-w-5xl
 
               bg-linear-to-r
               from-foreground
@@ -301,22 +453,16 @@ export const Home = () => {
               delay: 0.2,
             }}
             className="
-              mt-5
-              sm:mt-6
+              mt-6
 
               text-sm
-              xs:text-base
-              sm:text-lg
-              md:text-xl
-              lg:text-2xl
-
-              text-muted-foreground
+              sm:text-base
+              md:text-lg
+              lg:text-xl
 
               font-medium
 
-              max-w-3xl
-
-              leading-relaxed
+              text-muted-foreground
             "
           >
             Backend Engineer • MERN Stack Developer • System Design
@@ -337,32 +483,27 @@ export const Home = () => {
               delay: 0.3,
             }}
             className="
-              mt-6
-              sm:mt-8
+              mt-8
 
-              max-w-xs
-              xs:max-w-md
-              sm:max-w-2xl
-              lg:max-w-3xl
+              max-w-3xl
 
               text-sm
               sm:text-base
               md:text-lg
 
-              leading-7
-              sm:leading-8
+              leading-8
 
               text-muted-foreground
             "
           >
             I build scalable backend systems, enterprise-grade APIs, and
             high-performance full-stack applications with a strong focus on
-            system design, clean architecture, scalability, security, and
-            production-ready engineering.
+            clean architecture, security, scalability, and production-ready
+            engineering.
           </motion.p>
 
           {/* ====================================================== */}
-          {/* BUTTONS */}
+          {/* CTA */}
           {/* ====================================================== */}
 
           <motion.div
@@ -378,8 +519,7 @@ export const Home = () => {
               delay: 0.4,
             }}
             className="
-              mt-10
-              sm:mt-12
+              mt-12
 
               flex
               flex-col
@@ -388,61 +528,68 @@ export const Home = () => {
               items-center
               justify-center
 
-              gap-4
-              sm:gap-5
-
-              w-full
+              gap-5
             "
           >
-            {/* ====================================================== */}
-            {/* RESUME BUTTON */}
-            {/* ====================================================== */}
+            {/* PRIMARY */}
 
             <Button
               className="
                 group
 
-                h-12
-                sm:h-14
+                relative
 
-                w-full
-                sm:w-auto
+                h-14
 
-                min-w-48
+                min-w-52
 
                 rounded-2xl
 
-                text-sm
-                sm:text-base
+                px-8
 
-                font-medium
+                text-base
+                font-semibold
 
-                bg-primary
-                text-primary-foreground
+                overflow-hidden
 
-                shadow-lg
+                shadow-2xl
                 shadow-primary/20
 
                 transition-all
                 duration-300
 
-                hover:scale-105
-                hover:shadow-xl
-                hover:shadow-primary/30
+                hover:scale-[1.03]
               "
             >
+              <div
+                className="
+                  absolute
+                  inset-0
+
+                  bg-linear-to-r
+                  from-primary
+                  via-chart-3
+                  to-chart-2
+                "
+              />
+
               <a
                 href="/pdf/PAYAL_YADAV.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center"
+                className="
+                  relative
+                  z-10
+
+                  flex
+                  items-center
+                "
               >
-                Resume
+                View Resume
                 <HiArrowRight
                   className="
                     ml-2
-
-                    size-4
+                    size-5
 
                     transition-transform
                     duration-300
@@ -453,56 +600,54 @@ export const Home = () => {
               </a>
             </Button>
 
-            {/* ====================================================== */}
-            {/* CONTACT BUTTON */}
-            {/* ====================================================== */}
+            {/* SECONDARY */}
 
             <Button
               variant="outline"
               className="
                 group
 
-                h-12
-                sm:h-14
+                h-14
 
-                w-full
-                sm:w-auto
-
-                min-w-48
+                min-w-52
 
                 rounded-2xl
 
-                text-sm
-                sm:text-base
+                border-border/60
 
-                font-medium
-
-                border-border
-
-                bg-card/60
+                bg-card/50
 
                 backdrop-blur-xl
+
+                text-base
+                font-semibold
+
+                shadow-lg
 
                 transition-all
                 duration-300
 
-                hover:bg-accent
-                hover:text-accent-foreground
-                hover:border-primary/30
-                hover:scale-105
+                hover:border-primary/40
+                hover:bg-accent/50
+                hover:scale-[1.03]
               "
             >
-              <a href="tel:+917228832443" className="flex items-center">
+              <a
+                href="mailto:payal@example.com"
+                className="
+                  flex
+                  items-center
+                "
+              >
                 <HiOutlineMail
                   className="
                     mr-2
-
-                    size-4
+                    size-5
 
                     transition-transform
                     duration-300
 
-                    group-hover:rotate-6
+                    group-hover:rotate-12
                   "
                 />
                 Contact Me
@@ -530,77 +675,86 @@ export const Home = () => {
               justify-center
               flex-wrap
 
-              gap-4
-              sm:gap-5
+              gap-5
 
-              mt-10
-              sm:mt-14
+              mt-14
             "
           >
-            {[
-              {
-                icon: FaGithub,
-                href: "https://github.com/itmepayal",
-              },
-
-              {
-                icon: FaLinkedin,
-                href: "https://linkedin.com/in/payal-yadav-dev",
-              },
-
-              {
-                icon: SiLeetcode,
-                href: "https://leetcode.com/Payal_Leet_Code",
-              },
-            ].map((item, i) => {
+            {socials.map((item, index) => {
               const Icon = item.icon;
 
               return (
-                <a
-                  key={i}
+                <motion.a
+                  key={index}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  whileHover={{
+                    y: -5,
+                  }}
+                  whileTap={{
+                    scale: 0.96,
+                  }}
                   className="
                     group
+
+                    relative
 
                     flex
                     items-center
                     justify-center
 
-                    w-11
-                    h-11
-
-                    sm:w-12
-                    sm:h-12
+                    w-14
+                    h-14
 
                     rounded-2xl
 
                     border
-                    border-border
+                    border-border/60
 
-                    bg-card/60
+                    bg-card/50
 
                     backdrop-blur-xl
 
                     text-muted-foreground
 
+                    shadow-lg
+
+                    overflow-hidden
+
                     transition-all
                     duration-300
 
-                    hover:text-primary
                     hover:border-primary/40
-                    hover:bg-accent
-                    hover:scale-110
+                    hover:text-primary
                   "
                 >
+                  <div
+                    className="
+                      absolute
+                      inset-0
+
+                      opacity-0
+
+                      bg-primary/10
+
+                      transition-opacity
+                      duration-300
+
+                      group-hover:opacity-100
+                    "
+                  />
+
                   <Icon
                     className="
+                      relative
+                      z-10
+
                       w-5
                       h-5
                     "
                   />
-                </a>
+                </motion.a>
               );
             })}
           </motion.div>
