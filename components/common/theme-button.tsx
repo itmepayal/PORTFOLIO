@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
@@ -5,6 +8,14 @@ import { Button } from "@/components/ui/button";
 
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const isDark = theme === "dark";
 
@@ -33,11 +44,8 @@ export function ModeToggle() {
         className="
           absolute
           inset-0
-
           rounded-2xl
-
           bg-primary/10
-
           blur-2xl
         "
       />
@@ -49,27 +57,18 @@ export function ModeToggle() {
         className="
           group
           relative
-
           size-12
           sm:size-13
-
           overflow-hidden
-
           rounded-2xl
-
           border
           border-border/60
-
           bg-card/70
-
           backdrop-blur-2xl
-
           shadow-lg
           shadow-black/5
-
           transition-all
           duration-300
-
           hover:border-primary/40
           hover:bg-accent/60
           hover:shadow-xl
@@ -83,17 +82,13 @@ export function ModeToggle() {
             absolute
             inset-x-0
             top-0
-
             h-px
-
             bg-linear-to-r
             from-transparent
             via-white/40
             to-transparent
           "
         />
-
-        {/* INNER BACKGROUND */}
 
         <motion.div
           animate={{
@@ -107,16 +102,11 @@ export function ModeToggle() {
           className="
             absolute
             inset-0
-
             rounded-2xl
-
             bg-primary
-
             blur-xl
           "
         />
-
-        {/* FLOATING PARTICLE */}
 
         <motion.div
           animate={{
@@ -132,11 +122,8 @@ export function ModeToggle() {
             absolute
             right-2
             top-2
-
             size-1
-
             rounded-full
-
             bg-primary
           "
         />
@@ -174,9 +161,7 @@ export function ModeToggle() {
               <Moon
                 className="
                   size-[1.2rem]
-
                   text-primary
-
                   drop-shadow-[0_0_12px_rgba(168,85,247,0.5)]
                 "
               />
@@ -211,9 +196,7 @@ export function ModeToggle() {
               <Sun
                 className="
                   size-[1.2rem]
-
                   text-amber-500
-
                   drop-shadow-[0_0_10px_rgba(251,191,36,0.45)]
                 "
               />
@@ -235,9 +218,7 @@ export function ModeToggle() {
           className="
             absolute
             inset-0
-
             rounded-2xl
-
             border
             border-primary/10
           "
@@ -249,14 +230,10 @@ export function ModeToggle() {
           className="
             absolute
             inset-0
-
             opacity-0
-
             transition-opacity
             duration-300
-
             group-hover:opacity-100
-
             bg-linear-to-br
             from-white/10
             via-transparent

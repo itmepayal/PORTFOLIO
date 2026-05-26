@@ -8,9 +8,7 @@ export default function Sidebar() {
     <aside className="hidden min-h-screen flex-col justify-between border-r border-border/40 bg-card/40 p-6 backdrop-blur-xl lg:flex">
       <div>
         <SidebarHeader />
-
         <SidebarSearch />
-
         <SidebarMenu />
       </div>
 
