@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
-import Project from "@/models/project";
+import DSA from "@/models/dsa";
 
 /* ====================================================== */
-/* GET SINGLE PROJECT */
+/* GET SINGLE DSA */
 /* ====================================================== */
 
 export async function GET(
@@ -13,41 +13,37 @@ export async function GET(
 ) {
   try {
     await connectDB();
+
     const { id } = await params;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return Response.json(
         {
           success: false,
-          message: "Invalid project ID",
+          message: "Invalid DSA ID",
         },
-        {
-          status: 400,
-        },
+        { status: 400 },
       );
     }
 
-    const project = await Project.findById(id);
+    const dsa = await DSA.findById(id);
 
-    if (!project) {
+    if (!dsa) {
       return Response.json(
         {
           success: false,
-          message: "Project not found",
+          message: "DSA not found",
         },
-        {
-          status: 404,
-        },
+        { status: 404 },
       );
     }
 
     return Response.json(
       {
         success: true,
-        project,
+        dsa,
       },
-      {
-        status: 200,
-      },
+      { status: 200 },
     );
   } catch (error: any) {
     return Response.json(
@@ -55,15 +51,13 @@ export async function GET(
         success: false,
         message: error.message,
       },
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 }
 
 /* ====================================================== */
-/* UPDATE PROJECT */
+/* UPDATE DSA */
 /* ====================================================== */
 
 export async function PUT(
@@ -81,40 +75,34 @@ export async function PUT(
       return Response.json(
         {
           success: false,
-          message: "Invalid project ID",
+          message: "Invalid DSA ID",
         },
-        {
-          status: 400,
-        },
+        { status: 400 },
       );
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(id, body, {
+    const updatedDSA = await DSA.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
 
-    if (!updatedProject) {
+    if (!updatedDSA) {
       return Response.json(
         {
           success: false,
-          message: "Project not found",
+          message: "DSA not found",
         },
-        {
-          status: 404,
-        },
+        { status: 404 },
       );
     }
 
     return Response.json(
       {
         success: true,
-        message: "Project updated successfully",
-        project: updatedProject,
+        message: "DSA updated successfully",
+        dsa: updatedDSA,
       },
-      {
-        status: 200,
-      },
+      { status: 200 },
     );
   } catch (error: any) {
     return Response.json(
@@ -122,15 +110,13 @@ export async function PUT(
         success: false,
         message: error.message,
       },
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 }
 
 /* ====================================================== */
-/* DELETE PROJECT */
+/* DELETE DSA */
 /* ====================================================== */
 
 export async function DELETE(
@@ -142,42 +128,34 @@ export async function DELETE(
 
     const { id } = await params;
 
-    console.log("DELETE ID:", id);
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return Response.json(
         {
           success: false,
-          message: "Invalid project ID",
+          message: "Invalid DSA ID",
         },
-        {
-          status: 400,
-        },
+        { status: 400 },
       );
     }
 
-    const deletedProject = await Project.findByIdAndDelete(id);
+    const deletedDSA = await DSA.findByIdAndDelete(id);
 
-    if (!deletedProject) {
+    if (!deletedDSA) {
       return Response.json(
         {
           success: false,
-          message: "Project not found",
+          message: "DSA not found",
         },
-        {
-          status: 404,
-        },
+        { status: 404 },
       );
     }
 
     return Response.json(
       {
         success: true,
-        message: "Project deleted successfully",
+        message: "DSA deleted successfully",
       },
-      {
-        status: 200,
-      },
+      { status: 200 },
     );
   } catch (error: any) {
     return Response.json(
@@ -185,9 +163,7 @@ export async function DELETE(
         success: false,
         message: error.message,
       },
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 }
