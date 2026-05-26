@@ -2,8 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+
 import { motion } from "framer-motion";
+
 import {
   ArrowLeft,
   FolderKanban,
@@ -17,7 +20,9 @@ import {
   BadgeCheck,
   Rocket,
   LayoutDashboard,
+  Loader2,
 } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -25,11 +30,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
+
 import { Textarea } from "@/components/ui/textarea";
+
 import { Button } from "@/components/ui/button";
+
 import { Label } from "@/components/ui/label";
+
 import { toast } from "sonner";
+
 import {
   Select,
   SelectContent,
@@ -37,10 +48,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Badge } from "@/components/ui/badge";
 
+/* ====================================================== */
+/* TYPES */
+/* ====================================================== */
+
 export type ProjectStatus = "Published" | "Draft";
+
 const categories = ["backend", "fullstack", "frontend", "mobile", "api"];
+
+/* ====================================================== */
+/* TECH ICONS */
+/* ====================================================== */
 
 const techIcons: Record<string, string> = {
   react:
@@ -77,38 +98,95 @@ const techIcons: Record<string, string> = {
     "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
 };
 
-const CreateProject = () => {
+/* ====================================================== */
+/* COMPONENT */
+/* ====================================================== */
+
+const EditProject = () => {
+  const router = useRouter();
+
+  const params = useParams();
+
+  const id = params.id as string;
+
   /* ====================================================== */
   /* STATES */
   /* ====================================================== */
 
   const [title, setTitle] = useState("");
+
   const [description, setDescription] = useState("");
+
   const [status, setStatus] = useState<ProjectStatus>("Draft");
+
   const [live, setLive] = useState("");
+
   const [github, setGithub] = useState("");
+
   const [featureInput, setFeatureInput] = useState("");
+
   const [features, setFeatures] = useState<string[]>([]);
+
   const [techInput, setTechInput] = useState("");
+
   const [loading, setLoading] = useState(false);
+
+  const [pageLoading, setPageLoading] = useState(true);
+
   const [category, setCategory] = useState(categories[0]);
 
-  const [techs, setTechs] = useState([
+  const [techs, setTechs] = useState<
     {
-      name: "React",
-      icon: techIcons.react,
-    },
+      name: string;
+      icon: string;
+    }[]
+  >([]);
 
-    {
-      name: "Next.js",
-      icon: techIcons.nextjs,
-    },
+  /* ====================================================== */
+  /* GET PROJECT */
+  /* ====================================================== */
 
-    {
-      name: "TypeScript",
-      icon: techIcons.typescript,
-    },
-  ]);
+  useEffect(() => {
+    if (!id) return;
+
+    const getProject = async () => {
+      try {
+        setPageLoading(true);
+
+        const response = await fetch(`/api/projects/${id}`);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        const project = data.project;
+
+        setTitle(project.title || "");
+
+        setDescription(project.description || "");
+
+        setStatus(project.isPublished ? "Published" : "Draft");
+
+        setLive(project.live || "");
+
+        setGithub(project.github || "");
+
+        setCategory(project.category || categories[0]);
+
+        setFeatures(project.features || []);
+
+        setTechs(project.tech || []);
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setPageLoading(false);
+      }
+    };
+
+    getProject();
+  }, [id]);
 
   /* ====================================================== */
   /* PROGRESS */
@@ -118,10 +196,15 @@ const CreateProject = () => {
     let completed = 0;
 
     if (title) completed++;
+
     if (description.length >= 20) completed++;
+
     if (live) completed++;
+
     if (github) completed++;
+
     if (features.length > 0) completed++;
+
     if (techs.length > 0) completed++;
 
     return Math.round((completed / 6) * 100);
@@ -133,14 +216,18 @@ const CreateProject = () => {
 
   const addTech = () => {
     if (!techInput.trim()) return;
+
     const value = techInput.trim();
+
     const exists = techs.some(
       (item) => item.name.toLowerCase() === value.toLowerCase(),
     );
+
     if (exists) {
       toast.error("Technology already exists");
       return;
     }
+
     const icon =
       techIcons[value.toLowerCase()] ||
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/devicon/devicon-original.svg";
@@ -166,12 +253,16 @@ const CreateProject = () => {
 
   const addFeature = () => {
     if (!featureInput.trim()) return;
+
     const value = featureInput.trim();
+
     if (features.includes(value)) {
       toast.error("Feature already exists");
       return;
     }
+
     setFeatures((prev) => [...prev, value]);
+
     setFeatureInput("");
   };
 
@@ -180,10 +271,10 @@ const CreateProject = () => {
   };
 
   /* ====================================================== */
-  /* SUBMIT */
+  /* UPDATE PROJECT */
   /* ====================================================== */
 
-  const handleSubmit = async () => {
+  const handleUpdate = async () => {
     try {
       setLoading(true);
 
@@ -216,48 +307,56 @@ const CreateProject = () => {
         toast.error("Please add at least one technology");
         return;
       }
-
       const payload = {
         title,
         description,
         category,
-        status,
+        isPublished: status === "Published",
         live,
         github,
         features,
         tech: techs,
       };
 
-      const response = await fetch("/api/projects", {
-        method: "POST",
+      const response = await fetch(`/api/projects/${id}`, {
+        method: "PUT",
+
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
+      console.log(data);
+
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
       }
 
-      toast.success("Project created successfully");
+      toast.success("Project updated successfully");
 
-      setTitle("");
-      setDescription("");
-      setCategory(categories[0]);
-      setStatus("Draft");
-      setLive("");
-      setGithub("");
-      setFeatures([]);
-      setTechs([]);
+      router.push("/dashboard/projects");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
+
+  /* ====================================================== */
+  /* LOADING */
+  /* ====================================================== */
+
+  if (pageLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="animate-spin text-primary w-16 h-16" />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -271,10 +370,7 @@ const CreateProject = () => {
           mx-auto
           w-full
           max-w-375
-          px-4
-          py-8
-          sm:px-6
-          lg:px-8
+        
         "
       >
         {/* ====================================================== */}
@@ -333,16 +429,15 @@ const CreateProject = () => {
               </div>
 
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">
-                  Create Project
-                </h1>
+                <h2 className="text-3xl font-bold tracking-tight">
+                  Edit Project
+                </h2>
 
                 <p className="mt-1 text-muted-foreground">
                   Build premium portfolio projects with professional details
                 </p>
               </div>
             </div>
-
             <div className="flex items-center gap-4">
               <div className="hidden md:block">
                 <div className="mb-2 flex items-center justify-between text-sm">
@@ -874,12 +969,12 @@ const CreateProject = () => {
                 {/* ACTION
                 {/* ====================================================== */}
                 <Button
-                  onClick={handleSubmit}
+                  onClick={handleUpdate}
                   disabled={loading}
                   className=" h-12 w-full rounded-2xl font-medium shadow-lg shadow-primary/10"
                 >
                   <Sparkles className="mr-2 h-4 w-4" />
-                  {loading ? "Editing..." : "Publish Project"}
+                  {loading ? "Updating..." : "Update Project"}
                 </Button>
               </CardContent>
             </Card>
@@ -890,4 +985,4 @@ const CreateProject = () => {
   );
 };
 
-export default CreateProject;
+export default EditProject;

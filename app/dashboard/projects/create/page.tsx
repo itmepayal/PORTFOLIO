@@ -330,9 +330,9 @@ const CreateProject = () => {
               </div>
 
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h2 className="text-3xl font-bold tracking-tight">
                   Create Project
-                </h1>
+                </h2>
 
                 <p className="mt-1 text-muted-foreground">
                   Build premium portfolio projects with professional details

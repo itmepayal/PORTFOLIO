@@ -1,14 +1,78 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { stats } from "./data";
+import { useEffect, useState } from "react";
+import { iconMap } from "./data";
+
+/* ====================================================== */
+/* TYPES */
+/* ====================================================== */
+
+type Stat = {
+  label: string;
+  value: number;
+  growth: string;
+  icon: keyof typeof iconMap;
+};
+
+/* ====================================================== */
+/* COMPONENT */
+/* ====================================================== */
 
 const ProjectsStats = () => {
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  /* ====================================================== */
+  /* GET STATS */
+  /* ====================================================== */
+  useEffect(() => {
+    const getStats = async () => {
+      try {
+        const response = await fetch("/api/projects/stats");
+        const data = await response.json();
+        if (data.success) {
+          setStats(data.stats);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getStats();
+  }, []);
+
+  /* ====================================================== */
+  /* LOADING */
+  /* ====================================================== */
+  if (loading) {
+    return (
+      <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
+        {Array.from({
+          length: 4,
+        }).map((_, index) => (
+          <div
+            key={index}
+            className="
+              h-44
+              animate-pulse
+              rounded-3xl
+              border
+              border-border/50
+              bg-muted/40
+            "
+          />
+        ))}
+      </section>
+    );
+  }
+
   return (
     <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
       {stats.map((item, index) => {
-        const Icon = item.icon;
-
+        const Icon = iconMap[item.icon];
         return (
           <motion.div
             key={item.label}
@@ -45,8 +109,6 @@ const ProjectsStats = () => {
               hover:shadow-primary/5
             "
           >
-            {/* BACKGROUND GLOW */}
-
             <div
               className="
                 absolute
@@ -62,12 +124,7 @@ const ProjectsStats = () => {
                 group-hover:bg-primary/10
               "
             />
-
-            {/* HEADER */}
-
             <div className="relative flex items-start justify-between">
-              {/* ICON */}
-
               <div
                 className="
                   flex
@@ -87,9 +144,6 @@ const ProjectsStats = () => {
               >
                 <Icon className="h-5 w-5" />
               </div>
-
-              {/* GROWTH */}
-
               <div
                 className="
                   rounded-full
@@ -107,9 +161,6 @@ const ProjectsStats = () => {
                 {item.growth}
               </div>
             </div>
-
-            {/* CONTENT */}
-
             <div className="relative mt-6">
               <p
                 className="
@@ -120,7 +171,6 @@ const ProjectsStats = () => {
               >
                 {item.label}
               </p>
-
               <h2
                 className="
                   mt-2
@@ -133,9 +183,6 @@ const ProjectsStats = () => {
                 {item.value}
               </h2>
             </div>
-
-            {/* FOOTER LINE */}
-
             <div
               className="
                 absolute
