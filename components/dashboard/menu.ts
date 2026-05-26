@@ -1,25 +1,45 @@
+import type { LucideIcon } from "lucide-react";
+
 import {
   LayoutDashboard,
-  BarChart3,
   FolderKanban,
-  Cpu,
+  BarChart3,
+  BrainCircuit,
   Code2,
-  MessageSquare,
+  MessageSquareMore,
+  Settings2,
+  UserRound,
+  BriefcaseBusiness,
+  ShieldCheck,
+  BellDot,
+  Sparkles,
 } from "lucide-react";
 
-export const menu = [
+/* =========================================================
+   TYPES
+========================================================= */
+
+export type MenuItem = {
+  key: string;
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  description?: string;
+  badge?: string;
+  new?: boolean;
+};
+
+/* =========================================================
+   MAIN SIDEBAR MENU
+========================================================= */
+
+export const menu: MenuItem[] = [
   {
     key: "dashboard",
     label: "Dashboard",
     href: "/dashboard",
     icon: LayoutDashboard,
-  },
-
-  {
-    key: "analytics",
-    label: "Analytics",
-    href: "/dashboard/analytics",
-    icon: BarChart3,
+    description: "Overview & insights",
   },
 
   {
@@ -27,13 +47,17 @@ export const menu = [
     label: "Projects",
     href: "/dashboard/projects",
     icon: FolderKanban,
+    description: "Manage all projects",
+    badge: "8",
   },
 
   {
     key: "dsa",
     label: "DSA",
     href: "/dashboard/dsa",
-    icon: Cpu,
+    icon: BrainCircuit,
+    description: "Coding preparation",
+    new: true,
   },
 
   {
@@ -41,12 +65,31 @@ export const menu = [
     label: "Skills",
     href: "/dashboard/skills",
     icon: Code2,
+    description: "Tech stack & expertise",
+  },
+
+  {
+    key: "experience",
+    label: "Experience",
+    href: "/dashboard/experience",
+    icon: BriefcaseBusiness,
+    description: "Work experience",
   },
 
   {
     key: "messages",
-    label: "Messages",
-    href: "/dashboard/messages",
-    icon: MessageSquare,
+    label: "Enquiries",
+    href: "/dashboard/enquiries",
+    icon: MessageSquareMore,
+    description: "Client conversations",
+    badge: "4",
+  },
+
+  {
+    key: "settings",
+    label: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings2,
+    description: "Preferences & configs",
   },
 ];
