@@ -42,11 +42,11 @@ export default function SidebarProfile() {
       {/* PROFILE */}
       <div className="flex items-center gap-3">
         <Image
-          src="https://i.pravatar.cc/100"
+          src="https://res.cloudinary.com/doqb7czvi/image/upload/v1780245385/z8lab5tjam9x2cefuigl.jpg"
           alt="profile"
           width={42}
           height={42}
-          className="rounded-full"
+          className="w-[42px] h-[42px] rounded-full"
         />
 
         <div>
