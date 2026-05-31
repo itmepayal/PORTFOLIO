@@ -71,7 +71,7 @@ export const menu: MenuItem[] = [
   {
     key: "experience",
     label: "Experience",
-    href: "/dashboard/experience",
+    href: "/dashboard/experiences",
     icon: BriefcaseBusiness,
     description: "Work experience",
   },

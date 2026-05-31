@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-
 import { iconMap } from "./data";
 
 /* ====================================================== */
@@ -25,20 +24,14 @@ const DSAStats = () => {
   const [loading, setLoading] = useState(true);
 
   /* ====================================================== */
-  /* FETCH STATS */
+  /* GET STATS */
   /* ====================================================== */
 
   useEffect(() => {
     const getStats = async () => {
       try {
         const response = await fetch("/api/dsa/stats");
-
         const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to fetch DSA stats");
-        }
-
         if (data.success) {
           setStats(data.stats || []);
         }
@@ -59,7 +52,9 @@ const DSAStats = () => {
   if (loading) {
     return (
       <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
-        {Array.from({ length: 5 }).map((_, index) => (
+        {Array.from({
+          length: 5,
+        }).map((_, index) => (
           <div
             key={index}
             className="
@@ -80,21 +75,25 @@ const DSAStats = () => {
     <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
       {stats.map((item, index) => {
         const Icon = iconMap[item.icon];
-
-        /* SAFETY CHECK */
-
         if (!Icon) return null;
-
         return (
           <motion.div
             key={item.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               delay: index * 0.07,
               duration: 0.4,
             }}
-            whileHover={{ y: -5 }}
+            whileHover={{
+              y: -5,
+            }}
             className="
               group
               relative
@@ -125,6 +124,9 @@ const DSAStats = () => {
                 rounded-full
                 bg-primary/5
                 blur-3xl
+                transition-all
+                duration-500
+                group-hover:bg-primary/10
               "
             />
 
@@ -141,6 +143,11 @@ const DSAStats = () => {
                   rounded-2xl
                   bg-primary/10
                   text-primary
+                  transition-all
+                  duration-300
+                  group-hover:scale-105
+                  group-hover:bg-primary
+                  group-hover:text-white
                 "
               >
                 <Icon className="h-5 w-5" />
@@ -167,7 +174,13 @@ const DSAStats = () => {
             {/* CONTENT */}
 
             <div className="relative mt-6">
-              <p className="text-sm font-medium text-muted-foreground">
+              <p
+                className="
+                  text-sm
+                  font-medium
+                  text-muted-foreground
+                "
+              >
                 {item.label}
               </p>
 
@@ -177,6 +190,7 @@ const DSAStats = () => {
                   text-3xl
                   font-black
                   tracking-tight
+                  text-foreground
                 "
               >
                 {item.value}

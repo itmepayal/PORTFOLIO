@@ -9,8 +9,61 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { Container } from "../common/container";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      toast("Message sent successfully");
+      setOpenSuccessModal(true);
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error: any) {
+      toast(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container>
       {/* ====================================================== */}
@@ -523,7 +576,7 @@ export const Contact = () => {
                 {/* FORM */}
                 {/* ====================================================== */}
 
-                <form className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5">
                   {/* NAME */}
 
                   <div className="space-y-2">
@@ -546,6 +599,13 @@ export const Contact = () => {
                         focus-visible:border-primary/40
                         focus-visible:ring-primary/20
                       "
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          name: e.target.value,
+                        })
+                      }
                     />
                   </div>
 
@@ -572,6 +632,13 @@ export const Contact = () => {
                         focus-visible:border-primary/40
                         focus-visible:ring-primary/20
                       "
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        })
+                      }
                     />
                   </div>
 
@@ -608,12 +675,21 @@ export const Contact = () => {
                         focus:ring-4
                         focus:ring-primary/10
                       "
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          message: e.target.value,
+                        })
+                      }
                     />
                   </div>
 
                   {/* BUTTON */}
 
                   <Button
+                    type="submit"
+                    disabled={loading}
                     className="
                       group
 
@@ -634,7 +710,7 @@ export const Contact = () => {
                       hover:shadow-primary/30
                     "
                   >
-                    Send Message
+                    {loading ? "Sending..." : "Send Message"}
                     <Send
                       className="
                         ml-2
@@ -653,6 +729,288 @@ export const Contact = () => {
           </motion.div>
         </div>
       </div>
+      <Dialog open={openSuccessModal} onOpenChange={setOpenSuccessModal}>
+        <DialogContent
+          className="
+      overflow-hidden
+      border-border/50
+      bg-background/95
+      backdrop-blur-2xl
+
+      max-w-xl!
+      rounded-4xl
+
+      p-0
+      shadow-2xl
+    "
+        >
+          {/* TOP GLOW */}
+
+          <div
+            className="
+        absolute
+        inset-x-0
+        top-0
+
+        h-40
+
+        bg-linear-to-b
+        from-emerald-500/15
+        to-transparent
+
+        pointer-events-none
+      "
+          />
+
+          {/* FLOATING ORBS */}
+
+          <div
+            className="
+        absolute
+        -top-10
+        -right-10
+
+        h-40
+        w-40
+
+        rounded-full
+
+        bg-emerald-500/10
+
+        blur-3xl
+      "
+          />
+
+          <div
+            className="
+        absolute
+        -bottom-10
+        -left-10
+
+        h-40
+        w-40
+
+        rounded-full
+
+        bg-primary/10
+
+        blur-3xl
+      "
+          />
+
+          <div className="relative z-10 p-8 sm:p-10">
+            <DialogHeader className="space-y-5">
+              {/* SUCCESS ICON */}
+
+              <motion.div
+                initial={{
+                  scale: 0.8,
+                  opacity: 0,
+                }}
+                animate={{
+                  scale: 1,
+                  opacity: 1,
+                }}
+                transition={{
+                  duration: 0.4,
+                }}
+                className="flex justify-center"
+              >
+                <div className="relative">
+                  {/* OUTER RING */}
+
+                  <div
+                    className="
+                absolute
+                inset-0
+
+                animate-ping
+
+                rounded-full
+
+                bg-emerald-500/20
+              "
+                  />
+
+                  {/* ICON WRAPPER */}
+
+                  <div
+                    className="
+                relative
+
+                flex
+                h-24
+                w-24
+                items-center
+                justify-center
+
+                rounded-full
+
+                border
+                border-emerald-500/20
+
+                bg-emerald-500/10
+
+                backdrop-blur-xl
+              "
+                  >
+                    <CheckCircle2
+                      className="
+                  h-12
+                  w-12
+
+                  text-emerald-500
+                "
+                    />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* BADGE */}
+
+              <div className="flex justify-center">
+                <div
+                  className="
+              inline-flex
+              items-center
+              gap-2
+
+              rounded-full
+
+              border
+              border-emerald-500/20
+
+              bg-emerald-500/10
+
+              px-4
+              py-2
+            "
+                >
+                  <Sparkles className="h-4 w-4 text-emerald-500" />
+
+                  <span
+                    className="
+                text-xs
+                font-semibold
+                uppercase
+
+                tracking-[0.18em]
+
+                text-emerald-500
+              "
+                  >
+                    Successfully Submitted
+                  </span>
+                </div>
+              </div>
+
+              {/* TITLE */}
+
+              <DialogTitle
+                className="
+            text-center
+
+            text-3xl
+
+            font-black
+
+            tracking-tight
+          "
+              >
+                Thank You 🚀
+              </DialogTitle>
+
+              {/* DESCRIPTION */}
+
+              <DialogDescription
+                className="
+            mx-auto
+            max-w-md
+
+            text-center
+
+            text-base
+            leading-7
+
+            text-muted-foreground
+          "
+              >
+                Your project enquiry has been received successfully.
+                <br />
+                <br />
+                I'll review your requirements and get back to you within
+                <span className="font-semibold text-foreground"> 24 hours</span>
+                .
+              </DialogDescription>
+
+              {/* INFO BOX */}
+
+              <div
+                className="
+            rounded-3xl
+
+            border
+            border-border
+
+            bg-muted/40
+
+            p-5
+
+            text-left
+          "
+              >
+                <h4
+                  className="
+              mb-3
+
+              font-semibold
+            "
+                >
+                  What happens next?
+                </h4>
+
+                <div className="space-y-3 text-sm text-muted-foreground">
+                  <div className="flex gap-3">
+                    <span className="font-bold text-primary">01</span>
+                    <span>I review your project requirements.</span>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="font-bold text-primary">02</span>
+                    <span>I analyze scope, timeline and tech stack.</span>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="font-bold text-primary">03</span>
+                    <span>You receive a detailed response via email.</span>
+                  </div>
+                </div>
+              </div>
+            </DialogHeader>
+
+            {/* BUTTON */}
+
+            <Button
+              onClick={() => setOpenSuccessModal(false)}
+              className="
+          mt-8
+
+          h-12
+          w-full
+
+          rounded-2xl
+
+          font-semibold
+
+          shadow-lg
+          shadow-primary/20
+        "
+            >
+              Awesome ✨
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 };

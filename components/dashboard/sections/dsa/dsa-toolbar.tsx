@@ -1,11 +1,8 @@
 "use client";
 
 import { Search, LayoutGrid, List, SlidersHorizontal } from "lucide-react";
-
 import { motion } from "framer-motion";
-
 import { Button } from "@/components/ui/button";
-
 import { Badge } from "@/components/ui/badge";
 
 interface Props {
@@ -17,9 +14,17 @@ interface Props {
   setView?: (value: "grid" | "list") => void;
 }
 
-const filters = ["All", "Published", "Draft"];
+const filters = [
+  "All",
+  "leetcode",
+  "striver",
+  "codeforces",
+  "gfg",
+  "custom",
+  "featured",
+];
 
-const ProjectsToolbar = ({
+const DSAToolbar = ({
   search,
   setSearch,
   activeFilter,
@@ -150,6 +155,7 @@ const ProjectsToolbar = ({
                   text-sm
                   transition-all
                   duration-300
+                  capitalize
 
                   ${
                     isActive
@@ -268,4 +274,4 @@ const ProjectsToolbar = ({
   );
 };
 
-export default ProjectsToolbar;
+export default DSAToolbar;

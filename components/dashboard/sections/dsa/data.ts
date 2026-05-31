@@ -1,10 +1,11 @@
-import { FolderKanban, CheckCircle2, CircleDashed, Zap } from "lucide-react";
+import { FolderKanban, Brain, Code2, Target, Zap } from "lucide-react";
 
 export const filterOptions = ["All", "Published", "Draft"];
 
 export const iconMap = {
   FolderKanban,
-  CheckCircle2,
-  CircleDashed,
+  Brain,
+  Code2,
+  Target,
   Zap,
 };

@@ -17,37 +17,23 @@ import { Button } from "@/components/ui/button";
 
 interface DSAItem {
   _id: string;
-
   title: string;
-
   subtitle: string;
-
   desc: string;
-
   progress: string;
-
-  category: string;
-
+  category: "leetcode" | "striver" | "codeforces" | "gfg" | "custom";
   problemsSolved: number;
-
   featured: boolean;
-
   order: number;
-
   createdAt?: string;
 }
 
 interface Pagination {
   totalProjects: number;
-
   totalPages: number;
-
   currentPage: number;
-
   limit: number;
-
   hasNextPage: boolean;
-
   hasPrevPage: boolean;
 }
 
@@ -61,28 +47,17 @@ const DSA = () => {
   /* ====================================================== */
 
   const [dsaList, setDsaList] = useState<DSAItem[]>([]);
-
   const [loading, setLoading] = useState(true);
-
   const [search, setSearch] = useState("");
-
   const [activeFilter, setActiveFilter] = useState("All");
-
   const [view, setView] = useState<"grid" | "list">("grid");
-
   const [page, setPage] = useState(1);
-
   const [pagination, setPagination] = useState<Pagination>({
     totalProjects: 0,
-
     totalPages: 1,
-
     currentPage: 1,
-
     limit: 6,
-
     hasNextPage: false,
-
     hasPrevPage: false,
   });
 
@@ -96,13 +71,15 @@ const DSA = () => {
 
       const query = new URLSearchParams({
         page: String(page),
-
         limit: "6",
-
         search,
-
-        filter: activeFilter,
       });
+
+      if (activeFilter === "featured") {
+        query.append("featured", "true");
+      } else {
+        query.append("category", activeFilter);
+      }
 
       const response = await fetch(`/api/dsa?${query}`);
 
@@ -224,14 +201,14 @@ const DSA = () => {
                 : "flex flex-col gap-6"
             }
           >
-            {/* {dsaList.map((item) => (
+            {dsaList.map((item) => (
               <DSACard
                 key={item._id}
                 dsa={item}
                 view={view}
                 onDelete={handleDeleteDSA}
               />
-            ))} */}
+            ))}
           </div>
 
           {/* ====================================================== */}

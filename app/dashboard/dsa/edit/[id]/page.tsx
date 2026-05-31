@@ -521,19 +521,15 @@ const EditDSA = () => {
                           setCategory(value as DSACategory)
                         }
                       >
-                        <SelectTrigger className="h-12! rounded-2xl">
+                        <SelectTrigger className="h-12! w-full rounded-2xl">
                           <SelectValue />
                         </SelectTrigger>
 
                         <SelectContent>
                           <SelectItem value="leetcode">LeetCode</SelectItem>
-
                           <SelectItem value="striver">Striver</SelectItem>
-
                           <SelectItem value="codeforces">Codeforces</SelectItem>
-
                           <SelectItem value="gfg">GFG</SelectItem>
-
                           <SelectItem value="custom">Custom</SelectItem>
                         </SelectContent>
                       </Select>

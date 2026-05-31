@@ -8,10 +8,14 @@ const nextConfig: NextConfig = {
         hostname: "i.pravatar.cc",
       },
 
-      // UNSPLASH
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+      },
+
+      {
+        protocol: "https",
+        hostname: "www.laneway.in",
       },
     ],
   },

@@ -688,18 +688,31 @@ const CreateDSA = () => {
     }
   `}
                     >
-                      <span className="relative z-10 flex items-center gap-2">
+                      <span
+                        className={`
+    relative
+    z-10
+    flex
+    items-center
+    gap-2
+    ${featured ? "text-white font-medium" : ""}
+  `}
+                      >
                         <Star
                           className={`
-        h-4
-        w-4
-        transition-all
-        duration-300
-        ${featured ? "fill-current scale-110" : "group-hover:rotate-12"}
-      `}
+      h-4
+      w-4
+      transition-all
+      duration-300
+      ${
+        featured
+          ? "fill-current scale-110 text-yellow-400"
+          : "group-hover:rotate-12"
+      }
+    `}
                         />
 
-                        {featured ? "Featured Project" : "Mark as Featured"}
+                        {featured ? "Featured" : "Mark as Featured"}
                       </span>
 
                       <div
