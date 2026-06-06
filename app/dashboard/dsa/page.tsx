@@ -68,7 +68,6 @@ const DSA = () => {
   const fetchDSA = async () => {
     try {
       setLoading(true);
-
       const query = new URLSearchParams({
         page: String(page),
         limit: "6",

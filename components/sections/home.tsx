@@ -468,7 +468,7 @@ export const Home = () => {
 
               flex
               w-full
-              flex-col
+              flex-row
 
               items-center
               justify-center
