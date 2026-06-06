@@ -1,58 +1,39 @@
 "use client";
-
-import Link from "next/link";
+import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 import {
-  ArrowLeft,
+  FolderKanban,
+  Sparkles,
   Layers3,
   Star,
-  Rocket,
   Activity,
   BadgeCheck,
-  Sparkles,
-  Trophy,
-  Brain,
-  Target,
-  BarChart3,
+  Rocket,
   LayoutDashboard,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import FormField from "@/components/form/FormField";
+import FormFeatureToggle from "@/components/form/FormFeatureToggle";
+import FormSectionHeader from "@/components/form/FormSectionHeader";
+import FormCard from "@/components/form/FormCard";
+import FormSelect from "@/components/form/FormSelect";
+import PageHeader from "@/components/dashboard/pages/PageHeader";
+import PageContainer from "@/components/dashboard/pages/page";
+import PreviewFooter from "@/components/dashboard/preview/PreviewFooter";
+import PreviewHeader from "@/components/dashboard/preview/PreviewHeader";
 
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
+export const dsaCategories = [
+  "leetcode",
+  "striver",
+  "codeforces",
+  "gfg",
+  "custom",
+] as const;
 
-type DSACategory = "leetcode" | "striver" | "codeforces" | "gfg" | "custom";
-
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
+export type DSACategory = (typeof dsaCategories)[number];
 
 const CreateDSA = () => {
-  /* ====================================================== */
-  /* STATES */
-  /* ====================================================== */
-
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -63,28 +44,24 @@ const CreateDSA = () => {
   const [order, setOrder] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  /* ====================================================== */
-  /* COMPLETION */
-  /* ====================================================== */
-
-  const completion = useMemo(() => {
+  const formProgress = useMemo(() => {
     let done = 0;
-    if (title) done++;
-    if (subtitle) done++;
-    if (desc.length >= 20) done++;
-    if (progress) done++;
-    if (problemsSolved >= 0) done++;
-    if (category) done++;
-    return Math.round((done / 6) * 100);
-  }, [title, subtitle, desc, progress, problemsSolved, category]);
 
-  /* ====================================================== */
-  /* SUBMIT */
-  /* ====================================================== */
+    if (title.trim()) done++;
+    if (subtitle.trim()) done++;
+    if (desc.trim()) done++;
+    if (progress.trim()) done++;
+    if (category) done++;
+    if (problemsSolved > 0) done++;
+    if (order >= 0) done++;
+
+    return Math.round((done / 7) * 100);
+  }, [title, subtitle, desc, progress, category, problemsSolved, order]);
 
   const handleSubmit = async () => {
     try {
       setLoading(true);
+
       if (!title.trim()) {
         toast.error("Title is required");
         return;
@@ -95,8 +72,8 @@ const CreateDSA = () => {
         return;
       }
 
-      if (desc.trim().length < 20) {
-        toast.error("Description must be at least 20 characters");
+      if (!desc.trim()) {
+        toast.error("Description is required");
         return;
       }
 
@@ -122,10 +99,11 @@ const CreateDSA = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
+        throw new Error(data.message || "Failed to create DSA profile");
       }
 
-      toast.success("DSA entry created successfully");
+      toast.success("DSA profile created successfully");
+
       setTitle("");
       setSubtitle("");
       setDesc("");
@@ -142,953 +120,217 @@ const CreateDSA = () => {
   };
 
   return (
-    <div
-      className="
-        min-h-screen
-        bg-[radial-gradient(circle_at_top,rgba(120,119,198,0.15),transparent_40%),linear-gradient(to_bottom_right,hsl(var(--background)),hsl(var(--background)))]
-      "
-    >
-      <div
-        className="
-          mx-auto
-          w-full
-        "
-      >
-        {/* ====================================================== */}
-        {/* HEADER */}
-        {/* ====================================================== */}
-
+    <PageContainer>
+      <PageHeader
+        title="Create DSA Profile"
+        description="Track your problem-solving journey and coding achievements"
+        icon={<FolderKanban className="h-8 w-8" />}
+        backHref="/dashboard/dsa"
+        progress={formProgress}
+      />
+      <div className="grid gap-8 xl:grid-cols-[1fr_380px]">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: -20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.4,
-          }}
-          className="
-            relative
-            mb-8
-            overflow-hidden
-            rounded-4xl
-            border
-            border-border/50
-            bg-background/70
-            p-6
-            shadow-[0_10px_50px_rgba(0,0,0,0.08)]
-            backdrop-blur-xl
-          "
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          {/* BACKGROUND */}
-
-          <div
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              bg-linear-to-r
-              from-primary/10
-              via-transparent
-              to-primary/5
-            "
-          />
-
-          <div
-            className="
-              relative
-              z-10
-              flex
-              flex-col
-              gap-6
-              lg:flex-row
-              lg:items-center
-              lg:justify-between
-            "
+          <FormCard
+            title="DSA Details"
+            description="Manage and update your coding profiles, problem-solving progress, and achievements"
+            icon={<Layers3 className="h-5 w-5" />}
           >
-            {/* LEFT */}
+            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+              <FormSectionHeader
+                title="Basic Information"
+                description="Enter your DSA profile details"
+              />
 
-            <div className="flex items-center gap-5">
-              <Link href="/dashboard/dsa">
-                <Button
-                  variant="outline"
-                  className="
-                    h-11
-                    rounded-2xl
-                  "
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back
-                </Button>
-              </Link>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  label="Title"
+                  value={title}
+                  onChange={setTitle}
+                  placeholder="LeetCode Journey"
+                />
 
-              <div
-                className="
-                  flex
-                  h-16
-                  w-16
-                  items-center
-                  justify-center
-                  rounded-3xl
-                  bg-primary/10
-                  text-primary
-                "
-              >
-                <Brain className="h-8 w-8" />
+                <FormField
+                  label="Subtitle"
+                  value={subtitle}
+                  onChange={setSubtitle}
+                  placeholder="Solving DSA problems daily"
+                />
               </div>
 
-              <div>
-                <h1
-                  className="
-                    text-3xl
-                    font-bold
-                    tracking-tight
-                  "
-                >
-                  Create DSA Entry
-                </h1>
-
-                <p
-                  className="
-                    mt-1
-                    text-muted-foreground
-                  "
-                >
-                  Track your coding progress professionally
-                </p>
-              </div>
+              <FormField
+                label="Description"
+                value={desc}
+                onChange={setDesc}
+                placeholder="Describe your coding journey..."
+              />
             </div>
 
-            {/* RIGHT */}
+            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+              <FormSectionHeader
+                title="Statistics & Configuration"
+                description="Manage your DSA progress and platform details"
+              />
 
-            <div className="hidden md:block">
-              <div
-                className="
-                  mb-2
-                  flex
-                  items-center
-                  justify-between
-                  text-sm
-                "
-              >
-                <span className="text-muted-foreground">Completion</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  label="Progress"
+                  value={progress}
+                  onChange={setProgress}
+                  placeholder="75%"
+                />
 
-                <span className="font-semibold">{completion}%</span>
-              </div>
+                <FormField
+                  label="Problems Solved"
+                  value={String(problemsSolved)}
+                  onChange={(value) => setProblemsSolved(Number(value) || 0)}
+                  placeholder="500"
+                  type="number"
+                />
 
-              <div
-                className="
-                  h-2
-                  w-56
-                  overflow-hidden
-                  rounded-full
-                  bg-muted
-                "
-              >
-                <div
-                  className="
-                    h-full
-                    rounded-full
-                    bg-primary
-                    transition-all
-                  "
-                  style={{
-                    width: `${completion}%`,
-                  }}
+                <FormField
+                  label="Display Order"
+                  value={String(order)}
+                  onChange={(value) => setOrder(Number(value) || 0)}
+                  placeholder="1"
+                  type="number"
+                />
+
+                <FormSelect
+                  label="Category"
+                  value={category}
+                  onValueChange={(value) => setCategory(value as DSACategory)}
+                  options={[...dsaCategories]}
                 />
               </div>
             </div>
-          </div>
+
+            <FormFeatureToggle
+              title="Featured Entry"
+              description="Highlight this DSA profile"
+              value={featured}
+              onChange={setFeatured}
+            />
+          </FormCard>
         </motion.div>
-
-        {/* ====================================================== */}
-        {/* GRID */}
-        {/* ====================================================== */}
-
-        <div
-          className="
-            grid
-            gap-8
-            xl:grid-cols-[1fr_380px]
-          "
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+          className="space-y-6"
         >
-          {/* ====================================================== */}
-          {/* LEFT FORM */}
-          {/* ====================================================== */}
+          <Card className="sticky top-6 rounded-4xl border-border/50 bg-background/70 backdrop-blur-xl">
+            <PreviewHeader
+              icon={<LayoutDashboard className="h-5 w-5" />}
+              title="Live Preview"
+              description="Real-time Experience preview"
+            />
+            <CardContent className="space-y-8">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight">
+                  {title || "DSA Profile"}
+                </h2>
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.4,
-            }}
-          >
-            <Card
-              className="
-                rounded-4xl
-                border-border/50
-                bg-background/70
-                shadow-2xl
-                backdrop-blur-xl
-              "
-            >
-              {/* TOP BORDER */}
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {subtitle || "Your coding journey overview"}
+                </p>
+              </div>
 
-              <div
-                className="
-                  h-1.5
-                  w-full
-                  rounded-t-4xl
-                  bg-linear-to-r
-                  from-primary
-                  via-primary/60
-                  to-primary
-                "
-              />
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary">
+                  {progress}
+                </span>
 
-              <CardHeader className="pb-2">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="
-                      flex
-                      h-12
-                      w-12
-                      items-center
-                      justify-center
-                      rounded-2xl
-                      bg-primary/10
-                      text-primary
-                    "
-                  >
-                    <Layers3 className="h-5 w-5" />
+                <span className="px-3 py-1 rounded-xl text-xs font-medium bg-muted capitalize">
+                  {category}
+                </span>
+
+                {featured && (
+                  <span className="px-3 py-1 rounded-xl text-xs font-medium bg-yellow-500/10 text-yellow-500">
+                    Featured
+                  </span>
+                )}
+              </div>
+
+              <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
+                <p className="text-sm text-muted-foreground mb-2">
+                  Description
+                </p>
+
+                <p className="text-sm leading-6">
+                  {desc || "Your DSA profile description will appear here."}
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                  <div className="flex items-center gap-3">
+                    <Activity className="h-4 w-4 text-primary" />
+                    <span className="text-sm">Progress</span>
                   </div>
 
-                  <div>
-                    <CardTitle className="text-xl">DSA Information</CardTitle>
-
-                    <CardDescription>
-                      Add your coding journey details
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-8">
-                {/* ====================================================== */}
-                {/* BASIC INFO */}
-                {/* ====================================================== */}
-
-                <div
-                  className="
-                    rounded-3xl
-                    border
-                    border-border/50
-                    bg-muted/20
-                    p-6
-                    space-y-6
-                  "
-                >
-                  <div>
-                    <h3
-                      className="
-                        text-lg
-                        font-semibold
-                        tracking-tight
-                      "
-                    >
-                      Basic Information
-                    </h3>
-
-                    <p
-                      className="
-                        text-sm
-                        text-muted-foreground
-                      "
-                    >
-                      Enter your DSA profile details
-                    </p>
-                  </div>
-
-                  {/* TITLE */}
-
-                  <div className="space-y-2">
-                    <Label>Title</Label>
-
-                    <Input
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="450+ Problems Solved"
-                      className="
-                        h-12
-                        rounded-2xl
-                        border-border/60
-                        bg-background/50
-                      "
-                    />
-                  </div>
-
-                  {/* SUBTITLE */}
-
-                  <div className="space-y-2">
-                    <Label>Subtitle</Label>
-
-                    <Input
-                      value={subtitle}
-                      onChange={(e) => setSubtitle(e.target.value)}
-                      placeholder="LeetCode Journey"
-                      className="
-                        h-12
-                        rounded-2xl
-                        border-border/60
-                        bg-background/50
-                      "
-                    />
-                  </div>
-
-                  {/* DESCRIPTION */}
-
-                  <div className="space-y-2">
-                    <Label>Description</Label>
-
-                    <Textarea
-                      value={desc}
-                      onChange={(e) => setDesc(e.target.value)}
-                      placeholder="Write detailed DSA journey description..."
-                      className="
-                        min-h-40
-                        resize-none
-                        rounded-3xl
-                        border-border/60
-                        bg-background/50
-                      "
-                    />
-
-                    <div className="flex justify-end">
-                      <span
-                        className="
-                          text-xs
-                          text-muted-foreground
-                        "
-                      >
-                        {desc.length}/500
-                      </span>
-                    </div>
-                  </div>
+                  <span className="font-semibold">{progress}</span>
                 </div>
 
-                {/* ====================================================== */}
-                {/* CONFIG */}
-                {/* ====================================================== */}
-
-                <div
-                  className="
-                    rounded-3xl
-                    border
-                    border-border/50
-                    bg-muted/20
-                    p-6
-                    space-y-6
-                  "
-                >
-                  <div>
-                    <h3
-                      className="
-                        text-lg
-                        font-semibold
-                        tracking-tight
-                      "
-                    >
-                      Configuration
-                    </h3>
-
-                    <p
-                      className="
-                        text-sm
-                        text-muted-foreground
-                      "
-                    >
-                      Manage your DSA settings
-                    </p>
+                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                  <div className="flex items-center gap-3">
+                    <BadgeCheck className="h-4 w-4 text-primary" />
+                    <span className="text-sm">Category</span>
                   </div>
 
-                  <div className="grid gap-6 md:grid-cols-2">
-                    {/* CATEGORY */}
-
-                    <div className="space-y-2">
-                      <Label>Category</Label>
-
-                      <Select
-                        value={category}
-                        onValueChange={(value) =>
-                          setCategory(value as DSACategory)
-                        }
-                      >
-                        <SelectTrigger
-                          className="
-                            h-12!
-                            w-full
-                            rounded-2xl
-                          "
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          <SelectItem value="leetcode">LeetCode</SelectItem>
-
-                          <SelectItem value="striver">Striver</SelectItem>
-
-                          <SelectItem value="codeforces">Codeforces</SelectItem>
-
-                          <SelectItem value="gfg">GFG</SelectItem>
-
-                          <SelectItem value="custom">Custom</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* PROGRESS */}
-
-                    <div className="space-y-2">
-                      <Label>Progress</Label>
-
-                      <Input
-                        value={progress}
-                        onChange={(e) => setProgress(e.target.value)}
-                        placeholder="85%"
-                        className="
-                          h-12
-                          rounded-2xl
-                        "
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid gap-6 md:grid-cols-2">
-                    {/* PROBLEMS */}
-
-                    <div className="space-y-2">
-                      <Label>Problems Solved</Label>
-
-                      <Input
-                        type="number"
-                        value={problemsSolved}
-                        onChange={(e) =>
-                          setProblemsSolved(Number(e.target.value))
-                        }
-                        className="
-                          h-12
-                          rounded-2xl
-                        "
-                      />
-                    </div>
-
-                    {/* ORDER */}
-
-                    <div className="space-y-2">
-                      <Label>Display Order</Label>
-
-                      <Input
-                        type="number"
-                        value={order}
-                        onChange={(e) => setOrder(Number(e.target.value))}
-                        className="
-                          h-12
-                          rounded-2xl
-                        "
-                      />
-                    </div>
-                  </div>
+                  <span className="font-semibold capitalize">{category}</span>
                 </div>
 
-                {/* ====================================================== */}
-                {/* FEATURED */}
-                {/* ====================================================== */}
-
-                <div
-                  className="
-                    rounded-3xl
-                    border
-                    border-border/50
-                    bg-muted/20
-                    p-6
-                    space-y-5
-                  "
-                >
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      gap-4
-                    "
-                  >
-                    <div>
-                      <h3
-                        className="
-                          text-lg
-                          font-semibold
-                        "
-                      >
-                        Featured Entry
-                      </h3>
-
-                      <p
-                        className="
-                          text-sm
-                          text-muted-foreground
-                        "
-                      >
-                        Highlight this DSA profile
-                      </p>
-                    </div>
-
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setFeatured(!featured)}
-                      className={`
-    group
-    relative
-    h-12
-    overflow-hidden
-    rounded-2xl
-    border
-    px-5
-    font-semibold
-    transition-all
-    duration-300
-    hover:scale-[1.02]
-    active:scale-[0.98]
-    ${
-      featured
-        ? `
-          border-primary/30
-          bg-primary
-          text-primary-foreground
-          shadow-lg
-          shadow-primary/20
-          hover:bg-primary/90
-        `
-        : `
-          border-border/60
-          bg-background
-          hover:border-primary/40
-          hover:bg-primary/5
-        `
-    }
-  `}
-                    >
-                      <span
-                        className={`
-    relative
-    z-10
-    flex
-    items-center
-    gap-2
-    ${featured ? "text-white font-medium" : ""}
-  `}
-                      >
-                        <Star
-                          className={`
-      h-4
-      w-4
-      transition-all
-      duration-300
-      ${
-        featured
-          ? "fill-current scale-110 text-yellow-400"
-          : "group-hover:rotate-12"
-      }
-    `}
-                        />
-
-                        {featured ? "Featured" : "Mark as Featured"}
-                      </span>
-
-                      <div
-                        className={`
-      absolute
-      inset-0
-      opacity-0
-      transition-opacity
-      duration-300
-      group-hover:opacity-100
-      ${
-        featured ? "bg-white/10" : "bg-linear-to-r from-primary/5 to-primary/10"
-      }
-    `}
-                      />
-                    </Button>
+                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                  <div className="flex items-center gap-3">
+                    <Star className="h-4 w-4 text-primary" />
+                    <span className="text-sm">Featured</span>
                   </div>
+
+                  <span className="font-semibold">
+                    {featured ? "Yes" : "No"}
+                  </span>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
 
-          {/* ====================================================== */}
-          {/* RIGHT SIDEBAR */}
-          {/* ====================================================== */}
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: 20,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            transition={{
-              duration: 0.4,
-            }}
-            className="space-y-6"
-          >
-            <Card
-              className="
-                sticky
-                top-6
-                rounded-4xl
-                border-border/50
-                bg-background/70
-                backdrop-blur-xl
-              "
-            >
-              {/* HEADER */}
-
-              <CardHeader className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="
-                      flex
-                      h-12
-                      w-12
-                      items-center
-                      justify-center
-                      rounded-2xl
-                      bg-primary/10
-                      text-primary
-                    "
-                  >
-                    <LayoutDashboard className="h-5 w-5" />
-                  </div>
-
-                  <div>
-                    <CardTitle>Live Preview</CardTitle>
-
-                    <CardDescription>Real-time DSA preview</CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-8">
-                {/* TITLE */}
-
-                <div className="space-y-3">
-                  <h2
-                    className="
-                      text-2xl
-                      font-bold
-                      tracking-tight
-                    "
-                  >
-                    {title || "Untitled DSA Entry"}
-                  </h2>
-
-                  <p
-                    className="
-                      text-sm
-                      font-medium
-                      text-primary
-                    "
-                  >
-                    {subtitle || "Subtitle preview"}
-                  </p>
-
-                  <p
-                    className="
-                      line-clamp-4
-                      text-sm
-                      text-muted-foreground
-                    "
-                  >
-                    {desc || "Description preview will appear here."}
-                  </p>
-                </div>
-
-                {/* BADGES */}
-
-                <div className="flex flex-wrap gap-2">
-                  <Badge
-                    className="
-                      rounded-xl
-                      px-3
-                      py-1
-                    "
-                  >
-                    {category}
-                  </Badge>
-
-                  <Badge
-                    variant="secondary"
-                    className="
-                      rounded-xl
-                      px-3
-                      py-1
-                    "
-                  >
-                    {progress}
-                  </Badge>
-
-                  {featured && (
-                    <Badge
-                      className="
-                        rounded-xl
-                        px-3
-                        py-1
-                      "
-                    >
-                      Featured
-                    </Badge>
-                  )}
-                </div>
-
-                {/* STATS */}
-
-                <div
-                  className="
-                    grid
-                    grid-cols-2
-                    gap-4
-                  "
-                >
-                  <div
-                    className="
-                      rounded-2xl
-                      border
-                      border-border/50
-                      bg-background/40
-                      p-4
-                    "
-                  >
-                    <div
-                      className="
-                        mb-2
-                        flex
-                        items-center
-                        gap-2
-                      "
-                    >
-                      <Trophy
-                        className="
-                          h-4
-                          w-4
-                          text-primary
-                        "
-                      />
-
-                      <span
-                        className="
-                          text-sm
-                          text-muted-foreground
-                        "
-                      >
-                        Solved
-                      </span>
-                    </div>
-
-                    <h3
-                      className="
-                        text-2xl
-                        font-bold
-                      "
-                    >
-                      {problemsSolved}
-                    </h3>
-                  </div>
-
-                  <div
-                    className="
-                      rounded-2xl
-                      border
-                      border-border/50
-                      bg-background/40
-                      p-4
-                    "
-                  >
-                    <div
-                      className="
-                        mb-2
-                        flex
-                        items-center
-                        gap-2
-                      "
-                    >
-                      <BarChart3
-                        className="
-                          h-4
-                          w-4
-                          text-primary
-                        "
-                      />
-
-                      <span
-                        className="
-                          text-sm
-                          text-muted-foreground
-                        "
-                      >
-                        Order
-                      </span>
-                    </div>
-
-                    <h3
-                      className="
-                        text-2xl
-                        font-bold
-                      "
-                    >
-                      {order}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* META */}
-
-                <div className="space-y-3">
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      rounded-2xl
-                      border
-                      border-border/50
-                      bg-background/40
-                      p-4
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-3
-                      "
-                    >
-                      <Activity
-                        className="
-                          h-4
-                          w-4
-                          text-primary
-                        "
-                      />
-
-                      <span className="text-sm">Completion</span>
-                    </div>
-                    <span className="font-semibold">{completion}%</span>
-                  </div>
-
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      rounded-2xl
-                      border
-                      border-border/50
-                      bg-background/40
-                      p-4
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-3
-                      "
-                    >
-                      <Target
-                        className="
-                          h-4
-                          w-4
-                          text-primary
-                        "
-                      />
-
-                      <span className="text-sm">Featured</span>
-                    </div>
-
-                    <span className="font-semibold">
-                      {featured ? "Yes" : "No"}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Rocket className="h-4 w-4 text-primary" />
+                    <span className="text-sm text-muted-foreground">
+                      Problems Solved
                     </span>
                   </div>
 
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      rounded-2xl
-                      border
-                      border-border/50
-                      bg-background/40
-                      p-4
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-3
-                      "
-                    >
-                      <BadgeCheck
-                        className="
-                          h-4
-                          w-4
-                          text-primary
-                        "
-                      />
-
-                      <span className="text-sm">Status</span>
-                    </div>
-
-                    <span className="font-semibold">Active</span>
-                  </div>
+                  <h3 className="text-2xl font-bold">{problemsSolved}</h3>
                 </div>
 
-                {/* ACTION */}
+                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Layers3 className="h-4 w-4 text-primary" />
+                    <span className="text-sm text-muted-foreground">
+                      Display Order
+                    </span>
+                  </div>
 
-                <Button
-                  onClick={handleSubmit}
-                  disabled={loading}
-                  className="
-                    h-12
-                    w-full
-                    rounded-2xl
-                    font-medium
-                    shadow-lg
-                    shadow-primary/10
-                  "
-                >
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  {loading ? "Creating..." : "Create DSA Entry"}
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
+                  <h3 className="text-2xl font-bold">{order}</h3>
+                </div>
+              </div>
+            </CardContent>
+            <PreviewFooter
+              onClick={handleSubmit}
+              loading={loading}
+              icon={<Sparkles className="h-4 w-4" />}
+              label="Publish DSA"
+              loadingLabel="Creating..."
+            />
+          </Card>
+        </motion.div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

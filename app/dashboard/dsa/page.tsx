@@ -56,7 +56,7 @@ const DSA = () => {
     totalProjects: 0,
     totalPages: 1,
     currentPage: 1,
-    limit: 6,
+    limit: 3,
     hasNextPage: false,
     hasPrevPage: false,
   });
