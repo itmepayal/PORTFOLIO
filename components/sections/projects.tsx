@@ -116,7 +116,7 @@ export const Projects = () => {
             {/* LEFT */}
             {/* ====================================================== */}
             <div className="max-w-3xl">
-              <p className=" text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm">
+              <p className=" inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
                 Backend Engineering
               </p>
               <h2 className=" mt-4 text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-[-0.04em] leading-[0.95] text-foreground">
@@ -324,7 +324,7 @@ export const Projects = () => {
                           {/* ====================================================== */}
                           {/* FEATURES */}
                           {/* ====================================================== */}
-                          <div className="mt-8 max-h-56 overflow-y-auto pr-2">
+                          <div className="mt-8 max-h-80 overflow-y-auto pr-2">
                             <div className="space-y-3">
                               {project.features
                                 .slice(
