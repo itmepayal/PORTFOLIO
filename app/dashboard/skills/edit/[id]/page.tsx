@@ -137,7 +137,7 @@ const EditSkill = () => {
   return (
     <PageContainer>
       <PageHeader
-        title="Create Skill"
+        title="Edit Skill"
         description="Track your coding progress professionally"
         icon={<FolderKanban className="h-8 w-8" />}
         backHref="/dashboard/skills"
