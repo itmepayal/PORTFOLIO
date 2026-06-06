@@ -6,14 +6,7 @@ interface ContainerProps {
 
 export const Container = ({ children }: ContainerProps) => {
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-        py-8
-        sm:py-28
-      "
-    >
+    <section className=" relative overflow-hidden py-8 sm:py-10">
       {children}
     </section>
   );

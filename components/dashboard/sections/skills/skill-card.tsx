@@ -2,9 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 import { motion } from "framer-motion";
-
 import {
   Pencil,
   Trash2,
@@ -18,12 +16,20 @@ import {
   BadgeCheck,
   Code2,
 } from "lucide-react";
-
 import { toast } from "sonner";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 /* ====================================================== */
 /* TYPES */
@@ -68,6 +74,7 @@ const SkillsCard = ({ skill, view = "grid", onDelete }: SkillsCardProps) => {
   const router = useRouter();
 
   const [deleting, setDeleting] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const isList = view === "list";
 
@@ -77,12 +84,6 @@ const SkillsCard = ({ skill, view = "grid", onDelete }: SkillsCardProps) => {
 
   const handleDelete = async () => {
     if (!skill._id) return;
-
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this skill?",
-    );
-
-    if (!confirmDelete) return;
 
     try {
       setDeleting(true);
@@ -360,7 +361,7 @@ const SkillsCard = ({ skill, view = "grid", onDelete }: SkillsCardProps) => {
                   size="icon"
                   variant="destructive"
                   disabled={deleting}
-                  onClick={handleDelete}
+                  onClick={() => setOpenDeleteModal(true)}
                   className="
                     h-10
                     w-10
@@ -541,6 +542,31 @@ const SkillsCard = ({ skill, view = "grid", onDelete }: SkillsCardProps) => {
           </div>
         </CardContent>
       </Card>
+      <AlertDialog open={openDeleteModal} onOpenChange={setOpenDeleteModal}>
+        <AlertDialogContent className="rounded-3xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Skill?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete{" "}
+              <span className="font-semibold">{skill.title}</span>? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive text-destructive-foreground"
+            >
+              {deleting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Delete"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </motion.div>
   );
 };

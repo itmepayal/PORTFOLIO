@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-
 import {
   Search,
   LayoutGrid,
@@ -12,7 +11,6 @@ import {
   Server,
   Star,
 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -22,28 +20,21 @@ import { Badge } from "@/components/ui/badge";
 
 interface Props {
   search: string;
-
   setSearch: (value: string) => void;
-
   activeFilter: string;
-
   setActiveFilter: (value: string) => void;
-
   view?: "grid" | "list";
-
   setView?: (value: "grid" | "list") => void;
 }
 
 /* ====================================================== */
 /* FILTERS */
 /* ====================================================== */
-
 const filters = ["All", "Frontend", "Backend", "Featured"];
 
 /* ====================================================== */
 /* FILTER ICONS */
 /* ====================================================== */
-
 const filterIcons = {
   All: Code2,
   Frontend: Monitor,
@@ -54,7 +45,6 @@ const filterIcons = {
 /* ====================================================== */
 /* COMPONENT */
 /* ====================================================== */
-
 const SkillToolbar = ({
   search,
   setSearch,
@@ -76,115 +66,42 @@ const SkillToolbar = ({
       transition={{
         duration: 0.4,
       }}
-      className="
-        relative
-        flex
-        flex-col
-        gap-5
-        overflow-hidden
-        rounded-3xl
-        border
-        border-border/50
-        bg-background/70
-        p-5
-        shadow-xl
-        backdrop-blur-xl
-        lg:flex-row
-        lg:items-center
-        lg:justify-between
-      "
+      className=" relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-border/50 bg-background/70 p-5 shadow-xl backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between"
     >
       {/* ====================================================== */}
       {/* BACKGROUND GLOW */}
       {/* ====================================================== */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-linear-to-r
-          from-primary/5
-          via-transparent
-          to-primary/5
-        "
-      />
-
+      <div className=" pointer-events-none absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-primary/5" />
       {/* ====================================================== */}
       {/* LEFT SECTION */}
       {/* ====================================================== */}
-
       <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
         {/* ====================================================== */}
         {/* SEARCH */}
         {/* ====================================================== */}
-
-        <div
-          className="
-            group
-            flex
-            h-12
-            w-full
-            items-center
-            gap-3
-            rounded-2xl
-            border
-            border-border/60
-            bg-background/80
-            px-4
-            shadow-sm
-            transition-all
-            duration-300
-            focus-within:border-primary/40
-            focus-within:shadow-lg
-            focus-within:shadow-primary/10
-            lg:max-w-sm
-          "
-        >
-          <Search
-            className="
-              h-4
-              w-4
-              text-muted-foreground
-              transition-colors
-              duration-300
-              group-focus-within:text-primary
-            "
-          />
-
+        <div className=" group flex h-12 w-full items-center gap-3 rounded-2xl border border-border/60 bg-background/80 px-4 shadow-sm transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-lg focus-within:shadow-primary/10 lg:max-w-sm">
+          <Search className=" h-4 w-4 text-muted-foreground transition-colors duration-300 group-focus-within:text-primary" />
           <input
             type="text"
             placeholder="Search skills..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="
-              w-full
-              bg-transparent
-              text-sm
-              outline-none
-              placeholder:text-muted-foreground
-            "
+            className=" w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
-
         {/* ====================================================== */}
         {/* FILTERS */}
         {/* ====================================================== */}
-
         <div className="flex flex-wrap items-center gap-2">
           <div className="mr-1 hidden items-center gap-2 sm:flex">
             <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-
             <span className="text-sm font-medium text-muted-foreground">
               Filters
             </span>
           </div>
-
           {filters.map((item) => {
             const isActive = activeFilter === item;
-
             const Icon = filterIcons[item as keyof typeof filterIcons];
-
             return (
               <Button
                 key={item}
@@ -197,7 +114,6 @@ const SkillToolbar = ({
                   text-sm
                   transition-all
                   duration-300
-
                   ${
                     isActive
                       ? `
@@ -217,23 +133,9 @@ const SkillToolbar = ({
                 `}
               >
                 <Icon className="mr-2 h-4 w-4" />
-
                 {item}
-
                 {isActive && (
-                  <Badge
-                    className="
-                      ml-2
-                      rounded-full
-                      border-0
-                      bg-white/20
-                      px-2
-                      py-0
-                      text-[10px]
-                      font-medium
-                      text-white
-                    "
-                  >
+                  <Badge className=" ml-2 rounded-full border-0 bg-white/20 px-2 py-0 text-[10px] font-medium text-white">
                     Active
                   </Badge>
                 )}
@@ -246,19 +148,7 @@ const SkillToolbar = ({
       {/* ====================================================== */}
       {/* VIEW TOGGLE */}
       {/* ====================================================== */}
-
-      <div
-        className="
-          flex
-          items-center
-          rounded-2xl
-          border
-          border-border/60
-          bg-background/70
-          p-1
-          shadow-sm
-        "
-      >
+      <div className="flexitems-centerrounded-2xlborderborder-border/60bg-background/70p-1shadow-sm">
         <Button
           size="icon"
           variant="ghost"
@@ -269,7 +159,6 @@ const SkillToolbar = ({
             rounded-xl
             transition-all
             duration-300
-
             ${
               view === "grid"
                 ? `
@@ -286,7 +175,6 @@ const SkillToolbar = ({
         >
           <LayoutGrid className="h-4 w-4" />
         </Button>
-
         <Button
           size="icon"
           variant="ghost"
@@ -297,7 +185,6 @@ const SkillToolbar = ({
             rounded-xl
             transition-all
             duration-300
-
             ${
               view === "list"
                 ? `

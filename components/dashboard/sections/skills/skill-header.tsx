@@ -28,22 +28,7 @@ const SkillsHeader = () => {
             rotate: 8,
             scale: 1.05,
           }}
-          className="
-            relative
-            flex
-            h-16
-            w-16
-            items-center
-            justify-center
-            rounded-[28px]
-            bg-linear-to-br
-            from-primary/20
-            via-primary/10
-            to-primary/5
-            text-primary
-            shadow-2xl
-            shadow-primary/20
-          "
+          className=" relative flex h-16 w-16 items-center justify-center rounded-[28px] bg-linear-to-br from-primary/20 via-primary/10 to-primary/5 text-primary shadow-2xl shadow-primary/20"
         >
           <BrainCircuit className="h-8 w-8" />
         </motion.div>
@@ -51,12 +36,10 @@ const SkillsHeader = () => {
         {/* ====================================================== */}
         {/* TITLE + DESCRIPTION */}
         {/* ====================================================== */}
-
         <div>
           <h2 className="text-4xl font-black tracking-tight md:text-4xl">
             Skills
           </h2>
-
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
             Manage and showcase your technical expertise, programming languages,
             frameworks, tools, databases, and professional competencies.
@@ -84,15 +67,7 @@ const SkillsHeader = () => {
 
         <Button
           onClick={() => router.push("/dashboard/skills/create")}
-          className="
-            h-12
-            rounded-2xl
-            bg-linear-to-r
-            from-primary
-            to-primary/80
-            shadow-lg
-            shadow-primary/20
-          "
+          className=" h-12 rounded-2xl bg-linear-to-r from-primary to-primary/80 shadow-lg shadow-primary/20"
         >
           <Plus className="mr-2 h-4 w-4" />
           Create Skill

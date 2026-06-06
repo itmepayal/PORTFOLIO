@@ -46,7 +46,7 @@ export default function SidebarProfile() {
           alt="profile"
           width={42}
           height={42}
-          className="w-[42px] h-[42px] rounded-full"
+          className="w-10.5 h-10.5 rounded-full"
         />
 
         <div>

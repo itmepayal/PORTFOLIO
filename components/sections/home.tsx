@@ -2,16 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-
 import { Button } from "@/components/ui/button";
-
 import { HiArrowRight, HiOutlineMail, HiSparkles } from "react-icons/hi";
-
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
-
 import { SiLeetcode } from "react-icons/si";
-
-import { ModeToggle } from "../common/theme-button";
+import { ModeToggle } from "@/components/common/theme-button";
 
 const socials = [
   {
@@ -32,36 +27,11 @@ const socials = [
 
 export const Home = () => {
   return (
-    <section
-      className="
-        relative
-        flex
-        min-h-screen
-        items-center
-        justify-center
-        overflow-hidden
-        bg-background
-      "
-    >
+    <section className=" relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
       {/* ====================================================== */}
       {/* GRID */}
       {/* ====================================================== */}
-
-      <div
-        className="
-          absolute
-          inset-0
-
-          opacity-60
-
-          bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
-
-          bg-size-[50px_50px]
-
-          sm:bg-size-[64px_64px]
-        "
-      />
-
+      <div className=" absolute inset-0 opacity-60 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[50px_50px] sm:bg-size-[64px_64px]" />
       {/* ====================================================== */}
       {/* AURORA */}
       {/* ====================================================== */}
@@ -411,20 +381,14 @@ export const Home = () => {
               font-black
 
               leading-[0.95]
-              tracking-[-0.07em]
+              tracking-1
 
               sm:text-5xl
               md:text-6xl
               lg:text-7xl
               xl:text-8xl
 
-              bg-linear-to-r
-              from-foreground
-              via-primary
-              to-chart-3
-
-              bg-clip-text
-              text-transparent
+              text-primary
             "
           >
             Payal Yadav
@@ -526,7 +490,7 @@ export const Home = () => {
                 relative
 
                 h-13
-                w-full
+                w-40
 
                 max-w-sm
 
@@ -552,18 +516,6 @@ export const Home = () => {
                 sm:text-base
               "
             >
-              <div
-                className="
-                  absolute
-                  inset-0
-
-                  bg-linear-to-r
-                  from-primary
-                  via-chart-3
-                  to-chart-2
-                "
-              />
-
               <a
                 href="/pdf/PAYAL_YADAV.pdf"
                 target="_blank"
@@ -600,7 +552,7 @@ export const Home = () => {
                 group
 
                 h-13
-                w-full
+                w-40
 
                 max-w-sm
 

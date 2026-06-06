@@ -80,7 +80,7 @@ const Skills = () => {
       const query = new URLSearchParams({
         page: String(page),
 
-        limit: "6",
+        limit: "3",
 
         search,
       });

@@ -344,7 +344,6 @@ const CreateProject = () => {
               <div className="hidden md:block">
                 <div className="mb-2 flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Completion</span>
-
                   <span className="font-semibold">{progress}%</span>
                 </div>
 
