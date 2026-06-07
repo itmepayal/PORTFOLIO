@@ -4,61 +4,73 @@ import { Variants } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { HiArrowLeft, HiArrowRight, HiExternalLink } from "react-icons/hi";
-import { FaGithub, FaGitAlt, FaReact } from "react-icons/fa6";
+import {
+  HiArrowLeft,
+  HiArrowRight,
+  HiExternalLink,
+  HiLocationMarker,
+  HiCalendar,
+  HiBriefcase,
+} from "react-icons/hi";
 import {
   SiNodedotjs,
   SiExpress,
   SiTypescript,
-  SiFirebase,
-  SiJsonwebtokens,
-  SiSwagger,
-  SiReactrouter,
-  SiTailwindcss,
-  SiRender,
   SiMongodb,
   SiPostgresql,
   SiNextdotjs,
+  SiTailwindcss,
+  SiReactrouter,
+  SiSwagger,
+  SiJsonwebtokens,
+  SiFirebase,
+  SiRender,
+  SiCloudinary,
 } from "react-icons/si";
+import { FaReact, FaGithub, FaGitAlt } from "react-icons/fa6";
 import { TbApi } from "react-icons/tb";
+import { SiPostman } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/common/container";
 
-const iconMap = {
-  FaReact,
-  FaGithub,
-  FaGitAlt,
-  SiNodedotjs,
-  SiExpress,
-  SiTypescript,
-  SiFirebase,
-  SiJsonwebtokens,
-  SiSwagger,
-  SiReactrouter,
-  SiTailwindcss,
-  SiRender,
-  SiMongodb,
-  SiPostgresql,
-  SiNextdotjs,
-  TbApi,
+const techIconMap: Record<string, React.ElementType> = {
+  "Node.js": SiNodedotjs,
+  "Express.js": SiExpress,
+  TypeScript: SiTypescript,
+  MongoDB: SiMongodb,
+  PostgreSQL: SiPostgresql,
+  "Next.js": SiNextdotjs,
+  "Tailwind CSS": SiTailwindcss,
+  "React Router": SiReactrouter,
+  Swagger: SiSwagger,
+  JWT: SiJsonwebtokens,
+  Firebase: SiFirebase,
+  Render: SiRender,
+  React: FaReact,
+  GitHub: FaGithub,
+  Git: FaGitAlt,
+  "REST API": TbApi,
+  Postman: SiPostman,
+  Cloudinary: SiCloudinary,
 };
 
-interface Tech {
-  name: string;
-  icon: keyof typeof iconMap;
-}
-interface Project {
+interface Experience {
   _id: string;
-  title: string;
+  company: string;
+  position: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  current: boolean;
   description: string;
-  tech: Tech[];
-  features: string[];
-  github: string;
-  live: string;
-  image: string;
+  responsibilities: string[];
+  technologies: string[];
+  companyLogo: string;
+  companyWebsite: string;
   featured: boolean;
-  category: string;
+  order: number;
   createdAt: string;
+  updatedAt: string;
 }
 
 const fadeUp: Variants = {
@@ -121,12 +133,20 @@ const MetaCard = ({
   </div>
 );
 
-const ProjectDetailPage = () => {
+const formatDate = (dateStr: string) =>
+  dateStr
+    ? new Date(dateStr).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      })
+    : "";
+
+const ExperienceDetailPage = () => {
   const params = useParams();
   const router = useRouter();
   const id = params?.id as string;
 
-  const [project, setProject] = useState<Project | null>(null);
+  const [experience, setExperience] = useState<Experience | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -135,9 +155,9 @@ const ProjectDetailPage = () => {
     (async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/projects/${id}`);
+        const res = await fetch(`/api/experience/${id}`);
         const data = await res.json();
-        data.success ? setProject(data.project) : setError(true);
+        data.success ? setExperience(data.experience) : setError(true);
       } catch {
         setError(true);
       } finally {
@@ -154,7 +174,7 @@ const ProjectDetailPage = () => {
           <div className="absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
           <div className="relative z-10 mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 max-w-7xl space-y-6 animate-pulse">
             <div className="h-8 w-36 rounded-full bg-muted" />
-            <div className="h-80 w-full rounded-3xl bg-muted" />
+            <div className="h-64 w-full rounded-3xl bg-muted" />
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[...Array(4)].map((_, i) => (
                 <div key={i} className="h-16 rounded-2xl bg-muted" />
@@ -171,17 +191,17 @@ const ProjectDetailPage = () => {
       </Container>
     );
 
-  if (error || !project)
+  if (error || !experience)
     return (
       <Container>
         <section className="relative min-h-screen flex items-center justify-center">
           <div className="text-center space-y-4 p-8">
             <div className="text-6xl mx-auto w-fit">🔍</div>
             <h2 className="text-2xl font-black text-foreground">
-              Project not found
+              Experience not found
             </h2>
             <p className="text-muted-foreground text-sm max-w-sm">
-              This project doesn't exist or has been removed.
+              This experience record doesn't exist or has been removed.
             </p>
             <Button onClick={() => router.back()} className="mt-2 rounded-2xl">
               <HiArrowLeft className="mr-2 size-4" /> Go Back
@@ -191,14 +211,23 @@ const ProjectDetailPage = () => {
       </Container>
     );
 
-  const formattedDate = new Date(project.createdAt).toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    },
+  const startFormatted = formatDate(experience.startDate);
+  const endFormatted = experience.current
+    ? "Present"
+    : formatDate(experience.endDate);
+  const tenure = `${startFormatted} — ${endFormatted}`;
+  const startMs = new Date(experience.startDate).getTime();
+  const endMs = experience.current
+    ? Date.now()
+    : new Date(experience.endDate).getTime();
+  const months = Math.max(
+    1,
+    Math.round((endMs - startMs) / (1000 * 60 * 60 * 24 * 30)),
   );
+  const durationLabel =
+    months < 12
+      ? `${months} mo${months !== 1 ? "s" : ""}`
+      : `${Math.floor(months / 12)} yr${Math.floor(months / 12) !== 1 ? "s" : ""}${months % 12 ? ` ${months % 12} mo` : ""}`;
 
   return (
     <Container>
@@ -206,6 +235,7 @@ const ProjectDetailPage = () => {
         <div className="absolute inset-0 -z-20 bg-background" />
         <div className="absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-87.5 rounded-full bg-primary/8 dark:bg-primary/12 blur-[140px] -z-10" />
+
         <div className="relative z-10 mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 max-w-7xl">
           <motion.div
             variants={fadeUp}
@@ -219,7 +249,7 @@ const ProjectDetailPage = () => {
               className="inline-flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground border border-border/60 hover:border-primary/30 hover:bg-primary/5 rounded-full px-4 py-2 transition-all duration-300 group"
             >
               <HiArrowLeft className="size-4 group-hover:-translate-x-0.5 transition-transform duration-300" />
-              Back to Projects
+              Back to Experience
             </button>
           </motion.div>
 
@@ -231,31 +261,43 @@ const ProjectDetailPage = () => {
             className="relative mb-8"
           >
             <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-2xl shadow-black/10 group">
+              <div className="w-full h-52 sm:h-64 md:h-72 bg-linear-to-br from-primary/25 via-primary/8 to-chart-3/15" />
+              <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[40px_40px]" />
               <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-64 sm:h-80 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
+                src={experience.companyLogo}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 m-auto w-[55%] max-w-xs object-contain opacity-[0.07] dark:opacity-[0.06] blur-[1px] scale-110 select-none pointer-events-none"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent" />
+
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(var(--primary)/0.12),transparent)]" />
+
+              <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
               <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
                 <div className="flex flex-wrap items-center gap-2 mb-3">
                   <span className="inline-flex items-center rounded-full border border-primary/40 bg-primary/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-primary font-semibold">
-                    {project.category}
+                    {experience.position}
                   </span>
-                  {project.featured && (
+                  {experience.current && (
+                    <span className="inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-400 font-semibold">
+                      🟢 Currently Working
+                    </span>
+                  )}
+                  {experience.featured && (
                     <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-amber-400 font-semibold">
                       ⭐ Featured
                     </span>
                   )}
-                  <span className="inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-400 font-semibold">
-                    Published
-                  </span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.04em] leading-[0.95] text-white mb-2">
-                  {project.title}
+                  {experience.company}
                 </h1>
-                <p className="text-sm text-white/50">{formattedDate}</p>
+                <p className="text-sm text-white/50">{tenure}</p>
               </div>
               <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10" />
             </div>
@@ -270,49 +312,35 @@ const ProjectDetailPage = () => {
           >
             <MetaCard
               icon={<HiExternalLink className="size-4" />}
-              label="Live Demo"
+              label="Company Website"
             >
               <a
-                href={project.live}
+                href={experience.companyWebsite}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline truncate block"
               >
-                View Live Site
+                Visit Website
               </a>
             </MetaCard>
             <MetaCard
-              icon={<FaGithub className="size-4" />}
-              label="Source Code"
+              icon={<HiLocationMarker className="size-4" />}
+              label="Location"
             >
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline truncate block"
-              >
-                View on GitHub
-              </a>
+              <span>{experience.location}</span>
+            </MetaCard>
+            <MetaCard icon={<HiCalendar className="size-4" />} label="Duration">
+              <span>{durationLabel}</span>
             </MetaCard>
             <MetaCard
               icon={
                 <span className="text-sm font-black">
-                  {project.tech.length}
+                  {experience.technologies.length}
                 </span>
               }
               label="Technologies"
             >
-              <span>{project.tech.length} in stack</span>
-            </MetaCard>
-            <MetaCard
-              icon={
-                <span className="text-sm font-black">
-                  {project.features.length}
-                </span>
-              }
-              label="Features"
-            >
-              <span>{project.features.length} key features</span>
+              <span>{experience.technologies.length} in stack</span>
             </MetaCard>
           </motion.div>
 
@@ -326,10 +354,10 @@ const ProjectDetailPage = () => {
             <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-xl p-6 sm:p-8 border-l-4 border-l-primary">
               <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
               <p className="text-[10px] uppercase tracking-[0.22em] font-semibold text-primary mb-4">
-                About this project
+                About this role
               </p>
               <p className="text-sm sm:text-base leading-7 sm:leading-8 text-muted-foreground relative z-10">
-                {project.description}
+                {experience.description}
               </p>
             </div>
           </motion.div>
@@ -343,8 +371,8 @@ const ProjectDetailPage = () => {
           >
             <SectionHeading number="01" title="Tech Stack" />
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
-              {project.tech.map((tech, i) => {
-                const Icon = iconMap[tech.icon];
+              {experience.technologies.map((tech, i) => {
+                const Icon = techIconMap[tech];
                 return (
                   <motion.div
                     key={i}
@@ -359,10 +387,16 @@ const ProjectDetailPage = () => {
                     className="flex items-center gap-2.5 rounded-2xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-xl px-3 py-3 transition-all duration-300 hover:border-primary/35 hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/8 group"
                   >
                     <div className="flex items-center justify-center size-8 rounded-xl bg-primary/10 text-primary shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
-                      {Icon && <Icon className="size-4" />}
+                      {Icon ? (
+                        <Icon className="size-4" />
+                      ) : (
+                        <span className="text-[9px] font-black">
+                          {tech.slice(0, 2).toUpperCase()}
+                        </span>
+                      )}
                     </div>
                     <span className="font-medium text-foreground truncate text-xs sm:text-sm">
-                      {tech.name}
+                      {tech}
                     </span>
                   </motion.div>
                 );
@@ -377,9 +411,9 @@ const ProjectDetailPage = () => {
             custom={5}
             className="mb-14"
           >
-            <SectionHeading number="02" title="Key Features" />
+            <SectionHeading number="02" title="Key Responsibilities" />
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-              {project.features.map((feature, i) => (
+              {experience.responsibilities.map((resp, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
@@ -395,7 +429,7 @@ const ProjectDetailPage = () => {
                     <div className="size-2 rounded-full bg-primary group-hover:shadow-[0_0_8px_rgba(139,92,246,0.9)] transition-shadow duration-300" />
                   </div>
                   <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-6">
-                    {feature}
+                    {resp}
                   </span>
                 </motion.div>
               ))}
@@ -415,33 +449,26 @@ const ProjectDetailPage = () => {
                 className="h-11 px-7 rounded-2xl text-sm shadow-lg shadow-primary/20 flex-1 sm:flex-none"
               >
                 <a
-                  href={project.live}
+                  href={experience.companyWebsite}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2"
                 >
                   <HiExternalLink className="size-4" />
-                  Live Demo
+                  Visit {experience.company}
                 </a>
               </Button>
               <Button
                 variant="outline"
-                asChild
+                onClick={() => router.back()}
                 className="h-11 px-7 rounded-2xl border-border/70 bg-background/70 dark:bg-background/40 backdrop-blur-xl hover:border-primary/30 hover:bg-primary/10 text-sm flex-1 sm:flex-none"
               >
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <FaGithub className="size-4" />
-                  View Source
-                </a>
+                <HiBriefcase className="size-4 mr-2" />
+                All Experiences
               </Button>
               <div className="hidden sm:block h-6 w-px bg-border/60" />
               <p className="text-xs text-muted-foreground/60 hidden sm:block">
-                Published {formattedDate}
+                {tenure}
               </p>
             </div>
           </motion.div>
@@ -458,7 +485,7 @@ const ProjectDetailPage = () => {
               <div className="absolute bottom-0 right-0 w-60 h-40 rounded-full bg-chart-3/10 blur-3xl" />
               <div className="relative z-10">
                 <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-primary font-bold mb-4">
-                  Interested in this work?
+                  Interested in working together?
                 </p>
                 <h3 className="text-2xl sm:text-4xl font-black tracking-3 leading-[0.95] text-foreground mb-5">
                   Let's build something
@@ -482,7 +509,7 @@ const ProjectDetailPage = () => {
                     onClick={() => router.back()}
                     className="h-12 px-8 rounded-2xl border-border/70 bg-background/70 dark:bg-background/40 backdrop-blur-xl hover:border-primary/30 hover:bg-primary/10 text-sm"
                   >
-                    View All Projects
+                    View All Experiences
                   </Button>
                 </div>
               </div>
@@ -494,4 +521,4 @@ const ProjectDetailPage = () => {
   );
 };
 
-export default ProjectDetailPage;
+export default ExperienceDetailPage;

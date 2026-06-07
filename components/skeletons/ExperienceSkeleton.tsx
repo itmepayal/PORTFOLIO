@@ -43,33 +43,6 @@ export const ExperienceSkeleton = () => {
             <div className="h-4 w-full rounded bg-muted" />
             <div className="h-4 w-4/5 rounded bg-muted" />
           </div>
-
-          {/* Responsibilities */}
-          <div className="mt-8">
-            <div className="h-7 w-52 rounded bg-muted mb-4" />
-
-            <div className="grid md:grid-cols-2 gap-3">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl border border-border bg-background/50 px-4 py-4"
-                >
-                  <div className="h-4 w-full rounded bg-muted" />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Technologies */}
-          <div className="mt-8">
-            <div className="h-7 w-44 rounded bg-muted mb-4" />
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="h-12 rounded-2xl bg-muted" />
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
