@@ -411,7 +411,7 @@ export const Projects = () => {
           {/* ====================================================== */}
           {/* PAGINATION */}
           {/* ====================================================== */}
-          <div className="flex items-center justify-center gap-2 mt-14">
+          <div className="flex items-center justify-center gap-2 sm:mt-8 mt-6">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
