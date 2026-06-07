@@ -10,7 +10,6 @@ const NotFound = () => {
   const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Animated floating particles on canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -72,22 +71,16 @@ const NotFound = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* ── Grid texture ── */}
       <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-150 h-75 rounded-full bg-primary/8 dark:bg-primary/12 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-75 h-50 rounded-full bg-chart-3/8 blur-[100px] pointer-events-none" />
 
-      {/* ── Ambient glow blobs ── */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-primary/8 dark:bg-primary/12 blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[200px] rounded-full bg-chart-3/8 blur-[100px] pointer-events-none" />
-
-      {/* ── Particles canvas ── */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none"
       />
 
-      {/* ── Content ── */}
       <div className="relative z-10 w-full max-w-2xl mx-auto px-6 text-center">
-        {/* 404 glitch number */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -95,7 +88,6 @@ const NotFound = () => {
           custom={0}
           className="relative mb-6 select-none"
         >
-          {/* shadow layer */}
           <span
             className="absolute inset-0 text-[10rem] sm:text-[13rem] font-black tracking-[-0.06em] leading-none text-primary/10 blur-sm"
             aria-hidden="true"
@@ -107,7 +99,6 @@ const NotFound = () => {
           </span>
         </motion.div>
 
-        {/* Divider with icon */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -115,14 +106,13 @@ const NotFound = () => {
           custom={1}
           className="flex items-center justify-center gap-4 mb-8"
         >
-          <div className="h-px flex-1 max-w-[80px] bg-border/60" />
+          <div className="h-px flex-1 max-w-20 bg-border/60" />
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary font-bold bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5">
             Page Not Found
           </span>
-          <div className="h-px flex-1 max-w-[80px] bg-border/60" />
+          <div className="h-px flex-1 max-w-20 bg-border/60" />
         </motion.div>
 
-        {/* Heading */}
         <motion.h1
           variants={fadeUp}
           initial="hidden"
@@ -136,7 +126,6 @@ const NotFound = () => {
           </span>
         </motion.h1>
 
-        {/* Description */}
         <motion.p
           variants={fadeUp}
           initial="hidden"
@@ -148,7 +137,6 @@ const NotFound = () => {
           be mistyped. Let's get you back on track.
         </motion.p>
 
-        {/* Action buttons */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -173,7 +161,6 @@ const NotFound = () => {
           </Button>
         </motion.div>
 
-        {/* Bottom hint */}
         <motion.p
           variants={fadeUp}
           initial="hidden"
