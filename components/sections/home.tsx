@@ -62,7 +62,7 @@ export const Home = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-7 sm:mb-8"
+            className="mb-7 sm:mb-8 mt-16 sm:mt-0"
           >
             <div className=" group inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card/60 px-4 py-2 sm:px-5 sm:py-2.5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-primary/40">
               <div className=" flex h-6 w-6 items-center justify-center rounded-full bg-primary/15 text-primary">
