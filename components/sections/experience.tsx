@@ -63,7 +63,7 @@ export const Experience = () => {
       {/* ====================================================== */}
       {/* SECTION */}
       {/* ====================================================== */}
-      <section className="relative overflow-hidden py-6 md:py-12">
+      <section>
         {/* ====================================================== */}
         {/* BACKGROUND */}
         {/* ====================================================== */}
@@ -92,7 +92,7 @@ export const Experience = () => {
             transition={{
               duration: 0.6,
             }}
-            className=" flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+            className=" flex flex-col gap-5 sm:gap-10 lg:flex-row lg:items-end lg:justify-between"
           >
             {/* ====================================================== */}
             {/* LEFT CONTENT */}
@@ -101,13 +101,13 @@ export const Experience = () => {
               <p className=" inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
                 Professional Experience
               </p>
-              <h2 className=" mt-4 text-3xl sm:text-4xl lg:text-5xl font-black leading-none tracking-[-0.05em] text-foreground">
+              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black leading-none tracking-[-0.05em] text-foreground">
                 Building
-                <span className="blockbg-linear-to-rfrom-primaryvia-primaryto-chart-3bg-clip-texttext-transparent">
+                <span className="block bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
                   Production Systems
                 </span>
               </h2>
-              <p className=" mt-5 max-w-2xl text-sm sm:text-base leading-7 sm:leading-8 text-muted-foreground">
+              <p className="mt-5 max-w-2xl text-sm sm:text-base leading-7 sm:leading-8 text-muted-foreground">
                 Focused on scalable backend systems, realtime infrastructure,
                 secure authentication, caching strategies, and enterprise-grade
                 application performance.
@@ -137,7 +137,7 @@ export const Experience = () => {
           {/* ====================================================== */}
           {/* EXPERIENCE LIST */}
           {/* ====================================================== */}
-          <div className="relative mt-16 sm:mt-20">
+          <div className="relative mt-6 sm:mt-20">
             {/* ====================================================== */}
             {/* TIMELINE LINE */}
             {/* ====================================================== */}
