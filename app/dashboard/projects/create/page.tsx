@@ -298,7 +298,6 @@ const CreateProject = () => {
                   onChange={setDescription}
                   placeholder="Describe your project, features, architecture, and key functionalities..."
                   className="md:col-span-2"
-                  required
                 />
               </div>
             </div>

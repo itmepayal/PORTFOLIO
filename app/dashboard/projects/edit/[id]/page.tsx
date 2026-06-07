@@ -90,9 +90,7 @@ const techIcons: Record<string, string> = {
 
 const EditProject = () => {
   const router = useRouter();
-
   const params = useParams();
-
   const id = params.id as string;
 
   /* ====================================================== */
@@ -123,35 +121,22 @@ const EditProject = () => {
 
   useEffect(() => {
     if (!id) return;
-
     const getProject = async () => {
       try {
         setPageLoading(true);
-
         const response = await fetch(`/api/projects/${id}`);
-
         const data = await response.json();
-
         if (!response.ok) {
           throw new Error(data.message);
         }
-
         const project = data.project;
-
         setTitle(project.title || "");
-
         setDescription(project.description || "");
-
         setStatus(project.isPublished ? "Published" : "Draft");
-
         setLive(project.live || "");
-
         setGithub(project.github || "");
-
         setCategory(project.category || "fullstack");
-
         setFeatures(project.features || []);
-
         setTechs(project.tech || []);
       } catch (error: any) {
         toast.error(error.message);
@@ -169,19 +154,12 @@ const EditProject = () => {
 
   const progress = useMemo(() => {
     let completed = 0;
-
     if (title) completed++;
-
     if (description.length >= 20) completed++;
-
     if (live) completed++;
-
     if (github) completed++;
-
     if (features.length > 0) completed++;
-
     if (techs.length > 0) completed++;
-
     return Math.round((completed / 6) * 100);
   }, [title, description, live, github, features, techs]);
 
@@ -191,22 +169,17 @@ const EditProject = () => {
 
   const addTech = () => {
     if (!techInput.trim()) return;
-
     const value = techInput.trim();
-
     const exists = techs.some(
       (item) => item.name.toLowerCase() === value.toLowerCase(),
     );
-
     if (exists) {
       toast.error("Technology already exists");
       return;
     }
-
     const icon =
       techIcons[value.toLowerCase()] ||
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/devicon/devicon-original.svg";
-
     setTechs((prev) => [
       ...prev,
       {
@@ -214,7 +187,6 @@ const EditProject = () => {
         icon,
       },
     ]);
-
     setTechInput("");
   };
 
@@ -228,16 +200,12 @@ const EditProject = () => {
 
   const addFeature = () => {
     if (!featureInput.trim()) return;
-
     const value = featureInput.trim();
-
     if (features.includes(value)) {
       toast.error("Feature already exists");
       return;
     }
-
     setFeatures((prev) => [...prev, value]);
-
     setFeatureInput("");
   };
 
@@ -252,32 +220,26 @@ const EditProject = () => {
   const handleUpdate = async () => {
     try {
       setLoading(true);
-
       if (!title.trim()) {
         toast.error("Project title is required");
         return;
       }
-
       if (description.trim().length < 20) {
         toast.error("Description must be at least 20 characters");
         return;
       }
-
       if (!live.trim()) {
         toast.error("Live URL is required");
         return;
       }
-
       if (!github.trim()) {
         toast.error("GitHub URL is required");
         return;
       }
-
       if (features.length === 0) {
         toast.error("Please add at least one feature");
         return;
       }
-
       if (techs.length === 0) {
         toast.error("Please add at least one technology");
         return;
@@ -292,25 +254,18 @@ const EditProject = () => {
         features,
         tech: techs,
       };
-
       const response = await fetch(`/api/projects/${id}`, {
         method: "PUT",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify(payload),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-
       toast.success("Project updated successfully");
-
       router.push("/dashboard/projects");
     } catch (error: any) {
       toast.error(error.message);
@@ -322,7 +277,6 @@ const EditProject = () => {
   /* ====================================================== */
   /* LOADING */
   /* ====================================================== */
-
   if (pageLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -372,7 +326,6 @@ const EditProject = () => {
                   onChange={setDescription}
                   placeholder="Describe your project, features, architecture, and key functionalities..."
                   className="md:col-span-2"
-                  required
                 />
               </div>
             </div>

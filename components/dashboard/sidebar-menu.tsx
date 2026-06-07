@@ -5,21 +5,24 @@ import { ChevronRight } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { menu } from "./menu";
 
-export default function SidebarMenu() {
+interface SidebarMenuProps {
+  search: string;
+}
+
+export default function SidebarMenu({ search }: SidebarMenuProps) {
   const pathname = usePathname();
   const router = useRouter();
-
-  const handleClick = (item: any) => {
+  const filteredMenu = menu.filter((item) =>
+    item.label.toLowerCase().includes(search.toLowerCase()),
+  );
+  const handleClick = (item: (typeof menu)[number]) => {
     router.push(item.href);
   };
-
   return (
     <div className="mt-8 space-y-3">
-      {menu.map((item, index) => {
+      {filteredMenu.map((item, index) => {
         const Icon = item.icon;
-
         const isActive = pathname === item.href;
-
         return (
           <motion.button
             key={item.key}
@@ -33,7 +36,6 @@ export default function SidebarMenu() {
               group relative flex w-full items-center justify-between
               overflow-hidden rounded-2xl border px-4 py-3.5
               transition-all duration-300
-
               ${
                 isActive
                   ? `
@@ -50,15 +52,12 @@ export default function SidebarMenu() {
               }
             `}
           >
-            {/* ACTIVE GLOW */}
             {isActive && (
               <motion.div
                 layoutId="activeSidebarGlow"
                 className="absolute inset-0 bg-linear-to-r from-primary/10 to-primary/5"
               />
             )}
-
-            {/* LEFT CONTENT */}
             <div className="relative z-10 flex items-center gap-3">
               <div
                 className={`
@@ -73,7 +72,6 @@ export default function SidebarMenu() {
               >
                 <Icon className="h-5 w-5" />
               </div>
-
               <div className="flex flex-col items-start">
                 <span
                   className={`
@@ -83,7 +81,6 @@ export default function SidebarMenu() {
                 >
                   {item.label}
                 </span>
-
                 <span
                   className={`
                     text-[11px]
@@ -98,8 +95,6 @@ export default function SidebarMenu() {
                 </span>
               </div>
             </div>
-
-            {/* RIGHT ICON */}
             <motion.div
               animate={{ x: isActive ? 4 : 0 }}
               transition={{ duration: 0.2 }}
@@ -111,12 +106,15 @@ export default function SidebarMenu() {
                 }`}
               />
             </motion.div>
-
-            {/* HOVER BORDER */}
             <div className="absolute inset-0 rounded-2xl border border-primary/0 group-hover:border-primary/10 transition-all duration-300" />
           </motion.button>
         );
       })}
+      {filteredMenu.length === 0 && (
+        <div className="rounded-2xl border border-dashed p-4 text-center text-sm text-muted-foreground">
+          No menu items found
+        </div>
+      )}
     </div>
   );
 }
