@@ -111,7 +111,7 @@ export const Projects = () => {
           {/* ====================================================== */}
           {/* HEADER */}
           {/* ====================================================== */}
-          <div className=" flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-10 mb-6 sm:mb-16">
+          <div className=" flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-10 mb-6 sm:mb-10">
             {/* ====================================================== */}
             {/* LEFT */}
             {/* ====================================================== */}
