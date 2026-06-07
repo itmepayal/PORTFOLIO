@@ -74,7 +74,7 @@ export const DSA = () => {
             {/* ====================================================== */}
             {/* TITLE */}
             {/* ====================================================== */}
-            <div className="text-center mb-12 sm:mb-16">
+            <div className="text-center mb-6 sm:mb-16">
               <p className=" inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
                 Data Structures & Algorithms
               </p>
