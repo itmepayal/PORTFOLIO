@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Container } from "../common/container";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { BriefcaseBusiness, CalendarDays, Loader2, MapPin } from "lucide-react";
+import { ExperienceSkeleton } from "../skeletons/ExperienceSkeleton";
 
 interface ExperienceItem {
   _id: string;
@@ -133,7 +134,6 @@ export const Experience = () => {
               </div>
             </motion.div>
           </motion.div>
-
           {/* ====================================================== */}
           {/* EXPERIENCE LIST */}
           {/* ====================================================== */}
@@ -146,12 +146,7 @@ export const Experience = () => {
             {/* EXPERIENCE CARDS */}
             {/* ====================================================== */}
             {loading ? (
-              <div className=" flex flex-col items-center justify-center py-32 rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-xl shadow-primary/5">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                <p className="mt-4 text-sm text-muted-foreground">
-                  Loading experience...
-                </p>
-              </div>
+              <ExperienceSkeleton />
             ) : (
               experiences.map((item, i) => (
                 <motion.div

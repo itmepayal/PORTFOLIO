@@ -32,7 +32,7 @@ import {
   SiCplusplus,
 } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
-import { Loader2 } from "lucide-react";
+import { SkillSkeleton } from "@/components/skeletons/SkillSkeleton";
 
 const iconMap = {
   FaHtml5,
@@ -162,16 +162,14 @@ export const Skills = () => {
                 const Icon =
                   iconMap[skill.icon as keyof typeof iconMap] || FaCode;
                 return (
-                  <div
-                    key={i}
-                    className="group relative flex items-center gap-4 px-5 py-5 rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-lg min-w-70 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:bg-accent/50 hover:shadow-primary/10 hover:-translate-y-1"
-                  >
+                  <div>
                     {loading ? (
-                      <div className="w-full flex items-center justify-center h-20">
-                        <Loader2 className="h-8 w-8 animate-spin" />
-                      </div>
+                      <SkillSkeleton key={i} />
                     ) : (
-                      <>
+                      <div
+                        key={i}
+                        className="group relative flex items-center gap-4 px-5 py-5 rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-lg min-w-70 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:bg-accent/50 hover:shadow-primary/10 hover:-translate-y-1"
+                      >
                         <div className="absolute inset-0 opacity-0 bg-linear-to-r from-primary/5 via-chart-3/5 to-chart-2/5 transition-opacity duration-500 group-hover:opacity-100" />
                         <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 text-primary border border-primary/10 shrink-0 transition-all duration-300 group-hover:scale-110">
                           {Icon && <Icon className="w-7 h-7" />}
@@ -210,7 +208,7 @@ export const Skills = () => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     )}
                   </div>
                 );
