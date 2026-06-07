@@ -297,89 +297,72 @@ export const Contact = () => {
         </div>
       </div>
       <Dialog open={openSuccessModal} onOpenChange={setOpenSuccessModal}>
-        <div className="flex items-center justify-center">
-          <DialogContent className=" overflow-hidden border-border/50 bg-background/95 backdrop-blur-2xl max-h-[90vh] sm:max-h-[85vh] sm:max-w-xl! rounded-4xl p-0 shadow-2xl">
-            <div className=" absolute inset-x-0 top-0 h-40 bg-linear-to-b from-emerald-500/15 to-transparent pointer-events-none" />
-            <div className=" absolute -top-10 -right-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
-            <div className=" absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
-            <div className="relative z-10 p-8 sm:p-10">
-              <DialogHeader className="space-y-5">
-                <motion.div
-                  initial={{
-                    scale: 0.8,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    scale: 1,
-                    opacity: 1,
-                  }}
-                  transition={{
-                    duration: 0.4,
-                  }}
-                  className="flex justify-center"
-                >
-                  <div className="relative">
-                    <div className=" absolute inset-0 animate-ping rounded-full bg-emerald-500/20" />
-                    <div className=" relative flex h-24 w-24 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 backdrop-blur-xl">
-                      <CheckCircle2 className=" h-12 w-12 text-emerald-500" />
-                    </div>
-                  </div>
-                </motion.div>
-
-                <div className="flex justify-center">
-                  <div className=" inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2">
-                    <Sparkles className="h-4 w-4 text-emerald-500" />
-                    <span className=" text-xs font-semibold uppercase tracking-[0.18em] text-emerald-500">
-                      Successfully Submitted
-                    </span>
-                  </div>
-                </div>
-
-                <DialogTitle className=" text-center text-3xl font-black tracking-tight">
-                  Thank You 🚀
-                </DialogTitle>
-
-                <DialogDescription className=" mx-auto max-w-md text-center text-base leading-7 text-muted-foreground">
-                  Your project enquiry has been received successfully.
-                  <br />
-                  <br />
-                  I'll review your requirements and get back to you within
-                  <span className="font-semibold text-foreground">
-                    {" "}
-                    24 hours
-                  </span>
-                  .
-                </DialogDescription>
-
-                <div className="hidden sm:block rounded-3xl border border-border bg-muted/40 p-5 text-left">
-                  <h4 className=" mb-3 font-semibold">What happens next?</h4>
-                  <div className="space-y-3 text-sm text-muted-foreground">
-                    <div className="flex gap-3">
-                      <span className="font-bold text-primary">01</span>
-                      <span>I review your project requirements.</span>
-                    </div>
-
-                    <div className="flex gap-3">
-                      <span className="font-bold text-primary">02</span>
-                      <span>I analyze scope, timeline and tech stack.</span>
-                    </div>
-
-                    <div className="flex gap-3">
-                      <span className="font-bold text-primary">03</span>
-                      <span>You receive a detailed response via email.</span>
-                    </div>
-                  </div>
-                </div>
-              </DialogHeader>
-              <Button
-                onClick={() => setOpenSuccessModal(false)}
-                className=" mt-8 h-12 w-full rounded-2xl font-semibold shadow-lg shadow-primary/20"
+        <DialogContent className="overflow-hidden border-border/50 bg-background/95 backdrop-blur-2xl w-[92vw] sm:max-w-xl! rounded-3xl sm:rounded-4xl p-0 shadow-2xl">
+          <div className="absolute inset-x-0 top-0 h-32 sm:h-40 bg-linear-to-b from-emerald-500/15 to-transparent pointer-events-none" />
+          <div className="absolute -top-10 -right-10 h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="absolute -bottom-10 -left-10 h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-primary/10 blur-3xl" />
+          <div className="relative z-10 p-5 sm:p-8 md:p-10">
+            <DialogHeader className="space-y-4 sm:space-y-5">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex justify-center"
               >
-                Awesome ✨
-              </Button>
-            </div>
-          </DialogContent>
-        </div>
+                <div className="relative">
+                  <div className="absolute inset-0 animate-ping rounded-full bg-emerald-500/20" />
+                  <div className="relative flex h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 backdrop-blur-xl">
+                    <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-emerald-500" />
+                  </div>
+                </div>
+              </motion.div>
+              <div className="flex justify-center">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 sm:px-4 sm:py-2">
+                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-500" />
+                  <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.18em] text-emerald-500">
+                    Successfully Submitted
+                  </span>
+                </div>
+              </div>
+              <DialogTitle className="text-center text-2xl sm:text-3xl font-black tracking-tight">
+                Thank You 🚀
+              </DialogTitle>
+              <DialogDescription className="mx-auto max-w-md text-center text-sm sm:text-base leading-6 sm:leading-7 text-muted-foreground">
+                Your project enquiry has been received successfully.
+                <br />
+                <br />
+                I'll review your requirements and get back to you within
+                <span className="font-semibold text-foreground"> 24 hours</span>
+                .
+              </DialogDescription>
+              <div className="rounded-2xl sm:rounded-3xl border border-border bg-muted/40 p-4 sm:p-5 text-left">
+                <h4 className="mb-2 sm:mb-3 text-sm sm:text-base font-semibold">
+                  What happens next?
+                </h4>
+                <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-muted-foreground">
+                  <div className="flex gap-2 sm:gap-3">
+                    <span className="font-bold text-primary shrink-0">01</span>
+                    <span>I review your project requirements.</span>
+                  </div>
+                  <div className="flex gap-2 sm:gap-3">
+                    <span className="font-bold text-primary shrink-0">02</span>
+                    <span>I analyze scope, timeline and tech stack.</span>
+                  </div>
+                  <div className="flex gap-2 sm:gap-3">
+                    <span className="font-bold text-primary shrink-0">03</span>
+                    <span>You receive a detailed response via email.</span>
+                  </div>
+                </div>
+              </div>
+            </DialogHeader>
+            <Button
+              onClick={() => setOpenSuccessModal(false)}
+              className="mt-6 sm:mt-8 h-11 sm:h-12 w-full rounded-2xl font-semibold shadow-lg shadow-primary/20"
+            >
+              Awesome ✨
+            </Button>
+          </div>
+        </DialogContent>
       </Dialog>
     </Container>
   );

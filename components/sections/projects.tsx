@@ -68,8 +68,32 @@ export const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const getLimit = () => {
+    if (typeof window === "undefined") return 3;
+    return window.innerWidth < 768 ? 1 : 3;
+  };
+
+  const [limit, setLimit] = useState(getLimit);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newLimit = getLimit();
+      setLimit((prev) => {
+        if (prev !== newLimit) {
+          setCurrentPage(1);
+          return newLimit;
+        }
+        return prev;
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalProjects, setTotalProjects] = useState(0);
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [expandedTech, setExpandedTech] = useState<Record<string, boolean>>({});
   const [expandedFeatures, setExpandedFeatures] = useState<
@@ -80,10 +104,13 @@ export const Projects = () => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/projects?limit=3");
+        const response = await fetch(
+          `/api/projects?page=${currentPage}&limit=${limit}`,
+        );
         const data = await response.json();
         if (data.success) {
           setProjects(data.projects);
+          setTotalProjects(data.pagination.totalProjects);
           setTotalPages(data.pagination.totalPages);
         }
       } catch (error) {
@@ -94,7 +121,9 @@ export const Projects = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [currentPage, limit]);
+
+  const showPagination = totalPages > 1;
 
   return (
     <Container>
@@ -143,7 +172,7 @@ export const Projects = () => {
               {[
                 {
                   label: "Projects",
-                  value: `+ ${projects.length}`,
+                  value: `+ ${totalProjects}`,
                 },
                 {
                   label: "APIs",
@@ -421,42 +450,47 @@ export const Projects = () => {
           {/* ====================================================== */}
           {/* PAGINATION */}
           {/* ====================================================== */}
-          {loading ? (
-            <PaginationSkeleton />
-          ) : (
-            <div className="flex items-center justify-center gap-2 sm:mt-8 mt-6">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="h-10 px-4 rounded-xl border border-border disabled:opacity-50"
-              >
-                Prev
-              </button>
+          {showPagination && (
+            <>
+              {loading ? (
+                <PaginationSkeleton />
+              ) : (
+                <div className="flex items-center justify-center gap-2 sm:mt-8 mt-6">
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                    className="h-10 px-4 rounded-xl border border-border disabled:opacity-50"
+                  >
+                    Prev
+                  </button>
 
-              {Array.from({ length: totalPages }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentPage(idx + 1)}
-                  className={`h-10 w-10 rounded-xl border transition-all duration-300 ${
-                    currentPage === idx + 1
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border hover:border-primary"
-                  }`}
-                >
-                  {idx + 1}
-                </button>
-              ))}
-
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="h-10 px-4 rounded-xl border border-border disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
+                  {Array.from({ length: totalPages }).map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentPage(idx + 1)}
+                      className={`h-10 w-10 rounded-xl border transition-all duration-300 ${
+                        currentPage === idx + 1
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "border-border hover:border-primary"
+                      }`}
+                    >
+                      {idx + 1}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                    className="h-10 px-4 rounded-xl border border-border disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
