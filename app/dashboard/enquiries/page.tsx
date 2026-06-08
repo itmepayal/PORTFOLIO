@@ -6,15 +6,9 @@ import EnquiryHeader from "@/components/dashboard/sections/enquiries/enquiry-hea
 import EnquiryStats from "@/components/dashboard/sections/enquiries/enquiry-stats";
 import EnquiryToolbar from "@/components/dashboard/sections/enquiries/enquiry-toolbar";
 import EnquiryCard from "@/components/dashboard/sections/enquiries/enquiry-card";
-
-import CardSkeleton from "@/components/dashboard/skeleton/project-card";
+import EnquiryCardSkeleton from "@/components/dashboard/skeleton/enquiry-card";
 import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
-
 import { Button } from "@/components/ui/button";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 interface EnquiryItem {
   _id: string;
@@ -36,20 +30,11 @@ interface Pagination {
   hasPrevPage: boolean;
 }
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const Enquiries = () => {
-  /* ====================================================== */
-  /* STATES */
-  /* ====================================================== */
-
   const [enquiries, setEnquiries] = useState<EnquiryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
-  const [view, setView] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
 
   const [pagination, setPagination] = useState<Pagination>({
@@ -61,42 +46,29 @@ const Enquiries = () => {
     hasPrevPage: false,
   });
 
-  /* ====================================================== */
-  /* FETCH SKILLS */
-  /* ====================================================== */
-
   const fetchEnquiries = async () => {
     try {
       setLoading(true);
-
       const query = new URLSearchParams({
         page: String(page),
-        limit: "6",
+        limit: "3",
         search,
       });
-
       if (activeFilter === "Unread") {
         query.append("isRead", "false");
       }
-
       if (activeFilter === "Read") {
         query.append("isRead", "true");
       }
-
       if (activeFilter === "Replied") {
         query.append("replied", "true");
       }
-
-      const response = await fetch(`/api/enquiry?${query.toString()}`);
-
+      const response = await fetch(`/api/enquiries?${query.toString()}`);
       if (!response.ok) {
         throw new Error("Failed to fetch enquiries");
       }
-
       const data = await response.json();
-
       setEnquiries(data.enquiries || []);
-
       setPagination(
         data.pagination || {
           totalEnquiries: 0,
@@ -114,10 +86,6 @@ const Enquiries = () => {
     }
   };
 
-  /* ====================================================== */
-  /* EFFECTS */
-  /* ====================================================== */
-
   useEffect(() => {
     fetchEnquiries();
   }, [page, search, activeFilter]);
@@ -126,73 +94,34 @@ const Enquiries = () => {
     setPage(1);
   }, [search, activeFilter]);
 
-  /* ====================================================== */
-  /* DELETE */
-  /* ====================================================== */
-
   const handleDeleteEnquiry = (id: string) => {
     setEnquiries((prev) => prev.filter((item) => item._id !== id));
-
     setPagination((prev) => ({
       ...prev,
       totalEnquiries: Math.max(0, prev.totalEnquiries - 1),
     }));
+    fetchEnquiries();
   };
-
-  /* ====================================================== */
-  /* RENDER */
-  /* ====================================================== */
 
   return (
     <section className="space-y-8">
-      {/* ====================================================== */}
-      {/* HEADER */}
-      {/* ====================================================== */}
-
       <EnquiryHeader />
-
-      {/* ====================================================== */}
-      {/* STATS */}
-      {/* ====================================================== */}
-
       <EnquiryStats />
-
-      {/* ====================================================== */}
-      {/* TOOLBAR */}
-      {/* ====================================================== */}
-
       <EnquiryToolbar
         search={search}
         setSearch={setSearch}
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
-        view={view}
-        setView={setView}
       />
-
-      {/* ====================================================== */}
-      {/* LOADING */}
-      {/* ====================================================== */}
-
       {loading ? (
-        <div
-          className={
-            view === "grid"
-              ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-              : "flex flex-col gap-6"
-          }
-        >
+        <div className={`grid gap-6 sm:grid-cols-2 xl:grid-cols-3`}>
           {Array.from({
-            length: 6,
+            length: 3,
           }).map((_, index) => (
-            <CardSkeleton key={index} />
+            <EnquiryCardSkeleton key={index} />
           ))}
         </div>
       ) : enquiries.length === 0 ? (
-        /* ====================================================== */
-        /* EMPTY */
-        /* ====================================================== */
-
         <EmptyProjects
           title="No Enquiries Found"
           description="No enquiries match your current search or filters."
@@ -204,31 +133,15 @@ const Enquiries = () => {
         />
       ) : (
         <>
-          {/* ====================================================== */}
-          {/* SKILLS GRID */}
-          {/* ====================================================== */}
-
-          <div
-            className={
-              view === "grid"
-                ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-                : "flex flex-col gap-6"
-            }
-          >
+          <div className={`grid gap-6 sm:grid-cols-2 xl:grid-cols-3`}>
             {enquiries.map((item) => (
               <EnquiryCard
                 key={item._id}
                 enquiry={item}
-                view={view}
                 onDelete={handleDeleteEnquiry}
               />
             ))}
           </div>
-
-          {/* ====================================================== */}
-          {/* PAGINATION */}
-          {/* ====================================================== */}
-
           {pagination.totalPages > 1 && (
             <div
               className="
@@ -237,11 +150,9 @@ const Enquiries = () => {
                 items-center
                 justify-center
                 gap-4
-                pt-6
+                pt-3
               "
             >
-              {/* PREVIOUS */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasPrevPage}
@@ -253,9 +164,6 @@ const Enquiries = () => {
               >
                 Previous
               </Button>
-
-              {/* PAGE INFO */}
-
               <div
                 className="
                   rounded-2xl
@@ -277,9 +185,6 @@ const Enquiries = () => {
                   {pagination.totalPages}
                 </span>
               </div>
-
-              {/* NEXT */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasNextPage}

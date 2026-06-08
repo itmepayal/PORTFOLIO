@@ -6,14 +6,10 @@ import DSAHeader from "@/components/dashboard/sections/dsa/dsa-header";
 import DSAStats from "@/components/dashboard/sections/dsa/dsa-stats";
 import DSAToolbar from "@/components/dashboard/sections/dsa/dsa-toolbar";
 import DSACard from "@/components/dashboard/sections/dsa/dsa-card";
-import DSACardSkeleton from "@/components/dashboard/skeleton/project-card";
+import DSACardSkeleton from "@/components/dashboard/skeleton/dsa-card";
 import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
 
 import { Button } from "@/components/ui/button";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 interface DSAItem {
   _id: string;
@@ -37,20 +33,11 @@ interface Pagination {
   hasPrevPage: boolean;
 }
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const DSA = () => {
-  /* ====================================================== */
-  /* STATES */
-  /* ====================================================== */
-
   const [dsaList, setDsaList] = useState<DSAItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
-  const [view, setView] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<Pagination>({
     totalProjects: 0,
@@ -60,10 +47,6 @@ const DSA = () => {
     hasNextPage: false,
     hasPrevPage: false,
   });
-
-  /* ====================================================== */
-  /* FETCH DSA */
-  /* ====================================================== */
 
   const fetchDSA = async () => {
     try {
@@ -98,10 +81,6 @@ const DSA = () => {
     }
   };
 
-  /* ====================================================== */
-  /* EFFECTS */
-  /* ====================================================== */
-
   useEffect(() => {
     fetchDSA();
   }, [page, search, activeFilter]);
@@ -109,10 +88,6 @@ const DSA = () => {
   useEffect(() => {
     setPage(1);
   }, [search, activeFilter]);
-
-  /* ====================================================== */
-  /* DELETE */
-  /* ====================================================== */
 
   const handleDeleteDSA = (id: string) => {
     setDsaList((prev) => prev.filter((item) => item._id !== id));
@@ -122,97 +97,42 @@ const DSA = () => {
 
       totalProjects: prev.totalProjects - 1,
     }));
+    fetchDSA();
   };
-
-  /* ====================================================== */
-  /* RENDER */
-  /* ====================================================== */
 
   return (
     <section className="space-y-8">
-      {/* ====================================================== */}
-      {/* HEADER */}
-      {/* ====================================================== */}
-
       <DSAHeader />
-
-      {/* ====================================================== */}
-      {/* STATS */}
-      {/* ====================================================== */}
-
       <DSAStats />
-
-      {/* ====================================================== */}
-      {/* TOOLBAR */}
-      {/* ====================================================== */}
-
       <DSAToolbar
         search={search}
         setSearch={setSearch}
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
-        view={view}
-        setView={setView}
       />
-
-      {/* ====================================================== */}
-      {/* LOADING */}
-      {/* ====================================================== */}
-
       {loading ? (
-        <div
-          className={
-            view === "grid"
-              ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-              : "flex flex-col gap-6"
-          }
-        >
-          {Array.from({ length: 6 }).map((_, index) => (
+        <div className={"grid gap-6 sm:grid-cols-2 xl:grid-cols-3"}>
+          {Array.from({ length: 3 }).map((_, index) => (
             <DSACardSkeleton key={index} />
           ))}
         </div>
       ) : dsaList.length === 0 ? (
-        /* ====================================================== */
-        /* EMPTY */
-        /* ====================================================== */
-
         <EmptyProjects
           title="No DSA entries found"
           description="Try changing your search or filters to find DSA progress entries."
           onReset={() => {
             setSearch("");
-
             setActiveFilter("All");
-
             setPage(1);
           }}
         />
       ) : (
         <>
-          {/* ====================================================== */}
-          {/* DSA GRID */}
-          {/* ====================================================== */}
-
-          <div
-            className={
-              view === "grid"
-                ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-                : "flex flex-col gap-6"
-            }
-          >
+          <div className={"grid gap-6 sm:grid-cols-2 xl:grid-cols-3"}>
             {dsaList.map((item) => (
-              <DSACard
-                key={item._id}
-                dsa={item}
-                view={view}
-                onDelete={handleDeleteDSA}
-              />
+              <DSACard key={item._id} dsa={item} onDelete={handleDeleteDSA} />
             ))}
           </div>
-
-          {/* ====================================================== */}
-          {/* PAGINATION */}
-          {/* ====================================================== */}
 
           {pagination.totalPages > 1 && (
             <div
@@ -222,11 +142,9 @@ const DSA = () => {
                 items-center
                 justify-center
                 gap-4
-                pt-6
+                pt-3
               "
             >
-              {/* PREV */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasPrevPage}
@@ -238,9 +156,6 @@ const DSA = () => {
               >
                 Previous
               </Button>
-
-              {/* PAGE INFO */}
-
               <div
                 className="
                   rounded-2xl
@@ -262,9 +177,6 @@ const DSA = () => {
                   {pagination.totalPages}
                 </span>
               </div>
-
-              {/* NEXT */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasNextPage}

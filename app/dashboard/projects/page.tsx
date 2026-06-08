@@ -110,7 +110,7 @@ const Projects = () => {
       />
       {loading ? (
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: 3 }).map((_, index) => (
             <ProjectCardSkeleton key={index} />
           ))}
         </div>
@@ -134,7 +134,7 @@ const Projects = () => {
             ))}
           </div>
           {pagination.totalPages > 1 && (
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
               <Button
                 variant="outline"
                 disabled={!pagination.hasPrevPage}

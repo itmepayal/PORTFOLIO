@@ -16,28 +16,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
-
 interface Props {
   search: string;
   setSearch: (value: string) => void;
   activeFilter: string;
   setActiveFilter: (value: string) => void;
-  view?: "grid" | "list";
-  setView?: (value: "grid" | "list") => void;
 }
 
-/* ====================================================== */
-/* FILTERS */
-/* ====================================================== */
-
 const filters = ["All", "Unread", "Read", "Replied"];
-
-/* ====================================================== */
-/* FILTER ICONS */
-/* ====================================================== */
 
 const filterIcons = {
   All: Inbox,
@@ -46,17 +32,11 @@ const filterIcons = {
   Replied: Send,
 };
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const EnquiryToolbar = ({
   search,
   setSearch,
   activeFilter,
   setActiveFilter,
-  view = "grid",
-  setView,
 }: Props) => {
   return (
     <motion.div
@@ -89,8 +69,6 @@ const EnquiryToolbar = ({
         lg:justify-between
       "
     >
-      {/* BACKGROUND */}
-
       <div
         className="
           pointer-events-none
@@ -102,12 +80,7 @@ const EnquiryToolbar = ({
           to-primary/5
         "
       />
-
-      {/* LEFT */}
-
-      <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
-        {/* SEARCH */}
-
+      <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div
           className="
             group
@@ -155,23 +128,16 @@ const EnquiryToolbar = ({
             "
           />
         </div>
-
-        {/* FILTERS */}
-
         <div className="flex flex-wrap items-center gap-2">
           <div className="mr-1 hidden items-center gap-2 sm:flex">
             <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-
             <span className="text-sm font-medium text-muted-foreground">
               Filters
             </span>
           </div>
-
           {filters.map((item) => {
             const isActive = activeFilter === item;
-
             const Icon = filterIcons[item as keyof typeof filterIcons];
-
             return (
               <Button
                 key={item}
@@ -184,7 +150,6 @@ const EnquiryToolbar = ({
                   text-sm
                   transition-all
                   duration-300
-
                   ${
                     isActive
                       ? `
@@ -204,9 +169,7 @@ const EnquiryToolbar = ({
                 `}
               >
                 <Icon className="mr-2 h-4 w-4" />
-
                 {item}
-
                 {isActive && (
                   <Badge
                     className="
@@ -228,77 +191,6 @@ const EnquiryToolbar = ({
             );
           })}
         </div>
-      </div>
-
-      {/* VIEW TOGGLE */}
-
-      <div
-        className="
-          flex
-          items-center
-          rounded-2xl
-          border
-          border-border/60
-          bg-background/70
-          p-1
-          shadow-sm
-        "
-      >
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => setView?.("grid")}
-          className={`
-            h-10
-            w-10
-            rounded-xl
-            transition-all
-            duration-300
-
-            ${
-              view === "grid"
-                ? `
-                  bg-primary
-                  text-primary-foreground
-                  shadow-md
-                `
-                : `
-                  hover:bg-primary/10
-                  hover:text-primary
-                `
-            }
-          `}
-        >
-          <LayoutGrid className="h-4 w-4" />
-        </Button>
-
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => setView?.("list")}
-          className={`
-            h-10
-            w-10
-            rounded-xl
-            transition-all
-            duration-300
-
-            ${
-              view === "list"
-                ? `
-                  bg-primary
-                  text-primary-foreground
-                  shadow-md
-                `
-                : `
-                  hover:bg-primary/10
-                  hover:text-primary
-                `
-            }
-          `}
-        >
-          <List className="h-4 w-4" />
-        </Button>
       </div>
     </motion.div>
   );

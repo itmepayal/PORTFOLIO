@@ -4,10 +4,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { iconMap } from "./data";
 
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
-
 type Stat = {
   label: string;
   value: number;
@@ -15,28 +11,21 @@ type Stat = {
   icon: keyof typeof iconMap;
 };
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const DSAStats = () => {
   const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
-
-  /* ====================================================== */
-  /* GET STATS */
-  /* ====================================================== */
 
   useEffect(() => {
     const getStats = async () => {
       try {
         const response = await fetch("/api/dsa/stats");
         const data = await response.json();
+
         if (data.success) {
           setStats(data.stats || []);
         }
       } catch (error) {
-        console.log(error);
+        console.error("Failed to fetch DSA stats:", error);
       } finally {
         setLoading(false);
       }
@@ -45,16 +34,10 @@ const DSAStats = () => {
     getStats();
   }, []);
 
-  /* ====================================================== */
-  /* LOADING */
-  /* ====================================================== */
-
   if (loading) {
     return (
       <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
-        {Array.from({
-          length: 5,
-        }).map((_, index) => (
+        {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
             className="
@@ -68,6 +51,14 @@ const DSAStats = () => {
           />
         ))}
       </section>
+    );
+  }
+
+  if (!stats.length) {
+    return (
+      <div className=" flex h-44 items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 text-muted-foreground">
+        No DSA statistics available.
+      </div>
     );
   }
 
@@ -112,8 +103,6 @@ const DSAStats = () => {
               hover:shadow-primary/5
             "
           >
-            {/* BACKGROUND */}
-
             <div
               className="
                 absolute
@@ -129,8 +118,6 @@ const DSAStats = () => {
                 group-hover:bg-primary/10
               "
             />
-
-            {/* HEADER */}
 
             <div className="relative flex items-start justify-between">
               <div
@@ -171,8 +158,6 @@ const DSAStats = () => {
               </div>
             </div>
 
-            {/* CONTENT */}
-
             <div className="relative mt-6">
               <p
                 className="
@@ -196,8 +181,6 @@ const DSAStats = () => {
                 {item.value}
               </h2>
             </div>
-
-            {/* BOTTOM LINE */}
 
             <div
               className="

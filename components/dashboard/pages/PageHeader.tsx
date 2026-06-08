@@ -8,12 +8,9 @@ import { Button } from "@/components/ui/button";
 type PageHeaderProps = {
   title: string;
   description?: string;
-
   icon?: ReactNode;
-
   backHref?: string;
   backLabel?: string;
-
   progress?: number;
 };
 
@@ -34,7 +31,7 @@ const PageHeader = ({
         relative
         mb-8
         overflow-hidden
-        rounded-4xl
+        rounded-3xl
         border
         border-border/50
         bg-background/70
@@ -43,13 +40,9 @@ const PageHeader = ({
         backdrop-blur-xl
       "
     >
-      {/* BACKGROUND EFFECT */}
       <div className="absolute inset-0 bg-linear-to-r from-primary/10 via-transparent to-primary/5 pointer-events-none" />
-
       <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-        {/* LEFT SIDE */}
         <div className="flex items-center gap-5">
-          {/* BACK BUTTON */}
           {backHref && (
             <Link href={backHref}>
               <Button variant="outline" className="h-11 rounded-2xl">
@@ -57,15 +50,11 @@ const PageHeader = ({
               </Button>
             </Link>
           )}
-
-          {/* ICON */}
           {icon && (
             <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-primary/10 text-primary">
               {icon}
             </div>
           )}
-
-          {/* TEXT */}
           <div>
             <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
 
@@ -74,8 +63,6 @@ const PageHeader = ({
             )}
           </div>
         </div>
-
-        {/* RIGHT SIDE - PROGRESS */}
         {typeof progress === "number" && (
           <div className="flex items-center gap-4">
             <div className="hidden md:block">
@@ -83,7 +70,6 @@ const PageHeader = ({
                 <span className="text-muted-foreground">Completion</span>
                 <span className="font-semibold">{progress}%</span>
               </div>
-
               <div className="h-2 w-52 overflow-hidden rounded-full bg-muted">
                 <div
                   className="h-full rounded-full bg-primary transition-all"

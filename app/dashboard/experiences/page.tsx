@@ -6,15 +6,9 @@ import ExperienceHeader from "@/components/dashboard/sections/experiances/experi
 import ExperienceStats from "@/components/dashboard/sections/experiances/experience-stats";
 import ExperienceToolbar from "@/components/dashboard/sections/experiances/experience-toolbar";
 import ExperienceCard from "@/components/dashboard/sections/experiances/experience-card";
-
-import CardSkeleton from "@/components/dashboard/skeleton/project-card";
 import EmptyProjects from "@/components/dashboard/sections/experiances/empty-card";
-
+import ExperienceCardSkeleton from "@/components/dashboard/skeleton/experience-card";
 import { Button } from "@/components/ui/button";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 interface ExperienceItem {
   _id: string;
@@ -43,20 +37,11 @@ interface Pagination {
   hasPrevPage: boolean;
 }
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const Experiance = () => {
-  /* ====================================================== */
-  /* STATES */
-  /* ====================================================== */
-
   const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
-  const [view, setView] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<Pagination>({
     totalExperiences: 0,
@@ -67,14 +52,9 @@ const Experiance = () => {
     hasPrevPage: false,
   });
 
-  /* ====================================================== */
-  /* FETCH SKILLS */
-  /* ====================================================== */
-
   const fetchExperiences = async () => {
     try {
       setLoading(true);
-
       const query = new URLSearchParams({
         page: String(page),
         limit: "6",
@@ -85,7 +65,7 @@ const Experiance = () => {
         query.append("featured", "true");
       }
 
-      const response = await fetch(`/api/experience?${query}`);
+      const response = await fetch(`/api/experiences?${query}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch experiences");
@@ -112,10 +92,6 @@ const Experiance = () => {
     }
   };
 
-  /* ====================================================== */
-  /* EFFECTS */
-  /* ====================================================== */
-
   useEffect(() => {
     fetchExperiences();
   }, [page, search, activeFilter]);
@@ -124,10 +100,6 @@ const Experiance = () => {
     setPage(1);
   }, [search, activeFilter]);
 
-  /* ====================================================== */
-  /* DELETE */
-  /* ====================================================== */
-
   const handleDeleteExperience = (id: string) => {
     setExperiences((prev) => prev.filter((item) => item._id !== id));
 
@@ -135,61 +107,29 @@ const Experiance = () => {
       ...prev,
       totalExperiences: Math.max(0, prev.totalExperiences - 1),
     }));
+    fetchExperiences();
   };
-
-  /* ====================================================== */
-  /* RENDER */
-  /* ====================================================== */
 
   return (
     <section className="space-y-8">
-      {/* ====================================================== */}
-      {/* HEADER */}
-      {/* ====================================================== */}
-
       <ExperienceHeader />
-
-      {/* ====================================================== */}
-      {/* STATS */}
-      {/* ====================================================== */}
-
       <ExperienceStats />
-
-      {/* ====================================================== */}
-      {/* TOOLBAR */}
-      {/* ====================================================== */}
-
       <ExperienceToolbar
         search={search}
         setSearch={setSearch}
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
-        view={view}
-        setView={setView}
       />
-      {/* ====================================================== */}
-      {/* LOADING */}
-      {/* ====================================================== */}
 
       {loading ? (
-        <div
-          className={
-            view === "grid"
-              ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-              : "flex flex-col gap-6"
-          }
-        >
+        <div className={"grid gap-6 sm:grid-cols-2 xl:grid-cols-3"}>
           {Array.from({
-            length: 6,
+            length: 3,
           }).map((_, index) => (
-            <CardSkeleton key={index} />
+            <ExperienceCardSkeleton key={index} />
           ))}
         </div>
       ) : experiences.length === 0 ? (
-        /* ====================================================== */
-        /* EMPTY */
-        /* ====================================================== */
-
         <EmptyProjects
           title="No Experiences Found"
           description="Try changing your search or filters to find experiences."
@@ -201,30 +141,15 @@ const Experiance = () => {
         />
       ) : (
         <>
-          {/* ====================================================== */}
-          {/* SKILLS GRID */}
-          {/* ====================================================== */}
-
-          <div
-            className={
-              view === "grid"
-                ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-                : "flex flex-col gap-6"
-            }
-          >
+          <div className={"grid gap-6 sm:grid-cols-2 xl:grid-cols-3"}>
             {experiences.map((item) => (
               <ExperienceCard
                 key={item._id}
                 experience={item}
-                view={view}
                 onDelete={handleDeleteExperience}
               />
             ))}
           </div>
-
-          {/* ====================================================== */}
-          {/* PAGINATION */}
-          {/* ====================================================== */}
 
           {pagination.totalPages > 1 && (
             <div
@@ -234,11 +159,9 @@ const Experiance = () => {
                 items-center
                 justify-center
                 gap-4
-                pt-6
+                pt-3
               "
             >
-              {/* PREVIOUS */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasPrevPage}
@@ -250,9 +173,6 @@ const Experiance = () => {
               >
                 Previous
               </Button>
-
-              {/* PAGE INFO */}
-
               <div
                 className="
                   rounded-2xl
@@ -274,9 +194,6 @@ const Experiance = () => {
                   {pagination.totalPages}
                 </span>
               </div>
-
-              {/* NEXT */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasNextPage}

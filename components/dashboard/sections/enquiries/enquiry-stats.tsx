@@ -2,44 +2,30 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-
 import { iconMap } from "./data";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 type Stat = {
   label: string;
-  value: number | string;
+  value: number;
   growth: string;
   icon: keyof typeof iconMap;
 };
-
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
 
 const EnquiryStats = () => {
   const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
 
-  /* ====================================================== */
-  /* GET STATS */
-  /* ====================================================== */
-
   useEffect(() => {
     const getStats = async () => {
       try {
-        const response = await fetch("/api/enquiry/stats");
-
+        const response = await fetch("/api/enquiries/stats");
         const data = await response.json();
 
         if (data.success) {
           setStats(data.stats || []);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch enquiry stats:", error);
       } finally {
         setLoading(false);
       }
@@ -48,14 +34,10 @@ const EnquiryStats = () => {
     getStats();
   }, []);
 
-  /* ====================================================== */
-  /* LOADING */
-  /* ====================================================== */
-
   if (loading) {
     return (
-      <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, index) => (
+      <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
+        {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
             className="
@@ -72,8 +54,16 @@ const EnquiryStats = () => {
     );
   }
 
+  if (!stats.length) {
+    return (
+      <div className="flex h-44 items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 text-muted-foreground">
+        No enquiry statistics available.
+      </div>
+    );
+  }
+
   return (
-    <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+    <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
       {stats.map((item, index) => {
         const Icon = iconMap[item.icon];
 
@@ -91,7 +81,7 @@ const EnquiryStats = () => {
               y: 0,
             }}
             transition={{
-              delay: index * 0.08,
+              delay: index * 0.07,
               duration: 0.4,
             }}
             whileHover={{
@@ -115,8 +105,6 @@ const EnquiryStats = () => {
               hover:shadow-primary/5
             "
           >
-            {/* Glow */}
-
             <div
               className="
                 absolute
@@ -132,8 +120,6 @@ const EnquiryStats = () => {
                 group-hover:bg-primary/10
               "
             />
-
-            {/* Header */}
 
             <div className="relative flex items-start justify-between">
               <div
@@ -174,8 +160,6 @@ const EnquiryStats = () => {
               </div>
             </div>
 
-            {/* Content */}
-
             <div className="relative mt-6">
               <p
                 className="
@@ -193,13 +177,12 @@ const EnquiryStats = () => {
                   text-3xl
                   font-black
                   tracking-tight
+                  text-foreground
                 "
               >
                 {item.value}
               </h2>
             </div>
-
-            {/* Progress Line */}
 
             <div
               className="

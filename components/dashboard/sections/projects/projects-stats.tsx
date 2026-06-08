@@ -48,6 +48,14 @@ const ProjectsStats = () => {
     );
   }
 
+  if (!stats.length) {
+    return (
+      <div className=" flex h-44 items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 text-muted-foreground">
+        No Project statistics available.
+      </div>
+    );
+  }
+
   return (
     <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
       {stats.map((item, index) => {

@@ -6,15 +6,9 @@ import SkillHeader from "@/components/dashboard/sections/skills/skill-header";
 import SkillStats from "@/components/dashboard/sections/skills/skill-stats";
 import SkillToolbar from "@/components/dashboard/sections/skills/skill-toolbar";
 import SkillCard from "@/components/dashboard/sections/skills/skill-card";
-
-import CardSkeleton from "@/components/dashboard/skeleton/project-card";
 import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
-
+import SkillsCardSkeleton from "@/components/dashboard/skeleton/skill-card";
 import { Button } from "@/components/ui/button";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 interface SkillItem {
   _id: string;
@@ -45,20 +39,11 @@ interface Pagination {
   hasPrevPage: boolean;
 }
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const Skills = () => {
-  /* ====================================================== */
-  /* STATES */
-  /* ====================================================== */
-
   const [skills, setSkills] = useState<SkillItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
-  const [view, setView] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState<Pagination>({
     totalSkills: 0,
@@ -68,10 +53,6 @@ const Skills = () => {
     hasNextPage: false,
     hasPrevPage: false,
   });
-
-  /* ====================================================== */
-  /* FETCH SKILLS */
-  /* ====================================================== */
 
   const fetchSkills = async () => {
     try {
@@ -118,10 +99,6 @@ const Skills = () => {
     }
   };
 
-  /* ====================================================== */
-  /* EFFECTS */
-  /* ====================================================== */
-
   useEffect(() => {
     fetchSkills();
   }, [page, search, activeFilter]);
@@ -129,10 +106,6 @@ const Skills = () => {
   useEffect(() => {
     setPage(1);
   }, [search, activeFilter]);
-
-  /* ====================================================== */
-  /* DELETE */
-  /* ====================================================== */
 
   const handleDeleteSkill = (id: string) => {
     setSkills((prev) => prev.filter((item) => item._id !== id));
@@ -142,62 +115,29 @@ const Skills = () => {
 
       totalSkills: Math.max(0, prev.totalSkills - 1),
     }));
+    fetchSkills();
   };
-
-  /* ====================================================== */
-  /* RENDER */
-  /* ====================================================== */
 
   return (
     <section className="space-y-8">
-      {/* ====================================================== */}
-      {/* HEADER */}
-      {/* ====================================================== */}
-
       <SkillHeader />
-
-      {/* ====================================================== */}
-      {/* STATS */}
-      {/* ====================================================== */}
-
       <SkillStats />
-
-      {/* ====================================================== */}
-      {/* TOOLBAR */}
-      {/* ====================================================== */}
-
       <SkillToolbar
         search={search}
         setSearch={setSearch}
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
-        view={view}
-        setView={setView}
       />
 
-      {/* ====================================================== */}
-      {/* LOADING */}
-      {/* ====================================================== */}
-
       {loading ? (
-        <div
-          className={
-            view === "grid"
-              ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-              : "flex flex-col gap-6"
-          }
-        >
+        <div className={"grid gap-6 sm:grid-cols-2 xl:grid-cols-3"}>
           {Array.from({
-            length: 6,
+            length: 3,
           }).map((_, index) => (
-            <CardSkeleton key={index} />
+            <SkillsCardSkeleton key={index} />
           ))}
         </div>
       ) : skills.length === 0 ? (
-        /* ====================================================== */
-        /* EMPTY */
-        /* ====================================================== */
-
         <EmptyProjects
           title="No Skills Found"
           description="Try changing your search or filters to find skills."
@@ -209,30 +149,15 @@ const Skills = () => {
         />
       ) : (
         <>
-          {/* ====================================================== */}
-          {/* SKILLS GRID */}
-          {/* ====================================================== */}
-
-          <div
-            className={
-              view === "grid"
-                ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
-                : "flex flex-col gap-6"
-            }
-          >
+          <div className={"grid gap-6 sm:grid-cols-2 xl:grid-cols-3"}>
             {skills.map((item) => (
               <SkillCard
                 key={item._id}
                 skill={item}
-                view={view}
                 onDelete={handleDeleteSkill}
               />
             ))}
           </div>
-
-          {/* ====================================================== */}
-          {/* PAGINATION */}
-          {/* ====================================================== */}
 
           {pagination.totalPages > 1 && (
             <div
@@ -242,11 +167,9 @@ const Skills = () => {
                 items-center
                 justify-center
                 gap-4
-                pt-6
+                pt-3
               "
             >
-              {/* PREVIOUS */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasPrevPage}
@@ -258,9 +181,6 @@ const Skills = () => {
               >
                 Previous
               </Button>
-
-              {/* PAGE INFO */}
-
               <div
                 className="
                   rounded-2xl
@@ -282,9 +202,6 @@ const Skills = () => {
                   {pagination.totalPages}
                 </span>
               </div>
-
-              {/* NEXT */}
-
               <Button
                 variant="outline"
                 disabled={!pagination.hasNextPage}

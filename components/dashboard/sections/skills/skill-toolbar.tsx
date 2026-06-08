@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import {
   Search,
-  LayoutGrid,
-  List,
   SlidersHorizontal,
   Code2,
   Monitor,
@@ -13,10 +11,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 interface Props {
   search: string;
@@ -27,14 +21,8 @@ interface Props {
   setView?: (value: "grid" | "list") => void;
 }
 
-/* ====================================================== */
-/* FILTERS */
-/* ====================================================== */
 const filters = ["All", "Frontend", "Backend", "Featured"];
 
-/* ====================================================== */
-/* FILTER ICONS */
-/* ====================================================== */
 const filterIcons = {
   All: Code2,
   Frontend: Monitor,
@@ -42,9 +30,6 @@ const filterIcons = {
   Featured: Star,
 };
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
 const SkillToolbar = ({
   search,
   setSearch,
@@ -68,17 +53,8 @@ const SkillToolbar = ({
       }}
       className=" relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-border/50 bg-background/70 p-5 shadow-xl backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between"
     >
-      {/* ====================================================== */}
-      {/* BACKGROUND GLOW */}
-      {/* ====================================================== */}
       <div className=" pointer-events-none absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-primary/5" />
-      {/* ====================================================== */}
-      {/* LEFT SECTION */}
-      {/* ====================================================== */}
-      <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
-        {/* ====================================================== */}
-        {/* SEARCH */}
-        {/* ====================================================== */}
+      <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className=" group flex h-12 w-full items-center gap-3 rounded-2xl border border-border/60 bg-background/80 px-4 shadow-sm transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-lg focus-within:shadow-primary/10 lg:max-w-sm">
           <Search className=" h-4 w-4 text-muted-foreground transition-colors duration-300 group-focus-within:text-primary" />
           <input
@@ -89,9 +65,6 @@ const SkillToolbar = ({
             className=" w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
-        {/* ====================================================== */}
-        {/* FILTERS */}
-        {/* ====================================================== */}
         <div className="flex flex-wrap items-center gap-2">
           <div className="mr-1 hidden items-center gap-2 sm:flex">
             <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
@@ -143,64 +116,6 @@ const SkillToolbar = ({
             );
           })}
         </div>
-      </div>
-
-      {/* ====================================================== */}
-      {/* VIEW TOGGLE */}
-      {/* ====================================================== */}
-      <div className="flexitems-centerrounded-2xlborderborder-border/60bg-background/70p-1shadow-sm">
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => setView?.("grid")}
-          className={`
-            h-10
-            w-10
-            rounded-xl
-            transition-all
-            duration-300
-            ${
-              view === "grid"
-                ? `
-                    bg-primary
-                    text-primary-foreground
-                    shadow-md
-                  `
-                : `
-                    hover:bg-primary/10
-                    hover:text-primary
-                  `
-            }
-          `}
-        >
-          <LayoutGrid className="h-4 w-4" />
-        </Button>
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => setView?.("list")}
-          className={`
-            h-10
-            w-10
-            rounded-xl
-            transition-all
-            duration-300
-            ${
-              view === "list"
-                ? `
-                    bg-primary
-                    text-primary-foreground
-                    shadow-md
-                  `
-                : `
-                    hover:bg-primary/10
-                    hover:text-primary
-                  `
-            }
-          `}
-        >
-          <List className="h-4 w-4" />
-        </Button>
       </div>
     </motion.div>
   );

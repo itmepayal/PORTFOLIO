@@ -1,29 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Search,
-  LayoutGrid,
-  List,
-  SlidersHorizontal,
-  Briefcase,
-  Star,
-  Sparkles,
-} from "lucide-react";
-
+import { Search, SlidersHorizontal, Briefcase, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 interface Props {
   search: string;
   setSearch: (value: string) => void;
-
   activeFilter: string;
   setActiveFilter: (value: string) => void;
-
-  view?: "grid" | "list";
-  setView?: (value: "grid" | "list") => void;
-
   total?: number;
 }
 
@@ -39,8 +25,6 @@ const ExperienceToolbar = ({
   setSearch,
   activeFilter,
   setActiveFilter,
-  view = "grid",
-  setView,
   total = 0,
 }: Props) => {
   return (
@@ -69,8 +53,6 @@ const ExperienceToolbar = ({
         backdrop-blur-2xl
       "
     >
-      {/* Glow */}
-
       <div
         className="
           pointer-events-none
@@ -108,11 +90,7 @@ const ExperienceToolbar = ({
           xl:justify-between
         "
       >
-        {/* LEFT */}
-
-        <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
-          {/* SEARCH */}
-
+        <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div
             className="
               group/search
@@ -148,7 +126,7 @@ const ExperienceToolbar = ({
 
             <input
               type="text"
-              placeholder="Search company, position, technologies..."
+              placeholder="Search experiences..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="
@@ -161,12 +139,9 @@ const ExperienceToolbar = ({
             />
           </div>
 
-          {/* FILTERS */}
-
           <div className="flex flex-wrap items-center gap-2">
             <div className="hidden items-center gap-2 sm:flex">
               <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-
               <span className="text-sm font-medium text-muted-foreground">
                 Filters
               </span>
@@ -174,9 +149,7 @@ const ExperienceToolbar = ({
 
             {filters.map((item) => {
               const isActive = activeFilter === item;
-
               const Icon = filterIcons[item as keyof typeof filterIcons];
-
               return (
                 <Button
                   key={item}
@@ -188,7 +161,6 @@ const ExperienceToolbar = ({
                     px-5
                     transition-all
                     duration-300
-
                     ${
                       isActive
                         ? `
@@ -208,9 +180,7 @@ const ExperienceToolbar = ({
                   `}
                 >
                   <Icon className="mr-2 h-4 w-4" />
-
                   {item}
-
                   {isActive && (
                     <Badge
                       className="
@@ -226,101 +196,6 @@ const ExperienceToolbar = ({
                 </Button>
               );
             })}
-          </div>
-        </div>
-
-        {/* RIGHT */}
-
-        <div className="flex items-center gap-4">
-          {/* COUNT */}
-
-          <div
-            className="
-              hidden
-              rounded-2xl
-              border
-              border-border/50
-              bg-background/60
-              px-4
-              py-2
-              backdrop-blur-xl
-              md:flex
-              md:items-center
-              md:gap-2
-            "
-          >
-            <Sparkles className="h-4 w-4 text-primary" />
-
-            <span className="text-sm text-muted-foreground">Total</span>
-
-            <span className="font-bold">{total}</span>
-          </div>
-
-          {/* VIEW TOGGLE */}
-
-          <div
-            className="
-              flex
-              items-center
-              rounded-2xl
-              border
-              border-border/50
-              bg-background/70
-              p-1
-              shadow-sm
-            "
-          >
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setView?.("grid")}
-              className={`
-                h-11
-                w-11
-                rounded-xl
-
-                ${
-                  view === "grid"
-                    ? `
-                      bg-primary
-                      text-primary-foreground
-                      shadow-md
-                    `
-                    : `
-                      hover:bg-primary/10
-                      hover:text-primary
-                    `
-                }
-              `}
-            >
-              <LayoutGrid className="h-4 w-4" />
-            </Button>
-
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setView?.("list")}
-              className={`
-                h-11
-                w-11
-                rounded-xl
-
-                ${
-                  view === "list"
-                    ? `
-                      bg-primary
-                      text-primary-foreground
-                      shadow-md
-                    `
-                    : `
-                      hover:bg-primary/10
-                      hover:text-primary
-                    `
-                }
-              `}
-            >
-              <List className="h-4 w-4" />
-            </Button>
           </div>
         </div>
       </div>

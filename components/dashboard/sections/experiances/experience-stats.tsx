@@ -2,44 +2,29 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-
 import { iconMap } from "./data";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 type Stat = {
   label: string;
-  value: number | string;
+  value: number;
   growth: string;
   icon: keyof typeof iconMap;
 };
-
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
 
 const ExperienceStats = () => {
   const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
 
-  /* ====================================================== */
-  /* FETCH STATS */
-  /* ====================================================== */
-
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("/api/experience/stats");
-
+        const response = await fetch("/api/experiences/stats");
         const data = await response.json();
-
         if (data.success) {
           setStats(data.stats || []);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch experience stats:", error);
       } finally {
         setLoading(false);
       }
@@ -48,37 +33,32 @@ const ExperienceStats = () => {
     fetchStats();
   }, []);
 
-  /* ====================================================== */
-  /* LOADING */
-  /* ====================================================== */
-
   if (loading) {
     return (
-      <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, index) => (
+      <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
+        {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
-            className="
-              h-44
-              animate-pulse
-              rounded-3xl
-              border
-              border-border/50
-              bg-muted/40
-            "
+            className=" h-44 animate-pulse rounded-3xl border border-border/50 bg-muted/40"
           />
         ))}
       </section>
     );
   }
 
+  if (!stats.length) {
+    return (
+      <div className=" flex h-44 items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 text-muted-foreground">
+        No experience statistics available.
+      </div>
+    );
+  }
+
   return (
-    <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+    <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
       {stats.map((item, index) => {
         const Icon = iconMap[item.icon];
-
         if (!Icon) return null;
-
         return (
           <motion.div
             key={item.label}
@@ -91,7 +71,7 @@ const ExperienceStats = () => {
               y: 0,
             }}
             transition={{
-              delay: index * 0.08,
+              delay: index * 0.07,
               duration: 0.4,
             }}
             whileHover={{
@@ -115,8 +95,6 @@ const ExperienceStats = () => {
               hover:shadow-primary/5
             "
           >
-            {/* BACKGROUND */}
-
             <div
               className="
                 absolute
@@ -132,8 +110,6 @@ const ExperienceStats = () => {
                 group-hover:bg-primary/10
               "
             />
-
-            {/* HEADER */}
 
             <div className="relative flex items-start justify-between">
               <div
@@ -155,7 +131,6 @@ const ExperienceStats = () => {
               >
                 <Icon className="h-5 w-5" />
               </div>
-
               <div
                 className="
                   rounded-full
@@ -174,8 +149,6 @@ const ExperienceStats = () => {
               </div>
             </div>
 
-            {/* CONTENT */}
-
             <div className="relative mt-6">
               <p
                 className="
@@ -186,20 +159,18 @@ const ExperienceStats = () => {
               >
                 {item.label}
               </p>
-
               <h2
                 className="
                   mt-2
                   text-3xl
                   font-black
                   tracking-tight
+                  text-foreground
                 "
               >
                 {item.value}
               </h2>
             </div>
-
-            {/* BOTTOM LINE */}
 
             <div
               className="

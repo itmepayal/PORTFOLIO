@@ -1,50 +1,19 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import {
-  ArrowLeft,
   Layers3,
-  Trophy,
-  Brain,
-  Target,
-  BarChart3,
   LayoutDashboard,
   Activity,
-  BadgeCheck,
   Sparkles,
   Star,
   Loader2,
   Mail,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import { Input } from "@/components/ui/input";
-
-import { Textarea } from "@/components/ui/textarea";
-
-import { Button } from "@/components/ui/button";
-
-import { Label } from "@/components/ui/label";
-
-import { Badge } from "@/components/ui/badge";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
 import PageContainer from "@/components/dashboard/pages/page";
 import PageHeader from "@/components/dashboard/pages/PageHeader";
 import FormSectionHeader from "@/components/form/FormSectionHeader";
@@ -54,20 +23,10 @@ import FormToggle from "@/components/form/FormToggle";
 import PreviewHeader from "@/components/dashboard/preview/PreviewHeader";
 import PreviewFooter from "@/components/dashboard/preview/PreviewFooter";
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const EditEnquiry = () => {
   const router = useRouter();
-
   const params = useParams();
-
   const id = params.id as string;
-
-  /* ====================================================== */
-  /* STATES */
-  /* ====================================================== */
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -79,28 +38,18 @@ const EditEnquiry = () => {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
 
-  /* ====================================================== */
-  /* FETCH DSA */
-  /* ====================================================== */
-
   const fetchEnquiry = async () => {
     try {
       setFetching(true);
-
-      const response = await fetch(`/api/enquiry/${id}`);
-
+      const response = await fetch(`/api/enquiries/${id}`);
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch enquiry");
       }
-
       const enquiry = data.enquiry;
-
       setName(enquiry.name || "");
       setEmail(enquiry.email || "");
       setMessage(enquiry.message || "");
-
       setIsRead(enquiry.isRead || false);
       setReplied(enquiry.replied || false);
     } catch (error: any) {
@@ -116,10 +65,6 @@ const EditEnquiry = () => {
     }
   }, [id]);
 
-  /* ====================================================== */
-  /* COMPLETION */
-  /* ====================================================== */
-
   const progress = useMemo(() => {
     let done = 0;
 
@@ -129,32 +74,12 @@ const EditEnquiry = () => {
     if (isRead) done++;
     if (replied) done++;
 
-    return Math.round((done / 6) * 100);
+    return Math.round((done / 5) * 100);
   }, [name, email, message, isRead, replied]);
-
-  /* ====================================================== */
-  /* UPDATE */
-  /* ====================================================== */
 
   const handleSubmit = async () => {
     try {
       setLoading(true);
-
-      if (!name.trim()) {
-        toast.error("Name is required");
-        return;
-      }
-
-      if (!email.trim()) {
-        toast.error("Email is required");
-        return;
-      }
-
-      if (!message.trim()) {
-        toast.error("Message is required");
-        return;
-      }
-
       const payload = {
         name,
         email,
@@ -162,23 +87,18 @@ const EditEnquiry = () => {
         isRead,
         replied,
       };
-
-      const response = await fetch(`/api/enquiry/${id}`, {
+      const response = await fetch(`/api/enquiries/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Failed to update enquiry");
       }
-
       toast.success("Enquiry updated successfully");
-
       router.push("/dashboard/enquiries");
     } catch (error: any) {
       toast.error(error.message);
@@ -186,10 +106,6 @@ const EditEnquiry = () => {
       setLoading(false);
     }
   };
-
-  /* ====================================================== */
-  /* LOADING */
-  /* ====================================================== */
 
   if (fetching) {
     return (
@@ -226,39 +142,44 @@ const EditEnquiry = () => {
               />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
-                  label="Enter Name"
+                  label="Name"
                   value={name}
                   onChange={setName}
-                  disabled={true}
+                  disabled
                 />
+
                 <FormField
-                  label="Enter Email"
+                  label="Email"
                   value={email}
                   onChange={setEmail}
-                  disabled={true}
+                  disabled
                 />
+              </div>
+
+              <div className="mt-6">
                 <FormField
-                  label=" Enter Message"
+                  label="Message"
                   value={message}
                   onChange={setMessage}
-                  disabled={true}
+                  disabled
                 />
               </div>
             </div>
             <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
               <FormSectionHeader
-                title="Duration"
-                description="Set your working time period"
+                title="Enquiry Status"
+                description="Manage enquiry read and reply status"
               />
               <FormToggle
-                label="Currently Working Here"
-                description="Enable if you are still working in this role"
+                label="Mark as Read"
+                description="Indicates that the enquiry has been reviewed"
                 checked={isRead}
                 onChange={setIsRead}
               />
+
               <FormToggle
-                label="Currently Working Here"
-                description="Enable if you are still working in this role"
+                label="Mark as Replied"
+                description="Indicates that a response has been sent"
                 checked={replied}
                 onChange={setReplied}
               />
@@ -274,8 +195,8 @@ const EditEnquiry = () => {
           <Card className="sticky top-6 rounded-4xl border-border/50 bg-background/70 backdrop-blur-xl">
             <PreviewHeader
               icon={<LayoutDashboard className="h-5 w-5" />}
-              title="Live Preview"
-              description="Real-time Enquiry preview"
+              title="Enquiry Overview"
+              description="Current enquiry status and details"
             />
             <CardContent className="space-y-8">
               <div>
@@ -322,7 +243,7 @@ const EditEnquiry = () => {
               loading={loading}
               icon={<Sparkles className="h-4 w-4" />}
               label="Publish Enquiry"
-              loadingLabel="Creating..."
+              loadingLabel="Editing..."
             />
           </Card>
         </motion.div>

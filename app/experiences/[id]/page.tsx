@@ -155,7 +155,7 @@ const ExperienceDetailPage = () => {
     (async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/experience/${id}`);
+        const res = await fetch(`/api/experiences/${id}`);
         const data = await res.json();
         data.success ? setExperience(data.experience) : setError(true);
       } catch {

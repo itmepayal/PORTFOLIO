@@ -4,10 +4,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { iconMap } from "./data";
 
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
-
 type Stat = {
   label: string;
   value: number | string;
@@ -15,17 +11,9 @@ type Stat = {
   icon: keyof typeof iconMap;
 };
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
-
 const SkillsStats = () => {
   const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
-
-  /* ====================================================== */
-  /* GET STATS */
-  /* ====================================================== */
 
   useEffect(() => {
     const getStats = async () => {
@@ -44,10 +32,6 @@ const SkillsStats = () => {
     getStats();
   }, []);
 
-  /* ====================================================== */
-  /* LOADING */
-  /* ====================================================== */
-
   if (loading) {
     return (
       <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
@@ -59,6 +43,14 @@ const SkillsStats = () => {
           />
         ))}
       </section>
+    );
+  }
+
+  if (!stats.length) {
+    return (
+      <div className=" flex h-44 items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 text-muted-foreground">
+        No Skill statistics available.
+      </div>
     );
   }
 

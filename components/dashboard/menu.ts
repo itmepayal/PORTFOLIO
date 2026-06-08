@@ -1,18 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-
 import {
   LayoutDashboard,
   FolderKanban,
-  BarChart3,
   BrainCircuit,
   Code2,
   MessageSquareMore,
-  Settings2,
-  UserRound,
   BriefcaseBusiness,
-  ShieldCheck,
-  BellDot,
-  Sparkles,
 } from "lucide-react";
 
 /* =========================================================
@@ -83,13 +76,5 @@ export const menu: MenuItem[] = [
     icon: MessageSquareMore,
     description: "Client conversations",
     badge: "4",
-  },
-
-  {
-    key: "settings",
-    label: "Settings",
-    href: "/dashboard/settings",
-    icon: Settings2,
-    description: "Preferences & configs",
   },
 ];

@@ -149,7 +149,7 @@ const CreateExperiance = () => {
         featured,
         order,
       };
-      const response = await fetch("/api/experience", {
+      const response = await fetch("/api/experiences", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -213,34 +213,43 @@ const CreateExperiance = () => {
                   label="Company Name"
                   value={company}
                   onChange={setCompany}
+                  placeholder="e.g. Google"
                 />
+
                 <FormField
                   label="Company Website"
                   value={companyWebsite}
                   onChange={setCompanyWebsite}
+                  placeholder="https://company.com"
                 />
+
                 <FormField
-                  label=" Company Logo"
+                  label="Company Logo"
                   value={companyLogo}
                   onChange={setCompanyLogo}
+                  placeholder="https://example.com/logo.png"
                 />
+
                 <FormField
                   label="Position Name"
                   value={position}
                   onChange={setPosition}
+                  placeholder="e.g. Senior Backend Developer"
                 />
+
                 <FormField
                   label="Location"
                   value={location}
                   onChange={setLocation}
+                  placeholder="e.g. Ahmedabad, Gujarat, India"
                 />
+
                 <FormTextarea
                   label="Description"
                   value={description}
                   onChange={setDescription}
-                  placeholder="Describe your role and experience..."
+                  placeholder="Describe your responsibilities, achievements, technologies used, and overall impact in this role..."
                   className="md:col-span-2"
-                  required
                 />
               </div>
             </div>
