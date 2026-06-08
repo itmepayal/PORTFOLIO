@@ -91,7 +91,7 @@ export const DSA = () => {
             {/* ====================================================== */}
             {/* GRID */}
             {/* ====================================================== */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
               {dsaCards.map((item, index) =>
                 loading ? (
                   <DSASkeleton />
@@ -135,10 +135,10 @@ export const DSA = () => {
                       <p className="mt-2 text-primary font-semibold">
                         {item.subtitle}
                       </p>
-                      <p className="mt-5 text-sm leading-7 text-muted-foreground line-clamp-4">
+                      <p className="mt-2 sm:mt-5 text-sm leading-7 text-muted-foreground line-clamp-2 sm:line-clamp-4">
                         {item.desc}
                       </p>
-                      <div className="mt-7 grid grid-cols-2 gap-4">
+                      <div className="mt-2 sm:mt-7 grid grid-cols-2 gap-4">
                         <div className="rounded-2xl border border-border/50 bg-background/50 p-4">
                           <div className="flex items-center gap-2">
                             <Trophy className="h-4 w-4 text-primary" />
@@ -162,7 +162,7 @@ export const DSA = () => {
                           </h4>
                         </div>
                       </div>
-                      <div className="mt-7">
+                      <div className="mt-2 sm:mt-7">
                         <div className="flex items-center justify-between mb-3">
                           <span className="flex items-center gap-2 text-xs text-muted-foreground">
                             <TrendingUp className="h-3 w-3" />

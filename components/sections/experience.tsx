@@ -190,8 +190,8 @@ export const Experience = () => {
                       {/* CARD CONTENT */}
                       {/* ====================================================== */}
                       <div className="relative z-10 p-6 lg:p-8">
-                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                          <div className="grid grid-cols-[64px_1fr] gap-4">
+                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
+                          <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[64px_1fr]">
                             <div className="size-16 rounded-2xl border border-border bg-background flex items-center justify-center overflow-hidden">
                               <Image
                                 src={item.companyLogo}
@@ -217,7 +217,7 @@ export const Experience = () => {
                               <h3 className="text-xl sm:text-3xl font-black text-foreground">
                                 {item.position}
                               </h3>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                              <div className="grid grid-cols-2 md:grid-cols-2 gap-3 mt-3">
                                 <a
                                   href={item.companyWebsite}
                                   target="_blank"
@@ -273,7 +273,7 @@ export const Experience = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="mt-8">
+                        <div className="mt-2 sm:mt-8">
                           <p
                             className={`text-muted-foreground leading-8 text-sm sm:text-base transition-all duration-300 ${expandedCards[item._id] ? "" : "line-clamp-3"}`}
                           >
