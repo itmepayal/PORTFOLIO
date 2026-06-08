@@ -36,7 +36,7 @@ export const Experience = () => {
     const fetchExperiences = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/experience");
+        const response = await fetch("/api/experiences");
         const data = await response.json();
         if (data.success) {
           const sortedData = data.experiences.sort(
