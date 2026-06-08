@@ -11,6 +11,7 @@ import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
 
 import { PageLoader } from "@/components/common/page-loader";
+import { GithubPanel } from "@/components/sections/git-panel";
 
 export default function Page() {
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ export default function Page() {
         <div className="overflow-y-auto h-screen relative">
           <Home />
           <Skills />
+          <GithubPanel />
           <DSA />
           <Experience />
           <Projects />

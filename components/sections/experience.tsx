@@ -4,8 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Container } from "../common/container";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { BriefcaseBusiness, CalendarDays, Loader2, MapPin } from "lucide-react";
+import { BriefcaseBusiness, CalendarDays, MapPin } from "lucide-react";
 import { ExperienceSkeleton } from "../skeletons/ExperienceSkeleton";
 import Link from "next/link";
 
