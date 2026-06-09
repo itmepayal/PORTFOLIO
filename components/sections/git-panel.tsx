@@ -30,10 +30,10 @@ export const GithubPanel = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl border border-border/70  p-6 shadow-xl backdrop-blur-xl md:p-10"
+            className="relative max-w-7xl overflow-hidden rounded-3xl border border-border/70 p-6 shadow-xl backdrop-blur-xl md:p-10 mx-3.5"
           >
             <div className="absolute inset-0 bg-linear-to-r from-primary/3 via-transparent to-chart-3/3" />
-            <div className="relative z-10 overflow-x-auto">
+            <div className="relative z-10 overflow-x-auto sm:px-6">
               <GitHubCalendar
                 username="itmepayal"
                 blockSize={14}
