@@ -149,13 +149,13 @@ export const Projects = () => {
             {/* ====================================================== */}
             {/* LEFT */}
             {/* ====================================================== */}
-            <div className="max-w-3xl">
+            <div className="max-w-4xl">
               <p className=" inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
                 Backend Engineering
               </p>
               <h2 className=" mt-4 text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-[-0.04em] leading-[0.95] text-foreground">
                 Scalable Systems
-                <span className=" block bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
+                <span className="pl-3 bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
                   & Production APIs
                 </span>
               </h2>

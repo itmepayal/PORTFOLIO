@@ -97,7 +97,7 @@ export const Experience = () => {
               </p>
               <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black leading-none tracking-[-0.05em] text-foreground">
                 Building
-                <span className="block bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
+                <span className="pl-3 bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
                   Production Systems
                 </span>
               </h2>

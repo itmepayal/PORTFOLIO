@@ -13,7 +13,7 @@ export const GithubPanel = () => {
         <div className="absolute right-1/4 bottom-10 h-56 w-56 rounded-full bg-chart-3/10 blur-3xl" />
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/2 to-transparent pointer-events-none" />
         <div className="relative z-10">
-          <div className="mb-12 text-center">
+          <div className="mb-5 sm:mb-10 text-center">
             <p className="inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
               Open Source
             </p>
@@ -30,10 +30,10 @@ export const GithubPanel = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative max-w-7xl overflow-hidden rounded-3xl border border-border/70 p-6 shadow-xl backdrop-blur-xl md:p-10 mx-3.5"
+            className="relative max-w-7xl md:mx-auto lg:mx-auto xl:mx-auto overflow-hidden rounded-3xl border border-border/70 p-6 shadow-xl backdrop-blur-xl md:p-10 mx-3.5"
           >
             <div className="absolute inset-0 bg-linear-to-r from-primary/3 via-transparent to-chart-3/3" />
-            <div className="relative z-10 overflow-x-auto sm:px-6">
+            <div className="relative z-10  overflow-x-auto sm:px-6">
               <GitHubCalendar
                 username="itmepayal"
                 blockSize={14}
