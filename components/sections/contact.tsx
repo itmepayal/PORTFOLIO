@@ -31,7 +31,7 @@ export const Contact = () => {
       e.preventDefault();
       try {
         setLoading(true);
-        const response = await fetch("/api/enquiry", {
+        const response = await fetch("/api/enquiries", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
