@@ -204,7 +204,7 @@ export const Projects = () => {
           {/* ====================================================== */}
           {/* PROJECT GRID */}
           {/* ====================================================== */}
-          <div className="relative min-h-175">
+          <div className="relative min-h-175 ">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentPage}
@@ -278,7 +278,7 @@ export const Projects = () => {
                                   <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-background/80 via-background/20 to-transparent" />
                                   <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 dark:ring-white/5" />
                                 </div>
-                                <h3 className=" mt-5 text-2xl sm:text-3xl font-black tracking-[-0.03em] leading-tight text-foreground">
+                                <h3 className=" mt-5 text-2xl sm:text-3xl font-black tracking-[-0.03em] leading-tight text-foreground line-clamp-2 h-20">
                                   {project.title}
                                 </h3>
                                 <div className="mt-4">
