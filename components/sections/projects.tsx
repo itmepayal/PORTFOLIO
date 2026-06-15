@@ -18,6 +18,11 @@ import {
   SiTailwindcss,
   SiRender,
   SiMongodb,
+  SiMongoose,
+  SiSocketdotio,
+  SiGoogle,
+  SiApple,
+  SiPostman,
   SiPostgresql,
   SiNextdotjs,
 } from "react-icons/si";
@@ -45,6 +50,11 @@ const iconMap = {
   SiPostgresql,
   SiNextdotjs,
   TbApi,
+  SiMongoose,
+  SiSocketdotio,
+  SiGoogle,
+  SiApple,
+  SiPostman,
 };
 
 interface Tech {

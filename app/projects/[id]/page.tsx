@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { HiArrowLeft, HiArrowRight, HiExternalLink } from "react-icons/hi";
-import { FaGithub, FaGitAlt, FaReact } from "react-icons/fa6";
+import { FaNodeJs, FaGithub, FaGitAlt, FaReact } from "react-icons/fa6";
 import {
   SiNodedotjs,
   SiExpress,
@@ -17,14 +17,21 @@ import {
   SiTailwindcss,
   SiRender,
   SiMongodb,
+  SiMongoose,
+  SiSocketdotio,
+  SiGoogle,
+  SiApple,
+  SiPostman,
   SiPostgresql,
   SiNextdotjs,
 } from "react-icons/si";
+
 import { TbApi } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/common/container";
 
 const iconMap = {
+  FaNodeJs,
   FaReact,
   FaGithub,
   FaGitAlt,
@@ -41,6 +48,11 @@ const iconMap = {
   SiPostgresql,
   SiNextdotjs,
   TbApi,
+  SiMongoose,
+  SiSocketdotio,
+  SiGoogle,
+  SiApple,
+  SiPostman,
 };
 
 interface Tech {
