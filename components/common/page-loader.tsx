@@ -1,27 +1,13 @@
 "use client";
 
-/* ====================================================================== */
-/* IMPORTS */
-/* ====================================================================== */
-
 import { AnimatePresence, motion } from "framer-motion";
-
 import { Code2, Database, Globe, ShieldCheck } from "lucide-react";
-
-/* ====================================================================== */
-/* TYPES */
-/* ====================================================================== */
 
 interface PageLoaderProps {
   loading: boolean;
 }
 
-/* ====================================================================== */
-/* CONSTANTS */
-/* ====================================================================== */
-
 const title = "PAYAL YADAV";
-
 const role = "BACKEND ENGINEER";
 
 const technologies = [
@@ -46,10 +32,6 @@ const technologies = [
   },
 ];
 
-/* ====================================================================== */
-/* PAGE LOADER */
-/* ====================================================================== */
-
 export const PageLoader = ({ loading }: PageLoaderProps) => {
   return (
     <AnimatePresence>
@@ -70,55 +52,35 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             fixed
             inset-0
             z-9999
-
             overflow-hidden
-
             flex
             items-center
             justify-center
-
             bg-background
             text-foreground
           "
         >
-          {/* ====================================================== */}
-          {/* GRID BACKGROUND */}
-          {/* ====================================================== */}
-
           <div
             className="
               absolute
               inset-0
-
               opacity-[0.05]
-
               bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)]
-
               bg-size-[70px_70px]
             "
           />
-
-          {/* ====================================================== */}
-          {/* TOP GRADIENT */}
-          {/* ====================================================== */}
 
           <div
             className="
               absolute
               inset-x-0
               top-0
-
               h-72
-
               bg-linear-to-b
               from-primary/10
               to-transparent
             "
           />
-
-          {/* ====================================================== */}
-          {/* FLOATING ORBS */}
-          {/* ====================================================== */}
 
           <motion.div
             animate={{
@@ -131,14 +93,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
             }}
             className="
               absolute
-
               h-105
               w-105
-
-              rounded-full
-
               bg-primary/15
-
               blur-[140px]
             "
           />
@@ -157,14 +114,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               absolute
               right-0
               top-1/3
-
               h-80
               w-80
-
-              rounded-full
-
               bg-chart-2/15
-
               blur-[120px]
             "
           />
@@ -183,36 +135,22 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               absolute
               bottom-0
               left-0
-
               h-80
               w-80
-
-              rounded-full
-
               bg-chart-3/15
-
               blur-[120px]
             "
           />
-
-          {/* ====================================================== */}
-          {/* MAIN CONTENT */}
-          {/* ====================================================== */}
 
           <div
             className="
               relative
               z-10
-
               flex
               flex-col
               items-center
             "
           >
-            {/* ====================================================== */}
-            {/* TOP BADGE */}
-            {/* ====================================================== */}
-
             <motion.div
               initial={{
                 opacity: 0,
@@ -227,17 +165,11 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               }}
               className="
                 mb-10
-
-                rounded-full
-
                 border
                 border-border/60
-
                 bg-card/70
-
                 px-5
                 py-2.5
-
                 backdrop-blur-xl
               "
             >
@@ -245,11 +177,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 className="
                   text-[10px]
                   sm:text-xs
-
                   uppercase
-
                   tracking-[0.4em]
-
                   text-muted-foreground
                 "
               >
@@ -257,13 +186,7 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               </p>
             </motion.div>
 
-            {/* ====================================================== */}
-            {/* CENTER SYSTEM */}
-            {/* ====================================================== */}
-
             <div className="relative flex items-center justify-center">
-              {/* OUTER SPIN */}
-
               <motion.div
                 animate={{
                   rotate: 360,
@@ -275,18 +198,12 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 }}
                 className="
                   absolute
-
                   size-80
-
-                  rounded-full
-
                   border
                   border-dashed
                   border-primary/20
                 "
               />
-
-              {/* MIDDLE RING */}
 
               <motion.div
                 animate={{
@@ -299,17 +216,11 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 }}
                 className="
                   absolute
-
                   size-60
-
-                  rounded-full
-
                   border
                   border-primary/30
                 "
               />
-
-              {/* INNER RING */}
 
               <motion.div
                 animate={{
@@ -321,18 +232,11 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 }}
                 className="
                   absolute
-
                   size-40
-
-                  rounded-full
-
                   bg-primary/15
-
                   blur-3xl
                 "
               />
-
-              {/* FLOATING TECH ICONS */}
 
               {technologies.map((item, index) => {
                 const Icon = item.icon;
@@ -365,14 +269,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                         size-14
                         items-center
                         justify-center
-
-                        rounded-2xl
-
                         border
                         border-border/60
-
                         bg-card/70
-
                         backdrop-blur-xl
                       "
                     >
@@ -381,8 +280,6 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   </motion.div>
                 );
               })}
-
-              {/* CENTER CARD */}
 
               <motion.div
                 animate={{
@@ -395,41 +292,26 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 }}
                 className="
                   relative
-
                   flex
                   flex-col
                   items-center
                   justify-center
-
                   size-52
-
-                  rounded-4xl
-
                   border
                   border-border/60
-
                   bg-card/70
-
                   backdrop-blur-2xl
-
                   shadow-2xl
                 "
               >
-                {/* INNER GLOW */}
-
                 <div
                   className="
                     absolute
                     inset-4
-
-                    rounded-3xl
-
                     border
                     border-primary/20
                   "
                 />
-
-                {/* LOGO */}
 
                 <motion.span
                   animate={{
@@ -442,16 +324,12 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   }}
                   className="
                     text-6xl
-
                     font-black
-
                     tracking-tight
-
                     bg-linear-to-r
                     from-primary
                     via-chart-2
                     to-chart-3
-
                     bg-clip-text
                     text-transparent
                   "
@@ -459,18 +337,12 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   PY
                 </motion.span>
 
-                {/* STATUS */}
-
                 <p
                   className="
                     mt-4
-
                     text-[10px]
-
                     uppercase
-
                     tracking-[0.35em]
-
                     text-muted-foreground
                   "
                 >
@@ -478,10 +350,6 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 </p>
               </motion.div>
             </div>
-
-            {/* ====================================================== */}
-            {/* NAME */}
-            {/* ====================================================== */}
 
             <div className="mt-16 flex overflow-hidden">
               {title.split("").map((char, index) => (
@@ -503,11 +371,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                     text-3xl
                     sm:text-5xl
                     md:text-6xl
-
                     font-black
-
                     tracking-[0.18em]
-
                     text-foreground
                   "
                 >
@@ -515,10 +380,6 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 </motion.span>
               ))}
             </div>
-
-            {/* ====================================================== */}
-            {/* ROLE */}
-            {/* ====================================================== */}
 
             <motion.p
               initial={{
@@ -534,31 +395,20 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               }}
               className="
                 mt-5
-
                 text-xs
                 sm:text-sm
-
                 uppercase
-
                 tracking-[0.5em]
-
                 text-muted-foreground
               "
             >
               {role}
             </motion.p>
 
-            {/* ====================================================== */}
-            {/* ADVANCED LOADING BAR */}
-            {/* ====================================================== */}
-
             <div className="mt-12 w-80 sm:w-105">
-              {/* TOP LABEL */}
-
               <div
                 className="
                   mb-3
-
                   flex
                   items-center
                   justify-between
@@ -567,11 +417,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 <span
                   className="
                     text-[10px]
-
                     uppercase
-
                     tracking-[0.3em]
-
                     text-muted-foreground
                   "
                 >
@@ -588,11 +435,8 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   }}
                   className="
                     text-[10px]
-
                     uppercase
-
                     tracking-[0.3em]
-
                     text-primary
                   "
                 >
@@ -600,18 +444,11 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 </motion.span>
               </div>
 
-              {/* BAR */}
-
               <div
                 className="
                   relative
-
                   h-2
-
                   overflow-hidden
-
-                  rounded-full
-
                   bg-muted
                 "
               >
@@ -630,25 +467,16 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                   className="
                     absolute
                     inset-y-0
-
                     w-1/2
-
-                    rounded-full
-
                     bg-linear-to-r
                     from-primary
                     via-chart-2
                     to-chart-3
-
                     shadow-lg
                   "
                 />
               </div>
             </div>
-
-            {/* ====================================================== */}
-            {/* BOTTOM STATUS */}
-            {/* ====================================================== */}
 
             <motion.div
               animate={{
@@ -660,13 +488,10 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
               }}
               className="
                 mt-8
-
                 flex
                 items-center
                 gap-3
-
                 text-xs
-
                 text-muted-foreground
               "
             >
@@ -674,9 +499,6 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 <div
                   className="
                     size-2
-
-                    rounded-full
-
                     bg-chart-4
                   "
                 />
@@ -684,14 +506,9 @@ export const PageLoader = ({ loading }: PageLoaderProps) => {
                 <div
                   className="
                     absolute
-
                     size-5
-
-                    rounded-full
-
                     border
                     border-chart-4/40
-
                     animate-ping
                   "
                 />

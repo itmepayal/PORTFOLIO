@@ -27,12 +27,10 @@ export default function Page() {
   return (
     <>
       <PageLoader loading={loading} />
-      <div className="grid grid-cols-1 gap-1 items-start">
-        <div className="overflow-y-auto h-screen relative">
-          <Home />
-          <DSA />
-          <Footer />
-        </div>
+      <div className="overflow-y-auto h-screen relative">
+        <Home />
+        <DSA />
+        <Footer />
       </div>
     </>
   );
