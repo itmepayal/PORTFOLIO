@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payal Yadav — Sign In</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --transition-theme:
+          background 0.35s ease, color 0.35s ease, border-color 0.35s ease,
+          box-shadow 0.35s ease;
+      }
+      [data-theme="dark"] {
+        --bg: #050810;
+        --surface: #0c0f1e;
+        --card: #111528;
+        --card-h: #161b30;
+        --border: #1e2340;
+        --accent: #5b6ef5;
+        --accent2: #a78bfa;
+        --cyan: #22d3ee;
+        --green: #34d399;
+        --orange: #fb923c;
+        --red: #f87171;
+        --text: #e2e8f0;
+        --muted: #64748b;
+        --dimmed: #94a3b8;
+        --nav-bg: rgba(5, 8, 16, 0.82);
+        --code-bg: rgba(17, 21, 40, 0.92);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        --input-bg: #0a0d18;
+      }
+      [data-theme="light"] {
+        --bg: #f0f2ff;
+        --surface: #e8eaf8;
+        --card: #ffffff;
+        --card-h: #f5f6ff;
+        --border: #c5cae9;
+        --accent: #4355e8;
+        --accent2: #7c3aed;
+        --cyan: #0891b2;
+        --green: #059669;
+        --orange: #ea580c;
+        --red: #dc2626;
+        --text: #1e1b4b;
+        --muted: #6b7280;
+        --dimmed: #374151;
+        --nav-bg: rgba(240, 242, 255, 0.88);
+        --code-bg: rgba(232, 234, 248, 0.96);
+        --shadow: 0 8px 32px rgba(67, 85, 232, 0.12);
+        --input-bg: #f5f6ff;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Poppins", sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+        transition: var(--transition-theme);
+        min-height: 100vh;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.4;
+      }
+
+      /* PRELOADER */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
+      }
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .loader-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .loader-mark {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.95rem;
+        letter-spacing: 0.1em;
+        color: var(--dimmed);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .loader-mark .brace {
+        color: var(--accent);
+      }
+      .loader-bar-bg {
+        width: 220px;
+        height: 2px;
+        background: var(--border);
+        position: relative;
+        overflow: hidden;
+        border-radius: 2px;
+      }
+      .loader-bar-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--cyan));
+        border-radius: 2px;
+        transition: width 0.2s ease;
+      }
+      .loader-pct {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.1rem 5%;
+        background: var(--nav-bg);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+        transition: var(--transition-theme);
+        gap: 1rem;
+      }
+      .nav-logo {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.75rem;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "Poppins", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-shrink: 0;
+      }
+      .theme-toggle {
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--text);
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .theme-toggle:hover {
+        border-color: var(--accent);
+      }
+      .nav-cta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        padding: 0.45rem 1rem;
+        text-decoration: none;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+      }
+
+      /* AUTH SECTION */
+      #auth {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7.5rem 5% 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .auth-grid-bg {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(91, 110, 245, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(91, 110, 245, 0.06) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(
+          ellipse 80% 70% at 50% 50%,
+          black,
+          transparent
+        );
+      }
+      [data-theme="light"] .auth-grid-bg {
+        background-image:
+          linear-gradient(rgba(67, 85, 232, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(67, 85, 232, 0.08) 1px, transparent 1px);
+      }
+      .auth-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(91, 110, 245, 0.18) 0%,
+          transparent 70%
+        );
+        top: 5%;
+        left: -12%;
+        pointer-events: none;
+        animation: pulse 6s ease-in-out infinite alternate;
+      }
+      [data-theme="light"] .auth-glow {
+        background: radial-gradient(
+          circle,
+          rgba(91, 110, 245, 0.1) 0%,
+          transparent 70%
+        );
+      }
+      .auth-glow2 {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(167, 139, 250, 0.12) 0%,
+          transparent 70%
+        );
+        bottom: -5%;
+        right: 0%;
+        pointer-events: none;
+        animation: pulse 8s ease-in-out infinite alternate-reverse;
+      }
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        to {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+      }
+
+      .auth-wrapper {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 450px;
+        display: grid;
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      @media (max-width: 860px) {
+        .auth-wrapper {
+          grid-template-columns: 1fr;
+        }
+        .auth-side {
+          display: none;
+        }
+      }
+
+      /* LEFT — terminal/info side */
+      .auth-side {
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        padding: 2.75rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+      }
+      .auth-side-top .hero-eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--cyan);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .auth-side-title {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.9rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+      .auth-side-title .grad {
+        background: linear-gradient(
+          90deg,
+          var(--accent),
+          var(--accent2),
+          var(--cyan)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .auth-side-sub {
+        font-size: 0.88rem;
+        color: var(--dimmed);
+        font-weight: 300;
+        max-width: 320px;
+      }
+
+      .auth-code-window {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-top: 2rem;
+      }
+      .code-win-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.65rem 0.9rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .code-win-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+      }
+      .dot-r {
+        background: #ff5f57;
+      }
+      .dot-y {
+        background: #febc2e;
+      }
+      .dot-g {
+        background: #28c840;
+      }
+      .code-win-title {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        color: var(--muted);
+        margin-left: auto;
+        letter-spacing: 0.06em;
+      }
+      .code-win-body {
+        padding: 1.1rem 1.3rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.71rem;
+        line-height: 1.85;
+        color: var(--dimmed);
+      }
+      .kw {
+        color: var(--accent2);
+      }
+      .fn {
+        color: var(--cyan);
+      }
+      .str {
+        color: var(--green);
+      }
+      .cm {
+        color: var(--muted);
+        font-style: italic;
+      }
+      .prop {
+        color: var(--text);
+      }
+
+      .auth-side-stats {
+        display: flex;
+        gap: 1.75rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+      }
+      .auth-stat-num {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--cyan));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .auth-stat-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-top: 0.1rem;
+      }
+
+      /* RIGHT — form side */
+      .auth-form-side {
+        padding: 2.75rem 2.75rem;
+        display: flex;
+        flex-direction: column;
+      }
+      @media (max-width: 860px) {
+        .auth-form-side {
+          padding: 2.25rem 1.75rem;
+        }
+      }
+
+      .auth-tabs {
+        display: flex;
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+        position: relative;
+      }
+      .auth-tab-btn {
+        flex: 1;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.85rem 1rem;
+        background: transparent;
+        color: var(--muted);
+        border: none;
+        cursor: pointer;
+        transition:
+          color 0.2s,
+          background 0.2s;
+        position: relative;
+        z-index: 1;
+      }
+      .auth-tab-btn.active {
+        color: #fff;
+      }
+      .auth-tab-btn:not(.active):hover {
+        color: var(--dimmed);
+        background: var(--card-h);
+      }
+      .auth-tab-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 0;
+      }
+      .auth-tab-indicator.to-register {
+        transform: translateX(100%);
+      }
+
+      .auth-panels {
+        position: relative;
+      }
+      .auth-panel {
+        display: none;
+        flex-direction: column;
+        gap: 1.25rem;
+        animation: panelIn 0.35s ease;
+      }
+      .auth-panel.active {
+        display: flex;
+      }
+      @keyframes panelIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .auth-heading {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.15rem;
+      }
+      .auth-heading-sub {
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-weight: 300;
+        margin-bottom: 0.5rem;
+      }
+      .auth-heading-sub a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .auth-heading-sub a:hover {
+        text-decoration: underline;
+      }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+      .field-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.66rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: space-between;
+      }
+      .field-label .opt {
+        color: var(--border);
+        text-transform: none;
+        letter-spacing: 0.02em;
+      }
+      .field-input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .field-icon {
+        position: absolute;
+        left: 0.9rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+        pointer-events: none;
+        transition: color 0.2s;
+      }
+      .field-input {
+        width: 100%;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-family: "Poppins", sans-serif;
+        font-size: 0.88rem;
+        padding: 0.78rem 1rem 0.78rem 2.6rem;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        outline: none;
+      }
+      .field-input::placeholder {
+        color: var(--muted);
+        font-weight: 300;
+      }
+      .field-input:focus {
+        border-color: var(--accent);
+      }
+      .field-input:focus + .field-icon,
+      .field-input-wrap:has(.field-input:focus) .field-icon {
+        color: var(--accent);
+      }
+      .field-toggle-pw {
+        position: absolute;
+        right: 0.9rem;
+        background: none;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.4rem;
+        transition: color 0.2s;
+      }
+      .field-toggle-pw:hover {
+        color: var(--accent);
+      }
+
+      .pw-strength {
+        display: flex;
+        gap: 4px;
+        margin-top: 0.3rem;
+      }
+      .pw-seg {
+        height: 3px;
+        flex: 1;
+        background: var(--border);
+        border-radius: 2px;
+        transition: background 0.25s;
+      }
+      .pw-hint {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        color: var(--muted);
+        margin-top: 0.15rem;
+      }
+
+      .field-row-inline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: -0.5rem;
+      }
+      .remember-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        cursor: pointer;
+        user-select: none;
+      }
+      .remember-check input {
+        accent-color: var(--accent);
+        width: 13px;
+        height: 13px;
+        cursor: pointer;
+      }
+      .forgot-link {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--accent);
+        text-decoration: none;
+        letter-spacing: 0.03em;
+      }
+      .forgot-link:hover {
+        text-decoration: underline;
+      }
+
+      .terms-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+        cursor: pointer;
+        line-height: 1.5;
+      }
+      .terms-check input {
+        accent-color: var(--accent);
+        width: 14px;
+        height: 14px;
+        margin-top: 0.2rem;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .terms-check a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .terms-check a:hover {
+        text-decoration: underline;
+      }
+
+      .btn-auth-submit {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+        padding: 0.9rem 2rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+        margin-top: 0.25rem;
+        width: 100%;
+      }
+      .btn-auth-submit:hover {
+        opacity: 0.88;
+        transform: translateY(-2px);
+      }
+      .btn-auth-submit svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        margin: 0.4rem 0;
+      }
+      .auth-divider::before,
+      .auth-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .auth-divider span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .auth-oauth-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+      .btn-oauth {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.76rem;
+        letter-spacing: 0.03em;
+        padding: 0.75rem 1rem;
+        background: transparent;
+        color: var(--dimmed);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+      }
+      .btn-oauth:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--card-h);
+      }
+      .btn-oauth svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+
+      .auth-footnote {
+        text-align: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 1.5rem;
+      }
+      .auth-footnote .dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        margin-right: 0.4rem;
+        animation: blink 2s ease-in-out infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* form error / success messaging slot */
+      .form-msg {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        padding: 0.7rem 0.9rem;
+        border-radius: 4px;
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .form-msg.show {
+        display: flex;
+      }
+      .form-msg.success {
+        background: rgba(52, 211, 153, 0.1);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+        color: var(--green);
+      }
+      .form-msg.error {
+        background: rgba(248, 113, 113, 0.1);
+        border: 1px solid rgba(248, 113, 113, 0.3);
+        color: var(--red);
+      }
+
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PRELOADER -->
+    <div id="preloader">
+      <div class="loader-inner">
+        <div class="loader-mark">
+          <span class="brace">&lt;</span>Payal.Yadav<span class="brace"
+            >/&gt;</span
+          >
+        </div>
+        <div class="loader-bar-bg">
+          <div class="loader-bar-fill" id="loaderBarFill"></div>
+        </div>
+        <div class="loader-pct" id="loaderPct">0%</div>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav>
+      <a href="index.html" class="nav-logo">PY.</a>
+      <ul class="nav-links">
+        <li><a href="index.html#dsa">DSA</a></li>
+        <li><a href="index.html#github-contrib">GitHub</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          title="Toggle theme"
+          id="themeBtn"
+        >
+          🌙
+        </button>
+        <a href="index.html" class="nav-cta">←</a>
+      </div>
+    </nav>
+
+    <!-- AUTH -->
+    <section id="auth">
+      <div class="auth-grid-bg"></div>
+      <div class="auth-glow"></div>
+      <div class="auth-glow2"></div>
+
+      <div class="auth-wrapper reveal">
+        <!-- RIGHT FORM SIDE -->
+        <div class="auth-form-side">
+          <div class="auth-tabs">
+            <div class="auth-tab-indicator" id="tabIndicator"></div>
+            <button
+              class="auth-tab-btn active"
+              id="tabLoginBtn"
+              onclick="switchTab('login')"
+            >
+              Sign In
+            </button>
+            <button
+              class="auth-tab-btn"
+              id="tabRegisterBtn"
+              onclick="switchTab('register')"
+            >
+              Register
+            </button>
+          </div>
+
+          <div class="auth-panels">
+            <!-- LOGIN PANEL -->
+            <form
+              class="auth-panel active"
+              id="loginPanel"
+              onsubmit="handleSubmit(event, 'login')"
+            >
+              <div>
+                <div class="auth-heading">Welcome back</div>
+                <div class="auth-heading-sub">
+                  New here?
+                  <a
+                    href="#"
+                    onclick="
+                      switchTab('register');
+                      return false;
+                    "
+                    >Create an account →</a
+                  >
+                </div>
+              </div>
+
+              <div class="form-msg success" id="loginMsg">
+                <span>✓</span>
+                <span id="loginMsgText">Signed in successfully.</span>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="loginEmail">Email</label>
+                <div class="field-input-wrap">
+                  <span class="field-icon">✉</span>
+                  <input
+                    class="field-input"
+                    type="email"
+                    id="loginEmail"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="loginPassword">Password</label>
+                <div class="field-input-wrap">
+                  <span class="field-icon">🔒</span>
+                  <input
+                    class="field-input"
+                    type="password"
+                    id="loginPassword"
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="field-toggle-pw"
+                    onclick="togglePw('loginPassword', this)"
+                  >
+                    Show
+                  </button>
+                </div>
+              </div>
+
+              <div class="field-row-inline">
+                <label class="remember-check">
+                  <input type="checkbox" id="rememberMe" checked />
+                  Remember me
+                </label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="btn-auth-submit">
+                Sign In
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </form>
+
+            <!-- REGISTER PANEL -->
+            <form
+              class="auth-panel"
+              id="registerPanel"
+              onsubmit="handleSubmit(event, 'register')"
+            >
+              <div>
+                <div class="auth-heading">Create your account</div>
+                <div class="auth-heading-sub">
+                  Already registered?
+                  <a
+                    href="#"
+                    onclick="
+                      switchTab('login');
+                      return false;
+                    "
+                    >Sign in →</a
+                  >
+                </div>
+              </div>
+
+              <div class="form-msg success" id="registerMsg">
+                <span>✓</span>
+                <span id="registerMsgText">Account created. Redirecting…</span>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="registerName">Full name</label>
+                <div class="field-input-wrap">
+                  <span class="field-icon">👤</span>
+                  <input
+                    class="field-input"
+                    type="text"
+                    id="registerName"
+                    placeholder="Payal Yadav"
+                    autocomplete="name"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="registerEmail">Email</label>
+                <div class="field-input-wrap">
+                  <span class="field-icon">✉</span>
+                  <input
+                    class="field-input"
+                    type="email"
+                    id="registerEmail"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="registerPassword"
+                  >Password <span class="opt">min 8 characters</span></label
+                >
+                <div class="field-input-wrap">
+                  <span class="field-icon">🔒</span>
+                  <input
+                    class="field-input"
+                    type="password"
+                    id="registerPassword"
+                    placeholder="••••••••"
+                    autocomplete="new-password"
+                    minlength="8"
+                    oninput="checkPwStrength(this.value)"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="field-toggle-pw"
+                    onclick="togglePw('registerPassword', this)"
+                  >
+                    Show
+                  </button>
+                </div>
+                <div class="pw-strength">
+                  <div class="pw-seg" id="pwSeg1"></div>
+                  <div class="pw-seg" id="pwSeg2"></div>
+                  <div class="pw-seg" id="pwSeg3"></div>
+                  <div class="pw-seg" id="pwSeg4"></div>
+                </div>
+                <div class="pw-hint" id="pwHint">
+                  Use 8+ characters with a number and symbol
+                </div>
+              </div>
+
+              <label class="terms-check">
+                <input type="checkbox" id="agreeTerms" required />
+                <span
+                  >I agree to the <a href="#">Terms of Service</a> and
+                  <a href="#">Privacy Policy</a></span
+                >
+              </label>
+
+              <button type="submit" class="btn-auth-submit">
+                Create Account
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </form>
+          </div>
+
+          <div class="auth-footnote">
+            <span class="dot"></span>All systems operational
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // PRELOADER
+      (function () {
+        const fill = document.getElementById("loaderBarFill"),
+          pct = document.getElementById("loaderPct"),
+          pre = document.getElementById("preloader");
+        let p = 0;
+        function tick() {
+          const r = 100 - p;
+          p += Math.max(0.5, r * 0.08);
+          if (p >= 100) p = 100;
+          fill.style.width = p + "%";
+          pct.textContent = Math.floor(p) + "%";
+          if (p < 100) requestAnimationFrame(tick);
+          else setTimeout(() => pre.classList.add("hidden"), 250);
+        }
+        requestAnimationFrame(tick);
+        window.addEventListener("load", () =>
+          setTimeout(() => pre.classList.add("hidden"), 600),
+        );
+      })();
+
+      // THEME
+      function toggleTheme() {
+        const h = document.documentElement,
+          isDark = h.getAttribute("data-theme") === "dark";
+        h.setAttribute("data-theme", isDark ? "light" : "dark");
+        document.getElementById("themeBtn").textContent = isDark ? "🌙" : "☀️";
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+      }
+      (function () {
+        const s = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", s);
+        document.getElementById("themeBtn").textContent =
+          s === "dark" ? "☀️" : "🌙";
+      })();
+
+      // TAB SWITCH
+      function switchTab(which) {
+        const indicator = document.getElementById("tabIndicator");
+        const loginBtn = document.getElementById("tabLoginBtn");
+        const registerBtn = document.getElementById("tabRegisterBtn");
+        const loginPanel = document.getElementById("loginPanel");
+        const registerPanel = document.getElementById("registerPanel");
+
+        if (which === "register") {
+          indicator.classList.add("to-register");
+          loginBtn.classList.remove("active");
+          registerBtn.classList.add("active");
+          loginPanel.classList.remove("active");
+          registerPanel.classList.add("active");
+        } else {
+          indicator.classList.remove("to-register");
+          registerBtn.classList.remove("active");
+          loginBtn.classList.add("active");
+          registerPanel.classList.remove("active");
+          loginPanel.classList.add("active");
+        }
+      }
+
+      // PASSWORD VISIBILITY
+      function togglePw(id, btn) {
+        const input = document.getElementById(id);
+        const isPw = input.type === "password";
+        input.type = isPw ? "text" : "password";
+        btn.textContent = isPw ? "Hide" : "Show";
+      }
+
+      // PASSWORD STRENGTH METER
+      function checkPwStrength(val) {
+        const segs = [
+          document.getElementById("pwSeg1"),
+          document.getElementById("pwSeg2"),
+          document.getElementById("pwSeg3"),
+          document.getElementById("pwSeg4"),
+        ];
+        const hint = document.getElementById("pwHint");
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+        if (/\d/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+
+        const colors = [
+          "var(--red)",
+          "var(--orange)",
+          "var(--cyan)",
+          "var(--green)",
+        ];
+        const labels = [
+          "Weak — add length and symbols",
+          "Fair — add a number or symbol",
+          "Good — almost there",
+          "Strong password",
+        ];
+        segs.forEach((seg, i) => {
+          seg.style.background =
+            i < score ? colors[Math.max(score - 1, 0)] : "var(--border)";
+        });
+        hint.textContent =
+          val.length === 0
+            ? "Use 8+ characters with a number and symbol"
+            : labels[Math.max(score - 1, 0)];
+      }
+
+      // FORM SUBMIT (front-end only demo — wire to your API)
+      function handleSubmit(e, type) {
+        e.preventDefault();
+        const msg = document.getElementById(type + "Msg");
+        const btn = e.target.querySelector(".btn-auth-submit");
+        const originalText = btn.innerHTML;
+        btn.innerHTML = type === "login" ? "Signing in…" : "Creating account…";
+        btn.style.opacity = "0.7";
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.opacity = "";
+          msg.classList.add("show");
+          setTimeout(() => msg.classList.remove("show"), 3500);
+        }, 900);
+      }
+
+      function oauthStub(provider) {
+        alert("Connect this button to your " + provider + " OAuth flow.");
+      }
+    </script>
+  </body>
+</html>

@@ -2,26 +2,20 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
-import { Poppins, Inter, Geist_Mono, Geist } from "next/font/google";
+import { Poppins, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import CustomCursor from "@/components/common/custom-cursor";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
-
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-sans",
 });
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-serif",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
+  weight: ["300", "400", "600"],
   variable: "--font-mono",
 });
 
@@ -45,10 +39,8 @@ export default function RootLayout({
         "h-full",
         "antialiased",
         poppins.variable,
-        inter.variable,
-        geistMono.variable,
+        jetbrainsMono.variable,
         "font-sans",
-        geist.variable,
       )}
       suppressHydrationWarning
     >

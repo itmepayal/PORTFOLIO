@@ -1,206 +1,276 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Container } from "../common/container";
-import { Award, Code2, TrendingUp, Trophy, Star, Sparkles } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { DSASkeleton } from "@/components/skeletons/DSASkeleton";
 
-interface DSAItem {
-  _id: string;
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Container } from "../common/container";
+
+interface DSACard {
+  tag: string;
   title: string;
-  subtitle: string;
   desc: string;
-  progress: string;
-  category: string;
-  problemsSolved: number;
-  featured: boolean;
-  order: number;
+  pills: { label: string; variant: "hard" | "med" | "easy" | "neutral" }[];
+}
+
+const dsaCards: DSACard[] = [
+  {
+    tag: "Core Topic",
+    title: "Dynamic Programming",
+    desc: "Mastered patterns: knapsack, LCS, matrix chain, bitmask DP, digit DP. Solved 120+ DP problems.",
+    pills: [
+      { label: "Hard", variant: "hard" },
+      { label: "Memoization", variant: "neutral" },
+      { label: "Tabulation", variant: "neutral" },
+    ],
+  },
+  {
+    tag: "Core Topic",
+    title: "Graph Algorithms",
+    desc: "BFS/DFS, Dijkstra, Bellman-Ford, Floyd-Warshall, Topological sort, SCC with Tarjan/Kosaraju.",
+    pills: [
+      { label: "Hard", variant: "hard" },
+      { label: "Shortest Path", variant: "neutral" },
+      { label: "Union-Find", variant: "neutral" },
+    ],
+  },
+  {
+    tag: "Core Topic",
+    title: "Trees & Segment Trees",
+    desc: "Binary trees, BSTs, AVL, Red-Black. Segment trees with lazy propagation for range queries.",
+    pills: [
+      { label: "Medium", variant: "med" },
+      { label: "LCA", variant: "neutral" },
+      { label: "BIT / Fenwick", variant: "neutral" },
+    ],
+  },
+  {
+    tag: "Core Topic",
+    title: "Sliding Window & Two Pointer",
+    desc: "Variable-window problems, subarray patterns, monotonic deque, and frequency maps.",
+    pills: [
+      { label: "Medium", variant: "med" },
+      { label: "Arrays", variant: "neutral" },
+      { label: "Strings", variant: "neutral" },
+    ],
+  },
+  {
+    tag: "Core Topic",
+    title: "Backtracking",
+    desc: "Permutations, combinations, N-Queens, Sudoku solver. Pruning techniques for exponential problems.",
+    pills: [
+      { label: "Hard", variant: "hard" },
+      { label: "Pruning", variant: "neutral" },
+      { label: "State Space", variant: "neutral" },
+    ],
+  },
+  {
+    tag: "Core Topic",
+    title: "Greedy & Heaps",
+    desc: "Interval scheduling, activity selection, median stream, K closest points, Huffman coding.",
+    pills: [
+      { label: "Easy–Hard", variant: "easy" },
+      { label: "Priority Queue", variant: "neutral" },
+    ],
+  },
+];
+
+const proficiency = [
+  { label: "Dynamic Programming", pct: 90 },
+  { label: "Graph Theory", pct: 85 },
+  { label: "Trees & Heaps", pct: 88 },
+  { label: "Sliding Window", pct: 95 },
+  { label: "Backtracking", pct: 78 },
+  { label: "Greedy", pct: 82 },
+];
+
+const pillStyles: Record<string, string> = {
+  hard: "border-chart-5/40 text-chart-5",
+  med: "border-secondary-foreground/40 text-secondary-foreground",
+  easy: "border-chart-4/40 text-chart-4",
+  neutral: "border-border text-muted-foreground",
+};
+
+function useVisibleCount() {
+  const [visible, setVisible] = useState(3);
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth <= 580) setVisible(1);
+      else if (window.innerWidth <= 900) setVisible(2);
+      else setVisible(3);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return visible;
 }
 
 export const DSA = () => {
-  const [dsaCards, setDsaCards] = useState<DSAItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchDSA = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("/api/dsa");
-        const data = await response.json();
-        if (data.success) {
-          const sortedData = data.dsa.sort(
-            (a: DSAItem, b: DSAItem) => a.order - b.order,
-          );
-          setDsaCards(sortedData);
-        }
-      } catch (error) {
-        console.error("Failed to fetch DSA data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const visible = useVisibleCount();
+  const [step, setStep] = useState(0);
+  const touchX = useRef(0);
 
-    fetchDSA();
-  }, []);
+  const totalSteps = Math.ceil(dsaCards.length / visible);
+  const maxStep = totalSteps - 1;
+
+  useEffect(() => {
+    if (step > maxStep) setStep(maxStep);
+  }, [maxStep, step]);
+
+  const goToStep = (s: number) => setStep(Math.max(0, Math.min(maxStep, s)));
+  const slide = (dir: number) => goToStep(step + dir);
+
+  const from = step * visible + 1;
+  const to = Math.min((step + 1) * visible, dsaCards.length);
+
   return (
     <Container>
-      {/* ====================================================== */}
-      {/* SECTION */}
-      {/* ====================================================== */}
-      <section className="relative overflow-hidden">
-        {/* ====================================================== */}
-        {/* BACKGROUND GLOW */}
-        {/* ====================================================== */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 rounded-full bg-primary/10 blur-3xl" />
-        {/* ====================================================== */}
-        {/* CONTAINER */}
-        {/* ====================================================== */}
+      <section
+        id="dsa"
+        className="relative overflow-hidden py-16 sm:py-20 bg-secondary"
+      >
         <div className="relative z-10 mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 30,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
           >
-            {/* ====================================================== */}
-            {/* TITLE */}
-            {/* ====================================================== */}
-            <div className="text-center mb-6 sm:mb-10">
-              <p className=" inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
-                Data Structures & Algorithms
-              </p>
-              <h2 className="mt-5 text-3xl xs:text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.05em] leading-none bg-linear-to-r from-foreground via-primary to-chart-3 bg-clip-text text-transparent">
-                Problem Solving Journey
-              </h2>
-              <p className="mt-5 max-w-xs xs:max-w-md sm:max-w-2xl lg:max-w-3xl mx-auto text-xs xs:text-sm sm:text-base md:text-lg text-muted-foreground leading-6 sm:leading-7">
-                Consistent problem-solving practice focused on data structures,
-                algorithms, backend interview preparation, and scalable
-                thinking.
-              </p>
+            <div className="mb-10 flex flex-wrap items-end gap-6">
+              <div>
+                <div className="mb-1 font-mono text-[0.68rem] tracking-[0.15em] text-primary">
+                  01 — DSA
+                </div>
+                <h2 className="text-[clamp(1.6rem,3vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
+                  Algorithmic Thinking
+                </h2>
+              </div>
+              <div className="h-px min-w-10 flex-1 bg-linear-to-r from-border to-transparent" />
             </div>
-            {/* ====================================================== */}
-            {/* GRID */}
-            {/* ====================================================== */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
-              {dsaCards.map((item, index) =>
-                loading ? (
-                  <DSASkeleton />
-                ) : (
-                  <motion.div
-                    key={item._id}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.6,
-                      delay: index * 0.15,
-                    }}
-                    whileHover={{
-                      y: -10,
-                      scale: 1.02,
-                    }}
-                    className=" group relative overflow-hidden rounded-4xl border border-border/50 bg-card/80 backdrop-blur-2xl shadow-xl transition-all duration-500 hover:border-primary/40 hover:shadow-[0_20px_60px_-15px_hsl(var(--primary)/0.4)]"
+
+            <p className="mb-12 max-w-150 font-light text-muted-foreground">
+              Competitive programming isn&apos;t just about speed — it&apos;s a
+              mindset. I&apos;ve solved 600+ problems across LeetCode,
+              Codeforces, and CodeChef, with focus on patterns that translate
+              directly to production systems.
+            </p>
+
+            <div className="relative mb-12">
+              <div
+                className="overflow-hidden border border-border"
+                onTouchStart={(e) => {
+                  touchX.current = e.touches[0].clientX;
+                }}
+                onTouchEnd={(e) => {
+                  const d = touchX.current - e.changedTouches[0].clientX;
+                  if (Math.abs(d) > 50) slide(d > 0 ? 1 : -1);
+                }}
+              >
+                <motion.div
+                  className="flex"
+                  animate={{ x: `-${step * (100 / visible) * visible}%` }}
+                  transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  {dsaCards.map((card, i) => (
+                    <div
+                      key={card.title}
+                      className="shrink-0 border-r border-border bg-card p-7 transition-colors hover:bg-accent"
+                      style={{
+                        minWidth: `calc(${100 / visible}% - 1px)`,
+                      }}
+                    >
+                      <div className="mb-3 font-mono text-[0.63rem] uppercase tracking-[0.15em] text-primary">
+                        {card.tag}
+                      </div>
+                      <div className="mb-2 text-[1.05rem] font-bold">
+                        {card.title}
+                      </div>
+                      <div className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                        {card.desc}
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {card.pills.map((pill) => (
+                          <span
+                            key={pill.label}
+                            className={`border px-2.5 py-1 font-mono text-[0.63rem] tracking-[0.05em] ${pillStyles[pill.variant]}`}
+                          >
+                            {pill.label}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              <div className="mt-5 flex items-center justify-between">
+                <div className="font-mono text-[0.68rem] text-muted-foreground">
+                  {from}
+                  {to > from ? `–${to}` : ""} / {dsaCards.length}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: totalSteps }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => goToStep(i)}
+                      aria-label={`Go to slide ${i + 1}`}
+                      className={`h-1.5 w-1.5 rounded-full transition-all ${
+                        i === step ? "scale-[1.4] bg-primary" : "bg-border"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => slide(-1)}
+                    disabled={step === 0}
+                    aria-label="Previous"
+                    className="flex h-9 w-9 items-center justify-center border border-border bg-card text-muted-foreground transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30"
                   >
-                    <div className="absolute inset-0 opacity-0 bg-radial from-primary/20 via-transparent to-transparent transition-opacity duration-500 group-hover:opacity-100" />
-                    <div className="absolute top-0 left-0 h-1 w-full bg-linear-to-r from-chart-1 via-chart-3 to-chart-2" />
-                    <div className="absolute right-6 top-6 text-7xl font-black text-primary/10 select-none">
-                      0{index + 1}
-                    </div>
-                    <div className="relative z-10 p-7">
-                      <div className="flex items-center justify-between">
-                        <Badge className="rounded-full bg-primary/10 text-primary border-primary/20">
-                          <Code2 className="mr-1 h-3 w-3" />
-                          {item.category}
-                        </Badge>
-                        {item.featured && (
-                          <Badge className="rounded-full bg-yellow-500/10 text-yellow-500 border-yellow-500/20">
-                            <Star className="mr-1 h-3 w-3 fill-current" />
-                            Featured
-                          </Badge>
-                        )}
-                      </div>
-                      <h3 className=" mt-6 text-3xl font-black tracking-tight">
-                        {item.title}
-                      </h3>
-                      <p className="mt-2 text-primary font-semibold">
-                        {item.subtitle}
-                      </p>
-                      <p className="mt-2 sm:mt-5 text-sm leading-7 text-muted-foreground line-clamp-2 sm:line-clamp-4">
-                        {item.desc}
-                      </p>
-                      <div className="mt-2 sm:mt-7 grid grid-cols-2 gap-4">
-                        <div className="rounded-2xl border border-border/50 bg-background/50 p-4">
-                          <div className="flex items-center gap-2">
-                            <Trophy className="h-4 w-4 text-primary" />
-                            <span className="text-xs text-muted-foreground">
-                              Problems
-                            </span>
-                          </div>
-                          <h4 className="mt-2 text-2xl font-bold">
-                            {item.problemsSolved}
-                          </h4>
-                        </div>
-                        <div className="rounded-2xl border border-border/50 bg-background/50 p-4">
-                          <div className="flex items-center gap-2">
-                            <Award className="h-4 w-4 text-primary" />
-                            <span className="text-xs text-muted-foreground">
-                              Progress
-                            </span>
-                          </div>
-                          <h4 className="mt-2 text-2xl font-bold">
-                            {item.progress}
-                          </h4>
-                        </div>
-                      </div>
-                      <div className="mt-2 sm:mt-7">
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <TrendingUp className="h-3 w-3" />
-                            Completion
-                          </span>
-                          <span className="font-semiboldtext-primary">
-                            {item.progress}
-                          </span>
-                        </div>
-                        <div className="relative h-3 overflow-hidden rounded-full bg-muted">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{
-                              width: item.progress,
-                            }}
-                            viewport={{ once: true }}
-                            transition={{
-                              duration: 1.4,
-                            }}
-                            className="h-full rounded-full bg-linear-to-r from-chart-1 via-chart-3 to-chart-2"
-                          />
-                          <div className="absolute inset-0 animate-pulse bg-white/10" />
-                        </div>
-                      </div>
-                      <div className=" mt-6 flex items-center justify-between border-t border-border/50 pt-5">
-                        <span className=" text-xs text-muted-foreground">
-                          DSA Journey #{item.order + 1}
-                        </span>
-                        <Sparkles className=" h-4 w-4 text-primary" />
-                      </div>
-                    </div>
-                  </motion.div>
-                ),
-              )}
+                    ←
+                  </button>
+                  <button
+                    onClick={() => slide(1)}
+                    disabled={step >= maxStep}
+                    aria-label="Next"
+                    className="flex h-9 w-9 items-center justify-center border border-border bg-card text-muted-foreground transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
             </div>
+            <ProficiencyBars />
           </motion.div>
         </div>
       </section>
     </Container>
   );
 };
+
+function ProficiencyBars() {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {proficiency.map((item) => (
+        <div key={item.label} className="flex items-center gap-4">
+          <div className="min-w-32.5 font-mono text-xs tracking-[0.04em] text-muted-foreground">
+            {item.label}
+          </div>
+          <div className="relative h-0.75 flex-1 overflow-hidden bg-border">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: `${item.pct}%` }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="h-full bg-linear-to-r from-primary to-chart-3"
+            />
+          </div>
+          <div className="min-w-8.75 text-right font-mono text-xs text-primary">
+            {item.pct}%
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
