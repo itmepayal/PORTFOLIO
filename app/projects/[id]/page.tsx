@@ -112,7 +112,7 @@ const StatBlock = ({
 );
 
 const Loading = () => (
-  <div className="min-h-screen bg-background px-[5%] pb-16 pt-28">
+  <div className="min-h-screen bg-background px-[5%] pb-16 pt-8">
     <div className="mx-auto max-w-300 animate-pulse space-y-6">
       <div className="h-8 w-40 border border-border bg-card" />
       <div className="h-80 w-full border border-border bg-card" />
