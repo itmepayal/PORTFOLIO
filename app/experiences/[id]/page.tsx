@@ -237,18 +237,19 @@ const ExperienceDetailPage = () => {
           <div className="relative h-64 w-full overflow-hidden sm:h-80 md:h-96">
             <div className="absolute inset-0 bg-linear-to-br from-primary/20 via-primary/5 to-accent2/15" />
             <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[40px_40px]" />
-            <img
-              src={experience.companyLogo}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 m-auto w-[55%] max-w-xs object-contain opacity-[0.06] blur-[1px] scale-110 select-none pointer-events-none"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
-            />
+            {experience.companyLogo && (
+              <img
+                src={experience.companyLogo}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 m-auto w-[55%] max-w-xs object-contain opacity-[0.06] blur-[1px] scale-110 select-none pointer-events-none"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+              />
+            )}
             <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
           </div>
-
           <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <span className="font-mono text-[0.62rem] uppercase tracking-[0.15em] text-cyan">
