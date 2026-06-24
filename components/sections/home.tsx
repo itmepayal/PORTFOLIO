@@ -1,12 +1,11 @@
 "use client";
-
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { ModeToggle } from "@/components/common/theme-button";
-import { useState } from "react";
+import { HiArrowDown, HiArrowRight, HiChevronDown } from "react-icons/hi2";
 
 const navLinks = [
-  { label: "DSA", href: "#dsa" },
   { label: "GitHub", href: "#github-contrib" },
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
@@ -15,10 +14,10 @@ const navLinks = [
 ];
 
 const stats = [
-  { value: "800M+", label: "Requests / Day" },
-  { value: "600+", label: "Problems Solved" },
-  { value: "12", label: "Projects Built" },
-  { value: "3 yrs", label: "Experience" },
+  { value: "800K+", label: "Requests / Day" },
+  { value: "1000+", label: "DSA Problems Solved" },
+  { value: "5", label: "Projects Built" },
+  { value: "3 Month", label: "Experience" },
 ];
 
 export const Home = () => {
@@ -138,32 +137,54 @@ export const Home = () => {
               target="_blank"
               rel="noopener noreferrer"
               download
-              className="inline-block w-full bg-linear-to-br from-primary to-secondary-foreground px-8 py-[0.85rem] text-center font-mono text-[0.78rem] tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-85 sm:w-auto sm:text-[0.82rem]"
+              className="group inline-flex w-full items-center justify-center gap-2.5 bg-linear-to-br from-primary to-secondary-foreground px-8 py-[0.85rem] font-mono text-[0.78rem] tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:w-auto sm:text-[0.82rem]"
               style={{
                 clipPath:
                   "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
               }}
             >
-              ↓ Download Resume
+              <HiArrowDown className="size-3.5 transition-transform duration-200 group-hover:translate-y-0.5" />
+              Download Resume
             </a>
             <a
               href="mailto:payal@example.com"
-              className="inline-block w-full border border-border px-8 py-[0.85rem] text-center font-mono text-[0.78rem] tracking-[0.05em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary sm:w-auto sm:text-[0.82rem]"
+              className="group inline-flex w-full items-center justify-center gap-2.5 border border-border px-8 py-[0.85rem] font-mono text-[0.78rem] tracking-[0.05em] text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary sm:w-auto sm:text-[0.82rem]"
             >
-              Hire Me →
+              Hire Me
+              <HiArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-6 border-t border-border pt-6 sm:mt-14 sm:flex sm:flex-wrap sm:justify-center sm:gap-8 sm:pt-8">
+          <div className="mt-10 grid grid-cols-2 gap-3 border-t border-border pt-6 sm:mt-14 sm:grid-cols-4 sm:gap-4 sm:pt-8">
             {stats.map((stat, index) => (
-              <div key={index}>
-                <div className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-center text-[1.5rem] font-bold text-transparent sm:text-[1.8rem]">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.1 * index,
+                  ease: "easeOut",
+                }}
+                className="group relative flex flex-col items-center justify-center overflow-hidden border border-border bg-card/40 px-4 py-5 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60 sm:py-6"
+              >
+                <span className="pointer-events-none absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                <span className="pointer-events-none absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--color-primary) 8%, transparent), transparent 75%)",
+                  }}
+                />
+                <div className="relative bg-linear-to-br from-primary to-chart-3 bg-clip-text text-center text-[1.6rem] font-bold text-transparent sm:text-[2rem]">
                   {stat.value}
                 </div>
-                <div className="mt-1 text-center font-mono text-[0.6rem] uppercase tracking-wide text-muted-foreground sm:text-[0.65rem] sm:tracking-widest">
+                <div className="relative mt-1.5 text-center font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground sm:text-[0.65rem]">
                   {stat.label}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

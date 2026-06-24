@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconBrandX,
-} from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 
 export const Footer = () => {
   const socials = [

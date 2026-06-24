@@ -31,10 +31,9 @@ export const Contact = () => {
                   "radial-gradient(circle, color-mix(in oklab, var(--color-primary) 16%, transparent), transparent 70%)",
               }}
             />
-
             <div className="relative z-10">
               <div className="mb-3 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-primary sm:mb-4 sm:text-[0.68rem]">
-                06 — Get In Touch
+                05 — Get In Touch
               </div>
               <h2 className="mb-3 text-[clamp(1.5rem,5vw,2.6rem)] font-bold leading-[1.15] tracking-[-0.02em] sm:mb-3.5">
                 Let&apos;s build

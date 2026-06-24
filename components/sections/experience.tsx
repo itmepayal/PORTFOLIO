@@ -83,7 +83,6 @@ export const Experience = () => {
             </p>
           ) : (
             <div className="reveal grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-px bg-border border border-border">
-              {/* ── TIMELINE TABS ── */}
               <div
                 className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible bg-card p-2 sm:p-3 lg:p-5 gap-0"
                 style={{ WebkitOverflowScrolling: "touch" }}
@@ -116,7 +115,6 @@ export const Experience = () => {
                 })}
               </div>
 
-              {/* ── DETAIL PANEL ── */}
               {active && (
                 <div className="bg-card p-6 sm:p-8">
                   <div className="flex items-start justify-between gap-4 flex-wrap">
