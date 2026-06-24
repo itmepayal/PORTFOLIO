@@ -66,7 +66,7 @@ export const Experience = () => {
           <div className="reveal mb-8 sm:mb-10 flex flex-wrap items-end gap-4 sm:gap-6">
             <div>
               <div className="mb-1 font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase">
-                04 — EXPERIENCE
+                02 — EXPERIENCE
               </div>
               <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
                 Where I&apos;ve Worked
@@ -152,7 +152,7 @@ export const Experience = () => {
                         {active.company} · {active.location}
                       </span>
                     )}
-                    <span className="font-mono text-[0.66rem] sm:text-[0.72rem] text-muted-foreground uppercase text-primary">
+                    <span className="font-mono text-[0.66rem] sm:text-[0.72rem] text-muted-foreground uppercase">
                       {monthYear(active.startDate)} –{" "}
                       {active.current ? "Present" : monthYear(active.endDate)}
                     </span>

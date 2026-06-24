@@ -31,6 +31,7 @@ export default function Page() {
         <Home />
         <Projects />
         <Experience />
+        <GithubPanel />
         <Skills />
         <Contact />
         <Footer />

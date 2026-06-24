@@ -147,7 +147,7 @@ export const Skills = () => {
             <div className="mb-8 flex flex-wrap items-end gap-4 sm:mb-10 sm:gap-6">
               <div>
                 <div className="mb-1 font-mono text-[0.62rem] tracking-[0.15em] text-primary sm:text-[0.68rem]">
-                  05 — SKILLS
+                  04 — SKILLS
                 </div>
                 <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
                   My Tech Stack

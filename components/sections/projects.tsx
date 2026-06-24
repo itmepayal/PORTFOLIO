@@ -160,7 +160,7 @@ export const Projects = () => {
           <div className="reveal mb-8 sm:mb-10 flex flex-wrap items-end gap-4 sm:gap-6">
             <div>
               <div className="mb-1 font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase">
-                03 — PROJECTS
+                01 — PROJECTS
               </div>
               <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
                 Selected Work
