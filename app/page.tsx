@@ -29,8 +29,8 @@ export default function Page() {
       <PageLoader loading={loading} />
       <div className="overflow-y-auto h-screen relative">
         <Home />
-        <DSA />
         <Projects />
+        <Experience />
         <Skills />
         <Contact />
         <Footer />
