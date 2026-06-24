@@ -1,12 +1,6 @@
-"use client";
-
-import Link from "next/link";
 import { useState, useEffect } from "react";
-import { HiArrowRight } from "react-icons/hi";
-import { Button } from "@/components/ui/button";
 import { Container } from "../common/container";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaNodeJs, FaGithub, FaGitAlt, FaReact } from "react-icons/fa6";
+import { FaGithub, FaReact, FaGitAlt, FaNodeJs } from "react-icons/fa6";
 import {
   SiNodedotjs,
   SiExpress,
@@ -26,8 +20,15 @@ import {
   SiPostgresql,
   SiNextdotjs,
 } from "react-icons/si";
-
-import { TbApi } from "react-icons/tb";
+import {
+  TbApi,
+  TbLayoutGrid,
+  TbList,
+  TbChevronLeft,
+  TbChevronRight,
+  TbExternalLink,
+  TbDots,
+} from "react-icons/tb";
 import {
   PaginationSkeleton,
   ProjectSkeleton,
@@ -37,6 +38,7 @@ const iconMap = {
   FaReact,
   FaGithub,
   FaGitAlt,
+  FaNodeJs,
   SiNodedotjs,
   SiExpress,
   SiTypescript,
@@ -57,6 +59,15 @@ const iconMap = {
   SiPostman,
 };
 
+const ACCENT_CLASSES = [
+  "from-primary to-accent2",
+  "from-cyan to-primary",
+  "from-green to-cyan",
+  "from-orange to-amber-400",
+  "from-accent2 to-orange",
+  "from-rose-500 to-orange",
+];
+
 interface Tech {
   name: string;
   icon: keyof typeof iconMap;
@@ -75,54 +86,28 @@ interface Project {
   category: string;
 }
 
+const ITEMS_PER_PAGE = 4;
+
 export const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const getLimit = () => {
-    if (typeof window === "undefined") return 3;
-    return window.innerWidth < 768 ? 1 : 3;
-  };
-
-  const [limit, setLimit] = useState(getLimit);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const newLimit = getLimit();
-      setLimit((prev) => {
-        if (prev !== newLimit) {
-          setCurrentPage(1);
-          return newLimit;
-        }
-        return prev;
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [totalProjects, setTotalProjects] = useState(0);
-  const [expandedProject, setExpandedProject] = useState<string | null>(null);
-  const [expandedTech, setExpandedTech] = useState<Record<string, boolean>>({});
-  const [expandedFeatures, setExpandedFeatures] = useState<
-    Record<string, boolean>
-  >({});
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const totalPages = Math.ceil(totalProjects / ITEMS_PER_PAGE);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `/api/projects?page=${currentPage}&limit=${limit}`,
+          `/api/projects?page=${currentPage}&limit=${ITEMS_PER_PAGE}`,
         );
         const data = await response.json();
         if (data.success) {
           setProjects(data.projects);
           setTotalProjects(data.pagination.totalProjects);
-          setTotalPages(data.pagination.totalPages);
         }
       } catch (error) {
         console.error("Failed to fetch projects:", error);
@@ -130,279 +115,250 @@ export const Projects = () => {
         setLoading(false);
       }
     };
-
     fetchProjects();
-  }, [currentPage, limit]);
+  }, [currentPage]);
 
-  const showPagination = totalPages > 1;
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const endIndex = Math.min(currentPage * ITEMS_PER_PAGE, totalProjects);
+
+  const gotoPage = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    document
+      .getElementById("projects")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const spanPattern =
+    viewMode === "list"
+      ? Array(projects.length).fill("col-span-12")
+      : [
+          "col-span-12 lg:col-span-7",
+          "col-span-12 lg:col-span-5",
+          "col-span-12 sm:col-span-6 lg:col-span-4",
+          "col-span-12 sm:col-span-6 lg:col-span-8",
+        ];
+
+  const getVisiblePages = () => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const pages = new Set<number>([1, totalPages, currentPage]);
+    if (currentPage > 1) pages.add(currentPage - 1);
+    if (currentPage < totalPages) pages.add(currentPage + 1);
+    return Array.from(pages).sort((a, b) => a - b);
+  };
+  const visiblePages = getVisiblePages();
 
   return (
     <Container>
-      {/* ====================================================== */}
-      {/* SECTION */}
-      {/* ====================================================== */}
-      <section>
-        {/* ====================================================== */}
-        {/* BACKGROUND */}
-        {/* ====================================================== */}
-        <div className="absolute inset-0 -z-20 bg-background" />
-        <div className=" absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
-        <div className="absolutetop-0left-1/2-translate-x-1/2w-125h-125rounded-fullbg-primary/10dark:bg-primary/15blur-3xl" />
-        {/* ====================================================== */}
-        {/* CONTAINER */}
-        {/* ====================================================== */}
-        <div className=" relative z-10 mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-          {/* ====================================================== */}
-          {/* HEADER */}
-          {/* ====================================================== */}
-          <div className=" flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-10 mb-6 sm:mb-10">
-            {/* ====================================================== */}
-            {/* LEFT */}
-            {/* ====================================================== */}
-            <div className="max-w-4xl">
-              <p className=" inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-primary uppercase tracking-[0.25em] text-[10px] sm:text-xs md:text-sm font-semibold">
-                Backend Engineering
-              </p>
-              <h2 className=" mt-4 text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-[-0.04em] leading-[0.95] text-foreground">
-                Scalable Systems
-                <span className="pl-3 bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
-                  & Production APIs
-                </span>
+      <section
+        id="projects"
+        className="py-10 sm:py-12 md:py-16 lg:py-20 bg-(--surface)"
+      >
+        <div className="mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
+          <div className="reveal mb-8 sm:mb-10 flex flex-wrap items-end gap-4 sm:gap-6">
+            <div>
+              <div className="mb-1 font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase">
+                03 — PROJECTS
+              </div>
+              <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
+                Selected Work
               </h2>
-              <p className=" mt-6 max-w-2xl text-sm sm:text-base leading-7 sm:leading-8 text-muted-foreground">
-                I specialize in building enterprise-grade backend systems with
-                authentication, RBAC, WebSockets, caching layers, scalable APIs,
-                payment systems, and realtime infrastructure.
-              </p>
+            </div>
+            <div className="mb-1.5 h-px min-w-10 flex-1 bg-linear-to-r from-border to-transparent" />
+          </div>
+
+          <div className="reveal mb-5 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+            <div className="font-mono text-[0.68rem] sm:text-[0.72rem] text-muted-foreground">
+              Showing{" "}
+              <strong className="text-primary">
+                {loading ? "…" : `${startIndex}–${endIndex}`}
+              </strong>{" "}
+              of <strong className="text-primary">{totalProjects}</strong>{" "}
+              projects
             </div>
 
-            {/* ====================================================== */}
-            {/* RIGHT STATS */}
-            {/* ====================================================== */}
-            <div className=" grid grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto">
-              {[
-                {
-                  label: "Projects",
-                  value: `+ ${totalProjects}`,
-                },
-                {
-                  label: "APIs",
-                  value: "50+",
-                },
-                {
-                  label: "Uptime",
-                  value: "99.9%",
-                },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{
-                    y: -5,
-                  }}
-                  className=" rounded-3xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-xl px-4 sm:px-5 py-5 text-center min-w-22.5 sm:min-w-27.5 shadow-lg shadow-primary/5 transition-all duration-300 hover:border-primary/30 hover:bg-primary/5"
-                >
-                  <h3 className=" text-xl sm:text-2xl font-black text-foreground">
-                    {item.value}
-                  </h3>
-                  <p className=" mt-1 text-[10px] sm:text-xs text-muted-foreground">
-                    {item.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          {/* ====================================================== */}
-          {/* PROJECT GRID */}
-          {/* ====================================================== */}
-          <div className="relative min-h-175 ">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentPage}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                  filter: "blur(10px)",
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  filter: "blur(0px)",
-                }}
-                exit={{
-                  opacity: 0,
-                  y: -30,
-                  filter: "blur(10px)",
-                }}
-                transition={{
-                  duration: 0.7,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-7"
+            <div className="flex overflow-hidden border border-border shrink-0">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 border-r border-border transition-colors whitespace-nowrap ${
+                  viewMode === "grid"
+                    ? "bg-primary text-white"
+                    : "bg-card text-muted-foreground hover:text-primary"
+                }`}
               >
-                {loading
-                  ? Array.from({ length: 3 }).map((_, i) => (
-                      <ProjectSkeleton key={i} />
-                    ))
-                  : projects.map((project, i) => {
-                      return (
-                        <Link
-                          href={`/projects/${project._id}`}
-                          className="block"
-                        >
-                          <motion.div
-                            key={project.title}
-                            layout
-                            initial={{
-                              opacity: 0,
-                              y: 40,
-                            }}
-                            animate={{
-                              opacity: 1,
-                              y: 0,
-                            }}
-                            transition={{
-                              duration: 0.6,
-                              delay: i * 0.12,
-                              ease: [0.22, 1, 0.36, 1],
-                            }}
-                            whileHover={{
-                              y: -10,
-                            }}
-                            className="group"
-                          >
-                            <div className=" relative flex flex-col h-full min-h-155 overflow-hidden rounded-4xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-2xl shadow-xl shadow-primary/5 transition-all duration-500 hover:border-primary/30 hover:shadow-[0_20px_60px_rgba(139,92,246,0.12)]">
-                              <div className=" absolute inset-0 opacity-[0.03] dark:opacity-[0.05] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[40px_40px]" />
-                              <div className=" absolute top-0 right-0 w-56 h-56 rounded-full bg-primary/10 dark:bg-primary/15 blur-[120px] opacity-0 group-hover:opacity-100 transition-all duration-700" />
-                              <div className=" relative z-10 flex flex-col h-full p-5 sm:p-7">
-                                <div className=" inline-flex items-center gap-2 w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-primary">
-                                  {project.category}
-                                </div>
-                                <div className="relative overflow-hidden rounded-3xl my-6 border border-border bg-card shadow-lg group">
-                                  <div className="absolute inset-0 bg-linear-to-tr from-primary/10 via-transparent to-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-10" />
-                                  <img
-                                    src={project.image}
-                                    alt={project.title}
-                                    loading="lazy"
-                                    className="w-full h-56 object-cover transition-all duration-700 group-hover:scale-110"
-                                  />
-                                  <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-background/80 via-background/20 to-transparent" />
-                                  <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 dark:ring-white/5" />
-                                </div>
-                                <h3 className=" mt-5 text-2xl sm:text-3xl font-black tracking-[-0.03em] leading-tight text-foreground line-clamp-2 h-20">
-                                  {project.title}
-                                </h3>
-                                <div className="mt-4">
-                                  <p
-                                    className={` text-sm sm:text-base leading-7 text-muted-foreground  line-clamp-3`}
-                                  >
-                                    {project.description}
-                                  </p>
-                                </div>
-                                <div className="mt-8 max-h-80 overflow-y-auto pr-2">
-                                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                    {project.tech
-                                      .slice(0, 6)
-                                      .map((tech, idx) => {
-                                        const Icon = iconMap[tech.icon];
-                                        return (
-                                          <motion.div
-                                            key={idx}
-                                            whileHover={{ scale: 1.05 }}
-                                            className=" flex items-center gap-2 rounded-2xl border border-border/70 bg-background/70 dark:bg-background/40 px-3 py-2 text-sm backdrop-blur-xl transition-all duration-300 hover:border-primary/30 hover:bg-primary/10"
-                                          >
-                                            <div className=" flex items-center justify-center size-8 rounded-xl bg-primary/10 text-primary">
-                                              {Icon && (
-                                                <Icon className="size-4" />
-                                              )}
-                                            </div>
-                                            <span className="font-medium text-foreground truncate">
-                                              {tech.name}
-                                            </span>
-                                          </motion.div>
-                                        );
-                                      })}
-                                  </div>
-                                </div>
-                                <div className="mt-auto pt-8">
-                                  <div className="flex gap-3">
-                                    <Button className=" flex-1 h-11 sm:h-12 rounded-2xl text-sm shadow-lg shadow-primary/20">
-                                      <a
-                                        href={project.live}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center"
-                                      >
-                                        Live API
-                                        <HiArrowRight className="ml-2 size-4" />
-                                      </a>
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      className=" h-11 sm:h-12 aspect-square rounded-2xl border-border/70 bg-background/70 dark:bg-background/40 backdrop-blur-xl hover:border-primary/30 hover:bg-primary/10"
-                                    >
-                                      <a
-                                        href={project.github}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        aria-label={`View ${project.title} source code on GitHub`}
-                                      >
-                                        <FaGithub className="size-4" />
-                                      </a>
-                                    </Button>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className=" absolute inset-0 rounded-4xl border border-primary/0 group-hover:border-primary/20 transition-all duration-500" />
-                            </div>
-                          </motion.div>
-                        </Link>
-                      );
-                    })}
-              </motion.div>
-            </AnimatePresence>
+                <TbLayoutGrid className="text-[0.9rem]" />
+                Grid
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 transition-colors whitespace-nowrap ${
+                  viewMode === "list"
+                    ? "bg-primary text-white"
+                    : "bg-card text-muted-foreground hover:text-primary"
+                }`}
+              >
+                <TbList className="text-[0.9rem]" />
+                List
+              </button>
+            </div>
           </div>
 
-          {/* ====================================================== */}
-          {/* PAGINATION */}
-          {/* ====================================================== */}
-          {showPagination && (
+          <div
+            className={`reveal mb-6 grid gap-px bg-border border border-border ${
+              viewMode === "list" ? "grid-cols-1" : "grid-cols-12"
+            }`}
+          >
+            {loading
+              ? Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`bg-card ${
+                      viewMode === "list" ? "col-span-12" : spanPattern[i % 4]
+                    }`}
+                  >
+                    <ProjectSkeleton />
+                  </div>
+                ))
+              : projects.map((project, i) => {
+                  const accentClass = ACCENT_CLASSES[i % ACCENT_CLASSES.length];
+                  const spanClass =
+                    viewMode === "list" ? "col-span-12" : spanPattern[i % 4];
+
+                  return (
+                    <div
+                      key={project._id}
+                      className={`group relative flex flex-col overflow-hidden bg-card hover:bg-card-h transition-colors duration-200 ${spanClass}`}
+                    >
+                      <div
+                        className={`absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r ${accentClass}`}
+                      />
+
+                      <div className="absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full bg-linear-to-r from-primary to-cyan transition-all duration-400 ease-out" />
+
+                      <div className="flex flex-col flex-1 p-5 sm:p-6 md:p-7">
+                        <div className="mb-3 sm:mb-4 font-mono text-[0.6rem] sm:text-[0.63rem] tracking-[0.15em] text-muted-foreground uppercase">
+                          PROJECT{" "}
+                          {String(
+                            (currentPage - 1) * ITEMS_PER_PAGE + i + 1,
+                          ).padStart(3, "0")}
+                        </div>
+
+                        <div className="mb-2.5 sm:mb-3 font-sans text-[1.05rem] sm:text-[1.2rem] font-bold tracking-[-0.02em]">
+                          {project.title}
+                        </div>
+
+                        <p className="flex-1 mb-5 sm:mb-6 text-[0.825rem] sm:text-[0.875rem] font-light leading-[1.6] sm:leading-[1.65] line-clamp-2 text-dimmed">
+                          {project.description}
+                        </p>
+
+                        <div className="mt-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-border pt-4">
+                          <div className="flex flex-wrap gap-1.5">
+                            {project.tech.slice(0, 5).map((t, idx) => {
+                              const Icon = iconMap[t.icon];
+                              return (
+                                <span
+                                  key={idx}
+                                  className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] sm:text-[0.63rem] text-muted-foreground bg-(--bg) border border-border px-2 sm:px-2.5 py-1 leading-none"
+                                >
+                                  {Icon && (
+                                    <Icon className="text-[0.85rem] sm:text-[0.9rem] shrink-0" />
+                                  )}
+                                  {t.name}
+                                </span>
+                              );
+                            })}
+                          </div>
+
+                          <div className="flex gap-4">
+                            {project.github && (
+                              <a
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
+                              >
+                                <FaGithub className="text-[0.85rem]" />
+                                GitHub
+                                <TbExternalLink className="text-[0.8rem]" />
+                              </a>
+                            )}
+                            {project.live && (
+                              <a
+                                href={project.live}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
+                              >
+                                Live
+                                <TbExternalLink className="text-[0.8rem]" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+          </div>
+
+          {totalPages > 1 && (
             <>
               {loading ? (
                 <PaginationSkeleton />
               ) : (
-                <div className="flex items-center justify-center gap-2 sm:mt-8 mt-6">
-                  <button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
-                    disabled={currentPage === 1}
-                    className="h-10 px-4 rounded-xl border border-border disabled:opacity-50"
-                  >
-                    Prev
-                  </button>
+                <div className="flex flex-wrap items-center justify-center sm:justify-between gap-3 sm:gap-4">
+                  <div className="font-mono text-[0.68rem] sm:text-[0.72rem] text-muted-foreground order-2 sm:order-1">
+                    Page <strong className="text-primary">{currentPage}</strong>{" "}
+                    of <strong className="text-primary">{totalPages}</strong>
+                  </div>
 
-                  {Array.from({ length: totalPages }).map((_, idx) => (
+                  <div className="flex gap-1.5 items-center order-1 sm:order-2 flex-wrap justify-center">
                     <button
-                      key={idx}
-                      onClick={() => setCurrentPage(idx + 1)}
-                      className={`h-10 w-10 rounded-xl border transition-all duration-300 ${
-                        currentPage === idx + 1
-                          ? "bg-primary text-primary-foreground border-primary"
-                          : "border-border hover:border-primary"
-                      }`}
+                      onClick={() => gotoPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      aria-label="Previous page"
+                      className="font-mono text-[0.7rem] sm:text-[0.72rem] w-8 h-8 sm:w-8.5 sm:h-8.5 flex items-center justify-center border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
-                      {idx + 1}
+                      <TbChevronLeft className="text-[1rem]" />
                     </button>
-                  ))}
-                  <button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                    }
-                    disabled={currentPage === totalPages}
-                    className="h-10 px-4 rounded-xl border border-border disabled:opacity-50"
-                  >
-                    Next
-                  </button>
+
+                    {visiblePages.map((page, idx) => {
+                      const prevPage = visiblePages[idx - 1];
+                      const showEllipsis =
+                        prevPage !== undefined && page - prevPage > 1;
+                      return (
+                        <span key={page} className="flex items-center gap-1.5">
+                          {showEllipsis && (
+                            <TbDots className="text-muted-foreground text-[1rem]" />
+                          )}
+                          <button
+                            onClick={() => gotoPage(page)}
+                            aria-label={`Page ${page}`}
+                            aria-current={
+                              currentPage === page ? "page" : undefined
+                            }
+                            className={`font-mono text-[0.7rem] sm:text-[0.72rem] w-8 h-8 sm:w-8.5 sm:h-8.5 flex items-center justify-center border transition-colors ${
+                              currentPage === page
+                                ? "border-primary bg-primary text-white"
+                                : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
+                            }`}
+                          >
+                            {page}
+                          </button>
+                        </span>
+                      );
+                    })}
+                    <button
+                      onClick={() => gotoPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      aria-label="Next page"
+                      className="font-mono text-[0.7rem] sm:text-[0.72rem] w-8 h-8 sm:w-8.5 sm:h-8.5 flex items-center justify-center border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <TbChevronRight className="text-[1rem]" />
+                    </button>
+                  </div>
                 </div>
               )}
             </>

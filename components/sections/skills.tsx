@@ -172,7 +172,6 @@ export const Skills = () => {
                 </button>
               ))}
             </div>
-
             <div
               className={`mb-10 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-${filteredSkills.length} xl:grid-cols-${filteredSkills.length} sm:mb-12`}
             >
