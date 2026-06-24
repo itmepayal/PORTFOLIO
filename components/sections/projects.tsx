@@ -29,10 +29,7 @@ import {
   TbExternalLink,
   TbDots,
 } from "react-icons/tb";
-import {
-  PaginationSkeleton,
-  ProjectSkeleton,
-} from "../skeletons/ProjectSkeleton";
+import { ProjectSkeleton } from "../skeletons/ProjectSkeleton";
 
 const iconMap = {
   FaReact,
@@ -331,9 +328,7 @@ export const Projects = () => {
 
           {totalPages > 1 && (
             <>
-              {loading ? (
-                <PaginationSkeleton />
-              ) : (
+              {!loading && (
                 <div className="flex flex-wrap items-center justify-center sm:justify-between gap-3 sm:gap-4">
                   <div className="font-mono text-[0.68rem] sm:text-[0.72rem] text-muted-foreground order-2 sm:order-1">
                     Page <strong className="text-primary">{currentPage}</strong>{" "}
