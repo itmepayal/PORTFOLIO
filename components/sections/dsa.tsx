@@ -173,7 +173,7 @@ export const DSA = () => {
                   {dsaCards.map((card, i) => (
                     <div
                       key={card.title}
-                      className="shrink-0 border-r border-border bg-card p-7 transition-colors hover:bg-accent"
+                      className="shrink-0 border-r border-border bg-card p-7 transition-colors hover:bg-secondary"
                       style={{
                         minWidth: `calc(${100 / visible}% - 1px)`,
                       }}
@@ -184,7 +184,7 @@ export const DSA = () => {
                       <div className="mb-2 text-[1.05rem] font-bold">
                         {card.title}
                       </div>
-                      <div className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                      <div className="mb-4 text-sm leading-relaxed text-muted-foreground max-w-96">
                         {card.desc}
                       </div>
                       <div className="flex flex-wrap gap-1.5">
@@ -254,7 +254,7 @@ function ProficiencyBars() {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {proficiency.map((item) => (
         <div key={item.label} className="flex items-center gap-4">
-          <div className="min-w-32.5 font-mono text-xs tracking-[0.04em] text-muted-foreground">
+          <div className="min-w-40 font-mono text-xs tracking-[0.04em] text-muted-foreground ">
             {item.label}
           </div>
           <div className="relative h-0.75 flex-1 overflow-hidden bg-border">

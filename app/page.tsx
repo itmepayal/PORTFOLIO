@@ -30,6 +30,8 @@ export default function Page() {
       <div className="overflow-y-auto h-screen relative">
         <Home />
         <DSA />
+        <Skills />
+        <Contact />
         <Footer />
       </div>
     </>
