@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import { Home } from "@/components/sections/home";
 import { Skills } from "@/components/sections/skills";
-import { DSA } from "@/components/sections/dsa";
 import { Experience } from "@/components/sections/experience";
 import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
