@@ -2,9 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { HiArrowLeft, HiHome } from "react-icons/hi";
-import { Button } from "@/components/ui/button";
+import { FaHouse, FaArrowLeft, FaTriangleExclamation } from "react-icons/fa6";
 
 const NotFound = () => {
   const router = useRouter();
@@ -17,6 +15,7 @@ const NotFound = () => {
     if (!ctx) return;
 
     let animId: number;
+
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
@@ -24,13 +23,17 @@ const NotFound = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const particles = Array.from({ length: 40 }, () => ({
+    const computedStyle = getComputedStyle(document.documentElement);
+    const accentRaw = computedStyle.getPropertyValue("--accent-raw").trim();
+    const cyanColor = computedStyle.getPropertyValue("--cyan").trim();
+
+    const particles = Array.from({ length: 50 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 1.5 + 0.3,
-      dx: (Math.random() - 0.5) * 0.35,
-      dy: (Math.random() - 0.5) * 0.35,
-      opacity: Math.random() * 0.4 + 0.05,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+      opacity: Math.random() * 0.35 + 0.05,
     }));
 
     const draw = () => {
@@ -38,7 +41,7 @@ const NotFound = () => {
       particles.forEach((p) => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(var(--primary) / ${p.opacity})`;
+        ctx.fillStyle = `rgba(91, 110, 245, ${p.opacity})`;
         ctx.fill();
         p.x += p.dx;
         p.y += p.dy;
@@ -55,122 +58,121 @@ const NotFound = () => {
     };
   }, []);
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-    show: (i: number = 0) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        duration: 0.6,
-        delay: i * 0.09,
-        ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-      },
-    }),
-  };
-
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-150 h-75 rounded-full bg-primary/8 dark:bg-primary/12 blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-75 h-50 rounded-full bg-chart-3/8 blur-[100px] pointer-events-none" />
+    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-background text-foreground">
+      <main className="flex-1 flex items-center justify-center min-h-screen px-[5%] pt-16 relative overflow-hidden">
+        <div className="py-grid-bg absolute inset-0" />
+        <div
+          className="animate-py-pulse-slow absolute pointer-events-none rounded-full"
+          style={{
+            width: 500,
+            height: 500,
+            top: "5%",
+            left: "-15%",
+            background:
+              "radial-gradient(circle, rgba(91,110,245,0.18) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="animate-py-pulse-slower absolute pointer-events-none rounded-full"
+          style={{
+            width: 400,
+            height: 400,
+            bottom: 0,
+            right: 0,
+            background:
+              "radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%)",
+          }}
+        />
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        />
+        <div className="relative z-10 w-full max-w-3xl mx-auto text-center flex flex-col items-center">
+          <div className="py-fadeup-1 flex items-center gap-3 mb-6 uppercase font-mono text-xs tracking-widest text-cyan">
+            <span className="w-8 h-px bg-cyan opacity-40" />
+            <FaTriangleExclamation className="text-cyan" />
+            Error · 404 · Not Found
+            <span className="w-8 h-px bg-cyan opacity-40" />
+          </div>
 
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
-      />
+          <div className="py-fadeup-2 py-float relative mb-4 select-none leading-none">
+            <span
+              className="py-num-ghost absolute inset-0 font-black leading-none pointer-events-none font-sans"
+              style={{
+                fontSize: "clamp(7rem, 22vw, 14rem)",
+                letterSpacing: "-0.05em",
+              }}
+              aria-hidden="true"
+            >
+              404
+            </span>
+            <span
+              className="py-num-main relative font-black leading-none font-sans"
+              style={{
+                fontSize: "clamp(7rem, 22vw, 14rem)",
+                letterSpacing: "-0.05em",
+              }}
+            >
+              404
+            </span>
+          </div>
 
-      <div className="relative z-10 w-full max-w-2xl mx-auto px-6 text-center">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={0}
-          className="relative mb-6 select-none"
-        >
-          <span
-            className="absolute inset-0 text-[10rem] sm:text-[13rem] font-black tracking-[-0.06em] leading-none text-primary/10 blur-sm"
-            aria-hidden="true"
+          <div className="py-fadeup-2 flex items-center gap-4 mb-8 w-full max-w-sm">
+            <div
+              className="flex-1 h-px"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, var(--border-raw))",
+              }}
+            />
+            <span className="font-mono text-xs uppercase tracking-widest text-primary border border-primary/30 bg-primary/10 px-3 py-1.5">
+              Page Not Found
+            </span>
+            <div
+              className="flex-1 h-px"
+              style={{
+                background:
+                  "linear-gradient(90deg, var(--border-raw), transparent)",
+              }}
+            />
+          </div>
+
+          <h1
+            className="py-fadeup-3 font-bold mb-4 leading-tight font-sans text-foreground"
+            style={{
+              fontSize: "clamp(1.6rem, 4vw, 2.8rem)",
+              letterSpacing: "-0.03em",
+            }}
           >
-            404
-          </span>
-          <span className="relative text-[10rem] sm:text-[13rem] font-black tracking-[-0.06em] leading-none bg-linear-to-b from-foreground/90 to-foreground/20 bg-clip-text text-transparent">
-            404
-          </span>
-        </motion.div>
+            Looks like you&apos;ve wandered
+            <br />
+            <span className="py-grad-text">off the map.</span>
+          </h1>
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={1}
-          className="flex items-center justify-center gap-4 mb-8"
-        >
-          <div className="h-px flex-1 max-w-20 bg-border/60" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary font-bold bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5">
-            Page Not Found
-          </span>
-          <div className="h-px flex-1 max-w-20 bg-border/60" />
-        </motion.div>
+          <p className="py-fadeup-3 max-w-md mb-8 font-light leading-7 text-dimmed text-sm">
+            The page you&apos;re looking for doesn&apos;t exist, was moved, or
+            the URL might be mistyped. Let&apos;s get you back on track.
+          </p>
 
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={2}
-          className="text-2xl sm:text-3xl font-black tracking-[-0.03em] text-foreground mb-4 leading-tight"
-        >
-          Looks like you've wandered
-          <span className="block bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
-            off the map.
-          </span>
-        </motion.h1>
-
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={3}
-          className="text-sm sm:text-base text-muted-foreground leading-7 mb-10 max-w-md mx-auto"
-        >
-          The page you're looking for doesn't exist, was moved, or the URL might
-          be mistyped. Let's get you back on track.
-        </motion.p>
-
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={4}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
-          <Button
-            className="h-11 px-7 rounded-2xl text-sm shadow-lg shadow-primary/20"
-            onClick={() => router.push("/")}
-          >
-            <HiHome className="mr-2 size-4" />
-            Back to Home
-          </Button>
-          <Button
-            variant="outline"
-            className="h-11 px-7 rounded-2xl border-border/70 bg-background/70 dark:bg-background/40 backdrop-blur-xl hover:border-primary/30 hover:bg-primary/10 text-sm"
-            onClick={() => router.back()}
-          >
-            <HiArrowLeft className="mr-2 size-4" />
-            Go Back
-          </Button>
-        </motion.div>
-
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          custom={5}
-          className="mt-10 text-[11px] text-muted-foreground/40 tracking-widest uppercase font-mono"
-        >
-          error · 404 · not found
-        </motion.p>
-      </div>
+          <div className="py-fadeup-4 flex gap-3 flex-wrap justify-center items-center mb-12">
+            <button
+              onClick={() => router.push("/")}
+              className="bg-secondary font-mono text-sm tracking-wider px-8 py-3 border-0 flex items-center gap-2"
+            >
+              <FaHouse size={14} />
+              Back to Home
+            </button>
+            <button
+              onClick={() => router.back()}
+              className="bg-secondary font-mono text-sm tracking-wider px-8 py-3 flex items-center gap-2"
+            >
+              <FaArrowLeft size={14} />
+              Go Back
+            </button>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

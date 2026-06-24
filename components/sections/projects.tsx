@@ -68,6 +68,14 @@ const ACCENT_CLASSES = [
   "from-rose-500 to-orange",
 ];
 
+// Fixed span pattern for grid view, keyed by position within a page (0-3).
+const GRID_SPAN_PATTERN = [
+  "col-span-12 lg:col-span-7",
+  "col-span-12 lg:col-span-5",
+  "col-span-12 sm:col-span-6 lg:col-span-4",
+  "col-span-12 sm:col-span-6 lg:col-span-8",
+];
+
 interface Tech {
   name: string;
   icon: keyof typeof iconMap;
@@ -98,6 +106,8 @@ export const Projects = () => {
   const totalPages = Math.ceil(totalProjects / ITEMS_PER_PAGE);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchProjects = async () => {
       try {
         setLoading(true);
@@ -105,6 +115,7 @@ export const Projects = () => {
           `/api/projects?page=${currentPage}&limit=${ITEMS_PER_PAGE}`,
         );
         const data = await response.json();
+        if (cancelled) return;
         if (data.success) {
           setProjects(data.projects);
           setTotalProjects(data.pagination.totalProjects);
@@ -112,14 +123,21 @@ export const Projects = () => {
       } catch (error) {
         console.error("Failed to fetch projects:", error);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
     fetchProjects();
+
+    return () => {
+      cancelled = true;
+    };
   }, [currentPage]);
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE + 1;
-  const endIndex = Math.min(currentPage * ITEMS_PER_PAGE, totalProjects);
+  const hasProjects = totalProjects > 0;
+  const startIndex = hasProjects ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0;
+  const endIndex = hasProjects
+    ? Math.min(currentPage * ITEMS_PER_PAGE, totalProjects)
+    : 0;
 
   const gotoPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -129,15 +147,11 @@ export const Projects = () => {
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const spanPattern =
-    viewMode === "list"
-      ? Array(projects.length).fill("col-span-12")
-      : [
-          "col-span-12 lg:col-span-7",
-          "col-span-12 lg:col-span-5",
-          "col-span-12 sm:col-span-6 lg:col-span-4",
-          "col-span-12 sm:col-span-6 lg:col-span-8",
-        ];
+  // Returns the grid span class for an item at index `i` on the current page.
+  // Always resolves to a real class — never undefined — for both loading
+  // skeletons and real cards, in both grid and list view.
+  const getSpanClass = (i: number) =>
+    viewMode === "list" ? "col-span-12" : GRID_SPAN_PATTERN[i % 4];
 
   const getVisiblePages = () => {
     if (totalPages <= 5) {
@@ -182,6 +196,7 @@ export const Projects = () => {
             <div className="flex overflow-hidden border border-border shrink-0">
               <button
                 onClick={() => setViewMode("grid")}
+                aria-pressed={viewMode === "grid"}
                 className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 border-r border-border transition-colors whitespace-nowrap ${
                   viewMode === "grid"
                     ? "bg-primary text-white"
@@ -193,6 +208,7 @@ export const Projects = () => {
               </button>
               <button
                 onClick={() => setViewMode("list")}
+                aria-pressed={viewMode === "list"}
                 className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 transition-colors whitespace-nowrap ${
                   viewMode === "list"
                     ? "bg-primary text-white"
@@ -210,97 +226,107 @@ export const Projects = () => {
               viewMode === "list" ? "grid-cols-1" : "grid-cols-12"
             }`}
           >
-            {loading
-              ? Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+            {loading ? (
+              Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                <div key={i} className={`bg-card ${getSpanClass(i)}`}>
+                  <ProjectSkeleton />
+                </div>
+              ))
+            ) : projects.length === 0 ? (
+              <div className="col-span-12 flex flex-col items-center justify-center gap-2 bg-card py-16 text-center">
+                <span className="font-mono text-[0.7rem] tracking-widest text-muted-foreground uppercase">
+                  No projects yet
+                </span>
+              </div>
+            ) : (
+              projects.map((project, i) => {
+                const accentClass = ACCENT_CLASSES[i % ACCENT_CLASSES.length];
+                const spanClass = getSpanClass(i);
+
+                return (
                   <div
-                    key={i}
-                    className={`bg-card ${
-                      viewMode === "list" ? "col-span-12" : spanPattern[i % 4]
-                    }`}
+                    key={project._id}
+                    className={`group relative flex flex-col overflow-hidden bg-card hover:bg-card-h transition-colors duration-200 ${spanClass}`}
                   >
-                    <ProjectSkeleton />
-                  </div>
-                ))
-              : projects.map((project, i) => {
-                  const accentClass = ACCENT_CLASSES[i % ACCENT_CLASSES.length];
-                  const spanClass =
-                    viewMode === "list" ? "col-span-12" : spanPattern[i % 4];
-
-                  return (
                     <div
-                      key={project._id}
-                      className={`group relative flex flex-col overflow-hidden bg-card hover:bg-card-h transition-colors duration-200 ${spanClass}`}
-                    >
-                      <div
-                        className={`absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r ${accentClass}`}
-                      />
+                      className={`absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r ${accentClass}`}
+                    />
 
-                      <div className="absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full bg-linear-to-r from-primary to-cyan transition-all duration-400 ease-out" />
+                    <div className="absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full bg-linear-to-r from-primary to-cyan transition-all duration-400 ease-out" />
 
-                      <div className="flex flex-col flex-1 p-5 sm:p-6 md:p-7">
-                        <div className="mb-3 sm:mb-4 font-mono text-[0.6rem] sm:text-[0.63rem] tracking-[0.15em] text-muted-foreground uppercase">
-                          PROJECT{" "}
-                          {String(
-                            (currentPage - 1) * ITEMS_PER_PAGE + i + 1,
-                          ).padStart(3, "0")}
+                    <div className="flex flex-col flex-1 p-5 sm:p-6 md:p-7">
+                      <div className="mb-3 sm:mb-4 font-mono text-[0.6rem] sm:text-[0.63rem] tracking-[0.15em] text-muted-foreground uppercase">
+                        PROJECT{" "}
+                        {String(
+                          (currentPage - 1) * ITEMS_PER_PAGE + i + 1,
+                        ).padStart(3, "0")}
+                      </div>
+
+                      <div className="mb-2.5 sm:mb-3 font-sans text-[1.05rem] sm:text-[1.2rem] font-bold tracking-[-0.02em]">
+                        {project.title}
+                      </div>
+
+                      <p className="flex-1 mb-5 sm:mb-6 text-[0.825rem] sm:text-[0.875rem] font-light leading-[1.6] sm:leading-[1.65] line-clamp-2 text-dimmed">
+                        {project.description}
+                      </p>
+
+                      <div className="mt-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-border pt-4">
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tech.slice(0, 5).map((t, idx) => {
+                            const Icon = iconMap[t.icon];
+                            return (
+                              <span
+                                key={idx}
+                                className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] sm:text-[0.63rem] text-muted-foreground bg-(--bg) border border-border px-2 sm:px-2.5 py-1 leading-none"
+                              >
+                                {Icon && (
+                                  <Icon className="text-[0.85rem] sm:text-[0.9rem] shrink-0" />
+                                )}
+                                {t.name}
+                              </span>
+                            );
+                          })}
                         </div>
 
-                        <div className="mb-2.5 sm:mb-3 font-sans text-[1.05rem] sm:text-[1.2rem] font-bold tracking-[-0.02em]">
-                          {project.title}
-                        </div>
+                        <div className="flex gap-4">
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
+                            >
+                              <FaGithub className="text-[0.85rem]" />
+                              GitHub
+                              <TbExternalLink className="text-[0.8rem]" />
+                            </a>
+                          )}
+                          {project.live && (
+                            <a
+                              href={project.live}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
+                            >
+                              Live
+                              <TbExternalLink className="text-[0.8rem]" />
+                            </a>
+                          )}
 
-                        <p className="flex-1 mb-5 sm:mb-6 text-[0.825rem] sm:text-[0.875rem] font-light leading-[1.6] sm:leading-[1.65] line-clamp-2 text-dimmed">
-                          {project.description}
-                        </p>
-
-                        <div className="mt-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-border pt-4">
-                          <div className="flex flex-wrap gap-1.5">
-                            {project.tech.slice(0, 5).map((t, idx) => {
-                              const Icon = iconMap[t.icon];
-                              return (
-                                <span
-                                  key={idx}
-                                  className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] sm:text-[0.63rem] text-muted-foreground bg-(--bg) border border-border px-2 sm:px-2.5 py-1 leading-none"
-                                >
-                                  {Icon && (
-                                    <Icon className="text-[0.85rem] sm:text-[0.9rem] shrink-0" />
-                                  )}
-                                  {t.name}
-                                </span>
-                              );
-                            })}
-                          </div>
-
-                          <div className="flex gap-4">
-                            {project.github && (
-                              <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
-                              >
-                                <FaGithub className="text-[0.85rem]" />
-                                GitHub
-                                <TbExternalLink className="text-[0.8rem]" />
-                              </a>
-                            )}
-                            {project.live && (
-                              <a
-                                href={project.live}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
-                              >
-                                Live
-                                <TbExternalLink className="text-[0.8rem]" />
-                              </a>
-                            )}
-                          </div>
+                          <a
+                            href={`/projects/${project._id}`}
+                            className="inline-flex items-center gap-1 font-mono text-[0.66rem] sm:text-[0.68rem] tracking-[0.05em] text-primary hover:text-cyan transition-colors"
+                          >
+                            More
+                            <TbExternalLink className="text-[0.8rem]" />
+                          </a>
                         </div>
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })
+            )}
           </div>
 
           {totalPages > 1 && (

@@ -1,6 +1,5 @@
 "use client";
 
-import { Variants } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -25,10 +24,7 @@ import {
   SiPostgresql,
   SiNextdotjs,
 } from "react-icons/si";
-
 import { TbApi } from "react-icons/tb";
-import { Button } from "@/components/ui/button";
-import { Container } from "@/components/common/container";
 
 const iconMap = {
   FaNodeJs,
@@ -73,62 +69,82 @@ interface Project {
   createdAt: string;
 }
 
-const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 32,
-    filter: "blur(8px)",
-  },
-  show: (i: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      delay: i * 0.07,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-    },
-  }),
-};
+const ACCENT_LINES = [
+  "linear-gradient(90deg, var(--color-primary), var(--color-accent2))",
+  "linear-gradient(90deg, var(--color-cyan), var(--color-primary))",
+  "linear-gradient(90deg, var(--color-green), var(--color-cyan))",
+  "linear-gradient(90deg, var(--color-orange), #f59e0b)",
+  "linear-gradient(90deg, var(--color-accent2), var(--color-orange))",
+  "linear-gradient(90deg, #f43f5e, var(--color-orange))",
+];
 
-const SectionHeading = ({
-  number,
-  title,
-}: {
-  number: string;
-  title: string;
-}) => (
-  <div className="flex items-center gap-4 mb-6">
-    <span className="font-mono text-xs font-bold tracking-[0.15em] text-primary bg-primary/10 border border-primary/20 rounded-lg px-3 py-1.5">
-      {number}
-    </span>
-    <h2 className="text-lg sm:text-xl font-black tracking-[-0.02em] text-foreground">
-      {title}
-    </h2>
-    <div className="flex-1 h-px bg-border/50" />
+const clipPath = "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)";
+
+const SectionHeader = ({ index, title }: { index: string; title: string }) => (
+  <div className="mb-6 flex items-end gap-4">
+    <div>
+      <div className="mb-1 font-mono text-[0.68rem] tracking-[0.15em] text-primary">
+        {index}
+      </div>
+      <h2 className="text-[clamp(1.3rem,2.4vw,1.9rem)] font-bold tracking-[-0.02em] leading-[1.1] text-foreground">
+        {title}
+      </h2>
+    </div>
+    <div className="mb-1.5 h-px min-w-10 flex-1 bg-linear-to-r from-border to-transparent" />
   </div>
 );
 
-const MetaCard = ({
-  icon,
+const StatBlock = ({
   label,
-  children,
+  value,
 }: {
-  icon: React.ReactNode;
   label: string;
-  children: React.ReactNode;
+  value: React.ReactNode;
 }) => (
-  <div className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-xl px-4 py-3.5 transition-all duration-300 hover:border-primary/30 hover:bg-primary/5">
-    <div className="flex items-center justify-center size-9 rounded-xl bg-primary/10 text-primary shrink-0">
-      {icon}
+  <div className="relative overflow-hidden border border-border bg-card px-5 py-4 transition-colors duration-200 hover:bg-card-h">
+    <div className="truncate font-mono text-sm font-medium text-foreground">
+      {value}
     </div>
-    <div className="min-w-0">
-      <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground mb-0.5">
-        {label}
-      </p>
-      <div className="text-sm font-medium text-foreground truncate">
-        {children}
+    <div className="mt-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-muted-foreground">
+      {label}
+    </div>
+  </div>
+);
+
+const Loading = () => (
+  <div className="min-h-screen bg-background px-[5%] pb-16 pt-28">
+    <div className="mx-auto max-w-300 animate-pulse space-y-6">
+      <div className="h-8 w-40 border border-border bg-card" />
+      <div className="h-80 w-full border border-border bg-card" />
+      <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="h-20 bg-card" />
+        ))}
       </div>
+      <div className="h-32 border border-border bg-card" />
+    </div>
+  </div>
+);
+
+const NotFoundState = ({ onBack }: { onBack: () => void }) => (
+  <div className="flex min-h-screen items-center justify-center bg-background px-[5%]">
+    <div className="max-w-sm space-y-5 text-center">
+      <div className="font-mono text-[0.68rem] tracking-[0.2em] text-primary">
+        ERROR · 404
+      </div>
+      <h2 className="text-2xl font-bold tracking-[-0.02em] text-foreground">
+        Project not found
+      </h2>
+      <p className="text-sm font-light text-muted-foreground">
+        This project doesn&apos;t exist or has been removed.
+      </p>
+      <button
+        onClick={onBack}
+        className="inline-flex items-center gap-2 border border-border px-6 py-3 font-mono text-[0.78rem] tracking-[0.05em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary"
+      >
+        <HiArrowLeft className="size-3.5" />
+        Go Back
+      </button>
     </div>
   </div>
 );
@@ -158,351 +174,247 @@ const ProjectDetailPage = () => {
     })();
   }, [id]);
 
-  if (loading)
-    return (
-      <Container>
-        <section>
-          <div className="absolute inset-0 -z-20 bg-background" />
-          <div className="absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
-          <div className="relative z-10 mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 max-w-7xl space-y-6 animate-pulse">
-            <div className="h-8 w-36 rounded-full bg-muted" />
-            <div className="h-80 w-full rounded-3xl bg-muted" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-16 rounded-2xl bg-muted" />
-              ))}
-            </div>
-            <div className="h-32 rounded-2xl bg-muted" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="h-12 rounded-2xl bg-muted" />
-              ))}
-            </div>
-          </div>
-        </section>
-      </Container>
-    );
-
-  if (error || !project)
-    return (
-      <Container>
-        <section className="relative min-h-screen flex items-center justify-center">
-          <div className="text-center space-y-4 p-8">
-            <div className="text-6xl mx-auto w-fit">🔍</div>
-            <h2 className="text-2xl font-black text-foreground">
-              Project not found
-            </h2>
-            <p className="text-muted-foreground text-sm max-w-sm">
-              This project doesn't exist or has been removed.
-            </p>
-            <Button onClick={() => router.back()} className="mt-2 rounded-2xl">
-              <HiArrowLeft className="mr-2 size-4" /> Go Back
-            </Button>
-          </div>
-        </section>
-      </Container>
-    );
+  if (loading) return <Loading />;
+  if (error || !project) return <NotFoundState onBack={() => router.back()} />;
 
   const formattedDate = new Date(project.createdAt).toLocaleDateString(
     "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    },
+    { year: "numeric", month: "short", day: "numeric" },
   );
 
+  const accentLine =
+    ACCENT_LINES[
+      Math.abs(
+        project._id.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0),
+      ) % ACCENT_LINES.length
+    ];
+
   return (
-    <Container>
-      <section>
-        <div className="absolute inset-0 -z-20 bg-background" />
-        <div className="absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.06] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[60px_60px]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-87.5 rounded-full bg-primary/8 dark:bg-primary/12 blur-[140px] -z-10" />
-        <div className="relative z-10 mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 max-w-7xl">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0}
-            className="mb-10"
+    <div className="min-h-screen bg-background pt-8">
+      <div className="px-[5%]">
+        <div className="mx-auto max-w-300">
+          <button
+            onClick={() => router.push("/")}
+            className="group mb-8 inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.08em] text-muted-foreground transition-colors duration-200 hover:text-primary"
           >
-            <button
-              onClick={() => router.back()}
-              className="inline-flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground border border-border/60 hover:border-primary/30 hover:bg-primary/5 rounded-full px-4 py-2 transition-all duration-300 group"
-            >
-              <HiArrowLeft className="size-4 group-hover:-translate-x-0.5 transition-transform duration-300" />
-              Back to Projects
-            </button>
-          </motion.div>
+            <HiArrowLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+            Back to Home
+          </button>
+        </div>
+      </div>
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={1}
-            className="relative mb-8"
-          >
-            <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-2xl shadow-black/10 group">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-64 sm:h-80 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent" />
-              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-                <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <span className="inline-flex items-center rounded-full border border-primary/40 bg-primary/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-primary font-semibold">
-                    {project.category}
-                  </span>
-                  {project.featured && (
-                    <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-amber-400 font-semibold">
-                      ⭐ Featured
-                    </span>
-                  )}
-                  <span className="inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/20 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-400 font-semibold">
-                    Published
-                  </span>
-                </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.04em] leading-[0.95] text-white mb-2">
-                  {project.title}
-                </h1>
-                <p className="text-sm text-white/50">{formattedDate}</p>
-              </div>
-              <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10" />
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={2}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10"
-          >
-            <MetaCard
-              icon={<HiExternalLink className="size-4" />}
-              label="Live Demo"
-            >
-              <a
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline truncate block"
-              >
-                View Live Site
-              </a>
-            </MetaCard>
-            <MetaCard
-              icon={<FaGithub className="size-4" />}
-              label="Source Code"
-            >
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline truncate block"
-              >
-                View on GitHub
-              </a>
-            </MetaCard>
-            <MetaCard
-              icon={
-                <span className="text-sm font-black">
-                  {project.tech.length}
+      <section className="px-[5%]">
+        <div className="relative mx-auto max-w-300 border border-border bg-card">
+          <div
+            className="absolute left-0 right-0 top-0 h-0.5"
+            style={{ background: accentLine }}
+          />
+          <div className="relative h-64 w-full overflow-hidden sm:h-80 md:h-96">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[0.62rem] uppercase tracking-[0.15em] text-cyan">
+                {project.category}
+              </span>
+              {project.featured && (
+                <span className="border border-orange/40 px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-widest text-orange">
+                  ★ Featured
                 </span>
-              }
-              label="Technologies"
-            >
-              <span>{project.tech.length} in stack</span>
-            </MetaCard>
-            <MetaCard
-              icon={
-                <span className="text-sm font-black">
-                  {project.features.length}
-                </span>
-              }
-              label="Features"
-            >
-              <span>{project.features.length} key features</span>
-            </MetaCard>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={3}
-            className="mb-12"
-          >
-            <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-xl p-6 sm:p-8 border-l-4 border-l-primary">
-              <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
-              <p className="text-[10px] uppercase tracking-[0.22em] font-semibold text-primary mb-4">
-                About this project
-              </p>
-              <p className="text-sm sm:text-base leading-7 sm:leading-8 text-muted-foreground relative z-10">
-                {project.description}
-              </p>
+              )}
+              <span className="border border-green/40 px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-widest text-green">
+                Published
+              </span>
             </div>
-          </motion.div>
+            <h1 className="text-3xl font-bold leading-[1.05] tracking-[-0.03em] text-white sm:text-4xl md:text-5xl">
+              {project.title}
+            </h1>
+            <p className="mt-2 font-mono text-[0.7rem] text-white/55">
+              {formattedDate}
+            </p>
+          </div>
+        </div>
+      </section>
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={4}
-            className="mb-12"
-          >
-            <SectionHeading number="01" title="Tech Stack" />
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
-              {project.tech.map((tech, i) => {
-                const Icon = iconMap[tech.icon];
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: 0.4 + i * 0.035,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    whileHover={{ y: -5, scale: 1.03 }}
-                    className="flex items-center gap-2.5 rounded-2xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-xl px-3 py-3 transition-all duration-300 hover:border-primary/35 hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/8 group"
-                  >
-                    <div className="flex items-center justify-center size-8 rounded-xl bg-primary/10 text-primary shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
-                      {Icon && <Icon className="size-4" />}
-                    </div>
-                    <span className="font-medium text-foreground truncate text-xs sm:text-sm">
-                      {tech.name}
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={5}
-            className="mb-14"
-          >
-            <SectionHeading number="02" title="Key Features" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-              {project.features.map((feature, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.5 + i * 0.025,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="flex items-start gap-3 rounded-2xl border border-border/50 bg-card/50 dark:bg-card/30 px-4 py-3.5 transition-all duration-300 hover:border-primary/25 hover:bg-primary/5 group"
-                >
-                  <div className="mt-0.5 flex items-center justify-center size-5 rounded-md bg-primary/10 shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
-                    <div className="size-2 rounded-full bg-primary group-hover:shadow-[0_0_8px_rgba(139,92,246,0.9)] transition-shadow duration-300" />
-                  </div>
-                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-6">
-                    {feature}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={6}
-            className="mb-14"
-          >
-            <div className="flex flex-wrap gap-3 items-center justify-center rounded-3xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-2xl p-5">
-              <Button
-                asChild
-                className="h-11 px-7 rounded-2xl text-sm shadow-lg shadow-primary/20 flex-1 sm:flex-none"
-              >
+      <section className="px-[5%] pt-px">
+        <div className="mx-auto max-w-300">
+          <div className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
+            <StatBlock
+              label="Live demo"
+              value={
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2"
+                  className="text-primary transition-colors hover:text-cyan"
                 >
-                  <HiExternalLink className="size-4" />
-                  Live Demo
+                  View site ↗
                 </a>
-              </Button>
-              <Button
-                variant="outline"
-                asChild
-                className="h-11 px-7 rounded-2xl border-border/70 bg-background/70 dark:bg-background/40 backdrop-blur-xl hover:border-primary/30 hover:bg-primary/10 text-sm flex-1 sm:flex-none"
-              >
+              }
+            />
+            <StatBlock
+              label="Source code"
+              value={
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2"
+                  className="text-primary transition-colors hover:text-cyan"
                 >
-                  <FaGithub className="size-4" />
-                  View Source
+                  GitHub ↗
                 </a>
-              </Button>
-              <div className="hidden sm:block h-6 w-px bg-border/60" />
-              <p className="text-xs text-muted-foreground/60 hidden sm:block">
-                Published {formattedDate}
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={7}
-          >
-            <div className="relative overflow-hidden rounded-4xl border border-border/70 bg-card/70 dark:bg-card/50 backdrop-blur-2xl p-8 sm:p-14 text-center shadow-xl shadow-primary/5">
-              <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[40px_40px]" />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-40 rounded-full bg-primary/15 blur-3xl" />
-              <div className="absolute bottom-0 right-0 w-60 h-40 rounded-full bg-chart-3/10 blur-3xl" />
-              <div className="relative z-10">
-                <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-primary font-bold mb-4">
-                  Interested in this work?
-                </p>
-                <h3 className="text-2xl sm:text-4xl font-black tracking-3 leading-[0.95] text-foreground mb-5">
-                  Let's build something
-                  <span className="block bg-linear-to-r from-primary via-primary to-chart-3 bg-clip-text text-transparent">
-                    remarkable together
-                  </span>
-                </h3>
-                <p className="text-sm sm:text-base text-muted-foreground mb-8 max-w-md mx-auto leading-7">
-                  Available for freelance backend projects, API architecture
-                  reviews, and full-stack collaborations.
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  <Button className="h-12 px-8 rounded-2xl text-sm shadow-lg shadow-primary/20">
-                    <a href="/#contact" className="flex items-center gap-2">
-                      Get In Touch
-                      <HiArrowRight className="size-4" />
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => router.back()}
-                    className="h-12 px-8 rounded-2xl border-border/70 bg-background/70 dark:bg-background/40 backdrop-blur-xl hover:border-primary/30 hover:bg-primary/10 text-sm"
-                  >
-                    View All Projects
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+              }
+            />
+            <StatBlock label="Technologies" value={project.tech.length} />
+            <StatBlock label="Key features" value={project.features.length} />
+          </div>
         </div>
       </section>
-    </Container>
+
+      <section className="px-[5%] py-12">
+        <div className="mx-auto max-w-300">
+          <div className="relative overflow-hidden border border-border bg-card p-6 sm:p-8">
+            <div className="absolute left-0 top-0 h-full w-0.5 bg-linear-to-b from-primary to-accent2" />
+            <div className="mb-3 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
+              About this project
+            </div>
+            <p className="text-sm font-light leading-7 text-muted-foreground sm:text-[0.95rem] sm:leading-[1.85rem]">
+              {project.description}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface px-[5%] py-12">
+        <div className="mx-auto max-w-300">
+          <SectionHeader index="01 — STACK" title="Tech Stack" />
+          <div className="flex flex-wrap gap-px border border-border bg-border">
+            {project.tech.map((tech, i) => {
+              const Icon = iconMap[tech.icon];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.03 }}
+                  className="group flex max-w-[calc(50%-1px)] flex-1 basis-37.5 items-center gap-2.5 bg-card px-3.5 py-3 transition-colors duration-200 hover:bg-card-h sm:max-w-[calc(20%-1px)]"
+                >
+                  <div className="flex size-7 shrink-0 items-center justify-center text-primary">
+                    {Icon && <Icon className="size-4" />}
+                  </div>
+                  <span className="truncate font-mono text-[0.72rem] text-dimmed">
+                    {tech.name}
+                  </span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-[5%] py-12">
+        <div className="mx-auto max-w-300">
+          <SectionHeader index="02 — FEATURES" title="Key Features" />
+          <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 xl:grid-cols-3">
+            {project.features.map((feature, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -8 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.025 }}
+                className="flex items-start gap-3 bg-card px-4 py-4 transition-colors duration-200 hover:bg-card-h"
+              >
+                <span className="mt-1 shrink-0 font-mono text-[0.7rem] text-primary">
+                  ▸
+                </span>
+                <span className="text-[0.85rem] leading-relaxed text-muted-foreground">
+                  {feature}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface px-[5%] py-12">
+        <div className="mx-auto flex max-w-300 flex-wrap items-center justify-center gap-3 border border-border bg-card p-6">
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex flex-1 items-center justify-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:flex-none"
+            style={{ clipPath }}
+          >
+            <HiExternalLink className="size-4" />
+            Live Demo
+          </a>
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex flex-1 items-center justify-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary sm:flex-none"
+          >
+            <FaGithub className="size-4" />
+            View Source
+          </a>
+          <div className="hidden h-6 w-px bg-border sm:block" />
+          <p className="hidden font-mono text-[0.68rem] text-muted-foreground sm:block">
+            Published {formattedDate}
+          </p>
+        </div>
+      </section>
+
+      <section className="px-[5%] py-12">
+        <div className="relative mx-auto max-w-300 overflow-hidden border border-border bg-card p-8 text-center sm:p-14">
+          <div
+            className="absolute -top-[40%] right-[-15%] h-105 w-105 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklch, var(--color-primary) 16%, transparent), transparent 70%)",
+            }}
+          />
+          <div className="relative z-10">
+            <div className="mb-3 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">
+              Interested in this work?
+            </div>
+            <h3 className="mb-4 text-2xl font-bold leading-[1.15] tracking-[-0.02em] text-foreground sm:text-4xl">
+              Let&apos;s build
+              <br />
+              <span className="bg-linear-to-r from-primary via-accent2 to-cyan bg-clip-text text-transparent">
+                something great.
+              </span>
+            </h3>
+            <p className="mx-auto mb-8 max-w-md text-sm font-light text-muted-foreground">
+              Available for freelance backend projects, API architecture
+              reviews, and full-stack collaborations.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="/#contact"
+                className="inline-flex items-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
+                style={{ clipPath }}
+              >
+                Get in touch
+                <HiArrowRight className="size-3.5" />
+              </a>
+              <button
+                onClick={() => router.back()}
+                className="inline-flex items-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary"
+              >
+                View all projects
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 };
 

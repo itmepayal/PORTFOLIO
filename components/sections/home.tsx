@@ -6,9 +6,9 @@ import { ModeToggle } from "@/components/common/theme-button";
 import { HiArrowDown, HiArrowRight, HiChevronDown } from "react-icons/hi2";
 
 const navLinks = [
-  { label: "GitHub", href: "#github-contrib" },
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
+  { label: "GitHub", href: "#github-contrib" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
