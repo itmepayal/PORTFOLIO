@@ -63,11 +63,9 @@ const ProjectsStats = () => {
             transition={{ delay: index * 0.07, duration: 0.4, ease: "easeOut" }}
             className="group relative overflow-hidden border border-border bg-card/40 px-5 py-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60"
           >
-            {/* Corner accents */}
             <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
             <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
 
-            {/* Radial glow */}
             <div
               className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               style={{
@@ -77,7 +75,6 @@ const ProjectsStats = () => {
             />
 
             <div className="relative flex items-start justify-between">
-              {/* Icon — clip-path parallelogram */}
               <div
                 className="flex h-11 w-11 items-center justify-center border border-border bg-linear-to-br from-primary to-secondary-foreground text-white transition-all duration-300 group-hover:scale-105"
                 style={{
@@ -88,7 +85,6 @@ const ProjectsStats = () => {
                 <Icon className="h-4.5 w-4.5" />
               </div>
 
-              {/* Growth badge */}
               <span className="border border-chart-3/30 bg-chart-3/10 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-chart-3">
                 {item.growth}
               </span>
@@ -103,7 +99,6 @@ const ProjectsStats = () => {
               </h2>
             </div>
 
-            {/* Bottom progress line */}
             <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-primary to-chart-3 transition-all duration-500 group-hover:w-full" />
           </motion.div>
         );

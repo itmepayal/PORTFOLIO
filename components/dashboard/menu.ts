@@ -8,10 +8,6 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 
-/* =========================================================
-   TYPES
-========================================================= */
-
 export type MenuItem = {
   key: string;
   label: string;
@@ -21,10 +17,6 @@ export type MenuItem = {
   badge?: string;
   new?: boolean;
 };
-
-/* =========================================================
-   MAIN SIDEBAR MENU
-========================================================= */
 
 export const menu: MenuItem[] = [
   {

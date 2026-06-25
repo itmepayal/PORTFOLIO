@@ -35,7 +35,6 @@ const DSAToolbar = ({
       transition={{ duration: 0.4 }}
       className="flex flex-col gap-4 border border-border bg-card/40 p-4 backdrop-blur-sm lg:flex-row lg:items-center lg:justify-between"
     >
-      {/* Search input */}
       <div className="flex flex-1 items-center">
         <div className="flex h-10 w-full items-center gap-3 border border-border bg-background/60 px-4 lg:max-w-sm">
           <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
@@ -49,7 +48,6 @@ const DSAToolbar = ({
         </div>
       </div>
 
-      {/* Filter buttons */}
       <div className="flex flex-wrap items-center gap-2">
         <SlidersHorizontal className="hidden h-3.5 w-3.5 shrink-0 text-muted-foreground sm:block" />
         {filters.map((item) => {

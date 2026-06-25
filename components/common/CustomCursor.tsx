@@ -24,10 +24,6 @@ export default function AdvancedCursor() {
 
   const isHovering = useRef(false);
 
-  /* ====================================================== */
-  /* CURSOR MOVE */
-  /* ====================================================== */
-
   useEffect(() => {
     const move = (e: MouseEvent) => {
       mouse.current.x = e.clientX;
@@ -66,10 +62,6 @@ export default function AdvancedCursor() {
       document.removeEventListener("mousemove", move);
     };
   }, []);
-
-  /* ====================================================== */
-  /* HOVER EFFECT */
-  /* ====================================================== */
 
   useEffect(() => {
     const elements = document.querySelectorAll("a, button, .cursor-hover");
@@ -115,10 +107,6 @@ export default function AdvancedCursor() {
     };
   }, []);
 
-  /* ====================================================== */
-  /* CLICK EFFECT */
-  /* ====================================================== */
-
   useEffect(() => {
     const down = () => {
       if (ringRef.current && dotRef.current) {
@@ -149,10 +137,6 @@ export default function AdvancedCursor() {
 
   return (
     <>
-      {/* ====================================================== */}
-      {/* DOT */}
-      {/* ====================================================== */}
-
       <div
         ref={dotRef}
         className="
@@ -174,10 +158,6 @@ export default function AdvancedCursor() {
           duration-150
         "
       />
-
-      {/* ====================================================== */}
-      {/* RING */}
-      {/* ====================================================== */}
 
       <div
         ref={ringRef}

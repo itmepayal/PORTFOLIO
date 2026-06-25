@@ -5,12 +5,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ExperienceCardSkeleton = () => {
   return (
     <div className="relative h-full overflow-hidden border border-border bg-card/40 backdrop-blur-sm">
-      {/* Corner accents */}
       <span className="absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/20" />
       <span className="absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/20" />
 
       <div className="flex h-full flex-col gap-6 p-6 md:p-7">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-4">
             <Skeleton className="h-12 w-12 shrink-0" />
@@ -27,7 +25,6 @@ const ExperienceCardSkeleton = () => {
           </div>
         </div>
 
-        {/* Title & Meta */}
         <div>
           <Skeleton className="h-9 w-3/4" />
 
@@ -45,9 +42,7 @@ const ExperienceCardSkeleton = () => {
           </div>
         </div>
 
-        {/* Responsibilities & Technologies */}
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Responsibilities */}
           <div>
             <Skeleton className="mb-3 h-4 w-32" />
 
@@ -59,7 +54,6 @@ const ExperienceCardSkeleton = () => {
             </div>
           </div>
 
-          {/* Technologies */}
           <div>
             <Skeleton className="mb-3 h-4 w-28" />
 
@@ -74,7 +68,6 @@ const ExperienceCardSkeleton = () => {
           </div>
         </div>
 
-        {/* CTA Button */}
         <div className="mt-auto pt-4">
           <Skeleton className="h-12 w-full" />
         </div>

@@ -89,11 +89,9 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
       transition={{ duration: 0.4 }}
       className="group relative h-full overflow-hidden border border-border bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60"
     >
-      {/* Corner accents */}
       <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
       <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
 
-      {/* Radial glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
@@ -103,7 +101,6 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
       />
 
       <div className="relative z-1 flex h-full flex-col gap-6 p-6 md:p-7">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-wrap gap-2">
             <span
@@ -123,7 +120,6 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
               </span>
             )}
           </div>
-          {/* Action buttons */}
           <div className="flex shrink-0 gap-2">
             <button
               onClick={handleEdit}
@@ -145,7 +141,6 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
           </div>
         </div>
 
-        {/* Title & Description */}
         <div>
           <h2 className="text-2xl font-bold tracking-[-0.02em] text-foreground transition-colors group-hover:text-primary md:text-3xl">
             {skill.title}
@@ -159,7 +154,6 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
           </p>
         </div>
 
-        {/* Skill level bar */}
         <div className="border border-border bg-background/40 p-4">
           <div className="mb-3 flex items-center justify-between">
             <div className="flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
@@ -178,7 +172,6 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
           </div>
         </div>
 
-        {/* Meta tags */}
         <div className="flex flex-wrap gap-2">
           <span className="border border-border bg-background/40 px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-wide text-muted-foreground">
             Order #{skill.order || 0}
@@ -188,7 +181,6 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
           </span>
         </div>
 
-        {/* Footer */}
         <div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4">
           <div className="flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
             <BadgeCheck className="h-3.5 w-3.5 text-chart-3" />

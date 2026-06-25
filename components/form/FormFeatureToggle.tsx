@@ -18,7 +18,6 @@ const FormFeatureToggle = ({
 }: FormFeatureToggleProps) => {
   return (
     <div className="space-y-5 border border-border bg-card/30 p-6">
-      {/* HEADER */}
       <div className="flex items-center justify-between gap-4">
         <div>
           <h3 className="text-[1.05rem] font-bold leading-tight tracking-[-0.02em] text-foreground">
@@ -31,7 +30,6 @@ const FormFeatureToggle = ({
           )}
         </div>
 
-        {/* BUTTON */}
         <button
           type="button"
           onClick={() => onChange(!value)}

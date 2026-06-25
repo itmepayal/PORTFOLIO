@@ -100,7 +100,6 @@ export default function DashboardHero() {
 
   return (
     <section className="space-y-5">
-      {/* HERO BANNER */}
       <div className="relative overflow-hidden border border-border bg-card/40 p-8 backdrop-blur-[18px]">
         <div
           className="absolute inset-0"
@@ -189,7 +188,6 @@ export default function DashboardHero() {
         </div>
       </div>
 
-      {/* STATS GRID */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         {loading
           ? Array.from({ length: 5 }).map((_, index) => (
@@ -237,7 +235,6 @@ export default function DashboardHero() {
             })}
       </div>
 
-      {/* QUICK ACTIONS */}
       <div className="border border-border bg-card/40 p-6 backdrop-blur-xl">
         <div className="mb-6">
           <div className="mb-1 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-chart-3">

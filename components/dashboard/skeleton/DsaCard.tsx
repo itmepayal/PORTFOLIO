@@ -3,12 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 const DSACardSkeleton = () => {
   return (
     <div className="relative h-full overflow-hidden border border-border bg-card/40 backdrop-blur-sm">
-      {/* Corner accents */}
       <span className="absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/20" />
       <span className="absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/20" />
 
       <div className="flex h-full flex-col gap-6 p-6 md:p-7">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-wrap gap-2">
             <Skeleton className="h-7 w-24" />
@@ -21,7 +19,6 @@ const DSACardSkeleton = () => {
           </div>
         </div>
 
-        {/* Title & Subtitle */}
         <div>
           <Skeleton className="h-9 w-3/4" />
           <Skeleton className="mt-3 h-4 w-40" />
@@ -33,7 +30,6 @@ const DSACardSkeleton = () => {
           </div>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3">
           <div className="border border-border bg-background/40 p-4">
             <div className="mb-2 flex items-center gap-2">
@@ -54,7 +50,6 @@ const DSACardSkeleton = () => {
           </div>
         </div>
 
-        {/* Progress */}
         <div className="mt-auto">
           <div className="mb-2 flex items-center justify-between">
             <Skeleton className="h-3 w-32" />

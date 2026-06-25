@@ -22,7 +22,6 @@ const SkillsCardSkeleton = () => {
           </div>
         </div>
 
-        {/* Title & Description */}
         <div>
           <Skeleton className="h-9 w-3/4" />
 
@@ -32,7 +31,6 @@ const SkillsCardSkeleton = () => {
           </div>
         </div>
 
-        {/* Skill Level */}
         <div className="border border-border bg-background/40 p-4">
           <div className="mb-3 flex items-center justify-between">
             <Skeleton className="h-4 w-24" />
@@ -42,13 +40,11 @@ const SkillsCardSkeleton = () => {
           <Skeleton className="h-1.5 w-full" />
         </div>
 
-        {/* Meta Tags */}
         <div className="flex flex-wrap gap-2">
           <Skeleton className="h-7 w-24" />
           <Skeleton className="h-7 w-20" />
         </div>
 
-        {/* Footer */}
         <div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4">
           <div className="flex items-center gap-2">
             <Skeleton className="h-4 w-4 rounded-full" />

@@ -8,11 +8,9 @@ const DSAHeader = () => {
 
   return (
     <div className="group relative overflow-hidden border border-border bg-card/40 p-5 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60">
-      {/* Corner accents */}
       <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
       <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
 
-      {/* Radial glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
@@ -22,7 +20,6 @@ const DSAHeader = () => {
       />
 
       <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-        {/* Left — icon + title */}
         <div className="flex items-center gap-4">
           <div
             className="flex h-14 w-14 shrink-0 items-center justify-center border border-border bg-linear-to-br from-primary to-secondary-foreground text-white"
@@ -44,7 +41,6 @@ const DSAHeader = () => {
           </div>
         </div>
 
-        {/* Right — CTA button */}
         <button
           onClick={() => router.push("/dashboard/dsa/create")}
           className="group/btn inline-flex items-center justify-center gap-2.5 bg-linear-to-br from-primary to-secondary-foreground px-6 py-3 font-mono text-[0.75rem] uppercase tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"

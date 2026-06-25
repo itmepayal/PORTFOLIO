@@ -78,11 +78,9 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
       transition={{ duration: 0.4 }}
       className="group relative h-full overflow-hidden border border-border bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60"
     >
-      {/* Corner accents */}
       <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
       <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
 
-      {/* Radial glow */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
@@ -92,10 +90,8 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
       />
 
       <div className="relative z-1 flex h-full flex-col gap-6 p-6 md:p-7">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            {/* Logo */}
             {experience.companyLogo ? (
               <Image
                 src={experience.companyLogo}
@@ -110,7 +106,6 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
               </div>
             )}
             <div className="flex flex-wrap gap-2">
-              {/* Current badge */}
               <span
                 className={`inline-flex items-center gap-1.5 border px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest ${
                   experience.current
@@ -129,7 +124,6 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
               )}
             </div>
           </div>
-          {/* Action buttons */}
           <div className="flex shrink-0 gap-2">
             <button
               onClick={handleEdit}
@@ -151,7 +145,6 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
           </div>
         </div>
 
-        {/* Title & Meta */}
         <div>
           <h2 className="text-2xl font-bold tracking-[-0.02em] text-foreground transition-colors group-hover:text-primary md:text-3xl">
             {experience.position}
@@ -175,7 +168,6 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
           </p>
         </div>
 
-        {/* Responsibilities + Technologies */}
         <div className="grid gap-6 md:grid-cols-2">
           {experience.responsibilities?.length > 0 && (
             <div>
@@ -218,7 +210,6 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
           )}
         </div>
 
-        {/* Footer CTA */}
         <div className="mt-auto flex flex-col gap-3 pt-4">
           {experience.companyWebsite && (
             <a

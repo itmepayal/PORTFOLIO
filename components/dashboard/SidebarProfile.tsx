@@ -39,7 +39,6 @@ export default function SidebarProfile() {
 
   return (
     <div className="flex items-center justify-between border border-border bg-card/40 px-4 py-3 backdrop-blur-sm">
-      {/* PROFILE */}
       <div className="flex items-center gap-3">
         <div
           className="relative h-10.5 w-10.5 shrink-0 overflow-hidden border border-border"

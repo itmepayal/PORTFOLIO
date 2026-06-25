@@ -21,11 +21,9 @@ const EmptyDSA = ({
       transition={{ duration: 0.45, ease: "easeOut" }}
       className="group relative overflow-hidden border border-border bg-card/40 px-6 py-20 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 sm:px-10"
     >
-      {/* Corner accents */}
       <span className="pointer-events-none absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
       <span className="pointer-events-none absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
 
-      {/* Grid background */}
       <div
         className="absolute inset-0 opacity-[0.04]"
         style={{
@@ -39,7 +37,6 @@ const EmptyDSA = ({
         }}
       />
 
-      {/* Ambient glow */}
       <motion.div
         className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full"
         style={{
@@ -51,7 +48,6 @@ const EmptyDSA = ({
       />
 
       <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center text-center">
-        {/* Icon block */}
         <motion.div
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -66,7 +62,6 @@ const EmptyDSA = ({
           >
             <FolderSearch className="h-9 w-9" />
           </div>
-          {/* Sparkle badge */}
           <div className="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center border border-primary/30 bg-primary/10">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
           </div>
@@ -79,7 +74,6 @@ const EmptyDSA = ({
           {description}
         </p>
 
-        {/* Action buttons */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           {onReset && (
             <button
@@ -100,7 +94,6 @@ const EmptyDSA = ({
           </button>
         </div>
 
-        {/* Tags */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
           {["Modern UI", "Fast Search", "Smart Filters"].map((item) => (
             <span
