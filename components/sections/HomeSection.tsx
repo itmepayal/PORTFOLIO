@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { ModeToggle } from "@/components/common/ThemeToggle";
-import { HiArrowDown, HiArrowRight, HiChevronDown } from "react-icons/hi2";
+import { HiArrowDown, HiArrowRight } from "react-icons/hi2";
 
 const navLinks = [
   { label: "Projects", href: "#projects" },
@@ -22,7 +22,6 @@ const stats = [
 
 export const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-100 flex items-center justify-between gap-2 border-b border-border bg-background/88 px-4 py-3 backdrop-blur-[18px] sm:gap-4 sm:px-[5%] sm:py-4">
@@ -147,7 +146,7 @@ export const Home = () => {
               Download Resume
             </a>
             <a
-              href="mailto:payal@example.com"
+              href="mailto:itme.payalyadav@gmail.com"
               className="group inline-flex w-full items-center justify-center gap-2.5 border border-border px-8 py-[0.85rem] font-mono text-[0.78rem] tracking-[0.05em] text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary sm:w-auto sm:text-[0.82rem]"
             >
               Hire Me

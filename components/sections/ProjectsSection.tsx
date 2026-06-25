@@ -144,9 +144,6 @@ export const Projects = () => {
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Returns the grid span class for an item at index `i` on the current page.
-  // Always resolves to a real class — never undefined — for both loading
-  // skeletons and real cards, in both grid and list view.
   const getSpanClass = (i: number) =>
     viewMode === "list" ? "col-span-12" : GRID_SPAN_PATTERN[i % 4];
 

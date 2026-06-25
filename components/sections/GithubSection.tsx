@@ -5,7 +5,6 @@ import { Container } from "../common/Container";
 import { TbBrandGithub } from "react-icons/tb";
 
 const GITHUB_USERNAME = "itmepayal";
-const WEEKS = 53;
 
 const MONTHS = [
   "Jan",
@@ -67,15 +66,41 @@ type CalendarData = {
   avgPerDay: string;
 };
 
+function parseLocalDate(dateStr: string): Date {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function toLocalDateStr(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 function buildCalendar(contributions: ApiContribution[]): CalendarData {
+  if (contributions.length === 0) {
+    return {
+      weeks: [],
+      monthLabels: [],
+      totalContributions: 0,
+      currentStreak: 0,
+      longestStreak: 0,
+      bestDay: 0,
+      bestDayOfWeek: "—",
+      avgPerDay: "0",
+    };
+  }
+
+  const sortedAsc = [...contributions].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+
   const byDate: Record<string, ApiContribution> = {};
-  for (const c of contributions) byDate[c.date] = c;
+  for (const c of sortedAsc) byDate[c.date] = c;
 
   let totalContributions = 0;
-  let currentStreak = 0;
-  let longestStreak = 0;
   let bestDay = 0;
-  let streak = 0;
   const dowCounts = [0, 0, 0, 0, 0, 0, 0];
   const DAYS = [
     "Sunday",
@@ -87,50 +112,67 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
     "Saturday",
   ];
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  for (const c of contributions) {
+  for (const c of sortedAsc) {
     totalContributions += c.count;
     if (c.count > bestDay) bestDay = c.count;
-    const d = new Date(c.date + "T00:00:00");
+    const d = parseLocalDate(c.date);
     dowCounts[d.getDay()] += c.count;
   }
 
-  const sorted = [...contributions].sort((a, b) =>
-    b.date.localeCompare(a.date),
-  );
-  for (const c of sorted) {
+  const sortedDesc = [...sortedAsc].reverse();
+  let currentStreak = 0;
+  let longestStreak = 0;
+  let streak = 0;
+  for (const c of sortedDesc) {
     if (c.count > 0) {
       streak++;
       if (streak > longestStreak) longestStreak = streak;
     } else {
-      if (streak > 0) break;
+      if (streak > 0 && currentStreak === 0) {
+      }
+      if (currentStreak === 0 && streak === 0) {
+      }
+      break;
     }
   }
   currentStreak = streak;
+  longestStreak = 0;
+  streak = 0;
+  for (const c of sortedAsc) {
+    if (c.count > 0) {
+      streak++;
+      if (streak > longestStreak) longestStreak = streak;
+    } else {
+      streak = 0;
+    }
+  }
 
   const bestDowIndex = dowCounts.indexOf(Math.max(...dowCounts));
   const bestDayOfWeek = DAYS[bestDowIndex] + "s";
 
-  const activeDays = contributions.filter((c) => c.count > 0).length;
-  const avgPerDay =
-    activeDays > 0
-      ? (totalContributions / contributions.length).toFixed(1)
-      : "0";
+  const avgPerDay = (totalContributions / sortedAsc.length).toFixed(1);
 
-  const startDate = new Date(today);
-  startDate.setDate(startDate.getDate() - (WEEKS * 7 - 1));
-  startDate.setDate(startDate.getDate() - startDate.getDay());
+  const firstDate = parseLocalDate(sortedAsc[0].date);
+  const lastDate = parseLocalDate(sortedAsc[sortedAsc.length - 1].date);
+
+  const gridStart = new Date(firstDate);
+  gridStart.setDate(gridStart.getDate() - gridStart.getDay());
+
+  const gridEnd = new Date(lastDate);
+  gridEnd.setDate(gridEnd.getDate() + (6 - gridEnd.getDay()));
+
+  const totalDays =
+    Math.round((gridEnd.getTime() - gridStart.getTime()) / 86400000) + 1;
+  const totalWeeks = Math.ceil(totalDays / 7);
 
   const weeks: Cell[][] = [];
   const monthLabels: MonthLabel[] = [];
   let lastMonth = -1;
 
-  for (let w = 0; w < WEEKS; w++) {
+  for (let w = 0; w < totalWeeks; w++) {
     const week: Cell[] = [];
     for (let d = 0; d < 7; d++) {
-      const cellDate = new Date(startDate);
+      const cellDate = new Date(gridStart);
       cellDate.setDate(cellDate.getDate() + w * 7 + d);
 
       const month = cellDate.getMonth();
@@ -139,10 +181,10 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
         lastMonth = month;
       }
 
-      const dateStr = cellDate.toISOString().split("T")[0];
-      const isFuture = cellDate > today;
+      const dateStr = toLocalDateStr(cellDate);
+      const isOutsideRange = cellDate > lastDate || cellDate < firstDate;
       const contrib = byDate[dateStr];
-      const level: Cell["level"] = isFuture ? -1 : (contrib?.level ?? 0);
+      const level: Cell["level"] = isOutsideRange ? -1 : (contrib?.level ?? 0);
       const count = contrib?.count ?? 0;
 
       const label = cellDate.toLocaleDateString("en-US", {
@@ -150,7 +192,7 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
         day: "numeric",
         year: "numeric",
       });
-      const title = isFuture
+      const title = isOutsideRange
         ? dateStr
         : `${label} · ${count} contribution${count !== 1 ? "s" : ""}`;
 
@@ -187,6 +229,7 @@ export const GithubPanel = () => {
         setLoading(true);
         const res = await fetch(
           `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`,
+          { cache: "no-store" },
         );
         if (!res.ok) throw new Error("API error");
         const data = await res.json();
@@ -300,7 +343,7 @@ export const GithubPanel = () => {
           ) : (
             calData && (
               <div className="reveal overflow-x-auto border border-border bg-card p-4 sm:p-6 [-webkit-overflow-scrolling:touch]">
-                <div className="flex min-w-150 flex-col gap-2">
+                <div className="flex w-full min-w-150 flex-col gap-2">
                   <div className="relative mb-2 h-3.5 pl-8.5">
                     {calData.monthLabels.map((m, i) => (
                       <span
