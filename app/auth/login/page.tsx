@@ -11,6 +11,7 @@ import {
   HiOutlineLockClosed,
   HiOutlineMail,
 } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi2";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -52,225 +53,89 @@ export default function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        background: "var(--bg)",
-        color: "var(--text-raw)",
-        fontFamily: "var(--font-sans)",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-        overflow: "hidden",
-        padding: "1.5rem 1rem",
-      }}
-    >
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-16 sm:px-[5%]">
       <div
-        aria-hidden="true"
+        className="absolute inset-0"
         style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(rgba(91,110,245,.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(91,110,245,.06) 1px, transparent 1px)
-          `,
+          backgroundImage:
+            "linear-gradient(color-mix(in oklch, var(--color-primary) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklch, var(--color-primary) 6%, transparent) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
           maskImage:
             "radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent)",
-          pointerEvents: "none",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent)",
         }}
       />
 
-      {/* Glow top-left */}
-      <div
-        aria-hidden="true"
+      <motion.div
+        className="pointer-events-none absolute left-[-10%] top-[10%] h-75 w-75 rounded-full sm:h-100 sm:w-100 lg:h-125 lg:w-125"
         style={{
-          position: "absolute",
-          width: 600,
-          height: 600,
           background:
-            "radial-gradient(circle, rgba(91,110,245,.18) 0%, transparent 70%)",
-          top: 0,
-          left: "-15%",
-          pointerEvents: "none",
+            "radial-gradient(circle, color-mix(in oklch, var(--color-primary) 18%, transparent) 0%, transparent 70%)",
         }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
-
-      <div
-        aria-hidden="true"
+      <motion.div
+        className="pointer-events-none absolute bottom-0 right-[5%] h-62.5 w-62.5 rounded-full sm:h-85 sm:w-85 lg:h-100 lg:w-100"
         style={{
-          position: "absolute",
-          width: 500,
-          height: 500,
           background:
-            "radial-gradient(circle, rgba(167,139,250,.12) 0%, transparent 70%)",
-          bottom: "-5%",
-          right: 0,
-          pointerEvents: "none",
+            "radial-gradient(circle, color-mix(in oklch, var(--color-secondary-foreground) 12%, transparent) 0%, transparent 70%)",
         }}
+        animate={{ scale: [1.15, 1, 1.15], opacity: [1, 0.8, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        style={{
-          position: "relative",
-          zIndex: 1,
-          width: "100%",
-          maxWidth: 440,
-          background: "var(--card-raw)",
-          border: "1px solid var(--border-raw)",
-          boxShadow: "var(--shadow)",
-          overflow: "hidden",
-        }}
+        className="relative z-1 w-full max-w-110 border border-border bg-card/60 backdrop-blur-[18px]"
       >
-        {/* Header */}
-        <div
-          style={{
-            padding: "1.4rem 2rem 1.2rem",
-            borderBottom: "1px solid var(--border-raw)",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.75rem",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "1.1rem",
-              fontWeight: 700,
-              background:
-                "linear-gradient(135deg, var(--accent-raw), var(--accent2))",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              letterSpacing: "-0.02em",
-              whiteSpace: "nowrap",
-            }}
-          >
+        <div className="flex items-center gap-3 border-b border-border px-7 py-5">
+          <span className="whitespace-nowrap bg-linear-to-br from-primary to-secondary-foreground bg-clip-text font-mono text-[1.1rem] font-bold tracking-tight text-transparent">
             &lt;PY./&gt;
           </span>
 
-          <span
-            style={{
-              marginLeft: "auto",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.4rem",
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.64rem",
-              color: "var(--muted-raw)",
-              letterSpacing: "0.08em",
-            }}
-          >
-            {/* Blinking dot */}
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "var(--green)",
-                flexShrink: 0,
-                animation: "py-blink 2s ease-in-out infinite",
-              }}
-            />
+          <span className="ml-auto flex items-center gap-1.5 whitespace-nowrap font-mono text-[0.64rem] tracking-[0.08em] text-muted-foreground">
+            <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-chart-3" />
             All systems operational
           </span>
         </div>
 
-        {/* Form */}
         <form
           onSubmit={handleLogin}
-          style={{
-            padding: "2rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "1.25rem",
-          }}
+          className="flex flex-col gap-5 px-7 py-8 sm:px-8"
         >
-          {/* Title block */}
           <div>
-            <div
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.65rem",
-                color: "var(--cyan)",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                marginBottom: "0.25rem",
-              }}
-            >
+            <div className="mb-1 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-chart-3">
               Dashboard access
             </div>
-            <h1
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 700,
-                color: "var(--text-raw)",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.2,
-                margin: 0,
-              }}
-            >
+            <h1 className="text-[1.5rem] font-bold leading-tight tracking-[-0.02em] text-foreground">
               Welcome back
             </h1>
-            <p
-              style={{
-                fontSize: "0.8rem",
-                color: "var(--muted-raw)",
-                fontWeight: 300,
-                marginTop: "0.3rem",
-                marginBottom: 0,
-              }}
-            >
+            <p className="mt-1 text-[0.8rem] font-light text-muted-foreground">
               New here?{" "}
               <Link
                 href="/auth/register"
-                style={{
-                  color: "var(--accent-raw)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                }}
+                className="font-medium text-primary no-underline hover:opacity-80"
               >
                 Create an account →
               </Link>
             </p>
           </div>
 
-          {/* Email field */}
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}
-          >
+          <div className="flex flex-col gap-1.5">
             <label
               htmlFor="login-email"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.64rem",
-                color: "var(--muted-raw)",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-              }}
+              className="font-mono text-[0.64rem] uppercase tracking-widest text-muted-foreground"
             >
               Email
             </label>
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <div className="relative flex items-center">
               <HiOutlineMail
                 aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  left: "0.9rem",
-                  color: "var(--muted-raw)",
-                  fontSize: "0.95rem",
-                  pointerEvents: "none",
-                }}
+                className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground"
               />
               <input
                 id="login-email"
@@ -279,60 +144,22 @@ export default function LoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{
-                  width: "100%",
-                  background: "var(--surface)",
-                  border: "1px solid var(--border-raw)",
-                  color: "var(--text-raw)",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.86rem",
-                  padding: "0.78rem 1rem 0.78rem 2.55rem",
-                  outline: "none",
-                  borderRadius: 0,
-                  boxSizing: "border-box",
-                }}
-                onFocus={(e) =>
-                  (e.currentTarget.style.borderColor = "var(--accent-raw)")
-                }
-                onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = "var(--border-raw)")
-                }
+                className="w-full border border-border bg-background px-4 py-3 pl-10 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary"
               />
             </div>
           </div>
 
-          {/* Password field */}
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}
-          >
+          <div className="flex flex-col gap-1.5">
             <label
               htmlFor="login-password"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.64rem",
-                color: "var(--muted-raw)",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-              }}
+              className="font-mono text-[0.64rem] uppercase tracking-widest text-muted-foreground"
             >
               Password
             </label>
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <div className="relative flex items-center">
               <HiOutlineLockClosed
                 aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  left: "0.9rem",
-                  color: "var(--muted-raw)",
-                  fontSize: "0.95rem",
-                  pointerEvents: "none",
-                }}
+                className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground"
               />
               <input
                 id="login-password"
@@ -341,84 +168,35 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{
-                  width: "100%",
-                  background: "var(--surface)",
-                  border: "1px solid var(--border-raw)",
-                  color: "var(--text-raw)",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.86rem",
-                  padding: "0.78rem 2.8rem 0.78rem 2.55rem",
-                  outline: "none",
-                  borderRadius: 0,
-                  boxSizing: "border-box",
-                }}
-                onFocus={(e) =>
-                  (e.currentTarget.style.borderColor = "var(--accent-raw)")
-                }
-                onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = "var(--border-raw)")
-                }
+                className="w-full border border-border bg-background px-4 py-3 pl-10 pr-11 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
-                style={{
-                  position: "absolute",
-                  right: "0.85rem",
-                  background: "none",
-                  border: "none",
-                  color: "var(--muted-raw)",
-                  cursor: "pointer",
-                  padding: "0.25rem",
-                  lineHeight: 0,
-                }}
+                className="absolute right-3 text-muted-foreground transition-colors hover:text-primary"
               >
                 {showPassword ? (
-                  <HiOutlineEyeOff size={17} />
+                  <HiOutlineEyeOff className="size-4.5" />
                 ) : (
-                  <HiOutlineEye size={17} />
+                  <HiOutlineEye className="size-4.5" />
                 )}
               </button>
             </div>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: "-0.25rem",
-            }}
-          >
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.45rem",
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.68rem",
-                color: "var(--muted-raw)",
-                cursor: "pointer",
-              }}
-            >
+          <div className="-mt-1 flex items-center justify-between">
+            <label className="flex cursor-pointer items-center gap-2 font-mono text-[0.68rem] text-muted-foreground">
               <input
                 type="checkbox"
                 defaultChecked
-                style={{ accentColor: "var(--accent-raw)" }}
+                className="accent-primary"
               />
               Remember me
             </label>
             <a
               href="#"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.68rem",
-                color: "var(--accent-raw)",
-                textDecoration: "none",
-                letterSpacing: "0.03em",
-              }}
+              className="font-mono text-[0.68rem] tracking-[0.03em] text-primary no-underline hover:opacity-80"
             >
               Forgot password?
             </a>
@@ -428,75 +206,30 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
             style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.82rem",
-              letterSpacing: "0.05em",
-              padding: "0.9rem 2rem",
-              background:
-                "linear-gradient(135deg, var(--accent-raw), var(--accent2))",
-              color: "#fff",
-              border: "none",
-              cursor: loading ? "not-allowed" : "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.5rem",
               clipPath:
                 "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
-              width: "100%",
-              marginTop: "0.1rem",
-              opacity: loading ? 0.5 : 1,
-              transition: "opacity .2s, transform .2s",
             }}
+            className="mt-0.5 flex items-center justify-center gap-2 bg-linear-to-br from-primary to-secondary-foreground px-8 py-3.5 font-mono text-[0.82rem] tracking-[0.05em] text-white transition-opacity duration-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Signing in…" : "Sign In"}
             {!loading && (
-              <svg
-                width={14}
-                height={14}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2.5}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
+              <HiArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
             )}
           </button>
         </form>
 
-        <div
-          style={{
-            padding: "1rem 2rem 1.5rem",
-            borderTop: "1px solid var(--border-raw)",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.68rem",
-              color: "var(--muted-raw)",
-              margin: 0,
-            }}
-          >
+        <div className="border-t border-border px-7 py-5 text-center sm:px-8">
+          <p className="font-mono text-[0.68rem] text-muted-foreground">
             Don&apos;t have an account?{" "}
             <Link
               href="/auth/register"
-              style={{
-                color: "var(--accent-raw)",
-                textDecoration: "none",
-                fontWeight: 500,
-              }}
+              className="font-medium text-primary no-underline hover:opacity-80"
             >
               Create account →
             </Link>
           </p>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

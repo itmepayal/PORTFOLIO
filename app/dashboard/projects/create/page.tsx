@@ -13,7 +13,6 @@ import {
   Rocket,
   LayoutDashboard,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import PageHeader from "@/components/dashboard/pages/PageHeader";
 import PageContainer from "@/components/dashboard/pages/page";
@@ -280,7 +279,7 @@ const CreateProject = () => {
             description="Add and manage your project information"
             icon={<Layers3 className="h-5 w-5" />}
           >
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Basic Information"
                 description="Provide your professional experience details"
@@ -301,7 +300,7 @@ const CreateProject = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Project Configuration"
                 description="Manage project category and publishing state"
@@ -323,7 +322,7 @@ const CreateProject = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Project Links"
                 description="Add deployment and source code URLs"
@@ -343,7 +342,7 @@ const CreateProject = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Project Features"
                 description="Add key functionalities and highlights of your project"
@@ -361,7 +360,7 @@ const CreateProject = () => {
               />
             </div>
 
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Technology Stack"
                 description="Add technologies used to build this project"
@@ -386,21 +385,23 @@ const CreateProject = () => {
           transition={{ duration: 0.4 }}
           className="space-y-6"
         >
-          <Card className="sticky top-6 rounded-4xl border-border/50 bg-background/70 backdrop-blur-xl">
-            <PreviewHeader
-              icon={<LayoutDashboard className="h-5 w-5" />}
-              title="Project Preview"
-              description="Live project overview"
-            />
+          <div className="sticky top-6 overflow-hidden border border-border bg-card/40 backdrop-blur-[18px]">
+            <div className="p-6">
+              <PreviewHeader
+                icon={<LayoutDashboard className="h-5 w-5" />}
+                title="Project Preview"
+                description="Live project overview"
+              />
+            </div>
 
-            <CardContent className="space-y-8">
+            <div className="space-y-8 px-6">
               {/* Title & Description */}
               <div>
-                <h2 className="text-xl font-bold tracking-tight">
+                <h2 className="text-xl font-bold tracking-[-0.02em] text-foreground">
                   {title || "Untitled Project"}
                 </h2>
 
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-4">
+                <p className="mt-2 text-sm font-light text-muted-foreground line-clamp-4">
                   {description ||
                     "Project description preview will appear here."}
                 </p>
@@ -408,15 +409,15 @@ const CreateProject = () => {
 
               {/* Category & Status */}
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary">
+                <span className="border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-primary">
                   {category || "Category"}
                 </span>
 
                 <span
-                  className={`px-3 py-1 rounded-xl text-xs font-medium ${
+                  className={`border px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest ${
                     status === "Published"
-                      ? "bg-green-500/10 text-green-500"
-                      : "bg-muted text-muted-foreground"
+                      ? "border-chart-3/30 bg-chart-3/10 text-chart-3"
+                      : "border-border bg-muted text-muted-foreground"
                   }`}
                 >
                   {status}
@@ -425,72 +426,94 @@ const CreateProject = () => {
 
               {/* Meta Info */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <Activity className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Completion</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Completion
+                    </span>
                   </div>
 
-                  <span className="font-semibold">{progress}%</span>
+                  <span className="bg-linear-to-br from-primary to-chart-3 bg-clip-text font-bold text-transparent">
+                    {progress}%
+                  </span>
                 </div>
 
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <BadgeCheck className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Status</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Status
+                    </span>
                   </div>
 
-                  <span className="font-semibold">{status}</span>
+                  <span className="font-semibold text-foreground">
+                    {status}
+                  </span>
                 </div>
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="group relative overflow-hidden border border-border bg-background/40 p-4 transition-colors duration-300 hover:border-primary/50">
+                  <span className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <span className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <div className="mb-2 flex items-center gap-2">
                     <Star className="h-4 w-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                       Features
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold">{features.length}</h3>
+                  <h3 className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-2xl font-bold text-transparent">
+                    {features.length}
+                  </h3>
                 </div>
 
-                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="group relative overflow-hidden border border-border bg-background/40 p-4 transition-colors duration-300 hover:border-primary/50">
+                  <span className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <span className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <div className="mb-2 flex items-center gap-2">
                     <Rocket className="h-4 w-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                       Tech Stack
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold">{techs.length}</h3>
+                  <h3 className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-2xl font-bold text-transparent">
+                    {techs.length}
+                  </h3>
                 </div>
               </div>
 
               {/* Links */}
-              <div className="rounded-2xl border border-border/50 bg-background/40 p-4 space-y-3">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Globe className="h-4 w-4 text-primary" />
-                  <span>{live || "No live URL added"}</span>
+              <div className="space-y-3 border border-border bg-background/40 p-4">
+                <div className="flex items-center gap-2 font-mono text-[0.72rem] text-muted-foreground">
+                  <Globe className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="truncate">
+                    {live || "No live URL added"}
+                  </span>
                 </div>
 
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <FolderKanban className="h-4 w-4 text-primary" />
-                  <span>{github || "No GitHub URL added"}</span>
+                <div className="flex items-center gap-2 font-mono text-[0.72rem] text-muted-foreground">
+                  <FolderKanban className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="truncate">
+                    {github || "No GitHub URL added"}
+                  </span>
                 </div>
               </div>
-            </CardContent>
+            </div>
 
-            <PreviewFooter
-              onClick={handleSubmit}
-              loading={loading}
-              icon={<Sparkles className="h-4 w-4" />}
-              label="Publish Project"
-              loadingLabel="Creating..."
-            />
-          </Card>
+            <div className="px-6 pb-6 pt-2">
+              <PreviewFooter
+                onClick={handleSubmit}
+                loading={loading}
+                icon={<Sparkles className="h-4 w-4" />}
+                label="Publish Project"
+                loadingLabel="Creating..."
+              />
+            </div>
+          </div>
         </motion.div>
       </div>
     </PageContainer>

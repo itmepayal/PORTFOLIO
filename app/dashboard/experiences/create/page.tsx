@@ -14,7 +14,6 @@ import {
   Building2,
   LayoutDashboard,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import FormField from "@/components/form/FormField";
 import FormTextarea from "@/components/form/FormTextarea";
 import FormToggle from "@/components/form/FormToggle";
@@ -47,14 +46,12 @@ const CreateExperiance = () => {
 
   const progress = useMemo(() => {
     let completed = 0;
-
     if (company) completed++;
     if (position) completed++;
     if (startDate) completed++;
     if (description.length >= 20) completed++;
     if (responsibilities.length > 0) completed++;
     if (technologies.length > 0) completed++;
-
     return Math.round((completed / 6) * 100);
   }, [
     company,
@@ -68,10 +65,7 @@ const CreateExperiance = () => {
   const addTech = () => {
     if (!techInput.trim()) return;
     const value = techInput.trim();
-    const exists = technologies.some(
-      (tech) => tech.toLowerCase() === value.toLowerCase(),
-    );
-    if (exists) {
+    if (technologies.some((t) => t.toLowerCase() === value.toLowerCase())) {
       toast.error("Technology already exists");
       return;
     }
@@ -86,10 +80,7 @@ const CreateExperiance = () => {
   const addResponsibility = () => {
     if (!responsibilityInput.trim()) return;
     const value = responsibilityInput.trim();
-    const exists = responsibilities.some(
-      (item) => item.toLowerCase() === value.toLowerCase(),
-    );
-    if (exists) {
+    if (responsibilities.some((r) => r.toLowerCase() === value.toLowerCase())) {
       toast.error("Responsibility already exists");
       return;
     }
@@ -134,6 +125,7 @@ const CreateExperiance = () => {
         toast.error("Please add at least one technology");
         return;
       }
+
       const payload = {
         company,
         position,
@@ -149,17 +141,16 @@ const CreateExperiance = () => {
         featured,
         order,
       };
+
       const response = await fetch("/api/experiences", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
-      }
+      if (!response.ok) throw new Error(data.message || "Something went wrong");
+
       toast.success("Experience created successfully");
       setCompany("");
       setPosition("");
@@ -186,7 +177,7 @@ const CreateExperiance = () => {
   return (
     <PageContainer>
       <PageHeader
-        title="Create Experiance"
+        title="Create Experience"
         description="Build premium portfolio projects with professional details"
         icon={<FolderKanban className="h-8 w-8" />}
         backHref="/dashboard/experiences"
@@ -203,7 +194,8 @@ const CreateExperiance = () => {
             description="Update your professional experience information"
             icon={<Layers3 className="h-5 w-5" />}
           >
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            {/* Basic Information */}
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Basic Information"
                 description="Enter your experience details"
@@ -215,35 +207,30 @@ const CreateExperiance = () => {
                   onChange={setCompany}
                   placeholder="e.g. Google"
                 />
-
                 <FormField
                   label="Company Website"
                   value={companyWebsite}
                   onChange={setCompanyWebsite}
                   placeholder="https://company.com"
                 />
-
                 <FormField
                   label="Company Logo"
                   value={companyLogo}
                   onChange={setCompanyLogo}
                   placeholder="https://example.com/logo.png"
                 />
-
                 <FormField
                   label="Position Name"
                   value={position}
                   onChange={setPosition}
                   placeholder="e.g. Senior Backend Developer"
                 />
-
                 <FormField
                   label="Location"
                   value={location}
                   onChange={setLocation}
                   placeholder="e.g. Ahmedabad, Gujarat, India"
                 />
-
                 <FormTextarea
                   label="Description"
                   value={description}
@@ -253,7 +240,9 @@ const CreateExperiance = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+
+            {/* Duration */}
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Duration"
                 description="Set your working time period"
@@ -281,6 +270,8 @@ const CreateExperiance = () => {
                 onChange={setCurrent}
               />
             </div>
+
+            {/* Chips */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <FormChipInput
                 title="Responsibilities"
@@ -303,126 +294,169 @@ const CreateExperiance = () => {
                 placeholder="React, Node.js..."
               />
             </div>
+
             <FormFeatureToggle
               title="Featured Entry"
-              description="Highlight this DSA profile"
+              description="Highlight this experience"
               value={featured}
               onChange={setFeatured}
             />
           </FormCard>
         </motion.div>
+
+        {/* Preview Panel */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
           className="space-y-6"
         >
-          <Card className="sticky top-6 rounded-4xl border-border/50 bg-background/70 backdrop-blur-xl">
-            <PreviewHeader
-              icon={<LayoutDashboard className="h-5 w-5" />}
-              title="Live Preview"
-              description="Real-time Experience preview"
-            />
-            <CardContent className="space-y-8">
-              <div>
-                <h2 className="text-xl font-bold tracking-tight">
-                  {company || "Company Name"}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  {position || "Position Title"}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {location || "Location"}
-                </p>
+          <div className="sticky top-6 overflow-hidden border border-border bg-card/40 backdrop-blur-[18px]">
+            <div className="p-6">
+              <PreviewHeader
+                icon={<LayoutDashboard className="h-5 w-5" />}
+                title="Live Preview"
+                description="Real-time Experience preview"
+              />
+            </div>
+
+            <div className="space-y-8 px-6">
+              {/* Company header with clip-path accent */}
+              <div className="flex items-center gap-4">
+                <div>
+                  <h2 className="text-xl font-bold tracking-[-0.02em] text-foreground">
+                    {company || "Company Name"}
+                  </h2>
+                  <p className="font-mono text-[0.7rem] uppercase tracking-widest text-muted-foreground">
+                    {position || "Position Title"}
+                  </p>
+                </div>
               </div>
+
+              {/* Badges */}
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary">
+                <span className="border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-primary">
                   {current ? "Currently Working" : "Past Experience"}
                 </span>
-                {featured && (
-                  <span className="px-3 py-1 rounded-xl text-xs font-medium bg-yellow-500/10 text-yellow-500">
-                    Featured
-                  </span>
-                )}
-                <span className="px-3 py-1 rounded-xl text-xs font-medium bg-muted">
+                <span className="border border-border bg-muted px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-muted-foreground">
                   {startDate || "Start"} →{" "}
                   {current ? "Present" : endDate || "End"}
                 </span>
+                {featured && (
+                  <span className="border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-yellow-500">
+                    Featured
+                  </span>
+                )}
               </div>
+
+              {/* Description */}
+              <div className="border border-border bg-background/40 p-4">
+                <p className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground mb-2">
+                  Description
+                </p>
+                <p className="text-sm leading-6 text-foreground line-clamp-4">
+                  {description || "No description added yet..."}
+                </p>
+              </div>
+
+              {/* Stat rows */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <Activity className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Completion</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Completion
+                    </span>
                   </div>
-                  <span className="font-semibold">{progress}%</span>
+                  <span className="bg-linear-to-br from-primary to-chart-3 bg-clip-text font-bold text-transparent">
+                    {progress}%
+                  </span>
                 </div>
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <BadgeCheck className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Duration</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Duration
+                    </span>
                   </div>
-                  <span className="font-semibold text-sm">
-                    {startDate || "Start"} -{" "}
+                  <span className="font-semibold text-sm text-foreground">
+                    {startDate || "Start"} —{" "}
                     {current ? "Present" : endDate || "End"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <Star className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Featured</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Featured
+                    </span>
                   </div>
-                  <span className="font-semibold">
+                  <span className="font-semibold text-foreground">
                     {featured ? "Yes" : "No"}
                   </span>
                 </div>
               </div>
+
+              {/* Stat cards */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="group relative overflow-hidden border border-border bg-background/40 p-4 transition-colors duration-300 hover:border-primary/50">
+                  <span className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <span className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <div className="mb-2 flex items-center gap-2">
                     <Layers3 className="h-4 w-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                       Tech Stack
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold">{technologies.length}</h3>
+                  <h3 className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-2xl font-bold text-transparent">
+                    {technologies.length}
+                  </h3>
                 </div>
-                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                  <div className="flex items-center gap-2 mb-2">
+
+                <div className="group relative overflow-hidden border border-border bg-background/40 p-4 transition-colors duration-300 hover:border-primary/50">
+                  <span className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <span className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <div className="mb-2 flex items-center gap-2">
                     <Rocket className="h-4 w-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                       Responsibilities
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold">
+                  <h3 className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-2xl font-bold text-transparent">
                     {responsibilities.length}
                   </h3>
                 </div>
               </div>
-              <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                <p className="text-sm text-muted-foreground line-clamp-4">
-                  {description || "No description added yet..."}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-border/50 bg-background/40 p-4 space-y-3">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Globe className="h-4 w-4 text-primary" />
-                  <span>{companyWebsite || "No website"}</span>
+
+              {/* Links */}
+              <div className="space-y-3 border border-border bg-background/40 p-4">
+                <div className="flex items-center gap-2 font-mono text-[0.72rem] text-muted-foreground">
+                  <Globe className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="truncate">
+                    {companyWebsite || "No website added"}
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Building2 className="h-4 w-4 text-primary" />
-                  <span>{company || "Company not set"}</span>
+                <div className="flex items-center gap-2 font-mono text-[0.72rem] text-muted-foreground">
+                  <Building2 className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="truncate">
+                    {company || "Company not set"}
+                  </span>
                 </div>
               </div>
-            </CardContent>
-            <PreviewFooter
-              onClick={handleSubmit}
-              loading={loading}
-              icon={<Sparkles className="h-4 w-4" />}
-              label="Publish Experience"
-              loadingLabel="Creating..."
-            />
-          </Card>
+            </div>
+
+            <div className="px-6 pb-6 pt-2">
+              <PreviewFooter
+                onClick={handleSubmit}
+                loading={loading}
+                icon={<Sparkles className="h-4 w-4" />}
+                label="Publish Experience"
+                loadingLabel="Creating..."
+              />
+            </div>
+          </div>
         </motion.div>
       </div>
     </PageContainer>

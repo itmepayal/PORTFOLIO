@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import { HiStar } from "react-icons/hi";
 
 type FormFeatureToggleProps = {
   title: string;
@@ -18,87 +17,47 @@ const FormFeatureToggle = ({
   onChange,
 }: FormFeatureToggleProps) => {
   return (
-    <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-5">
+    <div className="space-y-5 border border-border bg-card/30 p-6">
       {/* HEADER */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
+          <h3 className="text-[1.05rem] font-bold leading-tight tracking-[-0.02em] text-foreground">
+            {title}
+          </h3>
           {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <p className="mt-0.5 font-mono text-[0.7rem] text-muted-foreground">
+              {description}
+            </p>
           )}
         </div>
 
         {/* BUTTON */}
-        <Button
+        <button
           type="button"
-          variant="outline"
           onClick={() => onChange(!value)}
-          className={`
-            group
-            relative
-            h-12
-            overflow-hidden
-            rounded-2xl
-            border
-            px-5
-            font-semibold
-            transition-all
-            duration-300
-            hover:scale-[1.02]
-            active:scale-[0.98]
-            ${
-              value
-                ? `
-                    border-primary/30
-                    bg-primary
-                    text-primary-foreground
-                    shadow-lg
-                    shadow-primary/20
-                    hover:bg-primary/90
-                  `
-                : `
-                    border-border/60
-                    bg-background
-                    hover:border-primary/40
-                    hover:bg-primary/5
-                  `
-            }
-          `}
-        >
-          {/* TEXT + ICON */}
-          <span
-            className={`
-              relative z-10 flex items-center gap-2
-              ${value ? "text-white font-medium" : ""}
-            `}
-          >
-            <Star
-              className={`
-                h-4 w-4 transition-all duration-300
-                ${
-                  value
-                    ? "fill-current scale-110 text-yellow-400"
-                    : "group-hover:rotate-12"
+          style={
+            value
+              ? {
+                  clipPath:
+                    "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
                 }
-              `}
-            />
-
-            {value ? "Featured" : "Mark as Featured"}
-          </span>
-
-          {/* HOVER EFFECT */}
-          <div
-            className={`
-              absolute inset-0 opacity-0 transition-opacity duration-300
-              group-hover:opacity-100
-              ${
-                value
-                  ? "bg-white/10"
-                  : "bg-linear-to-r from-primary/5 to-primary/10"
-              }
-            `}
+              : undefined
+          }
+          className={`group relative flex h-12 shrink-0 items-center gap-2 overflow-hidden border px-5 font-mono text-[0.78rem] tracking-[0.05em] transition-all duration-200 ${
+            value
+              ? "border-primary/40 bg-linear-to-br from-primary to-secondary-foreground text-white hover:-translate-y-0.5 hover:opacity-90"
+              : "border-border bg-background text-muted-foreground hover:border-primary hover:text-primary"
+          }`}
+        >
+          <HiStar
+            className={`h-4 w-4 transition-all duration-300 ${
+              value
+                ? "scale-110 fill-current text-yellow-300"
+                : "group-hover:rotate-12"
+            }`}
           />
-        </Button>
+          {value ? "Featured" : "Mark as Featured"}
+        </button>
       </div>
     </div>
   );

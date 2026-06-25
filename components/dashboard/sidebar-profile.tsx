@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { HiOutlineLogout } from "react-icons/hi";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -38,29 +38,42 @@ export default function SidebarProfile() {
   };
 
   return (
-    <div className="flex items-center justify-between rounded-2xl border border-border bg-card/60 px-4 py-3">
+    <div className="flex items-center justify-between border border-border bg-card/40 px-4 py-3 backdrop-blur-sm">
       {/* PROFILE */}
       <div className="flex items-center gap-3">
-        <Image
-          src="https://res.cloudinary.com/doqb7czvi/image/upload/v1780245385/z8lab5tjam9x2cefuigl.jpg"
-          alt="profile"
-          width={42}
-          height={42}
-          className="w-10.5 h-10.5 rounded-full"
-        />
+        <div
+          className="relative h-10.5 w-10.5 shrink-0 overflow-hidden border border-border"
+          style={{
+            clipPath:
+              "polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%)",
+          }}
+        >
+          <Image
+            src="https://res.cloudinary.com/doqb7czvi/image/upload/v1780245385/z8lab5tjam9x2cefuigl.jpg"
+            alt="profile"
+            width={42}
+            height={42}
+            className="h-full w-full object-cover"
+          />
+        </div>
 
         <div>
-          <h3 className="text-sm font-semibold">Payal Yadav</h3>
-          <p className="text-xs text-muted-foreground">Backend Developer</p>
+          <h3 className="text-sm font-semibold tracking-tight text-foreground">
+            Payal Yadav
+          </h3>
+          <p className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+            Backend Developer
+          </p>
         </div>
       </div>
 
       <button
         onClick={handleLogout}
         disabled={loading}
-        className="rounded-lg p-2 transition hover:bg-accent disabled:opacity-50"
+        aria-label="Logout"
+        className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary disabled:opacity-50"
       >
-        <LogOut className="h-4 w-4" />
+        <HiOutlineLogout className="h-4 w-4" />
       </button>
     </div>
   );

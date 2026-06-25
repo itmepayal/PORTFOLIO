@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ReactNode } from "react";
 
 type FormCardProps = {
@@ -12,46 +11,43 @@ type FormCardProps = {
 
 const FormCard = ({ title, description, icon, children }: FormCardProps) => {
   return (
-    <Card
-      className="
-        rounded-4xl
-        border-border/50
-        bg-background/70
-        shadow-2xl
-        backdrop-blur-xl
-      "
-    >
-      {/* TOP BAR */}
-      <div className="h-1.5 w-full bg-linear-to-r from-primary via-primary/60 to-primary rounded-t-4xl" />
+    <div className="overflow-hidden border border-border bg-card/40 backdrop-blur-[18px]">
+      <div className="h-1 w-full bg-linear-to-r from-primary via-secondary-foreground to-chart-3" />
 
-      {/* HEADER */}
       {(title || description || icon) && (
-        <CardHeader className="pb-2">
+        <div className="border-b border-border px-6 pb-5 pt-6">
           <div className="flex items-center gap-4">
             {icon && (
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center border border-border bg-linear-to-br from-primary to-secondary-foreground text-white"
+                style={{
+                  clipPath:
+                    "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+                }}
+              >
                 {icon}
               </div>
             )}
 
             <div>
               {title && (
-                <h2 className="text-xl font-semibold tracking-tight">
+                <h2 className="text-[1.25rem] font-bold leading-tight tracking-[-0.02em] text-foreground">
                   {title}
                 </h2>
               )}
 
               {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
+                <p className="mt-0.5 font-mono text-[0.7rem] text-muted-foreground">
+                  {description}
+                </p>
               )}
             </div>
           </div>
-        </CardHeader>
+        </div>
       )}
 
-      {/* CONTENT */}
-      <CardContent className="space-y-8">{children}</CardContent>
-    </Card>
+      <div className="space-y-8 p-6">{children}</div>
+    </div>
   );
 };
 

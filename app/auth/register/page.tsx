@@ -4,26 +4,23 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import {
   HiOutlineEye,
   HiOutlineEyeOff,
-  HiOutlineMail,
-  HiOutlineShieldCheck,
-  HiOutlineSparkles,
-  HiOutlineUser,
   HiOutlineLockClosed,
+  HiOutlineMail,
+  HiOutlineUser,
 } from "react-icons/hi";
-import { useRouter } from "next/navigation";
+import { HiArrowRight } from "react-icons/hi2";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const router = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -44,29 +41,18 @@ export default function RegisterPage() {
 
       const res = await fetch("/api/account/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
-      console.log(data);
 
-      if (!res.ok) {
-        throw new Error(data.message || "Something went wrong");
-      }
+      if (!res.ok) throw new Error(data.message || "Something went wrong");
 
       toast.success("Account created successfully");
-
       setName("");
       setEmail("");
       setPassword("");
-
       router.push("/auth/login");
     } catch (error: any) {
       toast.error(error.message);
@@ -76,118 +62,210 @@ export default function RegisterPage() {
   };
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-6">
-      {/* BACKGROUND */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[70px_70px] opacity-[0.04]" />
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-16 sm:px-[5%]">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(color-mix(in oklch, var(--color-primary) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklch, var(--color-primary) 6%, transparent) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+          maskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent)",
+        }}
+      />
 
-      {/* CARD */}
+      <motion.div
+        className="pointer-events-none absolute left-[-10%] top-[10%] h-75 w-75 rounded-full sm:h-100 sm:w-100 lg:h-125 lg:w-125"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in oklch, var(--color-primary) 18%, transparent) 0%, transparent 70%)",
+        }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="pointer-events-none absolute bottom-0 right-[5%] h-62.5 w-62.5 rounded-full sm:h-85 sm:w-85 lg:h-100 lg:w-100"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in oklch, var(--color-secondary-foreground) 12%, transparent) 0%, transparent 70%)",
+        }}
+        animate={{ scale: [1.15, 1, 1.15], opacity: [1, 0.8, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-full max-w-md overflow-hidden rounded-4xl border border-border/60 bg-card/70 p-6 shadow-2xl backdrop-blur-2xl"
+        className="relative z-1 w-full max-w-110 border border-border bg-card/60 backdrop-blur-[18px]"
       >
-        {/* HEADER */}
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
-            <HiOutlineSparkles className="h-4 w-4 text-primary" />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
-              Create Account
-            </span>
-          </div>
+        <div className="flex items-center gap-3 border-b border-border px-7 py-5">
+          <span className="whitespace-nowrap bg-linear-to-br from-primary to-secondary-foreground bg-clip-text font-mono text-[1.1rem] font-bold tracking-tight text-transparent">
+            &lt;PY./&gt;
+          </span>
 
-          <div className="mx-auto mt-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10">
-            <HiOutlineShieldCheck className="h-8 w-8 text-primary" />
-          </div>
-
-          <h1 className="mt-4 text-3xl font-black">Join Platform</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Create account and start your journey
-          </p>
+          <span className="ml-auto flex items-center gap-1.5 whitespace-nowrap font-mono text-[0.64rem] tracking-[0.08em] text-muted-foreground">
+            <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-chart-3" />
+            All systems operational
+          </span>
         </div>
 
-        {/* FORM */}
-        <form className="mt-6 space-y-4" onSubmit={handleRegister}>
-          {/* NAME */}
+        <form
+          onSubmit={handleRegister}
+          className="flex flex-col gap-5 px-7 py-8 sm:px-8"
+        >
           <div>
-            <label className="text-sm font-medium">Full Name</label>
-            <div className="relative mt-1">
-              <HiOutlineUser className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <div className="mb-1 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-chart-3">
+              Create account
+            </div>
+            <h1 className="text-[1.5rem] font-bold leading-tight tracking-[-0.02em] text-foreground">
+              Join the platform
+            </h1>
+            <p className="mt-1 text-[0.8rem] font-light text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                href="/auth/login"
+                className="font-medium text-primary no-underline hover:opacity-80"
+              >
+                Sign in →
+              </Link>
+            </p>
+          </div>
+
+          {/* Name field */}
+          <div className="flex flex-col gap-1.5">
+            <label
+              htmlFor="register-name"
+              className="font-mono text-[0.64rem] uppercase tracking-widest text-muted-foreground"
+            >
+              Full Name
+            </label>
+            <div className="relative flex items-center">
+              <HiOutlineUser
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground"
+              />
               <input
+                id="register-name"
+                type="text"
+                placeholder="Enter your full name"
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="h-12 w-full rounded-xl border border-border/60 bg-background/60 pl-11 pr-4 text-sm outline-none focus:border-primary"
-                placeholder="Enter full name"
+                className="w-full border border-border bg-background px-4 py-3 pl-10 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary"
               />
             </div>
           </div>
 
-          {/* EMAIL */}
-          <div>
-            <label className="text-sm font-medium">Email</label>
-            <div className="relative mt-1">
-              <HiOutlineMail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          {/* Email field */}
+          <div className="flex flex-col gap-1.5">
+            <label
+              htmlFor="register-email"
+              className="font-mono text-[0.64rem] uppercase tracking-widest text-muted-foreground"
+            >
+              Email
+            </label>
+            <div className="relative flex items-center">
+              <HiOutlineMail
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground"
+              />
               <input
+                id="register-email"
+                type="email"
+                placeholder="you@example.com"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 w-full rounded-xl border border-border/60 bg-background/60 pl-11 pr-4 text-sm outline-none focus:border-primary"
-                placeholder="Enter email"
+                className="w-full border border-border bg-background px-4 py-3 pl-10 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary"
               />
             </div>
           </div>
 
-          {/* PASSWORD */}
-          <div>
-            <label className="text-sm font-medium">Password</label>
-            <div className="relative mt-1">
-              <HiOutlineLockClosed className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-
+          {/* Password field */}
+          <div className="flex flex-col gap-1.5">
+            <label
+              htmlFor="register-password"
+              className="font-mono text-[0.64rem] uppercase tracking-widest text-muted-foreground"
+            >
+              Password
+            </label>
+            <div className="relative flex items-center">
+              <HiOutlineLockClosed
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3.5 size-4 text-muted-foreground"
+              />
               <input
+                id="register-password"
                 type={showPassword ? "text" : "password"}
+                placeholder="Create a password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-12 w-full rounded-xl border border-border/60 bg-background/60 pl-11 pr-11 text-sm outline-none focus:border-primary"
-                placeholder="Create password"
+                className="w-full border border-border bg-background px-4 py-3 pl-10 pr-11 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary"
               />
-
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute right-3 text-muted-foreground transition-colors hover:text-primary"
               >
-                {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+                {showPassword ? (
+                  <HiOutlineEyeOff className="size-4.5" />
+                ) : (
+                  <HiOutlineEye className="size-4.5" />
+                )}
               </button>
             </div>
           </div>
 
-          {/* TERMS */}
-          <label className="flex items-start gap-2 text-xs text-muted-foreground">
+          {/* Terms checkbox */}
+          <label className="-mt-1 flex cursor-pointer items-start gap-2 font-mono text-[0.68rem] text-muted-foreground">
             <input
               type="checkbox"
               checked={agree}
               onChange={() => setAgree(!agree)}
-              className="mt-1 h-4 w-4"
+              className="mt-0.5 accent-primary"
             />
-            I agree to Terms & Privacy Policy
+            I agree to the{" "}
+            <a href="#" className="text-primary no-underline hover:opacity-80">
+              Terms
+            </a>{" "}
+            &amp;{" "}
+            <a href="#" className="text-primary no-underline hover:opacity-80">
+              Privacy Policy
+            </a>
           </label>
 
-          {/* BUTTON */}
           <button
             type="submit"
             disabled={loading}
-            className="h-12 w-full rounded-xl border border-border/60 bg-background/60 font-semibold text-white disabled:opacity-50"
+            style={{
+              clipPath:
+                "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+            }}
+            className="mt-0.5 flex items-center justify-center gap-2 bg-linear-to-br from-primary to-secondary-foreground px-8 py-3.5 font-mono text-[0.82rem] tracking-[0.05em] text-white transition-opacity duration-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Creating account…" : "Create Account"}
+            {!loading && (
+              <HiArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+            )}
           </button>
         </form>
 
-        {/* FOOTER */}
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          Already have account?{" "}
-          <Link href="/auth/login" className="text-primary">
-            Sign In
-          </Link>
-        </p>
+        <div className="border-t border-border px-7 py-5 text-center sm:px-8">
+          <p className="font-mono text-[0.68rem] text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href="/auth/login"
+              className="font-medium text-primary no-underline hover:opacity-80"
+            >
+              Sign in →
+            </Link>
+          </p>
+        </div>
       </motion.div>
     </section>
   );

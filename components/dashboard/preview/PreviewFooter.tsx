@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ReactNode } from "react";
-import { CardFooter } from "@/components/ui/card";
 
 type PreviewFooterProps = {
   onClick?: () => void;
@@ -20,16 +18,19 @@ const PreviewFooter = ({
   loadingLabel = "Loading...",
 }: PreviewFooterProps) => {
   return (
-    <CardFooter>
-      <Button
+    <div className="border-t border-border px-1 py-4">
+      <button
         onClick={onClick}
         disabled={loading}
-        className="h-12 w-full rounded-2xl font-medium shadow-lg shadow-primary/10"
+        style={{
+          clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+        }}
+        className="group flex h-12 w-full items-center justify-center gap-2.5 bg-linear-to-br from-primary to-secondary-foreground font-mono text-[0.8rem] tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {icon && <span className="mr-2">{icon}</span>}
+        {icon && <span className="flex items-center">{icon}</span>}
         {loading ? loadingLabel : label}
-      </Button>
-    </CardFooter>
+      </button>
+    </div>
   );
 };
 

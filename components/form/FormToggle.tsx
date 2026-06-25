@@ -1,7 +1,5 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-
 type FormToggleProps = {
   label: string;
   description?: string;
@@ -16,11 +14,13 @@ const FormToggle = ({
   onChange,
 }: FormToggleProps) => {
   return (
-    <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+    <div className="flex items-center justify-between border border-border bg-background/40 p-4">
       <div>
-        <p className="text-sm font-medium">{label}</p>
+        <p className="text-sm font-medium text-foreground">{label}</p>
         {description && (
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <p className="mt-0.5 font-mono text-[0.64rem] text-muted-foreground">
+            {description}
+          </p>
         )}
       </div>
       <input

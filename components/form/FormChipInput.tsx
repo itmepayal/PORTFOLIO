@@ -1,8 +1,6 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
+import { HiPlus, HiX } from "react-icons/hi";
 
 type FormChipInputProps = {
   title: string;
@@ -29,44 +27,34 @@ const FormChipInput = ({
   placeholder = "Add item...",
 }: FormChipInputProps) => {
   return (
-    <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
-        {description && (
-          <p className="text-sm text-muted-foreground">{description}</p>
-        )}
-      </div>
-
+    <div className="space-y-6">
       <div className="flex gap-3">
-        <Input
+        <input
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder={placeholder}
-          className="h-12 rounded-2xl"
+          className="h-12 w-full border border-border bg-background px-4 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary"
         />
 
-        <Button type="button" onClick={onAdd} className="h-12 rounded-2xl px-6">
-          <Plus className="mr-2 h-4 w-4" />
+        <button
+          type="button"
+          onClick={onAdd}
+          style={{
+            clipPath:
+              "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+          }}
+          className="flex h-12 shrink-0 items-center gap-2 bg-linear-to-br from-primary to-secondary-foreground px-6 font-mono text-[0.78rem] tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
+        >
+          <HiPlus className="h-4 w-4" />
           Add
-        </Button>
+        </button>
       </div>
 
       <div className="flex flex-wrap gap-3">
         {value.map((item) => (
           <span
             key={item}
-            className="
-              flex items-center gap-2
-              h-11
-              rounded-2xl
-              border border-border/50
-              bg-background
-              px-4
-              text-sm font-medium
-              shadow-sm
-              transition-all
-              hover:shadow-md
-            "
+            className="group flex h-10 items-center gap-2 border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/50"
           >
             <span className="text-primary">•</span>
             {item}
@@ -74,9 +62,10 @@ const FormChipInput = ({
             <button
               type="button"
               onClick={() => onRemove(item)}
-              className="ml-2"
+              aria-label={`Remove ${item}`}
+              className="ml-1 text-muted-foreground transition-colors hover:text-primary"
             >
-              <X className="h-3.5 w-3.5" />
+              <HiX className="h-3.5 w-3.5" />
             </button>
           </span>
         ))}

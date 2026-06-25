@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -13,9 +13,7 @@ import {
   BadgeCheck,
   Rocket,
   LayoutDashboard,
-  Loader2,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import PageHeader from "@/components/dashboard/pages/PageHeader";
 import PageContainer from "@/components/dashboard/pages/page";
@@ -27,10 +25,6 @@ import FormSelect from "@/components/form/FormSelect";
 import FormChipInput from "@/components/form/FormChipInput";
 import PreviewFooter from "@/components/dashboard/preview/PreviewFooter";
 import PreviewHeader from "@/components/dashboard/preview/PreviewHeader";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 export const statusCategories = ["Published", "Draft"] as const;
 
@@ -45,9 +39,6 @@ export const projectCategories = [
 
 export type ProjectCategory = (typeof projectCategories)[number];
 export type StatusCategory = (typeof statusCategories)[number];
-/* ====================================================== */
-/* TECH ICONS */
-/* ====================================================== */
 
 const techIcons: Record<string, string> = {
   react:
@@ -84,19 +75,21 @@ const techIcons: Record<string, string> = {
     "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
 };
 
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
+interface Tech {
+  name: string;
+  icon: string;
+}
 
 const EditProject = () => {
-  const router = useRouter();
   const params = useParams();
-  const id = params.id as string;
+  const router = useRouter();
+  const projectId = params?.id as string;
 
   /* ====================================================== */
   /* STATES */
   /* ====================================================== */
 
+  const [fetching, setFetching] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<StatusCategory>("Draft");
@@ -106,47 +99,47 @@ const EditProject = () => {
   const [features, setFeatures] = useState<string[]>([]);
   const [techInput, setTechInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [pageLoading, setPageLoading] = useState(true);
   const [category, setCategory] = useState("fullstack");
-  const [techs, setTechs] = useState<
-    {
-      name: string;
-      icon: string;
-    }[]
-  >([]);
+  const [techs, setTechs] = useState<Tech[]>([]);
 
   /* ====================================================== */
-  /* GET PROJECT */
+  /* FETCH EXISTING PROJECT */
   /* ====================================================== */
+
+  const fetchProject = useCallback(async () => {
+    if (!projectId) return;
+
+    try {
+      setFetching(true);
+
+      const response = await fetch(`/api/projects/${projectId}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to load project");
+      }
+
+      const project = data.project;
+
+      setTitle(project.title || "");
+      setDescription(project.description || "");
+      setCategory(project.category || "fullstack");
+      setStatus(project.isPublished ? "Published" : "Draft");
+      setLive(project.live || "");
+      setGithub(project.github || "");
+      setFeatures(project.features || []);
+      setTechs(project.tech || []);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to load project");
+      router.push("/dashboard/projects");
+    } finally {
+      setFetching(false);
+    }
+  }, [projectId, router]);
 
   useEffect(() => {
-    if (!id) return;
-    const getProject = async () => {
-      try {
-        setPageLoading(true);
-        const response = await fetch(`/api/projects/${id}`);
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message);
-        }
-        const project = data.project;
-        setTitle(project.title || "");
-        setDescription(project.description || "");
-        setStatus(project.isPublished ? "Published" : "Draft");
-        setLive(project.live || "");
-        setGithub(project.github || "");
-        setCategory(project.category || "fullstack");
-        setFeatures(project.features || []);
-        setTechs(project.tech || []);
-      } catch (error: any) {
-        toast.error(error.message);
-      } finally {
-        setPageLoading(false);
-      }
-    };
-
-    getProject();
-  }, [id]);
+    fetchProject();
+  }, [fetchProject]);
 
   /* ====================================================== */
   /* PROGRESS */
@@ -154,12 +147,14 @@ const EditProject = () => {
 
   const progress = useMemo(() => {
     let completed = 0;
+
     if (title) completed++;
     if (description.length >= 20) completed++;
     if (live) completed++;
     if (github) completed++;
     if (features.length > 0) completed++;
     if (techs.length > 0) completed++;
+
     return Math.round((completed / 6) * 100);
   }, [title, description, live, github, features, techs]);
 
@@ -180,6 +175,7 @@ const EditProject = () => {
     const icon =
       techIcons[value.toLowerCase()] ||
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/devicon/devicon-original.svg";
+
     setTechs((prev) => [
       ...prev,
       {
@@ -187,6 +183,7 @@ const EditProject = () => {
         icon,
       },
     ]);
+
     setTechInput("");
   };
 
@@ -214,57 +211,68 @@ const EditProject = () => {
   };
 
   /* ====================================================== */
-  /* UPDATE PROJECT */
+  /* SUBMIT (UPDATE) */
   /* ====================================================== */
 
-  const handleUpdate = async () => {
+  const handleSubmit = async () => {
     try {
       setLoading(true);
+
       if (!title.trim()) {
         toast.error("Project title is required");
         return;
       }
+
       if (description.trim().length < 20) {
         toast.error("Description must be at least 20 characters");
         return;
       }
+
       if (!live.trim()) {
         toast.error("Live URL is required");
         return;
       }
+
       if (!github.trim()) {
         toast.error("GitHub URL is required");
         return;
       }
+
       if (features.length === 0) {
         toast.error("Please add at least one feature");
         return;
       }
+
       if (techs.length === 0) {
         toast.error("Please add at least one technology");
         return;
       }
+
       const payload = {
         title,
         description,
         category,
-        isPublished: status === "Published",
+        status,
         live,
         github,
         features,
         tech: techs,
       };
-      const response = await fetch(`/api/projects/${id}`, {
+
+      const response = await fetch(`/api/projects/${projectId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
+
       const data = await response.json();
+
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
       }
+
       toast.success("Project updated successfully");
       router.push("/dashboard/projects");
     } catch (error: any) {
@@ -275,13 +283,21 @@ const EditProject = () => {
   };
 
   /* ====================================================== */
-  /* LOADING */
+  /* LOADING STATE */
   /* ====================================================== */
-  if (pageLoading) {
+
+  if (fetching) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="animate-spin text-primary w-16 h-16" />
-      </div>
+      <PageContainer>
+        <div className="flex min-h-100 items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin border-2 border-border border-t-primary" />
+            <p className="font-mono text-[0.7rem] uppercase tracking-widest text-muted-foreground">
+              Loading Project...
+            </p>
+          </div>
+        </div>
+      </PageContainer>
     );
   }
 
@@ -289,7 +305,7 @@ const EditProject = () => {
     <PageContainer>
       <PageHeader
         title="Edit Project"
-        description="Modify project information, technology stack, links, and project highlights"
+        description="Update your project information and technology stack"
         icon={<FolderKanban className="h-8 w-8" />}
         backHref="/dashboard/projects"
         progress={progress}
@@ -308,7 +324,7 @@ const EditProject = () => {
             description="Add and manage your project information"
             icon={<Layers3 className="h-5 w-5" />}
           >
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Basic Information"
                 description="Provide your professional experience details"
@@ -329,7 +345,7 @@ const EditProject = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Project Configuration"
                 description="Manage project category and publishing state"
@@ -351,7 +367,7 @@ const EditProject = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Project Links"
                 description="Add deployment and source code URLs"
@@ -371,7 +387,7 @@ const EditProject = () => {
                 />
               </div>
             </div>
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Project Features"
                 description="Add key functionalities and highlights of your project"
@@ -389,7 +405,7 @@ const EditProject = () => {
               />
             </div>
 
-            <div className="rounded-3xl border border-border/50 bg-muted/20 p-6 space-y-6">
+            <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Technology Stack"
                 description="Add technologies used to build this project"
@@ -414,21 +430,23 @@ const EditProject = () => {
           transition={{ duration: 0.4 }}
           className="space-y-6"
         >
-          <Card className="sticky top-6 rounded-4xl border-border/50 bg-background/70 backdrop-blur-xl">
-            <PreviewHeader
-              icon={<LayoutDashboard className="h-5 w-5" />}
-              title="Project Preview"
-              description="Live project overview"
-            />
+          <div className="sticky top-6 overflow-hidden border border-border bg-card/40 backdrop-blur-[18px]">
+            <div className="p-6">
+              <PreviewHeader
+                icon={<LayoutDashboard className="h-5 w-5" />}
+                title="Project Preview"
+                description="Live project overview"
+              />
+            </div>
 
-            <CardContent className="space-y-8">
+            <div className="space-y-8 px-6">
               {/* Title & Description */}
               <div>
-                <h2 className="text-xl font-bold tracking-tight">
+                <h2 className="text-xl font-bold tracking-[-0.02em] text-foreground">
                   {title || "Untitled Project"}
                 </h2>
 
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-4">
+                <p className="mt-2 text-sm font-light text-muted-foreground line-clamp-4">
                   {description ||
                     "Project description preview will appear here."}
                 </p>
@@ -436,15 +454,15 @@ const EditProject = () => {
 
               {/* Category & Status */}
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 rounded-xl text-xs font-medium bg-primary/10 text-primary">
+                <span className="border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-primary">
                   {category || "Category"}
                 </span>
 
                 <span
-                  className={`px-3 py-1 rounded-xl text-xs font-medium ${
+                  className={`border px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest ${
                     status === "Published"
-                      ? "bg-green-500/10 text-green-500"
-                      : "bg-muted text-muted-foreground"
+                      ? "border-chart-3/30 bg-chart-3/10 text-chart-3"
+                      : "border-border bg-muted text-muted-foreground"
                   }`}
                 >
                   {status}
@@ -453,72 +471,94 @@ const EditProject = () => {
 
               {/* Meta Info */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <Activity className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Completion</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Completion
+                    </span>
                   </div>
 
-                  <span className="font-semibold">{progress}%</span>
+                  <span className="bg-linear-to-br from-primary to-chart-3 bg-clip-text font-bold text-transparent">
+                    {progress}%
+                  </span>
                 </div>
 
-                <div className="flex items-center justify-between rounded-2xl border border-border/50 bg-background/40 p-4">
+                <div className="flex items-center justify-between border border-border bg-background/40 p-4">
                   <div className="flex items-center gap-3">
                     <BadgeCheck className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Status</span>
+                    <span className="font-mono text-[0.72rem] uppercase tracking-wide text-muted-foreground">
+                      Status
+                    </span>
                   </div>
 
-                  <span className="font-semibold">{status}</span>
+                  <span className="font-semibold text-foreground">
+                    {status}
+                  </span>
                 </div>
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="group relative overflow-hidden border border-border bg-background/40 p-4 transition-colors duration-300 hover:border-primary/50">
+                  <span className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <span className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <div className="mb-2 flex items-center gap-2">
                     <Star className="h-4 w-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                       Features
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold">{features.length}</h3>
+                  <h3 className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-2xl font-bold text-transparent">
+                    {features.length}
+                  </h3>
                 </div>
 
-                <div className="rounded-2xl border border-border/50 bg-background/40 p-4">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="group relative overflow-hidden border border-border bg-background/40 p-4 transition-colors duration-300 hover:border-primary/50">
+                  <span className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <span className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+                  <div className="mb-2 flex items-center gap-2">
                     <Rocket className="h-4 w-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                       Tech Stack
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold">{techs.length}</h3>
+                  <h3 className="bg-linear-to-br from-primary to-chart-3 bg-clip-text text-2xl font-bold text-transparent">
+                    {techs.length}
+                  </h3>
                 </div>
               </div>
 
               {/* Links */}
-              <div className="rounded-2xl border border-border/50 bg-background/40 p-4 space-y-3">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Globe className="h-4 w-4 text-primary" />
-                  <span>{live || "No live URL added"}</span>
+              <div className="space-y-3 border border-border bg-background/40 p-4">
+                <div className="flex items-center gap-2 font-mono text-[0.72rem] text-muted-foreground">
+                  <Globe className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="truncate">
+                    {live || "No live URL added"}
+                  </span>
                 </div>
 
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <FolderKanban className="h-4 w-4 text-primary" />
-                  <span>{github || "No GitHub URL added"}</span>
+                <div className="flex items-center gap-2 font-mono text-[0.72rem] text-muted-foreground">
+                  <FolderKanban className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="truncate">
+                    {github || "No GitHub URL added"}
+                  </span>
                 </div>
               </div>
-            </CardContent>
+            </div>
 
-            <PreviewFooter
-              onClick={handleUpdate}
-              loading={loading}
-              icon={<Sparkles className="h-4 w-4" />}
-              label="Publish Project"
-              loadingLabel="Editing..."
-            />
-          </Card>
+            <div className="px-6 pb-6 pt-2">
+              <PreviewFooter
+                onClick={handleSubmit}
+                loading={loading}
+                icon={<Sparkles className="h-4 w-4" />}
+                label="Update Project"
+                loadingLabel="Updating..."
+              />
+            </div>
+          </div>
         </motion.div>
       </div>
     </PageContainer>

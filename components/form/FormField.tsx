@@ -1,7 +1,6 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useId } from "react";
 
 type FormFieldProps = {
   label: string;
@@ -20,27 +19,25 @@ const FormField = ({
   type = "text",
   disabled,
 }: FormFieldProps) => {
-  return (
-    <div className="space-y-2">
-      <Label className="text-sm font-medium">{label}</Label>
+  const id = useId();
 
-      <Input
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label
+        htmlFor={id}
+        className="font-mono text-[0.64rem] uppercase tracking-widest text-muted-foreground"
+      >
+        {label}
+      </label>
+
+      <input
+        id={id}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="
-          h-12
-          rounded-2xl
-          border-border/60
-          bg-background/50
-          shadow-sm
-          transition-all
-          focus-visible:ring-2
-          focus-visible:ring-primary/30
-          hover:border-primary/40
-        "
         disabled={disabled}
+        className="h-12 w-full border border-border bg-background px-4 text-[0.86rem] text-foreground outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
       />
     </div>
   );
