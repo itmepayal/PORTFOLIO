@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container } from "../common/container";
+import { Container } from "../common/Container";
 import { FaGithub, FaReact, FaGitAlt, FaNodeJs } from "react-icons/fa6";
 import {
   SiNodedotjs,

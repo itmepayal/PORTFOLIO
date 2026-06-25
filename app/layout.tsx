@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Poppins, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import CustomCursor from "@/components/common/custom-cursor";
+import CustomCursor from "@/components/common/CustomCursor";
 
 const poppins = Poppins({
   subsets: ["latin"],

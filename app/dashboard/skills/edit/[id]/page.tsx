@@ -21,7 +21,7 @@ import FormSectionHeader from "@/components/form/FormSectionHeader";
 import FormCard from "@/components/form/FormCard";
 import FormSelect from "@/components/form/FormSelect";
 import PageHeader from "@/components/dashboard/pages/PageHeader";
-import PageContainer from "@/components/dashboard/pages/page";
+import PageContainer from "@/components/dashboard/pages/PageContainer";
 import PreviewFooter from "@/components/dashboard/preview/PreviewFooter";
 import PreviewHeader from "@/components/dashboard/preview/PreviewHeader";
 

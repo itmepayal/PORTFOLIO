@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Container } from "../common/container";
+import { Container } from "../common/Container";
 import { TbBrandGithub } from "react-icons/tb";
 
 const GITHUB_USERNAME = "itmepayal";

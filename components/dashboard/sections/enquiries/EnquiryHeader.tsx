@@ -42,19 +42,6 @@ const EnquiryHeader = () => {
             </p>
           </div>
         </div>
-
-        {/* Right — CTA button */}
-        <button
-          onClick={() => router.push("/dashboard/enquiries/create")}
-          className="group/btn inline-flex items-center justify-center gap-2.5 bg-linear-to-br from-primary to-secondary-foreground px-6 py-3 font-mono text-[0.75rem] uppercase tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
-          style={{
-            clipPath:
-              "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
-          }}
-        >
-          <Plus className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:rotate-90" />
-          Add Enquiry
-        </button>
       </div>
     </div>
   );

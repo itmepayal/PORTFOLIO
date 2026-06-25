@@ -9,7 +9,7 @@ interface EmptySkillProps {
   onReset?: () => void;
 }
 
-const EmptySkill = ({
+const EmptySkills = ({
   title = "No skills found",
   description = "Try adjusting your search, category, or filters to discover matching projects from your collection.",
   onReset,
@@ -116,4 +116,4 @@ const EmptySkill = ({
   );
 };
 
-export default EmptySkill;
+export default EmptySkills;

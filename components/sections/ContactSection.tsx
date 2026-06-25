@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Container } from "../common/container";
+import { Container } from "../common/Container";
 import { FiArrowRight, FiDownload } from "react-icons/fi";
 
 export const Contact = () => {

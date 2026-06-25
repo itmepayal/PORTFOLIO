@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { DashboardStats } from "../skeletons/DashboardStats";
+import { DashboardStats as DashboardStatsSkeleton } from "../skeletons/DashboardStatsSkeleton";
 
 type DashboardStat = {
   label: string;
@@ -193,7 +193,7 @@ export default function DashboardHero() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         {loading
           ? Array.from({ length: 5 }).map((_, index) => (
-              <DashboardStats key={index} />
+              <DashboardStatsSkeleton key={index} />
             ))
           : stats.map((item, index) => {
               const Icon =

@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import ExperienceHeader from "@/components/dashboard/sections/experiances/experience-header";
-import ExperienceStats from "@/components/dashboard/sections/experiances/experience-stats";
-import ExperienceToolbar from "@/components/dashboard/sections/experiances/experience-toolbar";
-import ExperienceCard from "@/components/dashboard/sections/experiances/experience-card";
-import EmptyProjects from "@/components/dashboard/sections/experiances/empty-card";
-import ExperienceCardSkeleton from "@/components/dashboard/skeleton/experience-card";
+import ExperienceHeader from "@/components/dashboard/sections/experiences/ExperienceHeader";
+import ExperienceStats from "@/components/dashboard/sections/experiences/ExperienceStats";
+import ExperienceToolbar from "@/components/dashboard/sections/experiences/ExperienceToolbar";
+import ExperienceCard from "@/components/dashboard/sections/experiences/ExperienceCard";
+import EmptyExperiance from "@/components/dashboard/sections/experiences/EmptyExperiance";
+import ExperienceCardSkeleton from "@/components/dashboard/skeleton/ExperienceCard";
 import { Button } from "@/components/ui/button";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
@@ -131,7 +131,7 @@ const Experiance = () => {
           ))}
         </div>
       ) : experiences.length === 0 ? (
-        <EmptyProjects
+        <EmptyExperiance
           title="No Experiences Found"
           description="Try changing your search or filters to find experiences."
           onReset={() => {

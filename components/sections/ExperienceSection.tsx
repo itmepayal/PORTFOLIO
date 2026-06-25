@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Container } from "../common/container";
+import { Container } from "../common/Container";
 import { TbExternalLink } from "react-icons/tb";
 import { ExperienceSkeleton } from "../skeletons/ExperienceSkeleton";
 

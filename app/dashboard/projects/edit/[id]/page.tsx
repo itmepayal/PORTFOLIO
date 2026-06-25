@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import PageHeader from "@/components/dashboard/pages/PageHeader";
-import PageContainer from "@/components/dashboard/pages/page";
+import PageContainer from "@/components/dashboard/pages/PageContainer";
 import FormCard from "@/components/form/FormCard";
 import FormSectionHeader from "@/components/form/FormSectionHeader";
 import FormField from "@/components/form/FormField";

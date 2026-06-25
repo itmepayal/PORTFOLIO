@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
-import { ModeToggle } from "@/components/common/theme-button";
+import { ModeToggle } from "@/components/common/ThemeToggle";
 import { HiArrowDown, HiArrowRight, HiChevronDown } from "react-icons/hi2";
 
 const navLinks = [

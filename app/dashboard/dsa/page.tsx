@@ -1,15 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import DSAHeader from "@/components/dashboard/sections/dsa/dsa-header";
-import DSAStats from "@/components/dashboard/sections/dsa/dsa-stats";
-import DSAToolbar from "@/components/dashboard/sections/dsa/dsa-toolbar";
-import DSACard from "@/components/dashboard/sections/dsa/dsa-card";
-import DSACardSkeleton from "@/components/dashboard/skeleton/dsa-card";
-import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
-
-import { Button } from "@/components/ui/button";
+import DSAHeader from "@/components/dashboard/sections/dsa/DsaHeader";
+import DSAStats from "@/components/dashboard/sections/dsa/DsaStats";
+import DSAToolbar from "@/components/dashboard/sections/dsa/DsaToolbar";
+import DSACard from "@/components/dashboard/sections/dsa/DsaCard";
+import DSACardSkeleton from "@/components/dashboard/skeleton/DsaCard";
+import EmptyProjects from "@/components/dashboard/sections/projects/EmptyProjects";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface DSAItem {

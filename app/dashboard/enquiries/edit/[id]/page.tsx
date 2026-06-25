@@ -14,7 +14,7 @@ import {
   BadgeCheck,
   MessageSquare,
 } from "lucide-react";
-import PageContainer from "@/components/dashboard/pages/page";
+import PageContainer from "@/components/dashboard/pages/PageContainer";
 import PageHeader from "@/components/dashboard/pages/PageHeader";
 import FormSectionHeader from "@/components/form/FormSectionHeader";
 import FormCard from "@/components/form/FormCard";

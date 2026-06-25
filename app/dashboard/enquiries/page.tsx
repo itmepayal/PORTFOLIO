@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import EnquiryHeader from "@/components/dashboard/sections/enquiries/enquiry-header";
-import EnquiryStats from "@/components/dashboard/sections/enquiries/enquiry-stats";
-import EnquiryToolbar from "@/components/dashboard/sections/enquiries/enquiry-toolbar";
-import EnquiryCard from "@/components/dashboard/sections/enquiries/enquiry-card";
-import EnquiryCardSkeleton from "@/components/dashboard/skeleton/enquiry-card";
-import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
-import { Button } from "@/components/ui/button";
+import EnquiryHeader from "@/components/dashboard/sections/enquiries/EnquiryHeader";
+import EnquiryStats from "@/components/dashboard/sections/enquiries/EnquiryStats";
+import EnquiryToolbar from "@/components/dashboard/sections/enquiries/EnquiryToolbar";
+import EnquiryCard from "@/components/dashboard/sections/enquiries/EnquiryCard";
+import EnquiryCardSkeleton from "@/components/dashboard/skeleton/EnquiryCard";
+import EmptyEnquiries from "@/components/dashboard/sections/enquiries/EmptyEnquiries";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface EnquiryItem {
@@ -123,7 +122,7 @@ const Enquiries = () => {
           ))}
         </div>
       ) : enquiries.length === 0 ? (
-        <EmptyProjects
+        <EmptyEnquiries
           title="No Enquiries Found"
           description="No enquiries match your current search or filters."
           onReset={() => {

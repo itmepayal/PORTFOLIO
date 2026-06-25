@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Container } from "../common/container";
+import { Container } from "../common/Container";
 import {
   LayoutGrid,
   Globe,

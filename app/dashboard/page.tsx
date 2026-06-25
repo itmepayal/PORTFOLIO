@@ -1,4 +1,4 @@
-import DashboardHero from "@/components/dashboard/dashboard-hero";
+import DashboardHero from "@/components/dashboard/DashboardHero";
 
 export default function DashboardPage() {
   return <DashboardHero />;

@@ -1,13 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import ProjectsHeader from "@/components/dashboard/sections/projects/projects-header";
-import ProjectsStats from "@/components/dashboard/sections/projects/projects-stats";
-import ProjectsToolbar from "@/components/dashboard/sections/projects/projects-toolbar";
-import ProjectCard from "@/components/dashboard/sections/projects/projects-card";
-import ProjectCardSkeleton from "@/components/dashboard/skeleton/project-card";
-import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
-import { Button } from "@/components/ui/button";
+import ProjectsHeader from "@/components/dashboard/sections/projects/ProjectHeader";
+import ProjectsStats from "@/components/dashboard/sections/projects/ProjectStats";
+import ProjectsToolbar from "@/components/dashboard/sections/projects/ProjectToolbar";
+import ProjectCard from "@/components/dashboard/sections/projects/ProjectCard";
+import ProjectCardSkeleton from "@/components/dashboard/skeleton/ProjectCard";
+import EmptyProjects from "@/components/dashboard/sections/projects/EmptyProjects";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface Tech {

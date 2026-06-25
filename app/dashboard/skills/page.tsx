@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import SkillHeader from "@/components/dashboard/sections/skills/skill-header";
-import SkillStats from "@/components/dashboard/sections/skills/skill-stats";
-import SkillToolbar from "@/components/dashboard/sections/skills/skill-toolbar";
-import SkillCard from "@/components/dashboard/sections/skills/skill-card";
-import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
-import SkillsCardSkeleton from "@/components/dashboard/skeleton/skill-card";
+import SkillHeader from "@/components/dashboard/sections/skills/SkillHeader";
+import SkillStats from "@/components/dashboard/sections/skills/SkillStats";
+import SkillToolbar from "@/components/dashboard/sections/skills/SkillToolbar";
+import SkillCard from "@/components/dashboard/sections/skills/SkillCard";
+import EmptySkills from "@/components/dashboard/sections/skills/EmptySkills";
+import SkillsCardSkeleton from "@/components/dashboard/skeleton/SkillCard";
 import { Button } from "@/components/ui/button";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
@@ -139,7 +139,7 @@ const Skills = () => {
           ))}
         </div>
       ) : skills.length === 0 ? (
-        <EmptyProjects
+        <EmptySkills
           title="No Skills Found"
           description="Try changing your search or filters to find skills."
           onReset={() => {

@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import SidebarHeader from "./sidebar-header";
-import SidebarSearch from "./sidebar-search";
-import SidebarMenu from "./sidebar-menu";
-import SidebarProfile from "./sidebar-profile";
+import SidebarHeader from "./SidebarHeader";
+import SidebarSearch from "./SidebarSearch";
+import SidebarMenu from "./SidebarMenu";
+import SidebarProfile from "./SidebarProfile";
 
 export default function Sidebar() {
   const [search, setSearch] = useState("");
