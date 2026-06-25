@@ -1,6 +1,6 @@
 # 🚀 Payal Yadav — Personal Portfolio
 
-A modern, full-stack personal portfolio website built with **Next.js 16**, **MongoDB**, and **Sanity CMS** — showcasing projects, skills, work experience, and a DSA (Data Structures & Algorithms) progress tracker, with a working contact form backed by a database.
+A modern, full-stack personal portfolio website built with **Next.js 16**, **MongoDB**, and a **Custom-built CMS** — showcasing projects, skills, work experience, and a DSA (Data Structures & Algorithms) progress tracker, with a working contact form backed by a database.
 
 🔗 **Live:** [itme-payal.vercel.app](https://itme-payal.vercel.app/)
 
@@ -16,7 +16,7 @@ A modern, full-stack personal portfolio website built with **Next.js 16**, **Mon
   - Work experience timeline
   - DSA progress tracker (LeetCode / Striver / Codeforces / GFG)
   - Contact form enquiries
-- 📝 **Sanity CMS** integration for content management
+- 🛠️ **Custom-built CMS** — self-developed admin panel to manage all portfolio content (projects, skills, experience, DSA progress, enquiries) without any third-party CMS dependency
 - 🔐 **JWT-based authentication** (`jsonwebtoken` + `jose`) with `bcryptjs` password hashing, protected via custom middleware
 - 📊 GitHub contributions calendar (`react-github-calendar`)
 - 📈 Data visualizations with Recharts
@@ -37,7 +37,7 @@ A modern, full-stack personal portfolio website built with **Next.js 16**, **Mon
 | Components         | Radix UI, shadcn, Base UI, `cmdk`, `vaul` |
 | Animation          | Framer Motion                             |
 | Database           | MongoDB with Mongoose                     |
-| CMS                | Sanity (`next-sanity`)                    |
+| CMS                | Custom-built Admin Panel                  |
 | Auth               | JWT (`jsonwebtoken`, `jose`) + `bcryptjs` |
 | Forms & Validation | React Hook Form + Zod                     |
 | Charts             | Recharts                                  |
@@ -55,7 +55,7 @@ PORTFOLIO/
 ├── components/           # Reusable UI components
 ├── hooks/                # Custom React hooks
 ├── lib/                  # Utilities, DB connection, auth helpers
-├── models/                # Mongoose schemas
+├── models/               # Mongoose schemas
 │   ├── User.ts           # Auth users (admin/user roles)
 │   ├── Project.ts        # Portfolio projects
 │   ├── Skill.ts          # Skills with category & proficiency level
@@ -84,13 +84,25 @@ PORTFOLIO/
 
 ---
 
+## 🛠️ Custom CMS
+
+This portfolio includes a **self-built admin panel** — no third-party CMS like Sanity or Contentful is used. The CMS is built entirely within the Next.js app and provides:
+
+- 🔐 **Protected admin routes** via JWT middleware
+- 📁 **Full CRUD** for all content types — Projects, Skills, Experience, DSA entries, and Enquiries
+- 📬 **Enquiry management** — view, mark as read, and track replies on contact form submissions
+- 📊 **Dashboard overview** of all portfolio data in one place
+
+All data is stored in **MongoDB** and managed through API routes built with Next.js App Router.
+
+---
+
 ## ⚙️ Getting Started
 
 ### Prerequisites
 
 - Node.js v18 or higher
 - A MongoDB connection string ([MongoDB Atlas](https://www.mongodb.com/atlas) or local)
-- A Sanity project (if using the CMS features)
 
 ### 1. Clone the repository
 
@@ -116,11 +128,6 @@ MONGODB_URI=your_mongodb_connection_string
 # JWT Auth
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRE_DATE=7d
-
-# Sanity (if applicable)
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_TOKEN=your_sanity_api_token
 ```
 
 > ⚠️ **Never commit `.env.local` to version control.** Make sure it's listed in `.gitignore`.
