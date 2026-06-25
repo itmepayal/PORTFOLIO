@@ -1,9 +1,7 @@
 "use client";
 
-import { Search, LayoutGrid, List, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface Props {
   search: string;
@@ -29,107 +27,60 @@ const DSAToolbar = ({
   setSearch,
   activeFilter,
   setActiveFilter,
-  view = "grid",
-  setView,
 }: Props) => {
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        duration: 0.4,
-      }}
-      className=" relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-border/50 bg-background/70 p-5 shadow-xl backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="flex flex-col gap-4 border border-border bg-card/40 p-4 backdrop-blur-sm lg:flex-row lg:items-center lg:justify-between"
     >
-      <div className=" pointer-events-none absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-primary/5" />
-      <div className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className=" group flex h-12 w-full items-center gap-3 rounded-2xl border border-border/60 bg-background/80 px-4 shadow-sm transition-all duration-300 focus-within:border-primary/40 focus-within:shadow-lg focus-within:shadow-primary/10 lg:max-w-sm">
-          <Search className=" h-4 w-4 text-muted-foreground transition-colors duration-300 group-focus-within:text-primary" />
+      {/* Search input */}
+      <div className="flex flex-1 items-center">
+        <div className="flex h-10 w-full items-center gap-3 border border-border bg-background/60 px-4 lg:max-w-sm">
+          <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search DSA..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="
-              w-full
-              bg-transparent
-              text-sm
-              outline-none
-              placeholder:text-muted-foreground
-            "
+            className="w-full bg-transparent font-mono text-[0.78rem] uppercase tracking-wide outline-none placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground"
           />
         </div>
+      </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="mr-1 hidden items-center gap-2 sm:flex">
-            <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground">
-              Filters
-            </span>
-          </div>
-          {filters.map((item) => {
-            const isActive = activeFilter === item;
-            return (
-              <Button
-                key={item}
-                onClick={() => setActiveFilter(item)}
-                variant={isActive ? "default" : "ghost"}
-                className={`
-                  h-10
-                  rounded-2xl
-                  px-5
-                  text-sm
-                  transition-all
-                  duration-300
-                  capitalize
-
-                  ${
-                    isActive
-                      ? `
-                        bg-primary
-                        text-primary-foreground
-                        shadow-lg
-                        shadow-primary/20
-                      `
-                      : `
-                        border
-                        border-transparent
-                        hover:border-primary/20
-                        hover:bg-primary/5
-                        hover:text-primary
-                      `
-                  }
-                `}
-              >
-                {item}
-
-                {isActive && (
-                  <Badge
-                    className="
-                      ml-2
-                      rounded-full
-                      border-0
-                      bg-white/20
-                      px-2
-                      py-0
-                      text-[10px]
-                      font-medium
-                      text-white
-                    "
-                  >
-                    Active
-                  </Badge>
-                )}
-              </Button>
-            );
-          })}
-        </div>
+      {/* Filter buttons */}
+      <div className="flex flex-wrap items-center gap-2">
+        <SlidersHorizontal className="hidden h-3.5 w-3.5 shrink-0 text-muted-foreground sm:block" />
+        {filters.map((item) => {
+          const isActive = activeFilter === item;
+          return (
+            <button
+              key={item}
+              onClick={() => setActiveFilter(item)}
+              className={`inline-flex items-center gap-2 whitespace-nowrap px-4 py-2 font-mono text-[0.62rem] uppercase tracking-widest transition-all duration-200 ${
+                isActive
+                  ? "bg-linear-to-br from-primary to-secondary-foreground text-white"
+                  : "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary"
+              }`}
+              style={
+                isActive
+                  ? {
+                      clipPath:
+                        "polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%)",
+                    }
+                  : undefined
+              }
+            >
+              {item}
+              {isActive && (
+                <span className="border border-white/20 bg-white/10 px-1.5 py-0.5 text-[0.55rem] uppercase tracking-widest text-white">
+                  Active
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
     </motion.div>
   );

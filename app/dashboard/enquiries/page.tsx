@@ -9,6 +9,7 @@ import EnquiryCard from "@/components/dashboard/sections/enquiries/enquiry-card"
 import EnquiryCardSkeleton from "@/components/dashboard/skeleton/enquiry-card";
 import EmptyProjects from "@/components/dashboard/sections/projects/empty-card";
 import { Button } from "@/components/ui/button";
+import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface EnquiryItem {
   _id: string;
@@ -143,59 +144,35 @@ const Enquiries = () => {
             ))}
           </div>
           {pagination.totalPages > 1 && (
-            <div
-              className="
-                flex
-                flex-wrap
-                items-center
-                justify-center
-                gap-4
-                pt-3
-              "
-            >
-              <Button
-                variant="outline"
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
+              <button
                 disabled={!pagination.hasPrevPage}
                 onClick={() => setPage((prev) => prev - 1)}
-                className="
-                  rounded-2xl
-                  px-5
-                "
+                className="inline-flex items-center gap-1.5 border border-border bg-transparent px-6 py-[0.6rem] font-mono text-[0.72rem] uppercase tracking-[0.08em] text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:text-foreground disabled:pointer-events-none disabled:opacity-35"
               >
+                <HiArrowLeft className="size-3.5" />
                 Previous
-              </Button>
-              <div
-                className="
-                  rounded-2xl
-                  border
-                  border-border/50
-                  bg-muted/30
-                  px-5
-                  py-2.5
-                  text-sm
-                  text-muted-foreground
-                "
-              >
+              </button>
+
+              <div className="border border-border bg-card/40 px-6 py-[0.6rem] font-mono text-[0.72rem] tracking-[0.05em] text-muted-foreground">
                 Page{" "}
-                <span className="font-semibold text-foreground">
+                <span className="font-medium text-foreground">
                   {pagination.currentPage}
                 </span>{" "}
                 of{" "}
-                <span className="font-semibold text-foreground">
+                <span className="font-medium text-foreground">
                   {pagination.totalPages}
                 </span>
               </div>
-              <Button
-                variant="outline"
+
+              <button
                 disabled={!pagination.hasNextPage}
                 onClick={() => setPage((prev) => prev + 1)}
-                className="
-                  rounded-2xl
-                  px-5
-                "
+                className="inline-flex items-center gap-1.5 border border-border bg-transparent px-6 py-[0.6rem] font-mono text-[0.72rem] uppercase tracking-[0.08em] text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:text-foreground disabled:pointer-events-none disabled:opacity-35"
               >
                 Next
-              </Button>
+                <HiArrowRight className="size-3.5" />
+              </button>
             </div>
           )}
         </>

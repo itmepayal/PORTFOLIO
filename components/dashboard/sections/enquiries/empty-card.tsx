@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { FolderSearch, RefreshCcw, Sparkles, ArrowRight } from "lucide-react";
+import { FolderSearch, RefreshCcw, ArrowRight, Sparkles } from "lucide-react";
 
 interface EmptyEnquiriesProps {
   title?: string;
@@ -11,120 +10,105 @@ interface EmptyEnquiriesProps {
 }
 
 const EmptyEnquiries = ({
-  title = "No xperiance found",
-  description = "Try adjusting your search, category, or filters to discover matching projects from your collection.",
+  title = "No enquiries found",
+  description = "Try adjusting your search, category, or filters to discover matching enquiries from your collection.",
   onReset,
 }: EmptyEnquiriesProps) => {
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 30,
-        scale: 0.98,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-      }}
-      transition={{
-        duration: 0.45,
-        ease: "easeOut",
-      }}
-      className="
-        group
-        relative
-        overflow-hidden
-        rounded-4xl
-        border
-        border-border/50
-        bg-background/70
-        px-6
-        py-20
-        shadow-sm
-        backdrop-blur-2xl
-        transition-all
-        duration-500
-        hover:border-primary/20
-        hover:shadow-2xl
-        hover:shadow-primary/5
-        sm:px-10
-      "
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="group relative overflow-hidden border border-border bg-card/40 px-6 py-20 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 sm:px-10"
     >
-      <div className=" pointer-events-none absolute inset-0 opacity-80">
-        <div className=" absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/10" />
-        <div className=" absolute -top-32 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
-        <div className=" absolute bottom-0 right-0 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
-      </div>
-      <div className=" absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#8881_1px,transparent_1px),linear-gradient(to_bottom,#8881_1px,transparent_1px)] bg-size-[32px_32px]" />
-      <div className=" relative z-10 mx-auto flex max-w-2xl flex-col items-center text-center">
+      {/* Corner accents */}
+      <span className="pointer-events-none absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+      <span className="pointer-events-none absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+
+      {/* Grid background */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(color-mix(in oklch, var(--color-primary) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklch, var(--color-primary) 6%, transparent) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          maskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent)",
+        }}
+      />
+
+      {/* Ambient glow */}
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in oklch, var(--color-primary) 12%, transparent) 0%, transparent 70%)",
+        }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center text-center">
+        {/* Icon block */}
         <motion.div
-          animate={{
-            y: [0, -6, 0],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="
-            relative
-            flex
-            h-28
-            w-28
-            items-center
-            justify-center
-            rounded-[30px]
-            border
-            border-border/50
-            bg-background/80
-            shadow-xl
-            backdrop-blur-xl
-          "
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="relative"
         >
-          <div className=" absolute inset-0 rounded-[30px] bg-linear-to-br from-primary/10 to-transparent" />
-          <div className=" absolute -right-2 -top-2 flex h-10 w-10 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 backdrop-blur-xl">
-            <Sparkles className="h-4 w-4 text-primary" />
+          <div
+            className="flex h-20 w-20 items-center justify-center border border-border bg-linear-to-br from-primary to-secondary-foreground text-white"
+            style={{
+              clipPath:
+                "polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%)",
+            }}
+          >
+            <FolderSearch className="h-9 w-9" />
           </div>
-          <FolderSearch className=" relative z-10 h-12 w-12 text-primary" />
+          {/* Sparkle badge */}
+          <div className="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center border border-primary/30 bg-primary/10">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+          </div>
         </motion.div>
 
-        <h2 className=" mt-8 text-3xl font-bold tracking-tight text-foreground sm:text-4xl capitalize">
+        <h2 className="mt-8 text-3xl font-bold tracking-[-0.02em] text-foreground sm:text-4xl capitalize">
           {title}
         </h2>
-
-        <p className=" mt-4 max-w-xl text-sm leading-8 text-muted-foreground sm:text-base">
+        <p className="mt-4 max-w-xl text-sm font-light leading-8 text-muted-foreground sm:text-base">
           {description}
         </p>
 
-        <div className=" mt-10 flex flex-wrap items-center justify-center gap-4">
+        {/* Action buttons */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           {onReset && (
-            <Button
+            <button
               onClick={onReset}
-              className=" group/button h-12 rounded-2xl px-7 text-sm font-semibold shadow-lg shadow-primary/10"
+              className="group/btn inline-flex items-center justify-center gap-2.5 bg-linear-to-br from-primary to-secondary-foreground px-7 py-[0.78rem] font-mono text-[0.75rem] uppercase tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
+              style={{
+                clipPath:
+                  "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+              }}
             >
-              <RefreshCcw className=" mr-2 h-4 w-4 transition-transform duration-500 group-hover/button:rotate-180" />
+              <RefreshCcw className="h-3.5 w-3.5 transition-transform duration-500 group-hover/btn:rotate-180" />
               Reset Filters
-            </Button>
+            </button>
           )}
-
-          <Button
-            variant="outline"
-            className=" h-12 rounded-2xl border-border/60 bg-background/50 px-7 text-sm font-medium backdrop-blur-xl"
-          >
+          <button className="group/btn inline-flex items-center justify-center gap-2.5 border border-border px-7 py-[0.78rem] font-mono text-[0.75rem] uppercase tracking-[0.05em] text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary">
             Browse Projects
-            <ArrowRight className=" ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </Button>
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+          </button>
         </div>
 
-        <div className=" mt-12 flex flex-wrap items-center justify-center gap-4">
+        {/* Tags */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
           {["Modern UI", "Fast Search", "Smart Filters"].map((item) => (
-            <div
+            <span
               key={item}
-              className=" rounded-full border border-border/50 bg-background/60 px-4 py-2 text-xs font-medium text-muted-foreground backdrop-blur-xl"
+              className="border border-border bg-background/40 px-4 py-1.5 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground"
             >
               {item}
-            </div>
+            </span>
           ))}
         </div>
       </div>

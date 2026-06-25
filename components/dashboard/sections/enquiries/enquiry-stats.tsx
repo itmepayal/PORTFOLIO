@@ -20,34 +20,23 @@ const EnquiryStats = () => {
       try {
         const response = await fetch("/api/enquiries/stats");
         const data = await response.json();
-
-        if (data.success) {
-          setStats(data.stats || []);
-        }
+        if (data.success) setStats(data.stats || []);
       } catch (error) {
         console.error("Failed to fetch enquiry stats:", error);
       } finally {
         setLoading(false);
       }
     };
-
     getStats();
   }, []);
 
   if (loading) {
     return (
-      <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-5">
-        {Array.from({ length: 5 }).map((_, index) => (
+      <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, index) => (
           <div
             key={index}
-            className="
-              h-44
-              animate-pulse
-              rounded-3xl
-              border
-              border-border/50
-              bg-muted/40
-            "
+            className="h-44 animate-pulse border border-border bg-muted/40"
           />
         ))}
       </section>
@@ -56,148 +45,61 @@ const EnquiryStats = () => {
 
   if (!stats.length) {
     return (
-      <div className="flex h-44 items-center justify-center rounded-3xl border border-dashed border-border bg-card/50 text-muted-foreground">
+      <div className="flex h-44 items-center justify-center border border-dashed border-border bg-card/40 font-mono text-[0.72rem] uppercase tracking-widest text-muted-foreground">
         No enquiry statistics available.
       </div>
     );
   }
 
   return (
-    <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
+    <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
       {stats.map((item, index) => {
         const Icon = iconMap[item.icon];
-
         if (!Icon) return null;
-
         return (
           <motion.div
             key={item.label}
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: index * 0.07,
-              duration: 0.4,
-            }}
-            whileHover={{
-              y: -5,
-            }}
-            className="
-              group
-              relative
-              overflow-hidden
-              rounded-3xl
-              border
-              border-border/50
-              bg-background/70
-              p-5
-              shadow-sm
-              backdrop-blur-xl
-              transition-all
-              duration-300
-              hover:border-primary/20
-              hover:shadow-xl
-              hover:shadow-primary/5
-            "
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.07, duration: 0.4, ease: "easeOut" }}
+            className="group relative overflow-hidden border border-border bg-card/40 px-5 py-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60"
           >
+            <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+            <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />
+
             <div
-              className="
-                absolute
-                -right-12
-                -top-12
-                h-32
-                w-32
-                rounded-full
-                bg-primary/5
-                blur-3xl
-                transition-all
-                duration-500
-                group-hover:bg-primary/10
-              "
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--color-primary) 8%, transparent), transparent 75%)",
+              }}
             />
 
             <div className="relative flex items-start justify-between">
               <div
-                className="
-                  flex
-                  h-12
-                  w-12
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-primary/10
-                  text-primary
-                  transition-all
-                  duration-300
-                  group-hover:scale-105
-                  group-hover:bg-primary
-                  group-hover:text-white
-                "
+                className="flex h-11 w-11 items-center justify-center border border-border bg-linear-to-br from-primary to-secondary-foreground text-white transition-all duration-300 group-hover:scale-105"
+                style={{
+                  clipPath:
+                    "polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%)",
+                }}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4.5 w-4.5" />
               </div>
-
-              <div
-                className="
-                  rounded-full
-                  border
-                  border-emerald-500/20
-                  bg-emerald-500/10
-                  px-3
-                  py-1
-                  text-[11px]
-                  font-semibold
-                  tracking-wide
-                  text-emerald-500
-                "
-              >
+              <span className="border border-chart-3/30 bg-chart-3/10 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-chart-3">
                 {item.growth}
-              </div>
+              </span>
             </div>
 
-            <div className="relative mt-6">
-              <p
-                className="
-                  text-sm
-                  font-medium
-                  text-muted-foreground
-                "
-              >
+            <div className="relative mt-5">
+              <p className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
                 {item.label}
               </p>
-
-              <h2
-                className="
-                  mt-2
-                  text-3xl
-                  font-black
-                  tracking-tight
-                  text-foreground
-                "
-              >
+              <h2 className="mt-2 bg-linear-to-br from-primary to-chart-3 bg-clip-text text-3xl font-bold text-transparent">
                 {item.value}
               </h2>
             </div>
 
-            <div
-              className="
-                absolute
-                bottom-0
-                left-0
-                h-1
-                w-0
-                rounded-full
-                bg-primary
-                transition-all
-                duration-500
-                group-hover:w-full
-              "
-            />
+            <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-primary to-chart-3 transition-all duration-500 group-hover:w-full" />
           </motion.div>
         );
       })}

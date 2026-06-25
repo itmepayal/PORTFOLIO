@@ -13,11 +13,11 @@ import {
   Calendar,
   Globe,
   BadgeCheck,
+  Sparkles,
+  Layers3,
+  ArrowUpRight,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 interface ExperienceCardProps {
   experience: {
@@ -42,11 +42,12 @@ interface ExperienceCardProps {
 const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
+
   const handleEdit = () => {
-    if (experience._id) {
+    if (experience._id)
       router.push(`/dashboard/experiences/edit/${experience._id}`);
-    }
   };
+
   const handleDelete = async () => {
     if (!experience._id) return;
     const confirmed = window.confirm(
@@ -59,9 +60,8 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
         method: "DELETE",
       });
       const data = await response.json();
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(data.message || "Failed to delete experience");
-      }
       toast.success("Experience deleted successfully");
       onDelete?.(experience._id);
     } catch (error: any) {
@@ -75,127 +75,168 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -6 }}
       transition={{ duration: 0.4 }}
-      className="h-full"
+      className="group relative h-full overflow-hidden border border-border bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60"
     >
-      <Card className="overflow-hidden border bg-background transition-all hover:shadow-lg rounded-3xl">
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex gap-4">
-              {experience.companyLogo ? (
-                <Image
-                  src={experience.companyLogo}
-                  alt={experience.company}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 rounded-xl border object-cover"
-                />
-              ) : (
-                <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10">
-                  <Building2 className="h-7 w-7 text-primary" />
-                </div>
-              )}
+      {/* Corner accents */}
+      <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
+      <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
 
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="text-xl font-bold">{experience.position}</h2>
+      {/* Radial glow */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--color-primary) 8%, transparent), transparent 70%)",
+        }}
+      />
 
-                  {experience.featured && <Badge>Featured</Badge>}
-                </div>
-
-                <p className="font-medium text-primary">{experience.company}</p>
-
-                <div className="mt-2 flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4" />
-                    {experience.location}
-                  </span>
-
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    {experience.startDate} -{" "}
-                    {experience.current ? "Present" : experience.endDate}
-                  </span>
-                </div>
+      <div className="relative z-1 flex h-full flex-col gap-6 p-6 md:p-7">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-4">
+            {/* Logo */}
+            {experience.companyLogo ? (
+              <Image
+                src={experience.companyLogo}
+                alt={experience.company}
+                width={48}
+                height={48}
+                className="h-12 w-12 border border-border object-cover"
+              />
+            ) : (
+              <div className="flex h-12 w-12 items-center justify-center border border-border bg-primary/10">
+                <Building2 className="h-5 w-5 text-primary" />
               </div>
-            </div>
-
-            <div className="flex gap-2">
-              <Button size="icon" variant="outline" onClick={handleEdit}>
-                <Pencil className="h-4 w-4" />
-              </Button>
-
-              <Button
-                size="icon"
-                variant="destructive"
-                onClick={handleDelete}
-                disabled={deleting}
-              >
-                {deleting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <p className="text-muted-foreground leading-7 line-clamp-3">
-              {experience.description}
-            </p>
-          </div>
-
-          {experience.responsibilities?.length > 0 && (
-            <div className="mt-5">
-              <h3 className="mb-2 font-semibold">Responsibilities</h3>
-
-              <ul className="space-y-2">
-                {experience.responsibilities.map((item, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm">
-                    <BadgeCheck className="mt-0.5 h-4 w-4 text-green-500 shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {experience.technologies?.length > 0 && (
-            <div className="mt-5">
-              <h3 className="mb-2 font-semibold">Technologies</h3>
-
-              <div className="flex flex-wrap gap-2">
-                {experience.technologies.map((tech) => (
-                  <Badge key={tech} variant="secondary">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="mt-6 flex items-center justify-between border-t pt-4">
-            <div className="text-sm text-muted-foreground">
-              Order: #{experience.order || 0}
-            </div>
-
-            {experience.companyWebsite && (
-              <Button variant="outline" size="sm" asChild>
-                <a
-                  href={experience.companyWebsite}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Globe className="mr-2 h-4 w-4" />
-                  Website
-                </a>
-              </Button>
             )}
+            <div className="flex flex-wrap gap-2">
+              {/* Current badge */}
+              <span
+                className={`inline-flex items-center gap-1.5 border px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest ${
+                  experience.current
+                    ? "border-chart-3/30 bg-chart-3/10 text-chart-3"
+                    : "border-border bg-muted text-muted-foreground"
+                }`}
+              >
+                <Calendar className="h-3 w-3" />
+                {experience.current ? "Current" : "Past"}
+              </span>
+              {experience.featured && (
+                <span className="inline-flex items-center gap-1.5 border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest text-yellow-500">
+                  <Sparkles className="h-3 w-3" />
+                  Featured
+                </span>
+              )}
+            </div>
           </div>
-        </CardContent>
-      </Card>
+          {/* Action buttons */}
+          <div className="flex shrink-0 gap-2">
+            <button
+              onClick={handleEdit}
+              className="flex h-9 w-9 items-center justify-center border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+            </button>
+            <button
+              disabled={deleting}
+              onClick={handleDelete}
+              className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
+            >
+              {deleting ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Trash2 className="h-3.5 w-3.5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Title & Meta */}
+        <div>
+          <h2 className="text-2xl font-bold tracking-[-0.02em] text-foreground transition-colors group-hover:text-primary md:text-3xl">
+            {experience.position}
+          </h2>
+          <p className="mt-1 font-mono text-[0.75rem] uppercase tracking-[0.05em] text-primary">
+            {experience.company}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-4">
+            <span className="flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+              <MapPin className="h-3 w-3 text-primary" />
+              {experience.location}
+            </span>
+            <span className="flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+              <Calendar className="h-3 w-3 text-primary" />
+              {experience.startDate} —{" "}
+              {experience.current ? "Present" : experience.endDate}
+            </span>
+          </div>
+          <p className="mt-3 text-sm font-light leading-7 text-muted-foreground line-clamp-3">
+            {experience.description}
+          </p>
+        </div>
+
+        {/* Responsibilities + Technologies */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {experience.responsibilities?.length > 0 && (
+            <div>
+              <p className="mb-3 flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                Responsibilities
+              </p>
+              <div className="space-y-2">
+                {experience.responsibilities.slice(0, 4).map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2.5 border border-border bg-background/40 px-3 py-2"
+                  >
+                    <div className="h-1.5 w-1.5 shrink-0 bg-primary" />
+                    <span className="text-sm text-muted-foreground line-clamp-1">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {experience.technologies?.length > 0 && (
+            <div>
+              <p className="mb-3 flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+                <Layers3 className="h-3.5 w-3.5 text-primary" />
+                Technologies
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {experience.technologies.slice(0, 8).map((tech) => (
+                  <span
+                    key={tech}
+                    className="border border-border bg-background/40 px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-wide text-muted-foreground"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer CTA */}
+        <div className="mt-auto flex flex-col gap-3 pt-4">
+          {experience.companyWebsite && (
+            <a
+              href={experience.companyWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/btn inline-flex items-center justify-center gap-2.5 bg-linear-to-br from-primary to-secondary-foreground px-6 py-3 font-mono text-[0.75rem] uppercase tracking-[0.05em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
+              style={{
+                clipPath:
+                  "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+              }}
+            >
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
+              Visit Website
+            </a>
+          )}
+        </div>
+      </div>
     </motion.div>
   );
 };

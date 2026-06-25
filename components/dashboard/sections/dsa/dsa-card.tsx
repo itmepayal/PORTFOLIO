@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { motion } from "framer-motion";
-
 import {
   Brain,
   Sparkles,
@@ -14,16 +12,7 @@ import {
   Trash2,
   Loader2,
 } from "lucide-react";
-
 import { toast } from "sonner";
-
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
 
 interface DSACardProps {
   dsa: {
@@ -36,76 +25,39 @@ interface DSACardProps {
     problemsSolved: number;
     featured?: boolean;
   };
-
   onDelete?: (id: string) => void;
 }
 
-/* ====================================================== */
-/* CATEGORY COLORS */
-/* ====================================================== */
-
-const categoryStyles = {
-  leetcode:
-    "bg-yellow-500/15 text-yellow-600 dark:text-yellow-400 border-yellow-500/20",
-
-  striver:
-    "bg-violet-500/15 text-violet-600 dark:text-violet-400 border-violet-500/20",
-
-  codeforces:
-    "bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/20",
-
-  gfg: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-
-  custom: "bg-muted text-muted-foreground border-border/50",
+const categoryStyles: Record<string, string> = {
+  leetcode: "border-yellow-500/30 bg-yellow-500/10 text-yellow-500",
+  striver: "border-violet-500/30 bg-violet-500/10 text-violet-400",
+  codeforces: "border-blue-500/30 bg-blue-500/10 text-blue-400",
+  gfg: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+  custom: "border-border bg-muted text-muted-foreground",
 };
-
-/* ====================================================== */
-/* COMPONENT */
-/* ====================================================== */
 
 const DSACard = ({ dsa, onDelete }: DSACardProps) => {
   const router = useRouter();
-
   const [deleting, setDeleting] = useState(false);
-
-  /* ====================================================== */
-  /* EDIT */
-  /* ====================================================== */
 
   const handleEdit = () => {
     if (!dsa._id) return;
-
     router.push(`/dashboard/dsa/edit/${dsa._id}`);
   };
 
-  /* ====================================================== */
-  /* DELETE */
-  /* ====================================================== */
-
   const handleDelete = async () => {
     if (!dsa._id) return;
-
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this DSA entry?",
     );
-
     if (!confirmDelete) return;
-
     try {
       setDeleting(true);
-
-      const response = await fetch(`/api/dsa/${dsa._id}`, {
-        method: "DELETE",
-      });
-
+      const response = await fetch(`/api/dsa/${dsa._id}`, { method: "DELETE" });
       const data = await response.json();
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(data.message || "Failed to delete DSA entry");
-      }
-
       toast.success("DSA entry deleted successfully");
-
       onDelete?.(dsa._id);
     } catch (error: any) {
       toast.error(error.message);
@@ -114,170 +66,122 @@ const DSACard = ({ dsa, onDelete }: DSACardProps) => {
     }
   };
 
+  const progressNum = parseInt(dsa.progress) || 0;
+
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        duration: 0.4,
-      }}
-      whileHover={{
-        y: -4,
-      }}
+      initial={{ opacity: 0, y: 25 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="group relative h-full overflow-hidden border border-border bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60"
     >
-      <Card className=" group overflow-hidden rounded-3xl border border-border/50 bg-transperent backdrop-blur-xl transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5">
-        <CardContent className="p-6 md:p-8">
-          <div className="mb-6 flex items-start justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge
-                className={` border capitalize ${categoryStyles[dsa.category]}`}
-              >
-                <Brain className="mr-1 h-3.5 w-3.5" />
-                {dsa.category}
-              </Badge>
-              {dsa.featured && (
-                <Badge
-                  className="
-                    border-0
-                    bg-primary/10
-                    text-primary
-                  "
-                >
-                  <Sparkles className="mr-1 h-3.5 w-3.5" />
-                  Featured
-                </Badge>
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={handleEdit}
-                className="
-                  h-10
-                  w-10
-                  rounded-xl
-                "
-              >
-                <Pencil className="h-4 w-4" />
-              </Button>
-              <Button
-                size="icon"
-                variant="destructive"
-                onClick={handleDelete}
-                disabled={deleting}
-                className="
-                  h-10
-                  w-10
-                  rounded-xl
-                "
-              >
-                {deleting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Trash2 className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
+      {/* Corner accents */}
+      <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
+      <span className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70 z-10" />
+
+      {/* Radial glow */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--color-primary) 8%, transparent), transparent 70%)",
+        }}
+      />
+
+      <div className="relative z-1 flex h-full flex-col gap-6 p-6 md:p-7">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-wrap gap-2">
+            <span
+              className={`inline-flex items-center gap-1.5 border px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest ${categoryStyles[dsa.category]}`}
+            >
+              <Brain className="h-3 w-3" />
+              {dsa.category}
+            </span>
+            {dsa.featured && (
+              <span className="inline-flex items-center gap-1.5 border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest text-yellow-500">
+                <Sparkles className="h-3 w-3" />
+                Featured
+              </span>
+            )}
           </div>
-          <h2
-            className="
-              text-2xl
-              font-bold
-              tracking-tight
-              transition-colors
-              duration-300
-              group-hover:text-primary
-            "
-          >
+          {/* Action buttons */}
+          <div className="flex shrink-0 gap-2">
+            <button
+              onClick={handleEdit}
+              className="flex h-9 w-9 items-center justify-center border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+            </button>
+            <button
+              disabled={deleting}
+              onClick={handleDelete}
+              className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
+            >
+              {deleting ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Trash2 className="h-3.5 w-3.5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Title & Subtitle */}
+        <div>
+          <h2 className="text-2xl font-bold tracking-[-0.02em] text-foreground transition-colors group-hover:text-primary md:text-3xl">
             {dsa.title}
           </h2>
-          <p className="mt-2 font-medium text-primary">{dsa.subtitle}</p>
-          <p
-            className="
-              mt-5
-              text-sm
-              leading-7
-              line-clamp-4
-              text-muted-foreground
-            "
-          >
+          <p className="mt-1 font-mono text-[0.75rem] uppercase tracking-[0.05em] text-primary">
+            {dsa.subtitle}
+          </p>
+          <p className="mt-3 text-sm font-light leading-7 text-muted-foreground line-clamp-3">
             {dsa.desc}
           </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div
-              className="
-                rounded-2xl
-                border
-                border-border/50
-                bg-muted/30
-                p-5
-              "
-            >
-              <div className="mb-2 flex items-center gap-2">
-                <Trophy className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">
-                  Problems Solved
-                </span>
-              </div>
-              <h3 className="text-3xl font-black">{dsa.problemsSolved}</h3>
+        </div>
+
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="border border-border bg-background/40 p-4">
+            <div className="mb-2 flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+              <Trophy className="h-3.5 w-3.5 text-primary" />
+              Problems Solved
             </div>
-            <div
-              className="
-                rounded-2xl
-                border
-                border-border/50
-                bg-muted/30
-                p-5
-              "
-            >
-              <div className="mb-2 flex items-center gap-2">
-                <Target className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">Progress</span>
-              </div>
-              <h3 className="text-3xl font-black">{dsa.progress}</h3>
-            </div>
+            <p className="text-3xl font-black text-foreground">
+              {dsa.problemsSolved}
+            </p>
           </div>
-          <div className="mt-8">
-            <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Learning Progress</span>
-              <span className="font-medium">{dsa.progress}</span>
+          <div className="border border-border bg-background/40 p-4">
+            <div className="mb-2 flex items-center gap-2 font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+              <Target className="h-3.5 w-3.5 text-primary" />
+              Progress
             </div>
-            <div
-              className="
-                h-2.5
-                overflow-hidden
-                rounded-full
-                bg-muted
-              "
-            >
-              <motion.div
-                initial={{
-                  width: 0,
-                }}
-                animate={{
-                  width: dsa.progress,
-                }}
-                transition={{
-                  duration: 1,
-                  ease: "easeOut",
-                }}
-                className="
-                  h-full
-                  rounded-full
-                  bg-primary
-                "
-              />
-            </div>
+            <p className="text-3xl font-black text-foreground">
+              {dsa.progress}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mt-auto">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="font-mono text-[0.62rem] uppercase tracking-widest text-muted-foreground">
+              Learning Progress
+            </p>
+            <span className="font-mono text-[0.62rem] font-medium text-foreground">
+              {dsa.progress}
+            </span>
+          </div>
+          <div className="h-1.5 w-full bg-muted">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progressNum}%` }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="h-full bg-primary"
+            />
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 };
