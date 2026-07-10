@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "../common/Container";
-import { TbBrandGithub } from "react-icons/tb";
+import {
+  TbBrandGithub,
+  TbFlame,
+  TbTrophy,
+  TbBolt,
+  TbGitCommit,
+} from "react-icons/tb";
 
 const GITHUB_USERNAME = "itmepayal";
 
@@ -21,20 +27,27 @@ const MONTHS = [
   "Dec",
 ];
 
+const DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const CELL_PX = 12;
+const GAP_PX = 4;
+const STEP_PX = CELL_PX + GAP_PX;
+const WEEKDAY_COL_PX = 34;
+
 const LEVEL_BG: Record<number, string> = {
   0: "var(--gh-cell, #161b22)",
   1: "var(--gh-l1, #0e4429)",
   2: "var(--gh-l2, #006d32)",
   3: "var(--gh-l3, #26a641)",
   4: "var(--gh-l4, #39d353)",
-};
-
-const LEVEL_LABELS: Record<number, string> = {
-  0: "No",
-  1: "1–2",
-  2: "3–5",
-  3: "6–9",
-  4: "10+",
 };
 
 type ApiContribution = {
@@ -95,49 +108,27 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
   const sortedAsc = [...contributions].sort((a, b) =>
     a.date.localeCompare(b.date),
   );
-
   const byDate: Record<string, ApiContribution> = {};
   for (const c of sortedAsc) byDate[c.date] = c;
 
   let totalContributions = 0;
   let bestDay = 0;
   const dowCounts = [0, 0, 0, 0, 0, 0, 0];
-  const DAYS = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
 
   for (const c of sortedAsc) {
     totalContributions += c.count;
     if (c.count > bestDay) bestDay = c.count;
-    const d = parseLocalDate(c.date);
-    dowCounts[d.getDay()] += c.count;
+    dowCounts[parseLocalDate(c.date).getDay()] += c.count;
   }
 
-  const sortedDesc = [...sortedAsc].reverse();
   let currentStreak = 0;
+  for (let i = sortedAsc.length - 1; i >= 0; i--) {
+    if (sortedAsc[i].count > 0) currentStreak++;
+    else break;
+  }
+
   let longestStreak = 0;
   let streak = 0;
-  for (const c of sortedDesc) {
-    if (c.count > 0) {
-      streak++;
-      if (streak > longestStreak) longestStreak = streak;
-    } else {
-      if (streak > 0 && currentStreak === 0) {
-      }
-      if (currentStreak === 0 && streak === 0) {
-      }
-      break;
-    }
-  }
-  currentStreak = streak;
-  longestStreak = 0;
-  streak = 0;
   for (const c of sortedAsc) {
     if (c.count > 0) {
       streak++;
@@ -149,7 +140,6 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
 
   const bestDowIndex = dowCounts.indexOf(Math.max(...dowCounts));
   const bestDayOfWeek = DAYS[bestDowIndex] + "s";
-
   const avgPerDay = (totalContributions / sortedAsc.length).toFixed(1);
 
   const firstDate = parseLocalDate(sortedAsc[0].date);
@@ -157,7 +147,6 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
 
   const gridStart = new Date(firstDate);
   gridStart.setDate(gridStart.getDate() - gridStart.getDay());
-
   const gridEnd = new Date(lastDate);
   gridEnd.setDate(gridEnd.getDate() + (6 - gridEnd.getDay()));
 
@@ -213,6 +202,25 @@ function buildCalendar(contributions: ApiContribution[]): CalendarData {
   };
 }
 
+const HeatmapSkeleton = () => (
+  <div className="flex gap-1 overflow-hidden">
+    {Array.from({ length: 53 }).map((_, wi) => (
+      <div key={wi} className="flex flex-col gap-1">
+        {Array.from({ length: 7 }).map((_, di) => (
+          <div
+            key={di}
+            className="h-3 w-3 rounded-[3px] bg-muted/40"
+            style={{
+              animation: "gh-pulse 1.6s ease-in-out infinite",
+              animationDelay: `${(wi * 7 + di) * 6}ms`,
+            }}
+          />
+        ))}
+      </div>
+    ))}
+  </div>
+);
+
 export const GithubPanel = () => {
   const [calData, setCalData] = useState<CalendarData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -233,8 +241,7 @@ export const GithubPanel = () => {
         );
         if (!res.ok) throw new Error("API error");
         const data = await res.json();
-        const built = buildCalendar(data.contributions as ApiContribution[]);
-        setCalData(built);
+        setCalData(buildCalendar(data.contributions as ApiContribution[]));
       } catch (e) {
         console.error(e);
         setError(true);
@@ -248,14 +255,55 @@ export const GithubPanel = () => {
   const now = new Date();
   const yearLabel = `${MONTHS[now.getMonth()]} ${now.getFullYear() - 1} — ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
 
+  const stats = calData
+    ? [
+        {
+          value: calData.totalContributions.toLocaleString(),
+          label: "Contributions",
+          icon: TbGitCommit,
+          accent: "text-primary",
+        },
+        {
+          value: calData.currentStreak,
+          suffix: " days",
+          label: "Current streak",
+          icon: TbFlame,
+          accent:
+            calData.currentStreak > 0
+              ? "text-orange-400"
+              : "text-muted-foreground",
+        },
+        {
+          value: calData.longestStreak,
+          suffix: " days",
+          label: "Longest streak",
+          icon: TbTrophy,
+          accent: "text-amber-400",
+        },
+        {
+          value: calData.bestDay,
+          label: "Best day",
+          icon: TbBolt,
+          accent: "text-cyan",
+        },
+      ]
+    : [];
+
   return (
     <Container>
+      <style>{`
+        @keyframes gh-pulse {
+          0%, 100% { opacity: 0.35; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
+
       <section
         id="github-contrib"
         className="py-10 sm:py-12 md:py-16 lg:py-20 bg-secondary"
       >
         <div className="mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-          <div className="reveal mb-8 sm:mb-10 flex flex-wrap items-end gap-4 sm:gap-6">
+          <div className="reveal mb-2 flex flex-wrap items-end gap-4 sm:gap-6">
             <div>
               <div className="mb-1 font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase">
                 03 — GITHUB
@@ -270,175 +318,202 @@ export const GithubPanel = () => {
             </div>
           </div>
 
-          {loading ? (
-            <div className="reveal mb-6 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4 animate-pulse">
-              {[...Array(4)].map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem]"
-                >
-                  <div className="h-8 w-16 bg-muted rounded mb-2" />
-                  <div className="h-3 w-24 bg-muted rounded" />
+          <p className="reveal mb-8 sm:mb-10 max-w-md font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
+            A year of shipped work, one square at a time.
+          </p>
+
+          <div className="reveal flex flex-col gap-6 lg:flex-row">
+            <div className="lg:w-[35%]">
+              {loading ? (
+                <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
+                  {[...Array(4)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem]"
+                    >
+                      <div
+                        className="mb-3 h-7 w-16 rounded bg-muted/40"
+                        style={{
+                          animation: "gh-pulse 1.6s ease-in-out infinite",
+                        }}
+                      />
+                      <div
+                        className="h-3 w-24 rounded bg-muted/40"
+                        style={{
+                          animation: "gh-pulse 1.6s ease-in-out infinite",
+                          animationDelay: "150ms",
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            calData && (
-              <div className="reveal mb-6 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
-                {[
-                  {
-                    value: calData.totalContributions.toLocaleString(),
-                    label: "Contributions",
-                    suffix: "",
-                  },
-                  {
-                    value: calData.currentStreak,
-                    label: "Current Streak",
-                    suffix: " days",
-                    emoji: "🔥",
-                  },
-                  {
-                    value: calData.longestStreak,
-                    label: "Longest Streak",
-                    suffix: " days",
-                  },
-                  { value: calData.bestDay, label: "Best Day", suffix: "" },
-                ].map(({ value, label, suffix, emoji }) => (
-                  <div
-                    key={label}
-                    className="group relative overflow-hidden bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem] transition-colors hover:bg-card-h"
-                  >
-                    <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-primary to-cyan opacity-0 transition-opacity group-hover:opacity-100" />
-                    {emoji && (
-                      <span className="absolute right-4 top-4 sm:right-[1.3rem] sm:top-[1.2rem] text-base opacity-50">
-                        {emoji}
-                      </span>
-                    )}
-                    <div className="flex items-baseline gap-1 font-sans text-[1.6rem] sm:text-[1.9rem] font-bold leading-none">
-                      <span className="bg-linear-to-br from-primary to-cyan bg-clip-text text-transparent">
-                        {value}
-                      </span>
-                      {suffix && (
-                        <span className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-muted-foreground">
-                          {suffix}
-                        </span>
-                      )}
-                    </div>
-                    <div className="mt-2 font-mono text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.08em] text-muted-foreground">
-                      {label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )
-          )}
-
-          {loading ? (
-            <div className="reveal border border-border bg-card p-4 sm:p-6 h-40 animate-pulse" />
-          ) : error ? (
-            <div className="reveal border border-border bg-card p-6 flex items-center gap-3 font-mono text-[0.78rem] text-muted-foreground">
-              <TbBrandGithub className="text-xl shrink-0" />
-              Could not load contribution data. Check back later.
-            </div>
-          ) : (
-            calData && (
-              <div className="reveal overflow-x-auto border border-border bg-card p-4 sm:p-6 [-webkit-overflow-scrolling:touch]">
-                <div className="flex w-full min-w-150 flex-col gap-2">
-                  <div className="relative mb-2 h-3.5 pl-8.5">
-                    {calData.monthLabels.map((m, i) => (
-                      <span
-                        key={`${m.label}-${i}`}
-                        className="absolute whitespace-nowrap font-mono text-[0.63rem] text-muted-foreground"
-                        style={{ left: `${34 + m.weekIndex * 16}px` }}
-                      >
-                        {m.label}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-1">
-                    <div className="mr-2 flex flex-col gap-1 pt-px">
-                      {["", "Mon", "", "Wed", "", "Fri", ""].map((d, i) => (
+              ) : (
+                calData && (
+                  <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
+                    {stats.map(
+                      ({ value, label, suffix, icon: Icon, accent }) => (
                         <div
-                          key={i}
-                          className="h-3 font-mono text-[0.6rem] leading-3 text-muted-foreground"
+                          key={label}
+                          className="group relative overflow-hidden bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem] transition-colors hover:bg-card-h"
                         >
-                          {d}
+                          <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-primary to-cyan opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                          <Icon
+                            className={`absolute right-4 top-4 sm:right-[1.3rem] sm:top-[1.2rem] text-base opacity-40 transition-opacity group-hover:opacity-70 ${accent}`}
+                          />
+                          <div className="flex items-baseline gap-1 font-sans text-[1.6rem] tabular-nums sm:text-[1.9rem] font-bold leading-none">
+                            <span className="bg-linear-to-br from-primary to-cyan bg-clip-text text-transparent">
+                              {value}
+                            </span>
+                            {suffix && (
+                              <span className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-muted-foreground">
+                                {suffix}
+                              </span>
+                            )}
+                          </div>
+                          <div className="mt-2 font-mono text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.08em] text-muted-foreground">
+                            {label}
+                          </div>
                         </div>
-                      ))}
+                      ),
+                    )}
+                  </div>
+                )
+              )}
+            </div>
+
+            <div className="lg:w-[65%]">
+              {loading ? (
+                <div className="h-full border border-border bg-card p-4 sm:p-6">
+                  <div
+                    className="mb-4 h-3.5 w-40 rounded bg-muted/40"
+                    style={{ animation: "gh-pulse 1.6s ease-in-out infinite" }}
+                  />
+                  <div className="overflow-hidden pl-8.5">
+                    <HeatmapSkeleton />
+                  </div>
+                </div>
+              ) : error ? (
+                <div className="flex h-full items-center gap-3 border border-border bg-card p-6 font-mono text-[0.78rem] text-muted-foreground">
+                  <TbBrandGithub className="shrink-0 text-xl" />
+                  Couldn&apos;t load contribution data. Check back later.
+                </div>
+              ) : (
+                calData && (
+                  <div className="h-full overflow-x-auto border border-border bg-card p-4 sm:p-6 [-webkit-overflow-scrolling:touch]">
+                    <div className="flex w-full min-w-150 flex-col gap-2">
+                      <div
+                        className="relative mb-2 h-3.5"
+                        style={{ paddingLeft: WEEKDAY_COL_PX }}
+                      >
+                        {calData.monthLabels.map((m, i) => (
+                          <span
+                            key={`${m.label}-${i}`}
+                            className="absolute whitespace-nowrap font-mono text-[0.63rem] text-muted-foreground"
+                            style={{
+                              left: WEEKDAY_COL_PX + m.weekIndex * STEP_PX,
+                            }}
+                          >
+                            {m.label}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex gap-1">
+                        <div
+                          className="mr-2 flex flex-col gap-1 pt-px"
+                          style={{ width: WEEKDAY_COL_PX - 8 }}
+                        >
+                          {["", "Mon", "", "Wed", "", "Fri", ""].map((d, i) => (
+                            <div
+                              key={i}
+                              className="h-3 font-mono text-[0.6rem] leading-3 text-muted-foreground"
+                            >
+                              {d}
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="flex flex-1 gap-1">
+                          {calData.weeks.map((week, wi) => (
+                            <div key={wi} className="flex flex-col gap-1">
+                              {week.map((cell, di) => (
+                                <div
+                                  key={di}
+                                  className={[
+                                    "h-3 w-3 rounded-[3px] transition-transform duration-150 motion-reduce:transition-none",
+                                    cell.level === -1
+                                      ? "invisible"
+                                      : "cursor-default hover:z-10 hover:scale-125 hover:ring-2 hover:ring-primary motion-reduce:hover:scale-100",
+                                    cell.level === 0
+                                      ? "shadow-[inset_0_0_0_1px_var(--border)]"
+                                      : "",
+                                  ].join(" ")}
+                                  style={{
+                                    backgroundColor:
+                                      cell.level === -1
+                                        ? undefined
+                                        : LEVEL_BG[cell.level],
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    if (cell.level === -1) return;
+                                    const r = (
+                                      e.target as HTMLDivElement
+                                    ).getBoundingClientRect();
+                                    setHover({
+                                      x: r.left + r.width / 2,
+                                      y: r.top,
+                                      text: cell.title,
+                                    });
+                                  }}
+                                  onMouseLeave={() => setHover(null)}
+                                />
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="flex flex-1 gap-1">
-                      {calData.weeks.map((week, wi) => (
-                        <div key={wi} className="flex flex-col gap-1">
-                          {week.map((cell, di) => (
-                            <div
-                              key={di}
+                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
+                      <p className="font-mono text-[0.68rem] sm:text-xs text-muted-foreground">
+                        Most active on{" "}
+                        <span className="font-semibold text-green">
+                          {calData.bestDayOfWeek}
+                        </span>{" "}
+                        · avg{" "}
+                        <span className="font-semibold text-green">
+                          {calData.avgPerDay}
+                        </span>
+                        /day
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[0.62rem] text-muted-foreground">
+                          Less
+                        </span>
+                        <div className="flex gap-0.75">
+                          {[0, 1, 2, 3, 4].map((l) => (
+                            <span
+                              key={l}
                               className={[
-                                "h-3 w-3 rounded-[3px] transition-transform duration-150",
-                                cell.level === -1
-                                  ? "invisible"
-                                  : "cursor-default hover:z-10 hover:scale-125 hover:ring-2 hover:ring-primary",
+                                "h-3 w-3 rounded-[3px]",
+                                l === 0
+                                  ? "shadow-[inset_0_0_0_1px_var(--border)]"
+                                  : "",
                               ].join(" ")}
-                              style={{
-                                backgroundColor:
-                                  cell.level === -1
-                                    ? undefined
-                                    : LEVEL_BG[cell.level],
-                              }}
-                              onMouseEnter={(e) => {
-                                if (cell.level === -1) return;
-                                const r = (
-                                  e.target as HTMLDivElement
-                                ).getBoundingClientRect();
-                                setHover({
-                                  x: r.left + r.width / 2,
-                                  y: r.top,
-                                  text: cell.title,
-                                });
-                              }}
-                              onMouseLeave={() => setHover(null)}
+                              style={{ backgroundColor: LEVEL_BG[l] }}
                             />
                           ))}
                         </div>
-                      ))}
+                        <span className="font-mono text-[0.62rem] text-muted-foreground">
+                          More
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
-                  <p className="font-mono text-[0.68rem] sm:text-xs text-muted-foreground">
-                    Most active on{" "}
-                    <span className="font-semibold text-green">
-                      {calData.bestDayOfWeek}
-                    </span>{" "}
-                    · avg{" "}
-                    <span className="font-semibold text-green">
-                      {calData.avgPerDay}
-                    </span>
-                    /day
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-[0.62rem] text-muted-foreground">
-                      Less
-                    </span>
-                    <div className="flex gap-0.75">
-                      {[0, 1, 2, 3, 4].map((l) => (
-                        <span
-                          key={l}
-                          className="h-3 w-3 rounded-[3px]"
-                          style={{ backgroundColor: LEVEL_BG[l] }}
-                        />
-                      ))}
-                    </div>
-                    <span className="font-mono text-[0.62rem] text-muted-foreground">
-                      More
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )
-          )}
+                )
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -448,6 +523,10 @@ export const GithubPanel = () => {
           style={{ left: hover.x, top: hover.y - 8 }}
         >
           {hover.text}
+          <span
+            className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 border-b border-r border-border bg-popover"
+            aria-hidden
+          />
         </div>
       )}
     </Container>
