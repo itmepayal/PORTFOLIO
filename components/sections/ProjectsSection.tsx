@@ -191,11 +191,10 @@ export const Projects = () => {
               <button
                 onClick={() => setViewMode("grid")}
                 aria-pressed={viewMode === "grid"}
-                className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 border-r border-border transition-colors whitespace-nowrap ${
-                  viewMode === "grid"
-                    ? "bg-primary text-white"
-                    : "bg-card text-muted-foreground hover:text-primary"
-                }`}
+                className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 border-r border-border transition-colors whitespace-nowrap ${viewMode === "grid"
+                  ? "bg-primary text-white"
+                  : "bg-card text-muted-foreground hover:text-primary"
+                  }`}
               >
                 <TbLayoutGrid className="text-[0.9rem]" />
                 Grid
@@ -203,11 +202,10 @@ export const Projects = () => {
               <button
                 onClick={() => setViewMode("list")}
                 aria-pressed={viewMode === "list"}
-                className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 transition-colors whitespace-nowrap ${
-                  viewMode === "list"
-                    ? "bg-primary text-white"
-                    : "bg-card text-muted-foreground hover:text-primary"
-                }`}
+                className={`inline-flex items-center gap-1.5 font-mono text-[0.62rem] sm:text-[0.65rem] tracking-[0.06em] px-2.5 sm:px-3 py-1.5 sm:py-2 transition-colors whitespace-nowrap ${viewMode === "list"
+                  ? "bg-primary text-white"
+                  : "bg-card text-muted-foreground hover:text-primary"
+                  }`}
               >
                 <TbList className="text-[0.9rem]" />
                 List
@@ -216,9 +214,8 @@ export const Projects = () => {
           </div>
 
           <div
-            className={`reveal mb-6 grid gap-px bg-border border border-border ${
-              viewMode === "list" ? "grid-cols-1" : "grid-cols-12"
-            }`}
+            className={`reveal mb-6 grid gap-px bg-border border border-border ${viewMode === "list" ? "grid-cols-1" : "grid-cols-12"
+              }`}
           >
             {loading ? (
               Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
@@ -357,11 +354,10 @@ export const Projects = () => {
                             aria-current={
                               currentPage === page ? "page" : undefined
                             }
-                            className={`font-mono text-[0.7rem] sm:text-[0.72rem] w-8 h-8 sm:w-8.5 sm:h-8.5 flex items-center justify-center border transition-colors ${
-                              currentPage === page
-                                ? "border-primary bg-primary text-white"
-                                : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
-                            }`}
+                            className={`font-mono text-[0.7rem] sm:text-[0.72rem] w-8 h-8 sm:w-8.5 sm:h-8.5 flex items-center justify-center border transition-colors ${currentPage === page
+                              ? "border-primary bg-primary text-white"
+                              : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
+                              }`}
                           >
                             {page}
                           </button>
