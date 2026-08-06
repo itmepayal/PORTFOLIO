@@ -257,36 +257,36 @@ export const GithubPanel = () => {
 
   const stats = calData
     ? [
-        {
-          value: calData.totalContributions.toLocaleString(),
-          label: "Contributions",
-          icon: TbGitCommit,
-          accent: "text-primary",
-        },
-        {
-          value: calData.currentStreak,
-          suffix: " days",
-          label: "Current streak",
-          icon: TbFlame,
-          accent:
-            calData.currentStreak > 0
-              ? "text-orange-400"
-              : "text-muted-foreground",
-        },
-        {
-          value: calData.longestStreak,
-          suffix: " days",
-          label: "Longest streak",
-          icon: TbTrophy,
-          accent: "text-amber-400",
-        },
-        {
-          value: calData.bestDay,
-          label: "Best day",
-          icon: TbBolt,
-          accent: "text-cyan",
-        },
-      ]
+      {
+        value: calData.totalContributions.toLocaleString(),
+        label: "Contributions",
+        icon: TbGitCommit,
+        accent: "text-primary",
+      },
+      {
+        value: calData.currentStreak,
+        suffix: " days",
+        label: "Current streak",
+        icon: TbFlame,
+        accent:
+          calData.currentStreak > 0
+            ? "text-orange-400"
+            : "text-muted-foreground",
+      },
+      {
+        value: calData.longestStreak,
+        suffix: " days",
+        label: "Longest streak",
+        icon: TbTrophy,
+        accent: "text-amber-400",
+      },
+      {
+        value: calData.bestDay,
+        label: "Best day",
+        icon: TbBolt,
+        accent: "text-cyan",
+      },
+    ]
     : [];
 
   return (
