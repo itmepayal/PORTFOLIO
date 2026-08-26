@@ -1,10 +1,11 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  FolderKanban,
+  Brain,
   Sparkles,
   Layers3,
   Star,
@@ -112,8 +113,8 @@ const CreateDSA = () => {
       setProblemsSolved(0);
       setFeatured(false);
       setOrder(0);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -124,7 +125,7 @@ const CreateDSA = () => {
       <PageHeader
         title="Create DSA Profile"
         description="Track your problem-solving journey and coding achievements"
-        icon={<FolderKanban className="h-8 w-8" />}
+        icon={<Brain className="h-8 w-8" />}
         backHref="/dashboard/dsa"
         progress={formProgress}
       />

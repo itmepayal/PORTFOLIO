@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 import Project from "@/models/project";
 
@@ -39,6 +40,12 @@ export async function GET() {
       featured: true,
     });
 
+    const [companyProjects, freelanceProjects, selfProjects] = await Promise.all([
+      Project.countDocuments({ workType: "company" }),
+      Project.countDocuments({ workType: "freelance" }),
+      Project.countDocuments({ workType: "self" }),
+    ]);
+
     /* ====================================================== */
     /* RESPONSE */
     /* ====================================================== */
@@ -73,20 +80,39 @@ export async function GET() {
       },
     ];
 
+    const workTypeStats = [
+      {
+        label: "Company",
+        value: companyProjects,
+        workType: "company",
+      },
+      {
+        label: "Freelance",
+        value: freelanceProjects,
+        workType: "freelance",
+      },
+      {
+        label: "Self",
+        value: selfProjects,
+        workType: "self",
+      },
+    ];
+
     return Response.json(
       {
         success: true,
         stats,
+        workTypeStats,
       },
       {
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

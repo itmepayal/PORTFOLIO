@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import EnquiryHeader from "@/components/dashboard/sections/enquiries/EnquiryHeader";
 import EnquiryStats from "@/components/dashboard/sections/enquiries/EnquiryStats";
@@ -41,12 +41,12 @@ const Enquiries = () => {
     totalEnquiries: 0,
     totalPages: 1,
     currentPage: 1,
-    limit: 6,
+    limit: 3,
     hasNextPage: false,
     hasPrevPage: false,
   });
 
-  const fetchEnquiries = async () => {
+  const fetchEnquiries = useCallback(async () => {
     try {
       setLoading(true);
       const query = new URLSearchParams({
@@ -74,7 +74,7 @@ const Enquiries = () => {
           totalEnquiries: 0,
           totalPages: 1,
           currentPage: 1,
-          limit: 6,
+          limit: 3,
           hasNextPage: false,
           hasPrevPage: false,
         },
@@ -84,11 +84,11 @@ const Enquiries = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, activeFilter]);
 
   useEffect(() => {
     fetchEnquiries();
-  }, [page, search, activeFilter]);
+  }, [fetchEnquiries]);
 
   useEffect(() => {
     setPage(1);

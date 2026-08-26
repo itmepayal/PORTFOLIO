@@ -1,6 +1,7 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -36,7 +37,7 @@ const EditEnquiry = () => {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
 
-  const fetchEnquiry = async () => {
+  const fetchEnquiry = useCallback(async () => {
     try {
       setFetching(true);
       const response = await fetch(`/api/enquiries/${id}`);
@@ -49,16 +50,16 @@ const EditEnquiry = () => {
       setMessage(enquiry.message || "");
       setIsRead(enquiry.isRead || false);
       setReplied(enquiry.replied || false);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setFetching(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     if (id) fetchEnquiry();
-  }, [id]);
+  }, [id, fetchEnquiry]);
 
   const progress = useMemo(() => {
     let done = 0;
@@ -84,8 +85,8 @@ const EditEnquiry = () => {
         throw new Error(data.message || "Failed to update enquiry");
       toast.success("Enquiry updated successfully");
       router.push("/dashboard/enquiries");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

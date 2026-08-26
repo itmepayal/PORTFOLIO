@@ -1,3 +1,5 @@
+"use client";
+
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DSACardSkeleton = () => {
@@ -21,9 +23,9 @@ const DSACardSkeleton = () => {
 
         <div>
           <Skeleton className="h-9 w-3/4" />
-          <Skeleton className="mt-3 h-4 w-40" />
+          <Skeleton className="mt-1 h-4 w-40" />
 
-          <div className="mt-4 space-y-2">
+          <div className="mt-3 space-y-2">
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-[95%]" />
             <Skeleton className="h-4 w-[80%]" />

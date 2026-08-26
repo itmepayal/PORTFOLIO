@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,6 +15,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteConfirmDialog } from "@/components/dashboard/ui/DeleteConfirmDialog";
 
 interface EnquiryCardProps {
   enquiry: {
@@ -32,18 +34,14 @@ interface EnquiryCardProps {
 
 const EnquiryCard = ({
   enquiry,
-  view = "grid",
   onDelete,
 }: EnquiryCardProps) => {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleDelete = async () => {
+  const executeDelete = async () => {
     if (!enquiry._id) return;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this enquiry?",
-    );
-    if (!confirmDelete) return;
     try {
       setDeleting(true);
       const response = await fetch(`/api/enquiries/${enquiry._id}`, {
@@ -54,8 +52,9 @@ const EnquiryCard = ({
         throw new Error(data.message || "Failed to delete enquiry");
       toast.success("Enquiry deleted successfully");
       onDelete?.(enquiry._id);
-    } catch (error: any) {
-      toast.error(error.message);
+      setDeleteOpen(false);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDeleting(false);
     }
@@ -67,6 +66,7 @@ const EnquiryCard = ({
   };
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
@@ -121,7 +121,7 @@ const EnquiryCard = ({
             </button>
             <button
               disabled={deleting}
-              onClick={handleDelete}
+              onClick={() => setDeleteOpen(true)}
               className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
             >
               {deleting ? (
@@ -163,6 +163,16 @@ const EnquiryCard = ({
         </div>
       </div>
     </motion.div>
+
+    <DeleteConfirmDialog
+      open={deleteOpen}
+      onOpenChange={setDeleteOpen}
+      confirmText={enquiry.name}
+      entityLabel="enquiry"
+      onConfirm={executeDelete}
+      loading={deleting}
+    />
+    </>
   );
 };
 

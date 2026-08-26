@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
@@ -51,11 +52,11 @@ export async function GET(
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -118,11 +119,11 @@ export async function PUT(
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -181,11 +182,11 @@ export async function DELETE(
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 import Skill from "@/models/skills";
 
@@ -108,12 +109,12 @@ export async function GET() {
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
 
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

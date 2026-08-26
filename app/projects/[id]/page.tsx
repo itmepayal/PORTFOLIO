@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { HiArrowLeft, HiArrowRight, HiExternalLink } from "react-icons/hi";
@@ -25,6 +27,7 @@ import {
   SiNextdotjs,
 } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
+import { getProjectWorkTypeLabel } from "@/lib/project";
 
 const iconMap = {
   FaNodeJs,
@@ -66,6 +69,8 @@ interface Project {
   image: string;
   featured: boolean;
   category: string;
+  workType?: "company" | "freelance" | "self";
+  company?: string;
   createdAt: string;
 }
 
@@ -165,7 +170,11 @@ const ProjectDetailPage = () => {
         setLoading(true);
         const res = await fetch(`/api/projects/${id}`);
         const data = await res.json();
-        data.success ? setProject(data.project) : setError(true);
+        if (data.success) {
+          setProject(data.project);
+        } else {
+          setError(true);
+        }
       } catch {
         setError(true);
       } finally {
@@ -210,10 +219,12 @@ const ProjectDetailPage = () => {
             style={{ background: accentLine }}
           />
           <div className="relative h-64 w-full overflow-hidden sm:h-80 md:h-96">
-            <img
+            <Image
               src={project.image}
               alt={project.title}
-              className="h-full w-full object-cover"
+              unoptimized
+              fill
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
           </div>
@@ -222,6 +233,14 @@ const ProjectDetailPage = () => {
               <span className="font-mono text-[0.62rem] uppercase tracking-[0.15em] text-cyan">
                 {project.category}
               </span>
+              <span className="border border-cyan/40 px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-widest text-cyan">
+                {getProjectWorkTypeLabel(project.workType)}
+              </span>
+              {project.workType === "company" && project.company && (
+                <span className="border border-primary/40 px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-widest text-primary">
+                  {project.company}
+                </span>
+              )}
               {project.featured && (
                 <span className="border border-orange/40 px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-widest text-orange">
                   ★ Featured
@@ -243,7 +262,7 @@ const ProjectDetailPage = () => {
 
       <section className="px-[5%] pt-px">
         <div className="mx-auto max-w-300">
-          <div className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3">
             <StatBlock
               label="Live demo"
               value={
@@ -268,6 +287,18 @@ const ProjectDetailPage = () => {
                 >
                   GitHub ↗
                 </a>
+              }
+            />
+            <StatBlock
+              label="Work type"
+              value={getProjectWorkTypeLabel(project.workType)}
+            />
+            <StatBlock
+              label="Company"
+              value={
+                project.workType === "company" && project.company
+                  ? project.company
+                  : "—"
               }
             />
             <StatBlock label="Technologies" value={project.tech.length} />
@@ -396,14 +427,14 @@ const ProjectDetailPage = () => {
               reviews, and full-stack collaborations.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <a
+              <Link
                 href="/#contact"
                 className="inline-flex items-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
                 style={{ clipPath }}
               >
                 Get in touch
                 <HiArrowRight className="size-3.5" />
-              </a>
+              </Link>
               <button
                 onClick={() => router.back()}
                 className="inline-flex items-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary"

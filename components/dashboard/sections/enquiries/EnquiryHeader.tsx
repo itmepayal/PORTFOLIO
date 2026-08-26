@@ -1,11 +1,8 @@
 "use client";
 
-import { MessageSquareMore, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { MessageSquareMore } from "lucide-react";
 
 const EnquiryHeader = () => {
-  const router = useRouter();
-
   return (
     <div className="group relative overflow-hidden border border-border bg-card/40 p-5 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/60">
       <span className="pointer-events-none absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-primary/0 transition-all duration-300 group-hover:border-primary/70" />

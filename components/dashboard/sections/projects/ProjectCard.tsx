@@ -1,5 +1,7 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
+import { getProjectWorkTypeLabel } from "@/lib/project";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -14,8 +16,10 @@ import {
   ArrowUpRight,
   Loader2,
   Layers3,
+  Building2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteConfirmDialog } from "@/components/dashboard/ui/DeleteConfirmDialog";
 
 interface Tech {
   name: string;
@@ -28,6 +32,8 @@ interface ProjectCardProps {
     title: string;
     description: string;
     category: string;
+    workType?: "company" | "freelance" | "self";
+    company?: string;
     live: string;
     github: string;
     features: string[];
@@ -41,13 +47,10 @@ interface ProjectCardProps {
 const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleDelete = async () => {
+  const executeDelete = async () => {
     if (!project._id) return;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this project?",
-    );
-    if (!confirmDelete) return;
     try {
       setDeleting(true);
       const response = await fetch(`/api/projects/${project._id}`, {
@@ -58,8 +61,9 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
         throw new Error(data.message || "Failed to delete project");
       toast.success("Project deleted successfully");
       onDelete?.(project._id);
-    } catch (error: any) {
-      toast.error(error.message);
+      setDeleteOpen(false);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDeleting(false);
     }
@@ -71,6 +75,7 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
   };
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
@@ -111,6 +116,17 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
               {project.category}
             </span>
 
+            <span className="inline-flex items-center gap-1.5 border border-cyan/30 bg-cyan/10 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest text-cyan">
+              {getProjectWorkTypeLabel(project.workType)}
+            </span>
+
+            {project.workType === "company" && project.company && (
+              <span className="inline-flex items-center gap-1.5 border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest text-primary">
+                <Building2 className="h-3 w-3" />
+                {project.company}
+              </span>
+            )}
+
             {project.featured && (
               <span className="inline-flex items-center gap-1.5 border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-widest text-yellow-500">
                 <Sparkles className="h-3 w-3" />
@@ -128,7 +144,7 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
             </button>
             <button
               disabled={deleting}
-              onClick={handleDelete}
+              onClick={() => setDeleteOpen(true)}
               className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
             >
               {deleting ? (
@@ -214,6 +230,16 @@ const ProjectCard = ({ project, onDelete }: ProjectCardProps) => {
         </div>
       </div>
     </motion.div>
+
+    <DeleteConfirmDialog
+      open={deleteOpen}
+      onOpenChange={setDeleteOpen}
+      confirmText={project.title}
+      entityLabel="project"
+      onConfirm={executeDelete}
+      loading={deleting}
+    />
+    </>
   );
 };
 

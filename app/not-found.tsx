@@ -23,10 +23,6 @@ const NotFound = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const computedStyle = getComputedStyle(document.documentElement);
-    const accentRaw = computedStyle.getPropertyValue("--accent-raw").trim();
-    const cyanColor = computedStyle.getPropertyValue("--cyan").trim();
-
     const particles = Array.from({ length: 50 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,

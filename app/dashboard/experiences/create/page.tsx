@@ -1,9 +1,9 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  FolderKanban,
   Sparkles,
   Layers3,
   Globe,
@@ -167,8 +167,8 @@ const CreateExperiance = () => {
       setOrder(0);
       setTechInput("");
       setResponsibilityInput("");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -178,8 +178,8 @@ const CreateExperiance = () => {
     <PageContainer>
       <PageHeader
         title="Create Experience"
-        description="Build premium portfolio projects with professional details"
-        icon={<FolderKanban className="h-8 w-8" />}
+        description="Add your professional work history with responsibilities and tech stack"
+        icon={<Building2 className="h-8 w-8" />}
         backHref="/dashboard/experiences"
         progress={progress}
       />
@@ -247,12 +247,11 @@ const CreateExperiance = () => {
                 title="Duration"
                 description="Set your working time period"
               />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <FormField
                   type="date"
                   label="Start Date"
                   value={startDate}
-                  disabled={current}
                   onChange={setStartDate}
                 />
                 <FormField
@@ -272,27 +271,31 @@ const CreateExperiance = () => {
             </div>
 
             {/* Chips */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <FormChipInput
-                title="Responsibilities"
-                description="Add key responsibilities of your role"
-                value={responsibilities}
-                inputValue={responsibilityInput}
-                setInputValue={setResponsibilityInput}
-                onAdd={addResponsibility}
-                onRemove={removeResponsibility}
-                placeholder="Worked on backend APIs..."
-              />
-              <FormChipInput
-                title="Technology Stack"
-                description="Add technologies used in this experience"
-                value={technologies}
-                inputValue={techInput}
-                setInputValue={setTechInput}
-                onAdd={addTech}
-                onRemove={removeTech}
-                placeholder="React, Node.js..."
-              />
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="border border-border bg-card/30 p-6">
+                <FormChipInput
+                  title="Responsibilities"
+                  description="Add key responsibilities of your role"
+                  value={responsibilities}
+                  inputValue={responsibilityInput}
+                  setInputValue={setResponsibilityInput}
+                  onAdd={addResponsibility}
+                  onRemove={removeResponsibility}
+                  placeholder="Worked on backend APIs..."
+                />
+              </div>
+              <div className="border border-border bg-card/30 p-6">
+                <FormChipInput
+                  title="Technology Stack"
+                  description="Add technologies used in this experience"
+                  value={technologies}
+                  inputValue={techInput}
+                  setInputValue={setTechInput}
+                  onAdd={addTech}
+                  onRemove={removeTech}
+                  placeholder="React, Node.js..."
+                />
+              </div>
             </div>
 
             <FormFeatureToggle

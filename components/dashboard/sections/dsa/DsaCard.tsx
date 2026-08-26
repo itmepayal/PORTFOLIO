@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteConfirmDialog } from "@/components/dashboard/ui/DeleteConfirmDialog";
 
 interface DSACardProps {
   dsa: {
@@ -39,18 +41,10 @@ const categoryStyles: Record<string, string> = {
 const DSACard = ({ dsa, onDelete }: DSACardProps) => {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleEdit = () => {
+  const executeDelete = async () => {
     if (!dsa._id) return;
-    router.push(`/dashboard/dsa/edit/${dsa._id}`);
-  };
-
-  const handleDelete = async () => {
-    if (!dsa._id) return;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this DSA entry?",
-    );
-    if (!confirmDelete) return;
     try {
       setDeleting(true);
       const response = await fetch(`/api/dsa/${dsa._id}`, { method: "DELETE" });
@@ -59,16 +53,23 @@ const DSACard = ({ dsa, onDelete }: DSACardProps) => {
         throw new Error(data.message || "Failed to delete DSA entry");
       toast.success("DSA entry deleted successfully");
       onDelete?.(dsa._id);
-    } catch (error: any) {
-      toast.error(error.message);
+      setDeleteOpen(false);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDeleting(false);
     }
   };
 
+  const handleEdit = () => {
+    if (!dsa._id) return;
+    router.push(`/dashboard/dsa/edit/${dsa._id}`);
+  };
+
   const progressNum = parseInt(dsa.progress) || 0;
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
@@ -111,7 +112,7 @@ const DSACard = ({ dsa, onDelete }: DSACardProps) => {
             </button>
             <button
               disabled={deleting}
-              onClick={handleDelete}
+              onClick={() => setDeleteOpen(true)}
               className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
             >
               {deleting ? (
@@ -176,6 +177,16 @@ const DSACard = ({ dsa, onDelete }: DSACardProps) => {
         </div>
       </div>
     </motion.div>
+
+    <DeleteConfirmDialog
+      open={deleteOpen}
+      onOpenChange={setDeleteOpen}
+      confirmText={dsa.title}
+      entityLabel="DSA profile"
+      onConfirm={executeDelete}
+      loading={deleting}
+    />
+    </>
   );
 };
 

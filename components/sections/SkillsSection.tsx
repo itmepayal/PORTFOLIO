@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "../common/Container";
+import { SectionHeader } from "../common/SectionHeader";
+import { SkillSkeleton } from "../skeletons/SkillSkeleton";
 import {
   LayoutGrid,
   Globe,
@@ -19,12 +21,10 @@ import {
   Zap,
   Cpu,
   Braces,
-  Bolt,
   Link,
   Package,
   Boxes,
   Cloud,
-  Rocket,
   RefreshCw,
   Train,
   Leaf,
@@ -39,7 +39,6 @@ import {
   ShoppingCart,
   Wifi,
   Wrench,
-  Container as ContainerIcon,
 } from "lucide-react";
 
 interface Skill {
@@ -125,6 +124,12 @@ const MARQUEE_ITEMS_2: { icon: React.ReactNode; name: string }[] = [
 
 export const Skills = () => {
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 400);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredSkills =
     activeCategory === "all"
@@ -132,31 +137,10 @@ export const Skills = () => {
       : SKILLS_DATA.filter((skill) => skill.cat === activeCategory);
 
   return (
-    <Container>
-      <section
-        id="skills"
-        className="relative overflow-hidden py-12 sm:py-16 md:py-20"
-      >
-        <div className="relative z-10 mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="mb-8 flex flex-wrap items-end gap-4 sm:mb-10 sm:gap-6">
-              <div>
-                <div className="mb-1 font-mono text-[0.62rem] tracking-[0.15em] text-primary sm:text-[0.68rem]">
-                  04 — SKILLS
-                </div>
-                <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
-                  My Tech Stack
-                </h2>
-              </div>
-              <div className="h-px min-w-10 flex-1 bg-linear-to-r from-border to-transparent" />
-            </div>
+    <Container id="skills">
+      <SectionHeader label="04 — SKILLS" title="My Tech Stack" />
 
-            <div className="mb-8 grid grid-cols-5 gap-2 sm:mb-10 sm:grid-cols-5">
+      <div className="mb-8 grid grid-cols-5 gap-2 sm:mb-10 sm:grid-cols-5">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.value}
@@ -172,46 +156,49 @@ export const Skills = () => {
                 </button>
               ))}
             </div>
-            <div
-              className={`mb-10 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-${filteredSkills.length} xl:grid-cols-${filteredSkills.length} sm:mb-12`}
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredSkills.map((skill) => (
-                  <motion.div
-                    key={skill.name}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                    className="group relative flex flex-col items-center gap-2 overflow-hidden bg-card px-2 py-4 text-center transition-colors hover:bg-secondary sm:px-3 sm:py-5"
-                  >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-primary transition-all duration-200 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground sm:h-10 sm:w-10">
-                      {skill.icon}
-                    </div>
 
-                    <div className="w-full truncate px-1 font-mono text-[0.6rem] tracking-[0.04em] text-foreground/80 sm:text-[0.68rem]">
-                      {skill.name}
-                    </div>
+      {loading ? (
+        <SkillSkeleton />
+      ) : (
+        <>
+          <div className="mb-10 grid grid-cols-2 gap-px border border-border bg-border sm:mb-12 sm:grid-cols-3 md:grid-cols-5">
+            <AnimatePresence mode="popLayout">
+              {filteredSkills.map((skill) => (
+                <motion.div
+                  key={skill.name}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                  className="group relative flex flex-col items-center gap-2 overflow-hidden bg-card px-2 py-4 text-center transition-colors hover:bg-secondary sm:px-3 sm:py-5"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center border border-border bg-background text-primary transition-all duration-200 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground sm:h-10 sm:w-10">
+                    {skill.icon}
+                  </div>
 
-                    <div className="flex gap-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                            i < skill.level ? "bg-primary" : "bg-border"
-                          }`}
-                        />
-                      ))}
-                    </div>
+                  <div className="w-full truncate px-1 font-mono text-[0.6rem] tracking-[0.04em] text-foreground/80 sm:text-[0.68rem]">
+                    {skill.name}
+                  </div>
 
-                    <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-primary to-chart-3 transition-all duration-300 group-hover:w-full" />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
+                  <div className="flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                          i < skill.level ? "bg-primary" : "bg-border"
+                        }`}
+                      />
+                    ))}
+                  </div>
 
-            <div className="overflow-hidden">
+                  <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-primary to-chart-3 transition-all duration-300 group-hover:w-full" />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          <div className="overflow-hidden">
               <div className="mb-3 font-mono text-[0.58rem] uppercase tracking-[0.15em] text-muted-foreground sm:mb-4 sm:text-[0.62rem]">
                 All technologies
               </div>
@@ -266,9 +253,8 @@ export const Skills = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
-        </div>
-      </section>
+        </>
+      )}
     </Container>
   );
 };

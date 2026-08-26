@@ -47,10 +47,15 @@ const ExperienceCardSkeleton = () => {
             <Skeleton className="mb-3 h-4 w-32" />
 
             <div className="space-y-2">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-[90%]" />
-              <Skeleton className="h-10 w-[80%]" />
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-2.5 border border-border/50 bg-background/40 px-3 py-2"
+                >
+                  <Skeleton className="mt-0.5 size-5 shrink-0" />
+                  <Skeleton className="h-3 flex-1" />
+                </div>
+              ))}
             </div>
           </div>
 
@@ -58,17 +63,14 @@ const ExperienceCardSkeleton = () => {
             <Skeleton className="mb-3 h-4 w-28" />
 
             <div className="flex flex-wrap gap-2">
-              <Skeleton className="h-7 w-16" />
+              <Skeleton className="h-7 w-20" />
               <Skeleton className="h-7 w-24" />
               <Skeleton className="h-7 w-20" />
-              <Skeleton className="h-7 w-28" />
-              <Skeleton className="h-7 w-18" />
-              <Skeleton className="h-7 w-24" />
             </div>
           </div>
         </div>
 
-        <div className="mt-auto pt-4">
+        <div className="mt-auto flex flex-col gap-3 pt-4">
           <Skeleton className="h-12 w-full" />
         </div>
       </div>

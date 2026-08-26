@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,13 +12,13 @@ import {
   Building2,
   MapPin,
   Calendar,
-  Globe,
   BadgeCheck,
   Sparkles,
   Layers3,
   ArrowUpRight,
 } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteConfirmDialog } from "@/components/dashboard/ui/DeleteConfirmDialog";
 
 interface ExperienceCardProps {
   experience: {
@@ -42,18 +43,10 @@ interface ExperienceCardProps {
 const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleEdit = () => {
-    if (experience._id)
-      router.push(`/dashboard/experiences/edit/${experience._id}`);
-  };
-
-  const handleDelete = async () => {
+  const executeDelete = async () => {
     if (!experience._id) return;
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this experience?",
-    );
-    if (!confirmed) return;
     try {
       setDeleting(true);
       const response = await fetch(`/api/experiences/${experience._id}`, {
@@ -64,14 +57,21 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
         throw new Error(data.message || "Failed to delete experience");
       toast.success("Experience deleted successfully");
       onDelete?.(experience._id);
-    } catch (error: any) {
-      toast.error(error.message);
+      setDeleteOpen(false);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDeleting(false);
     }
   };
 
+  const handleEdit = () => {
+    if (experience._id)
+      router.push(`/dashboard/experiences/edit/${experience._id}`);
+  };
+
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
@@ -133,7 +133,7 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
             </button>
             <button
               disabled={deleting}
-              onClick={handleDelete}
+              onClick={() => setDeleteOpen(true)}
               className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
             >
               {deleting ? (
@@ -229,6 +229,16 @@ const ExperienceCard = ({ experience, onDelete }: ExperienceCardProps) => {
         </div>
       </div>
     </motion.div>
+
+    <DeleteConfirmDialog
+      open={deleteOpen}
+      onOpenChange={setDeleteOpen}
+      confirmText={`${experience.company} — ${experience.position}`}
+      entityLabel="experience"
+      onConfirm={executeDelete}
+      loading={deleting}
+    />
+    </>
   );
 };
 

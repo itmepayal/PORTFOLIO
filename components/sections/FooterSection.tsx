@@ -1,6 +1,8 @@
 "use client";
 
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
+import { sectionInner } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
 export const Footer = () => {
   const socials = [
@@ -17,12 +19,12 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-border bg-secondary px-5 py-8 sm:px-[5%] sm:py-10">
+    <footer className="border-t border-border bg-secondary py-8 sm:py-10">
       <div
-        className="
-          mx-auto flex flex-col items-center gap-6
-          sm:flex-row sm:flex-wrap sm:items-center sm:justify-between
-        "
+        className={cn(
+          sectionInner,
+          "flex flex-col items-center gap-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between",
+        )}
       >
         <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 sm:text-left">
           <span

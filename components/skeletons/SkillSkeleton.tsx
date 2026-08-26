@@ -1,27 +1,20 @@
 export const SkillSkeleton = () => {
   return (
-    <div className="relative flex items-center gap-4 px-5 py-5 rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-lg min-w-70 overflow-hidden">
-      <div className="absolute inset-0 animate-pulse bg-linear-to-r from-transparent via-primary/5 to-transparent" />
-
-      <div className="relative z-10 w-14 h-14 rounded-2xl bg-muted animate-pulse shrink-0" />
-
-      <div className="relative z-10 flex-1 min-w-0">
-        <div className="flex items-center justify-between">
-          <div className="h-5 w-32 rounded bg-muted animate-pulse" />
-          <div className="h-5 w-16 rounded-full bg-muted animate-pulse" />
-        </div>
-
-        <div className="mt-2 h-3 w-24 rounded bg-muted animate-pulse" />
-
-        <div className="mt-4">
-          <div className="flex justify-between mb-2">
-            <div className="h-3 w-20 rounded bg-muted animate-pulse" />
-            <div className="h-3 w-8 rounded bg-muted animate-pulse" />
+    <div className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3 md:grid-cols-5 animate-pulse">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div
+          key={i}
+          className="flex flex-col items-center gap-2 bg-card px-2 py-4 sm:px-3 sm:py-5"
+        >
+          <div className="h-9 w-9 border border-border bg-muted sm:h-10 sm:w-10" />
+          <div className="h-3 w-16 bg-muted" />
+          <div className="flex gap-1">
+            {Array.from({ length: 5 }).map((_, dot) => (
+              <div key={dot} className="size-1.5 rounded-full bg-muted" />
+            ))}
           </div>
-
-          <div className="h-2 rounded-full bg-muted animate-pulse" />
         </div>
-      </div>
+      ))}
     </div>
   );
 };

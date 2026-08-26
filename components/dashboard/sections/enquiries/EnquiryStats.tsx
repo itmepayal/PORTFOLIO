@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { DashboardStatCardGridSkeleton } from "@/components/dashboard/ui/DashboardStatCard";
 import { iconMap } from "./data";
 
 type Stat = {
@@ -31,16 +32,7 @@ const EnquiryStats = () => {
   }, []);
 
   if (loading) {
-    return (
-      <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div
-            key={index}
-            className="h-44 animate-pulse border border-border bg-muted/40"
-          />
-        ))}
-      </section>
-    );
+    return <DashboardStatCardGridSkeleton count={4} />;
   }
 
   if (!stats.length) {

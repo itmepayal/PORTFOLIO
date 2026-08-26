@@ -1,7 +1,8 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import { toast } from "sonner";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   FolderKanban,
@@ -12,7 +13,6 @@ import {
   BadgeCheck,
   Rocket,
   LayoutDashboard,
-  Loader2,
 } from "lucide-react";
 import FormField from "@/components/form/FormField";
 import FormFeatureToggle from "@/components/form/FormFeatureToggle";
@@ -51,7 +51,7 @@ const EditDSA = () => {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
 
-  const fetchDSA = async () => {
+  const fetchDSA = useCallback(async () => {
     try {
       setFetching(true);
       const response = await fetch(`/api/dsa/${id}`);
@@ -66,16 +66,16 @@ const EditDSA = () => {
       setProblemsSolved(dsa.problemsSolved || 0);
       setFeatured(dsa.featured || false);
       setOrder(dsa.order || 0);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setFetching(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     if (id) fetchDSA();
-  }, [id]);
+  }, [id, fetchDSA]);
 
   const formProgress = useMemo(() => {
     let done = 0;
@@ -130,8 +130,8 @@ const EditDSA = () => {
 
       toast.success("DSA updated successfully");
       router.push("/dashboard/dsa");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

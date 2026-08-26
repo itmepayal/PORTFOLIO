@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -54,8 +55,8 @@ export default function RegisterPage() {
       setEmail("");
       setPassword("");
       router.push("/auth/login");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

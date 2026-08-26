@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 import { toast } from "sonner";
 import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -13,7 +14,6 @@ import {
   Rocket,
   Building2,
   LayoutDashboard,
-  Loader2,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import FormField from "@/components/form/FormField";
@@ -72,8 +72,8 @@ const EditExperiance = () => {
         setCompanyWebsite(experience.companyWebsite || "");
         setFeatured(experience.featured);
         setOrder(experience.order);
-      } catch (error: any) {
-        toast.error(error.message);
+      } catch (error: unknown) {
+        toast.error(getErrorMessage(error));
       } finally {
         setFetching(false);
       }
@@ -190,8 +190,8 @@ const EditExperiance = () => {
 
       toast.success("Experience updated successfully");
       router.push("/dashboard/experiences");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -285,12 +285,11 @@ const EditExperiance = () => {
                 title="Duration"
                 description="Set your working time period"
               />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <FormField
                   type="date"
                   label="Start Date"
                   value={startDate}
-                  disabled={current}
                   onChange={setStartDate}
                 />
                 <FormField
@@ -310,27 +309,31 @@ const EditExperiance = () => {
             </div>
 
             {/* Chips */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <FormChipInput
-                title="Responsibilities"
-                description="Add key responsibilities of your role"
-                value={responsibilities}
-                inputValue={responsibilityInput}
-                setInputValue={setResponsibilityInput}
-                onAdd={addResponsibility}
-                onRemove={removeResponsibility}
-                placeholder="Worked on backend APIs..."
-              />
-              <FormChipInput
-                title="Technology Stack"
-                description="Add technologies used in this experience"
-                value={technologies}
-                inputValue={techInput}
-                setInputValue={setTechInput}
-                onAdd={addTech}
-                onRemove={removeTech}
-                placeholder="React, Node.js..."
-              />
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="border border-border bg-card/30 p-6">
+                <FormChipInput
+                  title="Responsibilities"
+                  description="Add key responsibilities of your role"
+                  value={responsibilities}
+                  inputValue={responsibilityInput}
+                  setInputValue={setResponsibilityInput}
+                  onAdd={addResponsibility}
+                  onRemove={removeResponsibility}
+                  placeholder="Worked on backend APIs..."
+                />
+              </div>
+              <div className="border border-border bg-card/30 p-6">
+                <FormChipInput
+                  title="Technology Stack"
+                  description="Add technologies used in this experience"
+                  value={technologies}
+                  inputValue={techInput}
+                  setInputValue={setTechInput}
+                  onAdd={addTech}
+                  onRemove={removeTech}
+                  placeholder="React, Node.js..."
+                />
+              </div>
             </div>
 
             <FormFeatureToggle

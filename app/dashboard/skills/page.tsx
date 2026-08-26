@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import SkillHeader from "@/components/dashboard/sections/skills/SkillHeader";
 import SkillStats from "@/components/dashboard/sections/skills/SkillStats";
@@ -8,7 +8,6 @@ import SkillToolbar from "@/components/dashboard/sections/skills/SkillToolbar";
 import SkillCard from "@/components/dashboard/sections/skills/SkillCard";
 import EmptySkills from "@/components/dashboard/sections/skills/EmptySkills";
 import SkillsCardSkeleton from "@/components/dashboard/skeleton/SkillCard";
-import { Button } from "@/components/ui/button";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface SkillItem {
@@ -50,12 +49,12 @@ const Skills = () => {
     totalSkills: 0,
     totalPages: 1,
     currentPage: 1,
-    limit: 6,
+    limit: 3,
     hasNextPage: false,
     hasPrevPage: false,
   });
 
-  const fetchSkills = async () => {
+  const fetchSkills = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -88,7 +87,7 @@ const Skills = () => {
           totalSkills: 0,
           totalPages: 1,
           currentPage: 1,
-          limit: 6,
+          limit: 3,
           hasNextPage: false,
           hasPrevPage: false,
         },
@@ -98,11 +97,11 @@ const Skills = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, activeFilter]);
 
   useEffect(() => {
     fetchSkills();
-  }, [page, search, activeFilter]);
+  }, [fetchSkills]);
 
   useEffect(() => {
     setPage(1);

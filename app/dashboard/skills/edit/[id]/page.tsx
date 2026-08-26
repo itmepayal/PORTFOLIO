@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 import { toast } from "sonner";
 import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -82,8 +83,8 @@ const EditSkill = () => {
         setFeatured(skill.featured);
         setOrder(skill.order);
         setIsFetching(false);
-      } catch (error: any) {
-        toast.error(error.message);
+      } catch (error: unknown) {
+        toast.error(getErrorMessage(error));
       }
     };
 
@@ -129,8 +130,8 @@ const EditSkill = () => {
       setCategory("frontend");
       setFeatured(false);
       setOrder(0);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

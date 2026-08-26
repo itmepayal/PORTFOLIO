@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 
 import DSA from "@/models/dsa";
@@ -23,17 +24,6 @@ export async function GET() {
       Project.countDocuments(),
       Skill.countDocuments(),
     ]);
-
-    const [problemStats] = await DSA.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalSolved: { $sum: "$problemsSolved" },
-        },
-      },
-    ]);
-
-    const totalSolved = problemStats?.totalSolved || 0;
 
     const sections = [
       totalProjects,
@@ -87,13 +77,13 @@ export async function GET() {
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Dashboard stats error:", error);
 
     return Response.json(
       {
         success: false,
-        message: error.message || "Failed to fetch dashboard statistics",
+        message: getErrorMessage(error, "Failed to fetch dashboard statistics"),
       },
       {
         status: 500,

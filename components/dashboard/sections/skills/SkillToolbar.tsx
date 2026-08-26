@@ -15,8 +15,6 @@ interface Props {
   setSearch: (value: string) => void;
   activeFilter: string;
   setActiveFilter: (value: string) => void;
-  view?: "grid" | "list";
-  setView?: (value: "grid" | "list") => void;
 }
 
 const filters = ["All", "Frontend", "Backend", "Featured"];

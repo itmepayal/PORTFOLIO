@@ -1,3 +1,9 @@
+import { getErrorMessage } from "@/lib/utils";
+import {
+  isProjectWorkType,
+  sanitizeProjectPayload,
+  validateProjectWorkType,
+} from "@/lib/project";
 import { connectDB } from "@/lib/db";
 import Project from "@/models/project";
 
@@ -14,9 +20,10 @@ export async function GET(request: Request) {
     const limit = Number(searchParams.get("limit")) || 6;
     const search = searchParams.get("search") || "";
     const filter = searchParams.get("filter") || "All";
+    const workType = searchParams.get("workType") || "";
     const skip = (page - 1) * limit;
 
-    const query: any = {};
+    const query: Record<string, unknown> = {};
 
     if (search) {
       query.$or = [
@@ -32,6 +39,12 @@ export async function GET(request: Request) {
             $options: "i",
           },
         },
+        {
+          company: {
+            $regex: search,
+            $options: "i",
+          },
+        },
       ];
     }
 
@@ -41,6 +54,10 @@ export async function GET(request: Request) {
 
     if (filter === "Draft") {
       query.isPublished = false;
+    }
+
+    if (workType && isProjectWorkType(workType)) {
+      query.workType = workType;
     }
 
     const totalProjects = await Project.countDocuments(query);
@@ -73,11 +90,11 @@ export async function GET(request: Request) {
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -95,8 +112,21 @@ export async function POST(req: Request) {
     await connectDB();
 
     const body = await req.json();
+    const validationError = validateProjectWorkType(body.workType, body.company);
 
-    const project = await Project.create(body);
+    if (validationError) {
+      return Response.json(
+        {
+          success: false,
+          message: validationError,
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const project = await Project.create(sanitizeProjectPayload(body));
 
     return Response.json(
       {
@@ -108,11 +138,11 @@ export async function POST(req: Request) {
         status: 201,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

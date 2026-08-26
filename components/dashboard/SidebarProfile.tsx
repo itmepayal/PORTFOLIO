@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -30,8 +31,8 @@ export default function SidebarProfile() {
 
       router.push("/auth/login");
       router.refresh();
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Container } from "../common/Container";
+import { SectionHeader } from "../common/SectionHeader";
 import {
   TbBrandGithub,
   TbFlame,
@@ -290,7 +291,7 @@ export const GithubPanel = () => {
     : [];
 
   return (
-    <Container>
+    <Container id="github-contrib" background="secondary">
       <style>{`
         @keyframes gh-pulse {
           0%, 100% { opacity: 0.35; }
@@ -298,31 +299,18 @@ export const GithubPanel = () => {
         }
       `}</style>
 
-      <section
-        id="github-contrib"
-        className="py-10 sm:py-12 md:py-16 lg:py-20 bg-secondary"
-      >
-        <div className="mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-          <div className="reveal mb-2 flex flex-wrap items-end gap-4 sm:gap-6">
-            <div>
-              <div className="mb-1 font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase">
-                03 — GITHUB
-              </div>
-              <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
-                Contribution Calendar
-              </h2>
-            </div>
-            <div className="mb-1.5 h-px min-w-10 flex-1 bg-linear-to-r from-border to-transparent" />
-            <div className="mb-1 font-mono text-[0.7rem] tracking-[0.04em] text-muted-foreground">
-              {yearLabel}
-            </div>
+      <SectionHeader
+        label="03 — GITHUB"
+        title="Contribution Calendar"
+        subtitle="A year of shipped work, one square at a time."
+        actions={
+          <div className="font-mono text-[0.7rem] tracking-[0.04em] text-muted-foreground">
+            {yearLabel}
           </div>
+        }
+      />
 
-          <p className="reveal mb-8 sm:mb-10 max-w-md font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
-            A year of shipped work, one square at a time.
-          </p>
-
-          <div className="reveal flex flex-col gap-6 lg:flex-row">
+      <div className="reveal flex flex-col gap-6 lg:flex-row">
             <div className="lg:w-[35%]">
               {loading ? (
                 <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
@@ -514,8 +502,6 @@ export const GithubPanel = () => {
               )}
             </div>
           </div>
-        </div>
-      </section>
 
       {hover && (
         <div

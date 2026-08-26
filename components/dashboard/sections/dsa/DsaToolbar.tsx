@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, Code2, Target, Layers3, Zap, Server, Sparkles, Star } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface Props {
@@ -8,8 +8,6 @@ interface Props {
   setSearch: (value: string) => void;
   activeFilter: string;
   setActiveFilter: (value: string) => void;
-  view?: "grid" | "list";
-  setView?: (value: "grid" | "list") => void;
 }
 
 const filters = [
@@ -19,8 +17,18 @@ const filters = [
   "codeforces",
   "gfg",
   "custom",
-  "featured",
+  "Featured",
 ];
+
+const filterIcons: Record<string, typeof Code2> = {
+  All: Code2,
+  leetcode: Target,
+  striver: Layers3,
+  codeforces: Zap,
+  gfg: Server,
+  custom: Sparkles,
+  Featured: Star,
+};
 
 const DSAToolbar = ({
   search,
@@ -52,6 +60,7 @@ const DSAToolbar = ({
         <SlidersHorizontal className="hidden h-3.5 w-3.5 shrink-0 text-muted-foreground sm:block" />
         {filters.map((item) => {
           const isActive = activeFilter === item;
+          const Icon = filterIcons[item];
           return (
             <button
               key={item}
@@ -70,6 +79,7 @@ const DSAToolbar = ({
                   : undefined
               }
             >
+              <Icon className="h-3 w-3" />
               {item}
               {isActive && (
                 <span className="border border-white/20 bg-white/10 px-1.5 py-0.5 text-[0.55rem] uppercase tracking-widest text-white">

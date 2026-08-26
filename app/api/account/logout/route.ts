@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST() {
@@ -16,9 +17,9 @@ export async function POST() {
     });
 
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { message: error.message || "Logout failed" },
+      { message: getErrorMessage(error, "Logout failed") },
       { status: 500 },
     );
   }

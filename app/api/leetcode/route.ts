@@ -1,4 +1,4 @@
-export async function GET(req) {
+export async function GET() {
   const username = "Payal_Leet_Code";
   const query = `
     query getUserProfile($username: String!) {
@@ -37,7 +37,7 @@ export async function GET(req) {
       success: true,
       data: data.data.matchedUser,
     });
-  } catch (error) {
+  } catch {
     return Response.json({
       success: false,
       message: "Failed to fetch LeetCode data",

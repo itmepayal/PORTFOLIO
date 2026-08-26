@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -105,8 +106,8 @@ const CreateSkill = () => {
       setCategory("frontend");
       setFeatured(false);
       setOrder(0);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

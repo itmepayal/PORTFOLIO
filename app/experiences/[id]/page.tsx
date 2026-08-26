@@ -1,7 +1,8 @@
 "use client";
 
-import { Variants } from "framer-motion";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -9,7 +10,6 @@ import {
   HiArrowRight,
   HiExternalLink,
   HiLocationMarker,
-  HiCalendar,
   HiBriefcase,
 } from "react-icons/hi";
 import {
@@ -175,7 +175,11 @@ const ExperienceDetailPage = () => {
         setLoading(true);
         const res = await fetch(`/api/experiences/${id}`);
         const data = await res.json();
-        data.success ? setExperience(data.experience) : setError(true);
+        if (data.success) {
+          setExperience(data.experience);
+        } else {
+          setError(true);
+        }
       } catch {
         setError(true);
       } finally {
@@ -238,11 +242,13 @@ const ExperienceDetailPage = () => {
             <div className="absolute inset-0 bg-linear-to-br from-primary/20 via-primary/5 to-accent2/15" />
             <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-size-[40px_40px]" />
             {experience.companyLogo && (
-              <img
+              <Image
                 src={experience.companyLogo}
                 alt=""
                 aria-hidden="true"
-                className="absolute inset-0 m-auto w-[55%] max-w-xs object-contain opacity-[0.06] blur-[1px] scale-110 select-none pointer-events-none"
+                unoptimized
+                fill
+                className="object-contain opacity-[0.06] blur-[1px] scale-110 select-none pointer-events-none m-auto w-[55%] max-w-xs"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).style.display = "none";
                 }}
@@ -437,14 +443,14 @@ const ExperienceDetailPage = () => {
               reviews, and full-stack collaborations.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <a
+              <Link
                 href="/#contact"
                 className="inline-flex items-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
                 style={{ clipPath }}
               >
                 Get in touch
                 <HiArrowRight className="size-3.5" />
-              </a>
+              </Link>
               <button
                 onClick={() => router.back()}
                 className="inline-flex items-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary"

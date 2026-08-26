@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,6 +16,7 @@ import {
   Target,
 } from "lucide-react";
 import { toast } from "sonner";
+import { DeleteConfirmDialog } from "@/components/dashboard/ui/DeleteConfirmDialog";
 
 interface SkillsCardProps {
   skill: {
@@ -53,13 +55,10 @@ const categoryStyles: Record<string, string> = {
 const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const handleDelete = async () => {
+  const executeDelete = async () => {
     if (!skill._id) return;
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${skill.title}"?`,
-    );
-    if (!confirmDelete) return;
     try {
       setDeleting(true);
       const response = await fetch(`/api/skills/${skill._id}`, {
@@ -70,8 +69,9 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
         throw new Error(data.message || "Failed to delete skill");
       toast.success("Skill deleted successfully");
       onDelete?.(skill._id);
-    } catch (error: any) {
-      toast.error(error.message);
+      setDeleteOpen(false);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setDeleting(false);
     }
@@ -83,6 +83,7 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
   };
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 25 }}
       animate={{ opacity: 1, y: 0 }}
@@ -129,7 +130,7 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
             </button>
             <button
               disabled={deleting}
-              onClick={handleDelete}
+              onClick={() => setDeleteOpen(true)}
               className="flex h-9 w-9 items-center justify-center border border-red-500/30 bg-red-500/10 text-red-500 transition-colors hover:border-red-500/60 hover:bg-red-500/20 disabled:opacity-50"
             >
               {deleting ? (
@@ -201,6 +202,16 @@ const SkillsCard = ({ skill, onDelete }: SkillsCardProps) => {
         </div>
       </div>
     </motion.div>
+
+    <DeleteConfirmDialog
+      open={deleteOpen}
+      onOpenChange={setDeleteOpen}
+      confirmText={skill.title}
+      entityLabel="skill"
+      onConfirm={executeDelete}
+      loading={deleting}
+    />
+    </>
   );
 };
 

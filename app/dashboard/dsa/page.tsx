@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import DSAHeader from "@/components/dashboard/sections/dsa/DsaHeader";
 import DSAStats from "@/components/dashboard/sections/dsa/DsaStats";
 import DSAToolbar from "@/components/dashboard/sections/dsa/DsaToolbar";
 import DSACard from "@/components/dashboard/sections/dsa/DsaCard";
 import DSACardSkeleton from "@/components/dashboard/skeleton/DsaCard";
-import EmptyProjects from "@/components/dashboard/sections/projects/EmptyProjects";
+import EmptyDSA from "@/components/dashboard/sections/dsa/EmptyDSA";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface DSAItem {
@@ -46,18 +46,18 @@ const DSA = () => {
     hasPrevPage: false,
   });
 
-  const fetchDSA = async () => {
+  const fetchDSA = useCallback(async () => {
     try {
       setLoading(true);
       const query = new URLSearchParams({
         page: String(page),
-        limit: "6",
+        limit: "3",
         search,
       });
 
-      if (activeFilter === "featured") {
+      if (activeFilter === "Featured") {
         query.append("featured", "true");
-      } else {
+      } else if (activeFilter !== "All") {
         query.append("category", activeFilter);
       }
 
@@ -77,11 +77,11 @@ const DSA = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, activeFilter]);
 
   useEffect(() => {
     fetchDSA();
-  }, [page, search, activeFilter]);
+  }, [fetchDSA]);
 
   useEffect(() => {
     setPage(1);
@@ -115,9 +115,7 @@ const DSA = () => {
           ))}
         </div>
       ) : dsaList.length === 0 ? (
-        <EmptyProjects
-          title="No DSA entries found"
-          description="Try changing your search or filters to find DSA progress entries."
+        <EmptyDSA
           onReset={() => {
             setSearch("");
             setActiveFilter("All");

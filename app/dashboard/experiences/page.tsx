@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import ExperienceHeader from "@/components/dashboard/sections/experiences/ExperienceHeader";
 import ExperienceStats from "@/components/dashboard/sections/experiences/ExperienceStats";
@@ -8,7 +8,6 @@ import ExperienceToolbar from "@/components/dashboard/sections/experiences/Exper
 import ExperienceCard from "@/components/dashboard/sections/experiences/ExperienceCard";
 import EmptyExperiance from "@/components/dashboard/sections/experiences/EmptyExperiance";
 import ExperienceCardSkeleton from "@/components/dashboard/skeleton/ExperienceCard";
-import { Button } from "@/components/ui/button";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface ExperienceItem {
@@ -38,7 +37,7 @@ interface Pagination {
   hasPrevPage: boolean;
 }
 
-const Experiance = () => {
+const Experiences = () => {
   const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -48,17 +47,17 @@ const Experiance = () => {
     totalExperiences: 0,
     totalPages: 1,
     currentPage: 1,
-    limit: 6,
+    limit: 3,
     hasNextPage: false,
     hasPrevPage: false,
   });
 
-  const fetchExperiences = async () => {
+  const fetchExperiences = useCallback(async () => {
     try {
       setLoading(true);
       const query = new URLSearchParams({
         page: String(page),
-        limit: "6",
+        limit: "3",
         search,
       });
 
@@ -81,7 +80,7 @@ const Experiance = () => {
           totalExperiences: 0,
           totalPages: 1,
           currentPage: 1,
-          limit: 6,
+          limit: 3,
           hasNextPage: false,
           hasPrevPage: false,
         },
@@ -91,11 +90,11 @@ const Experiance = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, activeFilter]);
 
   useEffect(() => {
     fetchExperiences();
-  }, [page, search, activeFilter]);
+  }, [fetchExperiences]);
 
   useEffect(() => {
     setPage(1);
@@ -190,4 +189,4 @@ const Experiance = () => {
   );
 };
 
-export default Experiance;
+export default Experiences;

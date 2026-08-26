@@ -1,4 +1,10 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
+import {
+  getProjectWorkTypeLabel,
+  projectWorkTypes,
+  type ProjectWorkType,
+} from "@/lib/project";
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -89,6 +95,8 @@ const CreateProject = () => {
   const [techInput, setTechInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("fullstack");
+  const [workType, setWorkType] = useState<ProjectWorkType>("self");
+  const [company, setCompany] = useState("");
 
   const [techs, setTechs] = useState([
     {
@@ -120,9 +128,10 @@ const CreateProject = () => {
     if (github) completed++;
     if (features.length > 0) completed++;
     if (techs.length > 0) completed++;
+    if (workType === "company" && company.trim()) completed++;
 
-    return Math.round((completed / 6) * 100);
-  }, [title, description, live, github, features, techs]);
+    return Math.round((completed / 7) * 100);
+  }, [title, description, live, github, features, techs, workType, company]);
 
   /* ====================================================== */
   /* ADD TECH */
@@ -214,11 +223,18 @@ const CreateProject = () => {
         return;
       }
 
+      if (workType === "company" && !company.trim()) {
+        toast.error("Company name is required for company projects");
+        return;
+      }
+
       const payload = {
         title,
         description,
         category,
-        status,
+        workType,
+        company: workType === "company" ? company.trim() : "",
+        isPublished: status === "Published",
         live,
         github,
         features,
@@ -244,13 +260,15 @@ const CreateProject = () => {
       setTitle("");
       setDescription("");
       setCategory("fullstack");
+      setWorkType("self");
+      setCompany("");
       setStatus("Draft");
       setLive("");
       setGithub("");
       setFeatures([]);
       setTechs([]);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -282,7 +300,7 @@ const CreateProject = () => {
             <div className="border border-border bg-card/30 p-6 space-y-6">
               <FormSectionHeader
                 title="Basic Information"
-                description="Provide your professional experience details"
+                description="Provide your project details and overview"
               />
               <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                 <FormField
@@ -315,11 +333,29 @@ const CreateProject = () => {
                   options={[...projectCategories]}
                 />
                 <FormSelect
+                  label="Work Type"
+                  value={workType}
+                  onValueChange={(value) => {
+                    const next = value as ProjectWorkType;
+                    setWorkType(next);
+                    if (next !== "company") setCompany("");
+                  }}
+                  options={[...projectWorkTypes]}
+                />
+                <FormSelect
                   label="Status"
                   value={status}
                   onValueChange={(value) => setStatus(value as StatusCategory)}
                   options={[...statusCategories]}
                 />
+                {workType === "company" && (
+                  <FormField
+                    label="Company Name"
+                    value={company}
+                    placeholder="Laneway Software"
+                    onChange={setCompany}
+                  />
+                )}
               </div>
             </div>
             <div className="border border-border bg-card/30 p-6 space-y-6">
@@ -349,8 +385,6 @@ const CreateProject = () => {
               />
 
               <FormChipInput
-                title="Project Features"
-                description="Add key functionalities and highlights of your project"
                 value={features}
                 inputValue={featureInput}
                 setInputValue={setFeatureInput}
@@ -367,8 +401,6 @@ const CreateProject = () => {
               />
 
               <FormChipInput
-                title="Technology Stack"
-                description="Add technologies used to build this project"
                 value={techs.map((item) => item.name)}
                 inputValue={techInput}
                 setInputValue={setTechInput}
@@ -412,6 +444,16 @@ const CreateProject = () => {
                 <span className="border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-primary">
                   {category || "Category"}
                 </span>
+
+                <span className="border border-cyan/30 bg-cyan/10 px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-cyan">
+                  {getProjectWorkTypeLabel(workType)}
+                </span>
+
+                {workType === "company" && company && (
+                  <span className="border border-border bg-muted px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest text-muted-foreground">
+                    {company}
+                  </span>
+                )}
 
                 <span
                   className={`border px-3 py-1 font-mono text-[0.66rem] uppercase tracking-widest ${

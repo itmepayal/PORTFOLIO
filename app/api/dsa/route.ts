@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 import DSA from "@/models/dsa";
 
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
     const featured = searchParams.get("featured") || "";
     const skip = (page - 1) * limit;
 
-    const query: any = {};
+    const query: Record<string, unknown> = {};
 
     if (search) {
       query.$or = [
@@ -81,12 +82,12 @@ export async function GET(request: Request) {
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
 
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -117,11 +118,11 @@ export async function POST(req: Request) {
         status: 201,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

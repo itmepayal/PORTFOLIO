@@ -1,58 +1,71 @@
+"use client";
+
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  dashboardCardShell,
+  dashboardCornerAccentBottom,
+  dashboardCornerAccentTop,
+} from "@/lib/ui";
+import { cn } from "@/lib/utils";
+
 const ProjectCardSkeleton = () => {
   return (
-    <div className="relative h-full overflow-hidden border border-border bg-card/40 animate-pulse">
-      <span className="absolute left-0 top-0 h-5 w-5 border-l-2 border-t-2 border-border" />
-      <span className="absolute bottom-0 right-0 h-5 w-5 border-b-2 border-r-2 border-border" />
+    <div className={cn(dashboardCardShell, "h-full animate-pulse")}>
+      <span className={dashboardCornerAccentTop} />
+      <span className={dashboardCornerAccentBottom} />
 
-      <div className="flex h-full flex-col gap-6 p-6 md:p-7">
+      <div className="relative z-1 flex h-full flex-col gap-6 p-6 md:p-7">
         <div className="flex items-start justify-between gap-4">
           <div className="flex flex-wrap gap-2">
-            <div className="h-7 w-24 rounded bg-muted" />
-            <div className="h-7 w-20 rounded bg-muted" />
-            <div className="h-7 w-24 rounded bg-muted" />
+            <Skeleton className="h-7 w-24" />
+            <Skeleton className="h-7 w-20" />
+            <Skeleton className="h-7 w-24" />
           </div>
 
           <div className="flex gap-2">
-            <div className="h-9 w-9 rounded bg-muted" />
-            <div className="h-9 w-9 rounded bg-muted" />
+            <Skeleton className="h-9 w-9" />
+            <Skeleton className="h-9 w-9" />
           </div>
         </div>
 
         <div>
-          <div className="h-8 w-3/4 rounded bg-muted" />
-          <div className="mt-4 space-y-2">
-            <div className="h-3 rounded bg-muted" />
-            <div className="h-3 rounded bg-muted" />
-            <div className="h-3 w-4/5 rounded bg-muted" />
+          <Skeleton className="h-9 w-3/4" />
+          <div className="mt-3 space-y-2">
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-4/5" />
           </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <div>
-            <div className="mb-3 h-3 w-24 rounded bg-muted" />
+            <Skeleton className="mb-3 h-3 w-24" />
             <div className="flex flex-wrap gap-2">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-7 w-20 rounded bg-muted" />
+                <Skeleton key={i} className="h-7 w-20" />
               ))}
             </div>
           </div>
 
           <div>
-            <div className="mb-3 h-3 w-28 rounded bg-muted" />
+            <Skeleton className="mb-3 h-3 w-28" />
             <div className="space-y-2">
               {Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-10 rounded border border-border bg-muted/50"
-                />
+                  className="flex items-center gap-2.5 border border-border bg-background/40 px-3 py-2"
+                >
+                  <Skeleton className="size-1.5 shrink-0" />
+                  <Skeleton className="h-3 flex-1" />
+                </div>
               ))}
             </div>
           </div>
         </div>
 
         <div className="mt-auto flex flex-col gap-3 pt-4">
-          <div className="h-12 w-full rounded bg-muted" />
-          <div className="h-12 w-full rounded bg-muted" />
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-12 w-full" />
         </div>
       </div>
     </div>

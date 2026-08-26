@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/utils";
 
 import { useEffect, useState } from "react";
 
@@ -54,8 +55,8 @@ export const useLeetCodeStats = () => {
         };
 
         setStats(formatted);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, "Something went wrong"));
       } finally {
         setLoading(false);
       }

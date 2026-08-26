@@ -7,6 +7,7 @@ import ProjectsToolbar from "@/components/dashboard/sections/projects/ProjectToo
 import ProjectCard from "@/components/dashboard/sections/projects/ProjectCard";
 import ProjectCardSkeleton from "@/components/dashboard/skeleton/ProjectCard";
 import EmptyProjects from "@/components/dashboard/sections/projects/EmptyProjects";
+import { workTypeFilterMap } from "@/components/dashboard/sections/projects/data";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
 
 interface Tech {
@@ -19,6 +20,8 @@ interface Project {
   title: string;
   description: string;
   category: string;
+  workType?: "company" | "freelance" | "self";
+  company?: string;
   isPublished: boolean;
   live: string;
   github: string;
@@ -42,13 +45,14 @@ const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
+  const [workTypeFilter, setWorkTypeFilter] = useState("All Types");
   const [page, setPage] = useState(1);
 
   const [pagination, setPagination] = useState<Pagination>({
     totalProjects: 0,
     totalPages: 1,
     currentPage: 1,
-    limit: 6,
+    limit: 3,
     hasNextPage: false,
     hasPrevPage: false,
   });
@@ -62,6 +66,15 @@ const Projects = () => {
         search,
         filter: activeFilter,
       });
+
+      const mappedWorkType =
+        workTypeFilterMap[
+          workTypeFilter as keyof typeof workTypeFilterMap
+        ];
+      if (mappedWorkType) {
+        query.set("workType", mappedWorkType);
+      }
+
       const response = await fetch(`/api/projects?${query}`);
       if (!response.ok) {
         throw new Error("Failed to fetch projects");
@@ -74,7 +87,7 @@ const Projects = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, search, activeFilter]);
+  }, [page, search, activeFilter, workTypeFilter]);
 
   useEffect(() => {
     fetchProjects();
@@ -82,7 +95,7 @@ const Projects = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [search, activeFilter]);
+  }, [search, activeFilter, workTypeFilter]);
 
   const handleDeleteProject = useCallback(
     (id: string) => {
@@ -107,6 +120,8 @@ const Projects = () => {
         setSearch={setSearch}
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
+        workTypeFilter={workTypeFilter}
+        setWorkTypeFilter={setWorkTypeFilter}
       />
       {loading ? (
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -119,6 +134,7 @@ const Projects = () => {
           onReset={() => {
             setSearch("");
             setActiveFilter("All");
+            setWorkTypeFilter("All Types");
             setPage(1);
           }}
         />

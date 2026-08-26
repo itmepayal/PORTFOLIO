@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 /* ====================================================== */
 /* TECH STACK SCHEMA */
@@ -77,6 +77,18 @@ const projectSchema = new Schema(
       default: "fullstack",
     },
 
+    workType: {
+      type: String,
+      enum: ["company", "freelance", "self"],
+      default: "self",
+    },
+
+    company: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
     image: {
       type: String,
       default: "",
@@ -97,9 +109,21 @@ const projectSchema = new Schema(
   },
 );
 
+projectSchema.pre("validate", function () {
+  if (this.workType === "company" && !this.company?.trim()) {
+    this.invalidate("company", "Company name is required for company projects");
+  }
+
+  if (this.workType !== "company" && this.company) {
+    this.company = "";
+  }
+});
+
 /* ====================================================== */
 /* INDEXES */
 /* ====================================================== */
+
+projectSchema.index({ workType: 1 });
 
 projectSchema.index({
   title: "text",

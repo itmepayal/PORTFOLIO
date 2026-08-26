@@ -14,21 +14,35 @@ const FormToggle = ({
   onChange,
 }: FormToggleProps) => {
   return (
-    <div className="flex items-center justify-between border border-border bg-background/40 p-4">
-      <div>
-        <p className="text-sm font-medium text-foreground">{label}</p>
+    <div className="flex items-center justify-between gap-4 border border-border bg-background/40 p-4">
+      <div className="min-w-0">
+        <p className="font-mono text-[0.72rem] uppercase tracking-widest text-foreground">
+          {label}
+        </p>
         {description && (
-          <p className="mt-0.5 font-mono text-[0.64rem] text-muted-foreground">
+          <p className="mt-1 font-mono text-[0.64rem] text-muted-foreground">
             {description}
           </p>
         )}
       </div>
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="h-5 w-5 cursor-pointer accent-primary"
-      />
+
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        onClick={() => onChange(!checked)}
+        className={`relative h-7 w-12 shrink-0 border transition-colors ${
+          checked
+            ? "border-primary bg-primary/20"
+            : "border-border bg-background"
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 block h-5 w-5 bg-primary transition-transform ${
+            checked ? "translate-x-[1.35rem]" : "translate-x-0.5"
+          }`}
+        />
+      </button>
     </div>
   );
 };

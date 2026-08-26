@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 import Experience from "@/models/experience";
 
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
     /* QUERY */
     /* ====================================================== */
 
-    const query: any = {};
+    const query: Record<string, unknown> = {};
 
     /* SEARCH */
 
@@ -104,11 +105,11 @@ export async function GET(request: Request) {
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -137,11 +138,11 @@ export async function POST(req: Request) {
         status: 201,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

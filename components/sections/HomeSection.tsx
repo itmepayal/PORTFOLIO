@@ -25,7 +25,7 @@ export const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-100 flex items-center justify-between gap-2 border-b border-border bg-background/88 px-4 py-3 backdrop-blur-[18px] sm:gap-4 sm:px-[5%] sm:py-4">
+      <nav className="fixed top-0 left-0 right-0 z-100 flex items-center justify-between gap-2 border-b border-border bg-background/88 px-4 py-3 backdrop-blur-[18px] sm:gap-4 sm:px-6 sm:py-4 md:px-10 lg:px-16 xl:px-20">
         <div className="shrink-0 whitespace-nowrap bg-linear-to-br from-primary to-secondary-foreground bg-clip-text text-[1.2rem] font-bold tracking-tight text-transparent sm:text-[1.4rem]">
           PY.
         </div>
@@ -62,7 +62,7 @@ export const Home = () => {
       </nav>
 
       {menuOpen && (
-        <div className="fixed left-0 right-0 top-13.5 z-99 flex flex-col gap-3 border-b border-border bg-background/88 px-4 py-4 backdrop-blur-[18px] sm:top-15.25 sm:gap-4 sm:px-[5%] min-[900px]:hidden">
+        <div className="fixed left-0 right-0 top-13.5 z-99 flex flex-col gap-3 border-b border-border bg-background/88 px-4 py-4 backdrop-blur-[18px] sm:top-15.25 sm:gap-4 sm:px-6 md:px-10 min-[900px]:hidden">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -77,7 +77,7 @@ export const Home = () => {
       )}
       <section
         id="hero"
-        className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 pb-12 pt-24 text-center sm:px-[5%] sm:pb-16 sm:pt-28"
+        className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 pb-12 pt-24 text-center sm:px-6 sm:pb-16 sm:pt-28 md:px-10 lg:px-16 xl:px-20"
       >
         <div
           className="absolute inset-0"

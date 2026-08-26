@@ -1,3 +1,8 @@
+import { getErrorMessage } from "@/lib/utils";
+import {
+  sanitizeProjectPayload,
+  validateProjectWorkType,
+} from "@/lib/project";
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
@@ -49,11 +54,11 @@ export async function GET(
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -75,8 +80,6 @@ export async function PUT(
 
     const { id } = await params;
 
-    const body = await req.json();
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return Response.json(
         {
@@ -89,7 +92,46 @@ export async function PUT(
       );
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(id, body, {
+    const body = await req.json();
+    const existingProject = await Project.findById(id).select("workType company");
+
+    if (!existingProject) {
+      return Response.json(
+        {
+          success: false,
+          message: "Project not found",
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    const nextWorkType =
+      body.workType !== undefined ? body.workType : existingProject.workType;
+    const nextCompany =
+      body.company !== undefined ? body.company : existingProject.company;
+    const validationError = validateProjectWorkType(nextWorkType, nextCompany);
+
+    if (validationError) {
+      return Response.json(
+        {
+          success: false,
+          message: validationError,
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const payload = sanitizeProjectPayload({
+      ...body,
+      workType: nextWorkType,
+      company: nextCompany,
+    });
+
+    const updatedProject = await Project.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
     });
@@ -116,11 +158,11 @@ export async function PUT(
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,
@@ -179,11 +221,11 @@ export async function DELETE(
         status: 200,
       },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return Response.json(
       {
         success: false,
-        message: error.message,
+        message: getErrorMessage(error),
       },
       {
         status: 500,

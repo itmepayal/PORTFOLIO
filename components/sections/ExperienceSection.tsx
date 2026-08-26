@@ -5,16 +5,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "../common/Container";
+import { SectionHeader } from "../common/SectionHeader";
+import { ExperienceViewToggle } from "../common/ExperienceViewToggle";
+import { SectionEmptyState } from "../common/SectionEmptyState";
 import {
   TbExternalLink,
   TbBriefcase,
   TbCalendar,
   TbMapPin,
   TbCheck,
-  TbBuilding,
-  TbClock,
-  TbLayoutGrid,
-  TbTimeline,
   TbSparkles,
   TbArrowUpRight,
   TbChevronRight,
@@ -98,79 +97,34 @@ export const Experience = () => {
   }, []);
 
   const active = experiences[activeIndex];
+  const hasExperiences = experiences.length > 0;
 
   const handleLogoError = (id: string) => {
     setLogoErrorMap((prev) => ({ ...prev, [id]: true }));
   };
 
-  const totalYears = experiences.length
-    ? Math.round(
-      experiences.reduce((acc, item) => {
-        const start = new Date(item.startDate);
-        const end = item.current || !item.endDate ? new Date() : new Date(item.endDate);
-        const diffMs = end.getTime() - start.getTime();
-        return acc + (isNaN(diffMs) ? 0 : diffMs);
-      }, 0) / (1000 * 60 * 60 * 24 * 365.25)
-    )
-    : 0;
-
   return (
-    <Container>
-      <section id="experience" className="py-10 sm:py-16 md:py-20">
-        <div className="mx-auto w-full px-3 xs:px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
-          <div className="reveal mb-8 sm:mb-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-4 sm:gap-6">
-            <div className="flex items-end gap-4 sm:contents">
-              <div className="min-w-0">
-                <div className="mb-1 font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase">
-                  <span>02 — EXPERIENCE</span>
-                </div>
-                <h2 className="text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]">
-                  Where I&apos;ve
-                  Worked
-                </h2>
-              </div>
-              <div className="mb-1.5 hidden h-px min-w-10 flex-1 bg-linear-to-r from-border to-transparent sm:block" />
-            </div>
+    <Container id="experience">
+      <SectionHeader
+        label="02 — EXPERIENCE"
+        title="Where I've Worked"
+        actions={
+          !loading && hasExperiences ? (
+            <ExperienceViewToggle value={viewMode} onChange={setViewMode} />
+          ) : undefined
+        }
+      />
 
-            <div className="flex items-center gap-3 flex-wrap">
-              <div className="inline-flex p-1 rounded-lg border border-border bg-card/80 backdrop-blur-md">
-                <button
-                  onClick={() => setViewMode("tabs")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-xs transition-all duration-200 cursor-pointer ${viewMode === "tabs"
-                    ? "bg-primary text-primary-foreground shadow-sm font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  title="Sidebar Tabs View"
-                >
-                  <TbLayoutGrid className="size-3.5" />
-                  <span>Tabs</span>
-                </button>
-                <button
-                  onClick={() => setViewMode("timeline")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-xs transition-all duration-200 cursor-pointer ${viewMode === "timeline"
-                    ? "bg-primary text-primary-foreground shadow-sm font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  title="Vertical Timeline View"
-                >
-                  <TbTimeline className="size-3.5" />
-                  <span>Timeline</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {loading ? (
-            <ExperienceSkeleton />
-          ) : experiences.length === 0 ? (
-            <div className="p-8 text-center rounded-xl border border-dashed border-border bg-card/40">
-              <TbBriefcase className="size-10 mx-auto text-muted-foreground mb-3 opacity-60" />
-              <p className="font-mono text-sm text-muted-foreground">
-                No work experience records found.
-              </p>
-            </div>
-          ) : viewMode === "tabs" ? (
-            <div className="reveal grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[320px_1fr] rounded-xl border border-border bg-card/50 backdrop-blur-xs overflow-hidden shadow-lg">
+      {loading ? (
+        <ExperienceSkeleton />
+      ) : experiences.length === 0 ? (
+        <SectionEmptyState
+          icon={TbBriefcase}
+          title="No work experience yet"
+          description="Experience entries will appear here once they are added from the dashboard."
+        />
+      ) : viewMode === "tabs" ? (
+            <div className="reveal grid grid-cols-1 overflow-hidden border border-border bg-card/50 lg:grid-cols-[280px_1fr] xl:grid-cols-[320px_1fr]">
               <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-border bg-surface/40 p-2 sm:p-3 gap-1.5 scrollbar-none snap-x">
                 {experiences.map((item, i) => {
                   const isActive = i === activeIndex;
@@ -293,7 +247,7 @@ export const Experience = () => {
                       </div>
 
                       {active.description && (
-                        <div className="my-6 p-4 rounded-lg border-l-2 border-primary bg-surface/30 text-sm text-dimmed leading-relaxed">
+                        <div className="my-6 p-4 rounded-lg border-l-2 border-primary bg-surface/30 text-sm text-muted-foreground leading-relaxed">
                           {active.description}
                         </div>
                       )}
@@ -313,7 +267,7 @@ export const Experience = () => {
                                 <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                                   <TbCheck className="size-3" />
                                 </span>
-                                <p className="text-sm leading-relaxed text-dimmed group-hover:text-foreground transition-colors">
+                                <p className="text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
                                   {point}
                                 </p>
                               </div>
@@ -443,7 +397,7 @@ export const Experience = () => {
                           </div>
 
                           {item.description && (
-                            <p className="text-xs text-dimmed leading-relaxed mb-4 line-clamp-3">
+                            <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-3">
                               {item.description}
                             </p>
                           )}
@@ -481,8 +435,6 @@ export const Experience = () => {
               </div>
             </div>
           )}
-        </div>
-      </section>
     </Container>
   );
 };
