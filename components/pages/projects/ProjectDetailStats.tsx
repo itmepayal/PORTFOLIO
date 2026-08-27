@@ -1,4 +1,8 @@
-import { getProjectWorkTypeLabel } from "@/lib/project";
+import {
+  getProjectOrganizationDisplay,
+  getProjectOrganizationLabel,
+  getProjectWorkTypeLabel,
+} from "@/lib/project";
 import { DetailStatBlock } from "@/components/pages/shared/DetailStatBlock";
 import type { Project } from "./project-types";
 
@@ -37,12 +41,8 @@ export const ProjectDetailStats = ({ project }: { project: Project }) => (
           value={getProjectWorkTypeLabel(project.workType)}
         />
         <DetailStatBlock
-          label="Company"
-          value={
-            project.workType === "company" && project.company
-              ? project.company
-              : "—"
-          }
+          label={getProjectOrganizationLabel(project.workType)}
+          value={getProjectOrganizationDisplay(project)}
         />
         <DetailStatBlock label="Technologies" value={project.tech.length} />
         <DetailStatBlock label="Key features" value={project.features.length} />

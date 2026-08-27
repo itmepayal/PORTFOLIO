@@ -5,8 +5,7 @@ import { Container } from "../common/Container";
 import { ContactForm } from "../common/ContactForm";
 import { FiDownload } from "react-icons/fi";
 import { monoLabelPrimary, sectionTitle } from "@/lib/ui";
-
-const RESUME_PATH = "/pdf/PAYAL_YADAV.pdf";
+import { SITE } from "@/lib/site";
 
 export const Contact = () => {
   return (
@@ -38,13 +37,13 @@ export const Contact = () => {
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <a
-                href="mailto:itme.payalyadav@gmail.com"
+                href={`mailto:${SITE.email}`}
                 className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3 font-mono text-[0.74rem] tracking-wide text-muted-foreground transition-colors hover:border-primary hover:text-primary"
               >
-                itme.payalyadav@gmail.com
+                {SITE.email}
               </a>
               <a
-                href={RESUME_PATH}
+                href={SITE.resumePath}
                 download
                 className="inline-flex items-center justify-center gap-2 border border-primary/30 bg-primary/10 px-6 py-3 font-mono text-[0.74rem] tracking-wide text-primary transition-colors hover:border-primary"
               >

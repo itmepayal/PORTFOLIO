@@ -49,11 +49,12 @@ export async function GET(request: Request) {
       ];
     }
 
-    if (filter === "Published") {
+    const session = await getAuthSession();
+    if (!session) {
       query.isPublished = true;
-    }
-
-    if (filter === "Draft") {
+    } else if (filter === "Published") {
+      query.isPublished = true;
+    } else if (filter === "Draft") {
       query.isPublished = false;
     }
 

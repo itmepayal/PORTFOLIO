@@ -1,11 +1,18 @@
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Toaster } from "@/components/ui/sonner";
 import { Poppins, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import CustomCursor from "@/components/common/CustomCursor";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  buildPersonJsonLd,
+  buildProfessionalServiceJsonLd,
+  buildRootMetadata,
+  buildWebsiteJsonLd,
+} from "@/lib/seo";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,12 +26,15 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-export const metadata: Metadata = {
-  title: "Payal Yadav",
-  description: "Full Stack Developer Portfolio",
-  icons: {
-    icon: "/favicon.svg",
-  },
+export const metadata: Metadata = buildRootMetadata();
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f0f2ff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -45,6 +55,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <JsonLd
+          data={[
+            buildPersonJsonLd(),
+            buildWebsiteJsonLd(),
+            buildProfessionalServiceJsonLd(),
+          ]}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

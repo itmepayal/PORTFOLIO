@@ -123,6 +123,27 @@ export function validateProjectWorkType(
   return null;
 }
 
+export function getProjectOrganizationLabel(workType?: string): string {
+  if (workType === "company") return "Company";
+  return "Organization";
+}
+
+export function getProjectOrganizationDisplay(project: {
+  workType?: string;
+  company?: string;
+}): string {
+  const workType = project.workType;
+  const company = project.company?.trim();
+
+  if (workType === "company") {
+    return company || "—";
+  }
+  if (workType === "freelance") {
+    return company || "Freelance / Independent";
+  }
+  return "Personal project";
+}
+
 export function sanitizeProjectPayload<T extends Record<string, unknown>>(
   body: T,
 ): T {

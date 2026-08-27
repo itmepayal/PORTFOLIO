@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { ModeToggle } from "@/components/common/ThemeToggle";
+import { SITE } from "@/lib/site";
 import { HiArrowDown, HiArrowRight } from "react-icons/hi2";
 
 const navLinks = [
@@ -164,7 +165,7 @@ export const Home = () => {
 
           <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
             <a
-              href="/pdf/PAYAL_YADAV.pdf"
+              href={SITE.resumePath}
               target="_blank"
               rel="noopener noreferrer"
               download

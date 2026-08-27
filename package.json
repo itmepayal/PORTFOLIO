@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "postinstall": "node scripts/link-parent-modules.mjs",
+    "dev": "next dev --webpack",
+    "dev:turbo": "next dev",
+    "build": "next build --webpack",
+    "build:prod": "next build --webpack && node scripts/prepare-standalone.mjs",
     "start": "next start",
+    "start:prod": "node .next/standalone/server.js",
     "lint": "eslint",
     "seed:demo": "node scripts/seed-demo-data.mjs"
   },

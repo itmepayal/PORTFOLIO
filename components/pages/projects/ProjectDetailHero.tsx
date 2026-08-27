@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { HiArrowLeft } from "react-icons/hi";
 import { getProjectWorkTypeLabel } from "@/lib/project";
+import { DEFAULT_PROJECT_HERO_IMAGE } from "@/lib/site";
+import { isValidMediaUrl } from "@/lib/utils";
 import type { Project } from "./project-types";
 
 type ProjectDetailHeroProps = {
@@ -15,7 +17,12 @@ export const ProjectDetailHero = ({
   accentLine,
   formattedDate,
   onBackHome,
-}: ProjectDetailHeroProps) => (
+}: ProjectDetailHeroProps) => {
+  const heroSrc = isValidMediaUrl(project.image)
+    ? project.image.trim()
+    : DEFAULT_PROJECT_HERO_IMAGE;
+
+  return (
   <>
     <div className="px-[5%]">
       <div className="mx-auto max-w-300">
@@ -37,7 +44,7 @@ export const ProjectDetailHero = ({
         />
         <div className="relative h-64 w-full overflow-hidden sm:h-80 md:h-96">
           <Image
-            src={project.image}
+            src={heroSrc}
             alt={project.title}
             unoptimized
             fill
@@ -77,4 +84,5 @@ export const ProjectDetailHero = ({
       </div>
     </section>
   </>
-);
+  );
+};

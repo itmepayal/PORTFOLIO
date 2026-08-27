@@ -1,18 +1,46 @@
-import { projectCrud, updateProject } from "@/lib/api/handlers/project";
-import { jsonError, jsonFromError } from "@/lib/api/http";
+import { requireAuthSessionOrResponse } from "@/lib/api/auth";
+import { jsonError, jsonFromError, jsonSuccess } from "@/lib/api/http";
+import { updateProject } from "@/lib/api/handlers/project";
+import { getAuthSession } from "@/lib/auth";
+import { connectDB } from "@/lib/db";
+import Project from "@/models/project";
+import mongoose from "mongoose";
 
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await params;
-  return projectCrud.getById(id);
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return jsonError("Invalid project ID", 400);
+    }
+
+    const project = await Project.findById(id);
+    if (!project) {
+      return jsonError("Project not found", 404);
+    }
+
+    const session = await getAuthSession();
+    if (!session && !project.isPublished) {
+      return jsonError("Project not found", 404);
+    }
+
+    return jsonSuccess({ project });
+  } catch (error) {
+    return jsonFromError(error);
+  }
 }
 
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const auth = await requireAuthSessionOrResponse();
+  if (auth.response) return auth.response;
+
   try {
     const { id } = await params;
     const body = await req.json();
@@ -32,6 +60,24 @@ export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await params;
-  return projectCrud.deleteById(id);
+  const auth = await requireAuthSessionOrResponse();
+  if (auth.response) return auth.response;
+
+  try {
+    await connectDB();
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return jsonError("Invalid project ID", 400);
+    }
+
+    const deleted = await Project.findByIdAndDelete(id);
+    if (!deleted) {
+      return jsonError("Project not found", 404);
+    }
+
+    return jsonSuccess({ message: "Project deleted successfully" });
+  } catch (error) {
+    return jsonFromError(error);
+  }
 }

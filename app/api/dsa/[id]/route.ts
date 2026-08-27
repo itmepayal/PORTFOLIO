@@ -1,3 +1,4 @@
+import { requireAuthSessionOrResponse } from "@/lib/api/auth";
 import { dsaCrud } from "@/lib/api/handlers/dsa";
 
 export async function GET(
@@ -12,6 +13,9 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const auth = await requireAuthSessionOrResponse();
+  if (auth.response) return auth.response;
+
   const { id } = await params;
   const body = await req.json();
   return dsaCrud.updateById(id, body);
@@ -21,6 +25,9 @@ export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const auth = await requireAuthSessionOrResponse();
+  if (auth.response) return auth.response;
+
   const { id } = await params;
   return dsaCrud.deleteById(id);
 }
