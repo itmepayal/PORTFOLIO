@@ -133,15 +133,15 @@ export const Experience = () => {
                     <button
                       key={item._id}
                       onClick={() => setActiveIndex(i)}
-                      className={`group relative shrink-0 min-w-[160px] lg:min-w-0 lg:w-full text-left p-3.5 rounded-lg transition-all duration-200 outline-none snap-start cursor-pointer ${isActive
-                        ? "bg-primary/10 border border-primary/30 shadow-xs"
-                        : "hover:bg-muted/40 border border-transparent"
+                      className={`group relative shrink-0 min-w-[160px] lg:min-w-0 lg:w-full text-left p-3.5 transition-all duration-200 outline-none snap-start cursor-pointer border ${isActive
+                        ? "bg-primary/10 border-primary/30 shadow-xs"
+                        : "hover:bg-muted/40 border-transparent"
                         }`}
                     >
                       {isActive && (
                         <motion.div
                           layoutId="activeTabIndicator"
-                          className="absolute inset-y-2 left-0 w-1 rounded-r-full bg-primary"
+                          className="absolute inset-y-2 left-0 w-0.5 bg-primary"
                           transition={{ type: "spring", stiffness: 400, damping: 30 }}
                         />
                       )}
@@ -154,17 +154,14 @@ export const Experience = () => {
                           {item.company}
                         </span>
                         {item.current && (
-                          <span className="relative flex size-2 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75" />
-                            <span className="relative inline-flex rounded-full size-2 bg-cyan" />
-                          </span>
+                          <span className="relative flex size-2 shrink-0 bg-cyan" />
                         )}
                       </div>
 
                       <div className="mt-1 flex items-center justify-between text-[0.7rem] font-mono text-muted-foreground truncate">
                         <span className="truncate">{item.position}</span>
                         {duration && (
-                          <span className="ml-2 shrink-0 text-[0.65rem] px-1.5 py-0.5 rounded bg-surface border border-border/60">
+                          <span className="ml-2 shrink-0 text-[0.65rem] px-1.5 py-0.5 bg-surface border border-border/60">
                             {duration}
                           </span>
                         )}
@@ -191,8 +188,8 @@ export const Experience = () => {
                               {active.position}
                             </h3>
                             {active.current && (
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[0.65rem] font-mono font-semibold uppercase tracking-wider bg-cyan/10 text-cyan border border-cyan/30">
-                                <span className="size-1.5 rounded-full bg-cyan animate-pulse" />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[0.65rem] font-mono font-semibold uppercase tracking-wider bg-cyan/10 text-cyan border border-cyan/30">
+                                <span className="size-1.5 bg-cyan animate-pulse" />
                                 Current Role
                               </span>
                             )}
@@ -227,7 +224,7 @@ export const Experience = () => {
                         </div>
 
                         {active.companyLogo && !logoErrorMap[active._id] ? (
-                          <div className="size-14 rounded-xl border border-border bg-surface p-2 flex items-center justify-center shrink-0 shadow-xs">
+                          <div className="size-14 border border-border bg-surface p-2 flex items-center justify-center shrink-0 shadow-xs">
                             <Image
                               src={active.companyLogo}
                               alt={active.company}
@@ -238,7 +235,7 @@ export const Experience = () => {
                             />
                           </div>
                         ) : (
-                          <div className="size-14 rounded-xl border border-border bg-linear-to-br from-primary/20 via-cyan/10 to-accent2/20 flex items-center justify-center shrink-0 shadow-xs">
+                          <div className="size-14 border border-border bg-linear-to-br from-primary/20 via-cyan/10 to-accent2/20 flex items-center justify-center shrink-0 shadow-xs">
                             <span className="font-mono text-xl font-bold text-primary">
                               {active.company.charAt(0)}
                             </span>
@@ -247,7 +244,7 @@ export const Experience = () => {
                       </div>
 
                       {active.description && (
-                        <div className="my-6 p-4 rounded-lg border-l-2 border-primary bg-surface/30 text-sm text-muted-foreground leading-relaxed">
+                        <div className="my-6 p-4 border-l-2 border-primary bg-surface/30 text-sm text-muted-foreground leading-relaxed">
                           {active.description}
                         </div>
                       )}
@@ -262,9 +259,9 @@ export const Experience = () => {
                             {active.responsibilities.slice(0, 2).map((point, idx) => (
                               <div
                                 key={idx}
-                                className="group flex items-start gap-3 p-3 rounded-lg border border-border/50 bg-surface/20 hover:border-primary/40 hover:bg-surface/50 transition-all duration-200"
+                                className="group flex items-start gap-3 p-3 border border-border/50 bg-surface/20 hover:border-primary/40 hover:bg-surface/50 transition-all duration-200"
                               >
-                                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                                   <TbCheck className="size-3" />
                                 </span>
                                 <p className="text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
@@ -285,7 +282,7 @@ export const Experience = () => {
                             {active.technologies.map((tech, idx) => (
                               <span
                                 key={idx}
-                                className="font-mono text-xs text-foreground px-3 py-1 rounded-md border border-border bg-surface/60 hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-150 shadow-2xs"
+                                className="font-mono text-xs text-foreground px-3 py-1 border border-border bg-surface/60 hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-150 shadow-2xs"
                               >
                                 #{tech}
                               </span>
@@ -297,7 +294,7 @@ export const Experience = () => {
                       <div className="mt-8 pt-4 flex items-center justify-between border-t border-border/50 flex-wrap gap-3">
                         <Link
                           href={`/experiences/${active._id}`}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground font-mono text-xs font-semibold hover:bg-primary/90 transition-colors shadow-xs group"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-mono text-xs font-semibold hover:bg-primary/90 transition-colors shadow-xs group"
                         >
                           View Full Case Study
                           <TbArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -322,7 +319,7 @@ export const Experience = () => {
             </div>
           ) : (
             <div className="relative py-4">
-              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-primary via-cyan to-accent2/30 -translate-x-1/2 rounded-full" />
+              <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-primary via-cyan to-accent2/30 -translate-x-1/2" />
 
               <div className="space-y-8 md:space-y-12">
                 {experiences.map((item, idx) => {
@@ -340,14 +337,14 @@ export const Experience = () => {
                         }`}
                     >
                       <div className="absolute left-4 md:left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
-                        <div className="size-10 rounded-full border-2 border-primary bg-card flex items-center justify-center shadow-md">
+                        <div className="size-10 border-2 border-primary bg-card flex items-center justify-center shadow-md">
                           {item.companyLogo && !logoErrorMap[item._id] ? (
                             <Image
                               src={item.companyLogo}
                               alt={item.company}
                               width={24}
                               height={24}
-                              className="object-contain rounded-full"
+                              className="object-contain"
                               onError={() => handleLogoError(item._id)}
                             />
                           ) : (
@@ -362,18 +359,18 @@ export const Experience = () => {
                         className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] ${isEven ? "md:mr-auto" : "md:ml-auto"
                           }`}
                       >
-                        <div className="p-5 sm:p-6 rounded-xl border border-border bg-card/80 backdrop-blur-md shadow-md hover:border-primary/40 transition-all duration-300 group">
+                        <div className="p-5 sm:p-6 border border-border bg-card/80 backdrop-blur-md shadow-md hover:border-primary/40 transition-all duration-300 group">
                           <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
                             <span className="font-mono text-xs font-bold text-primary">
                               {item.company}
                             </span>
                             {item.current ? (
-                              <span className="inline-flex items-center gap-1 text-[0.65rem] font-mono text-cyan bg-cyan/10 px-2 py-0.5 rounded-full border border-cyan/30">
-                                <span className="size-1.5 rounded-full bg-cyan animate-pulse" />
+                              <span className="inline-flex items-center gap-1 text-[0.65rem] font-mono text-cyan bg-cyan/10 px-2 py-0.5 border border-cyan/30">
+                                <span className="size-1.5 bg-cyan animate-pulse" />
                                 Current
                               </span>
                             ) : duration ? (
-                              <span className="font-mono text-[0.65rem] text-muted-foreground px-2 py-0.5 rounded bg-surface border border-border/50">
+                              <span className="font-mono text-[0.65rem] text-muted-foreground px-2 py-0.5 bg-surface border border-border/50">
                                 {duration}
                               </span>
                             ) : null}
@@ -407,7 +404,7 @@ export const Experience = () => {
                               {item.technologies.slice(0, 5).map((tech, tIdx) => (
                                 <span
                                   key={tIdx}
-                                  className="font-mono text-[0.65rem] text-muted-foreground px-2 py-0.5 rounded bg-surface border border-border/50"
+                                  className="font-mono text-[0.65rem] text-muted-foreground px-2 py-0.5 bg-surface border border-border/50"
                                 >
                                   {tech}
                                 </span>

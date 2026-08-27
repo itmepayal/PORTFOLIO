@@ -1,4 +1,5 @@
 import { getErrorMessage } from "@/lib/utils";
+import { getAuthSession } from "@/lib/auth";
 import {
   isProjectWorkType,
   sanitizeProjectPayload,
@@ -109,6 +110,14 @@ export async function GET(request: Request) {
 
 export async function POST(req: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session) {
+      return Response.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
     await connectDB();
 
     const body = await req.json();
@@ -126,7 +135,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const project = await Project.create(sanitizeProjectPayload(body));
+    const project = await Project.create({
+      ...sanitizeProjectPayload(body),
+      userId: session.userId,
+    });
 
     return Response.json(
       {

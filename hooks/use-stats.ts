@@ -5,11 +5,6 @@ import { useEffect, useState } from "react";
 
 type Difficulty = "All" | "Easy" | "Medium" | "Hard";
 
-type Submission = {
-  difficulty: Difficulty;
-  count: number;
-};
-
 type LeetCodeStats = {
   title: string;
   solved: number;
@@ -32,9 +27,18 @@ export const useLeetCodeStats = () => {
         const res = await fetch("/api/leetcode");
         const json = await res.json();
 
-        if (!json.success) throw new Error("API failed");
+        if (!json.success) throw new Error(json.message || "API failed");
 
-        const submissions: Submission[] = json.data.submitStats.acSubmissionNum;
+        const profile = json.profile;
+        const submissions: Array<{ difficulty: Difficulty; count: number }> =
+          profile?.solved
+            ? [
+                { difficulty: "All", count: profile.solved.all },
+                { difficulty: "Easy", count: profile.solved.easy },
+                { difficulty: "Medium", count: profile.solved.medium },
+                { difficulty: "Hard", count: profile.solved.hard },
+              ]
+            : profile?.submitStats?.acSubmissionNum || [];
 
         const map = submissions.reduce<Record<Difficulty, number>>(
           (acc, curr) => {
@@ -46,10 +50,10 @@ export const useLeetCodeStats = () => {
 
         const formatted: LeetCodeStats = {
           title: "LeetCode",
-          solved: map.All,
-          easy: map.Easy,
-          medium: map.Medium,
-          hard: map.Hard,
+          solved: json.stats?.problemsSolved ?? map.All,
+          easy: json.stats?.easy ?? map.Easy,
+          medium: json.stats?.medium ?? map.Medium,
+          hard: json.stats?.hard ?? map.Hard,
           description:
             "Consistently solving algorithmic challenges with strong focus on optimization.",
         };

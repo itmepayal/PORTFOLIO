@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { ModeToggle } from "@/components/common/ThemeToggle";
@@ -14,15 +14,46 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-const stats = [
-  { value: "800K+", label: "Requests / Day" },
-  { value: "1000+", label: "DSA Problems Solved" },
-  { value: "5", label: "Projects Built" },
-  { value: "3 Month", label: "Experience" },
+interface HeroStat {
+  value: string;
+  label: string;
+}
+
+const FALLBACK_STATS: HeroStat[] = [
+  { value: "0", label: "Problems Solved" },
+  { value: "0", label: "Projects Built" },
+  { value: "0", label: "Skills" },
+  { value: "0", label: "Experiences" },
 ];
 
 export const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [stats, setStats] = useState<HeroStat[]>(FALLBACK_STATS);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("/api/public/stats");
+        const data = await response.json();
+        if (data.success && data.stats) {
+          const s = data.stats;
+          setStats([
+            {
+              value: s.problemsSolved > 0 ? `${s.problemsSolved}+` : "0",
+              label: "Problems Solved",
+            },
+            { value: String(s.projects), label: "Projects Built" },
+            { value: String(s.skills), label: "Skills" },
+            { value: String(s.experiences), label: "Experiences" },
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch public stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-100 flex items-center justify-between gap-2 border-b border-border bg-background/88 px-4 py-3 backdrop-blur-[18px] sm:gap-4 sm:px-6 sm:py-4 md:px-10 lg:px-16 xl:px-20">

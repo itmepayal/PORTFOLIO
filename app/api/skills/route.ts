@@ -1,4 +1,5 @@
 import { getErrorMessage } from "@/lib/utils";
+import { getAuthSession } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
 import Skill from "@/models/skills";
 
@@ -132,11 +133,22 @@ export async function GET(request: Request) {
 
 export async function POST(req: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session) {
+      return Response.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
     await connectDB();
 
     const body = await req.json();
 
-    const skill = await Skill.create(body);
+    const skill = await Skill.create({
+      ...body,
+      userId: session.userId,
+    });
 
     return Response.json(
       {

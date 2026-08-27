@@ -1,4 +1,5 @@
 import { getErrorMessage } from "@/lib/utils";
+import { getAuthSession } from "@/lib/auth";
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
@@ -80,6 +81,21 @@ export async function PUT(
         },
         { status: 400 },
       );
+    }
+
+    if (body.replied === true) {
+      const session = await getAuthSession();
+      if (session) {
+        body.repliedBy = session.userId;
+        if (!body.repliedAt) {
+          body.repliedAt = new Date();
+        }
+      }
+    }
+
+    if (body.replied === false) {
+      body.repliedBy = null;
+      body.repliedAt = null;
     }
 
     const updatedEnquiry = await Enquiry.findByIdAndUpdate(id, body, {

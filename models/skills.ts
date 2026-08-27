@@ -1,115 +1,56 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document } from "mongoose";
+import type { SkillCategory } from "./shared/enums";
+import { skillCategories } from "./shared/enums";
+import { userIdField } from "./shared/fields";
 
-/* ====================================================== */
-/* TYPES */
-/* ====================================================== */
-
-export interface ISkill {
+export interface ISkill extends Document {
+  userId?: Schema.Types.ObjectId;
   title: string;
-  category:
-    | "frontend"
-    | "backend"
-    | "database"
-    | "devops"
-    | "mobile"
-    | "language"
-    | "tool"
-    | "cloud"
-    | "other";
-
+  category: SkillCategory;
   icon: string;
   level: number;
   featured: boolean;
   order: number;
 }
 
-/* ====================================================== */
-/* SCHEMA */
-/* ====================================================== */
-
 const skillSchema = new Schema<ISkill>(
   {
-    /* ====================================================== */
-    /* TITLE */
-    /* ====================================================== */
+    userId: userIdField,
 
     title: {
       type: String,
-
       required: [true, "Skill title is required"],
-
       trim: true,
-
       maxlength: [40, "Title cannot exceed 40 characters"],
     },
 
-    /* ====================================================== */
-    /* CATEGORY */
-    /* ====================================================== */
-
     category: {
       type: String,
-
-      enum: [
-        "frontend",
-        "backend",
-        "database",
-        "devops",
-        "mobile",
-        "language",
-        "tool",
-        "cloud",
-        "other",
-      ],
-
+      enum: skillCategories,
       default: "other",
     },
 
-    /* ====================================================== */
-    /* ICON */
-    /* ====================================================== */
-
     icon: {
       type: String,
-
       required: [true, "Icon is required"],
-
       trim: true,
     },
 
-    /* ====================================================== */
-    /* LEVEL */
-    /* ====================================================== */
-
     level: {
       type: Number,
-
       required: true,
-
       min: [1, "Minimum level is 1"],
-
       max: [100, "Maximum level is 100"],
-
       default: 80,
     },
 
-    /* ====================================================== */
-    /* FEATURED */
-    /* ====================================================== */
-
     featured: {
       type: Boolean,
-
       default: false,
     },
 
-    /* ====================================================== */
-    /* ORDER */
-    /* ====================================================== */
-
     order: {
       type: Number,
-
       default: 0,
     },
   },
@@ -118,25 +59,10 @@ const skillSchema = new Schema<ISkill>(
   },
 );
 
-/* ====================================================== */
-/* INDEXES */
-/* ====================================================== */
-
-skillSchema.index({
-  category: 1,
-});
-
-skillSchema.index({
-  featured: 1,
-});
-
-skillSchema.index({
-  order: 1,
-});
-
-/* ====================================================== */
-/* MODEL */
-/* ====================================================== */
+skillSchema.index({ category: 1 });
+skillSchema.index({ featured: 1 });
+skillSchema.index({ order: 1 });
+skillSchema.index({ userId: 1 });
 
 const Skill = models.Skill || model<ISkill>("Skill", skillSchema);
 

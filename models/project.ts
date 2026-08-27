@@ -1,33 +1,12 @@
 import { Schema, model, models } from "mongoose";
-
-/* ====================================================== */
-/* TECH STACK SCHEMA */
-/* ====================================================== */
-
-const techSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    icon: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    _id: false,
-  },
-);
-
-/* ====================================================== */
-/* PROJECT SCHEMA */
-/* ====================================================== */
+import { projectCategories, projectWorkTypes } from "./shared/enums";
+import { techSnapshotSchema } from "./shared/techSchema";
+import { userIdField } from "./shared/fields";
 
 const projectSchema = new Schema(
   {
+    userId: userIdField,
+
     title: {
       type: String,
       required: [true, "Project title is required"],
@@ -45,7 +24,7 @@ const projectSchema = new Schema(
     },
 
     tech: {
-      type: [techSchema],
+      type: [techSnapshotSchema],
       default: [],
     },
 
@@ -73,13 +52,13 @@ const projectSchema = new Schema(
 
     category: {
       type: String,
-      enum: ["backend", "fullstack", "frontend", "mobile", "api"],
+      enum: projectCategories,
       default: "fullstack",
     },
 
     workType: {
       type: String,
-      enum: ["company", "freelance", "self"],
+      enum: projectWorkTypes,
       default: "self",
     },
 
@@ -119,20 +98,12 @@ projectSchema.pre("validate", function () {
   }
 });
 
-/* ====================================================== */
-/* INDEXES */
-/* ====================================================== */
-
 projectSchema.index({ workType: 1 });
-
+projectSchema.index({ userId: 1 });
 projectSchema.index({
   title: "text",
   description: "text",
 });
-
-/* ====================================================== */
-/* MODEL */
-/* ====================================================== */
 
 const Project = models.Project || model("Project", projectSchema);
 

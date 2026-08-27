@@ -2,10 +2,6 @@ import { Schema, model, models } from "mongoose";
 
 const enquirySchema = new Schema(
   {
-    /* ====================================================== */
-    /* CONTACT INFO */
-    /* ====================================================== */
-
     name: {
       type: String,
       required: true,
@@ -20,20 +16,12 @@ const enquirySchema = new Schema(
       lowercase: true,
     },
 
-    /* ====================================================== */
-    /* MESSAGE */
-    /* ====================================================== */
-
     message: {
       type: String,
       required: true,
       trim: true,
       maxlength: 5000,
     },
-
-    /* ====================================================== */
-    /* STATUS */
-    /* ====================================================== */
 
     isRead: {
       type: Boolean,
@@ -49,21 +37,22 @@ const enquirySchema = new Schema(
       type: Date,
       default: null,
     },
+
+    repliedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,
   },
 );
 
-/* ====================================================== */
-/* INDEXES */
-/* ====================================================== */
-
 enquirySchema.index({ email: 1 });
-
 enquirySchema.index({ isRead: 1 });
-
 enquirySchema.index({ createdAt: -1 });
+enquirySchema.index({ repliedBy: 1 });
 
 const Enquiry = models.Enquiry || model("Enquiry", enquirySchema);
 

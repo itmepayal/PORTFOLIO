@@ -1,7 +1,10 @@
 import { Schema, model, models } from "mongoose";
+import { userIdField } from "./shared/fields";
 
 const experienceSchema = new Schema(
   {
+    userId: userIdField,
+
     company: {
       type: String,
       required: true,
@@ -75,6 +78,9 @@ const experienceSchema = new Schema(
     timestamps: true,
   },
 );
+
+experienceSchema.index({ userId: 1 });
+experienceSchema.index({ order: 1 });
 
 const Experience = models.Experience || model("Experience", experienceSchema);
 

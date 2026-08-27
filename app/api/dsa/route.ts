@@ -1,5 +1,7 @@
 import { getErrorMessage } from "@/lib/utils";
+import { getAuthSession } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
+import { maybeSyncLeetCodeDSA } from "@/lib/sync-leetcode-dsa";
 import DSA from "@/models/dsa";
 
 /* ====================================================== */
@@ -9,6 +11,7 @@ import DSA from "@/models/dsa";
 export async function GET(request: Request) {
   try {
     await connectDB();
+    await maybeSyncLeetCodeDSA();
 
     const { searchParams } = new URL(request.url);
     const page = Number(searchParams.get("page")) || 1;
@@ -102,11 +105,22 @@ export async function GET(request: Request) {
 
 export async function POST(req: Request) {
   try {
+    const session = await getAuthSession();
+    if (!session) {
+      return Response.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
     await connectDB();
 
     const body = await req.json();
 
-    const dsa = await DSA.create(body);
+    const dsa = await DSA.create({
+      ...body,
+      userId: session.userId,
+    });
 
     return Response.json(
       {

@@ -1,46 +1,24 @@
+import { getErrorMessage } from "@/lib/utils";
+import { fetchLeetCodeProfile, toLeetCodeSyncFields } from "@/lib/leetcode";
+
 export async function GET() {
-  const username = "Payal_Leet_Code";
-  const query = `
-    query getUserProfile($username: String!) {
-      matchedUser(username: $username) {
-        username
-        submitStats {
-          acSubmissionNum {
-            difficulty
-            count
-          }
-        }
-        profile {
-          ranking
-          reputation
-        }
-      }
-    }
-  `;
-
   try {
-    const res = await fetch("https://leetcode.com/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Referer: "https://leetcode.com",
-      },
-      body: JSON.stringify({
-        query,
-        variables: { username },
-      }),
-      next: { revalidate: 3600 },
-    });
+    const profile = await fetchLeetCodeProfile();
+    const stats = toLeetCodeSyncFields(profile);
 
-    const data = await res.json();
     return Response.json({
       success: true,
-      data: data.data.matchedUser,
+      username: profile.username,
+      profile,
+      stats,
     });
-  } catch {
-    return Response.json({
-      success: false,
-      message: "Failed to fetch LeetCode data",
-    });
+  } catch (error: unknown) {
+    return Response.json(
+      {
+        success: false,
+        message: getErrorMessage(error, "Failed to fetch LeetCode data"),
+      },
+      { status: 500 },
+    );
   }
 }

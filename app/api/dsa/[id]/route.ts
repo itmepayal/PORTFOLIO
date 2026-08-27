@@ -1,170 +1,26 @@
-import { getErrorMessage } from "@/lib/utils";
-import mongoose from "mongoose";
-
-import { connectDB } from "@/lib/db";
-import DSA from "@/models/dsa";
-
-/* ====================================================== */
-/* GET SINGLE DSA */
-/* ====================================================== */
+import { dsaCrud } from "@/lib/api/handlers/dsa";
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  try {
-    await connectDB();
-
-    const { id } = await params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return Response.json(
-        {
-          success: false,
-          message: "Invalid DSA ID",
-        },
-        { status: 400 },
-      );
-    }
-
-    const dsa = await DSA.findById(id);
-
-    if (!dsa) {
-      return Response.json(
-        {
-          success: false,
-          message: "DSA not found",
-        },
-        { status: 404 },
-      );
-    }
-
-    return Response.json(
-      {
-        success: true,
-        dsa,
-      },
-      { status: 200 },
-    );
-  } catch (error: unknown) {
-    return Response.json(
-      {
-        success: false,
-        message: getErrorMessage(error),
-      },
-      { status: 500 },
-    );
-  }
+  const { id } = await params;
+  return dsaCrud.getById(id);
 }
-
-/* ====================================================== */
-/* UPDATE DSA */
-/* ====================================================== */
 
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  try {
-    await connectDB();
-
-    const { id } = await params;
-
-    const body = await req.json();
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return Response.json(
-        {
-          success: false,
-          message: "Invalid DSA ID",
-        },
-        { status: 400 },
-      );
-    }
-
-    const updatedDSA = await DSA.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedDSA) {
-      return Response.json(
-        {
-          success: false,
-          message: "DSA not found",
-        },
-        { status: 404 },
-      );
-    }
-
-    return Response.json(
-      {
-        success: true,
-        message: "DSA updated successfully",
-        dsa: updatedDSA,
-      },
-      { status: 200 },
-    );
-  } catch (error: unknown) {
-    return Response.json(
-      {
-        success: false,
-        message: getErrorMessage(error),
-      },
-      { status: 500 },
-    );
-  }
+  const { id } = await params;
+  const body = await req.json();
+  return dsaCrud.updateById(id, body);
 }
 
-/* ====================================================== */
-/* DELETE DSA */
-/* ====================================================== */
-
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  try {
-    await connectDB();
-
-    const { id } = await params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return Response.json(
-        {
-          success: false,
-          message: "Invalid DSA ID",
-        },
-        { status: 400 },
-      );
-    }
-
-    const deletedDSA = await DSA.findByIdAndDelete(id);
-
-    if (!deletedDSA) {
-      return Response.json(
-        {
-          success: false,
-          message: "DSA not found",
-        },
-        { status: 404 },
-      );
-    }
-
-    return Response.json(
-      {
-        success: true,
-        message: "DSA deleted successfully",
-      },
-      { status: 200 },
-    );
-  } catch (error: unknown) {
-    return Response.json(
-      {
-        success: false,
-        message: getErrorMessage(error),
-      },
-      { status: 500 },
-    );
-  }
+  const { id } = await params;
+  return dsaCrud.deleteById(id);
 }
