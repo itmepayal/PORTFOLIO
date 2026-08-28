@@ -42,6 +42,14 @@ export function buildRootMetadata(): Metadata {
     alternates: {
       canonical: siteUrl,
     },
+    icons: {
+      icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/icon", type: "image/png", sizes: "32x32" },
+      ],
+      shortcut: "/favicon.svg",
+      apple: [{ url: "/apple-icon", type: "image/png", sizes: "180x180" }],
+    },
   };
 }
 
