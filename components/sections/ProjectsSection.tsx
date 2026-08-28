@@ -6,26 +6,8 @@ import { SectionHeader } from "../common/SectionHeader";
 import { SectionEmptyState } from "../common/SectionEmptyState";
 import { ProjectsViewToolbar } from "../common/ProjectsViewToolbar";
 import { getProjectWorkTypeLabel } from "@/lib/project";
-import { FaGithub, FaReact, FaGitAlt, FaNodeJs } from "react-icons/fa6";
-import {
-  SiNodedotjs,
-  SiExpress,
-  SiTypescript,
-  SiFirebase,
-  SiJsonwebtokens,
-  SiSwagger,
-  SiReactrouter,
-  SiTailwindcss,
-  SiRender,
-  SiMongodb,
-  SiMongoose,
-  SiSocketdotio,
-  SiGoogle,
-  SiApple,
-  SiPostman,
-  SiPostgresql,
-  SiNextdotjs,
-} from "react-icons/si";
+import { techIconMap } from "@/lib/tech-icons";
+import { FaGithub } from "react-icons/fa6";
 import {
   TbApi,
   TbChevronLeft,
@@ -36,30 +18,7 @@ import {
 } from "react-icons/tb";
 import { ProjectSkeleton } from "../skeletons/ProjectSkeleton";
 
-const iconMap = {
-  FaReact,
-  FaGithub,
-  FaGitAlt,
-  FaNodeJs,
-  SiNodedotjs,
-  SiExpress,
-  SiTypescript,
-  SiFirebase,
-  SiJsonwebtokens,
-  SiSwagger,
-  SiReactrouter,
-  SiTailwindcss,
-  SiRender,
-  SiMongodb,
-  SiPostgresql,
-  SiNextdotjs,
-  TbApi,
-  SiMongoose,
-  SiSocketdotio,
-  SiGoogle,
-  SiApple,
-  SiPostman,
-};
+const iconMap = techIconMap;
 
 const ACCENT_CLASSES = [
   "from-primary to-accent2",

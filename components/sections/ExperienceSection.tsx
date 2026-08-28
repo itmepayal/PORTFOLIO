@@ -104,7 +104,7 @@ export const Experience = () => {
   };
 
   return (
-    <Container id="experience">
+    <Container id="experience" background="surface">
       <SectionHeader
         label="02 — EXPERIENCE"
         title="Where I've Worked"

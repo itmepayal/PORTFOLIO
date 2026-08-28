@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { monoLabelPrimary, sectionTitle } from "@/lib/ui";
+import { monoLabelPrimary, sectionTitle, bodySm } from "@/lib/ui";
 
 interface SectionHeaderProps {
   label: string;
@@ -24,9 +24,7 @@ export const SectionHeader = ({
           <div className={cn("mb-1", monoLabelPrimary)}>{label}</div>
           <h2 className={sectionTitle}>{title}</h2>
           {subtitle && (
-            <p className="mt-3 max-w-2xl font-mono text-[0.72rem] leading-relaxed text-muted-foreground">
-              {subtitle}
-            </p>
+            <p className={cn("mt-3 max-w-2xl", bodySm)}>{subtitle}</p>
           )}
         </div>
 

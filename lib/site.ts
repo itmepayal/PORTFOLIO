@@ -4,7 +4,7 @@ export const SITE = {
   shortTitle: "Backend Engineer Portfolio",
   email: "itme.payalyadav@gmail.com",
   github: "https://github.com/itmepayal",
-  linkedin: "",
+  linkedin: "https://www.linkedin.com/in/payal-yadav-dev",
   location: "India",
   resumePath:
     process.env.NEXT_PUBLIC_RESUME_URL?.trim() || "/pdf/PAYAL_YADAV.pdf",

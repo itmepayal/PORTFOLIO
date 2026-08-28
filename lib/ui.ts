@@ -12,6 +12,27 @@ export const monoLabel =
 export const monoLabelPrimary =
   "font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.15em] text-primary uppercase";
 
+export const monoButton =
+  "font-mono text-[0.78rem] tracking-[0.05em] sm:text-[0.82rem]";
+
+export const navLink =
+  "whitespace-nowrap font-mono text-[0.72rem] uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary";
+
+export const bodySm =
+  "text-sm font-light leading-relaxed text-muted-foreground sm:text-[0.92rem]";
+
+export const heroEyebrow =
+  "font-mono text-[0.62rem] uppercase leading-relaxed tracking-[0.12em] text-chart-3 sm:text-[0.76rem] sm:tracking-[0.2em]";
+
+export const heroTitle =
+  "text-[clamp(2.1rem,9vw,5.8rem)] font-bold leading-[1.05] tracking-[-0.03em] text-foreground sm:leading-none";
+
+export const statValue =
+  "bg-linear-to-br from-primary to-chart-3 bg-clip-text text-[1.6rem] font-bold text-transparent sm:text-[2rem]";
+
+export const statLabel =
+  "font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground sm:text-[0.65rem]";
+
 export const sectionTitle =
   "text-[clamp(1.4rem,5vw,2.7rem)] font-bold leading-[1.1] tracking-[-0.02em]";
 
@@ -28,10 +49,10 @@ export const dashboardHoverGlow =
   "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100";
 
 export const filterButtonActive =
-  "bg-linear-to-br from-primary to-secondary-foreground text-white";
+  "border-primary bg-primary text-primary-foreground";
 
 export const filterButtonIdle =
-  "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary";
+  "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary";
 
 export const sectionGapGrid =
   "grid gap-px border border-border bg-border";
