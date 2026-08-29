@@ -1,114 +1,135 @@
-# 🚀 Payal Yadav — Personal Portfolio
+# Payal Yadav — Backend Engineer Portfolio
 
-A modern, full-stack personal portfolio website built with **Next.js 16**, **MongoDB**, and a **Custom-built CMS** — showcasing projects, skills, work experience, and a DSA (Data Structures & Algorithms) progress tracker, with a working contact form backed by a database.
+A production-ready full-stack portfolio built with **Next.js 16**, **MongoDB**, and a **custom CMS dashboard**. It showcases projects, work experience, skills, DSA progress, GitHub activity, and a live contact form — with full SEO, JWT-protected admin routes, and GoDaddy-ready deployment.
 
-🔗 **Live:** [itme-payal.vercel.app](https://itme-payal.vercel.app/)
-
----
-
-## ✨ Features
-
-- ⚡ **Next.js 16** (App Router) with React 19 for fast, SEO-friendly rendering
-- 🎨 Modern, responsive UI — Tailwind CSS v4, Radix UI / shadcn, Framer Motion animations
-- 🗄️ **MongoDB + Mongoose** for dynamic content:
-  - Projects showcase
-  - Skills with proficiency levels
-  - Work experience timeline
-  - DSA progress tracker (LeetCode / Striver / Codeforces / GFG)
-  - Contact form enquiries
-- 🛠️ **Custom-built CMS** — self-developed admin panel to manage all portfolio content (projects, skills, experience, DSA progress, enquiries) without any third-party CMS dependency
-- 🔐 **JWT-based authentication** (`jsonwebtoken` + `jose`) with `bcryptjs` password hashing, protected via custom middleware
-- 📊 GitHub contributions calendar (`react-github-calendar`)
-- 📈 Data visualizations with Recharts
-- 📋 Forms with `react-hook-form` + `zod` validation
-- 📱 Fully responsive, accessible UI components (Radix UI primitives)
-- 🚀 Deployed on **Vercel**
+**Live:** [https://itspayal.in](https://itspayal.in)  
+**Repository:** [github.com/itmepayal/PORTFOLIO](https://github.com/itmepayal/PORTFOLIO)
 
 ---
 
-## 🛠️ Tech Stack
+## Overview
 
-| Category           | Technology                                |
-| ------------------ | ----------------------------------------- |
-| Framework          | Next.js 16 (App Router)                   |
-| Language           | TypeScript                                |
-| UI Library         | React 19                                  |
-| Styling            | Tailwind CSS v4, `tw-animate-css`         |
-| Components         | Radix UI, shadcn, Base UI, `cmdk`, `vaul` |
-| Animation          | Framer Motion                             |
-| Database           | MongoDB with Mongoose                     |
-| CMS                | Custom-built Admin Panel                  |
-| Auth               | JWT (`jsonwebtoken`, `jose`) + `bcryptjs` |
-| Forms & Validation | React Hook Form + Zod                     |
-| Charts             | Recharts                                  |
-| Icons              | Lucide React, Tabler Icons, React Icons   |
-| Deployment         | Vercel                                    |
-| Linting            | ESLint                                    |
+| Area | Description |
+|------|-------------|
+| Public site | Hero, projects, experience, GitHub stats, skills, contact form |
+| Admin CMS | Dashboard to manage projects, skills, experience, DSA, and enquiries |
+| API layer | Next.js App Router API routes with MongoDB + Mongoose |
+| SEO | Metadata, JSON-LD, sitemap, robots, Open Graph, favicons |
+| Auth | JWT sessions with middleware-protected dashboard routes |
 
 ---
 
-## 📂 Project Structure
+## Features
+
+### Public portfolio
+- Responsive, sharp/grid UI with light/dark theme
+- Dynamic stats (projects, skills, experience, problems solved)
+- Project detail pages with tech stack, features, and links
+- Experience timeline with tab and list views
+- GitHub contribution heatmap
+- Skills grid with category filters and proficiency indicators
+- Contact form with enquiry storage in MongoDB
+
+### Custom CMS dashboard
+- CRUD for **Projects**, **Skills**, **Experience**, **DSA**, and **Enquiries**
+- Live preview panels on create/edit forms
+- Pagination, filters, and dashboard stats
+- Publish/draft control for projects (`isPublished`)
+- Enquiry read/reply tracking
+
+### Backend & integrations
+- **MongoDB Atlas** for all content
+- **JWT authentication** (`jose` + `bcryptjs`) with route middleware
+- **LeetCode auto-sync** — background sync on stats fetch + manual “Sync now” in dashboard
+- Public APIs filter unpublished projects for unauthenticated users
+- Write APIs (PUT/DELETE) require authenticated session
+
+### SEO & production
+- Root metadata, Open Graph, Twitter cards, canonical URLs
+- Dynamic `sitemap.xml` and `robots.txt`
+- JSON-LD: Person, WebSite, ProfessionalService, CreativeWork, EmployeeRole
+- PWA manifest, OG image (1200×630), SVG + PNG favicons
+- Dashboard and auth routes set to `noindex`
+
+---
+
+## Tech stack
+
+| Category | Technology |
+|----------|------------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| UI | React 19, Tailwind CSS v4, Radix UI / shadcn |
+| Animation | Framer Motion |
+| Database | MongoDB + Mongoose |
+| Auth | JWT (`jose`, `jsonwebtoken`) + `bcryptjs` |
+| Forms | React Hook Form + Zod |
+| Charts | Recharts |
+| Icons | Lucide, Tabler Icons, React Icons |
+| Deployment | GoDaddy Node.js Hosting (standalone build supported) |
+
+---
+
+## Project structure
 
 ```
 PORTFOLIO/
-├── app/                  # Next.js app router pages & API routes
-├── components/           # Reusable UI components
-├── hooks/                # Custom React hooks
-├── lib/                  # Utilities, DB connection, auth helpers
-├── models/               # Mongoose schemas
-│   ├── User.ts           # Auth users (admin/user roles)
-│   ├── Project.ts        # Portfolio projects
-│   ├── Skill.ts          # Skills with category & proficiency level
-│   ├── Experience.ts     # Work experience timeline
-│   ├── DSA.ts            # DSA / coding progress tracker
-│   └── Enquiry.ts        # Contact form submissions
-├── public/               # Static assets (images, icons, etc.)
-├── middleware.ts         # Route protection (JWT auth checks)
-├── next.config.ts        # Next.js configuration
-├── components.json       # shadcn/ui configuration
-└── package.json          # Dependencies & scripts
+├── app/                    # Pages, layouts, API routes, SEO routes
+│   ├── api/                # REST API (projects, skills, experience, dsa, enquiries, auth)
+│   ├── dashboard/          # CMS admin pages
+│   ├── auth/               # Login & register
+│   ├── projects/[id]/      # Public project detail
+│   ├── experiences/[id]/   # Public experience detail
+│   ├── sitemap.ts          # Dynamic sitemap
+│   ├── robots.ts           # robots.txt
+│   └── manifest.ts         # PWA manifest
+├── components/
+│   ├── sections/           # Home, Projects, Experience, Skills, Contact, etc.
+│   ├── dashboard/          # CMS UI (forms, cards, previews)
+│   ├── pages/              # Detail page components
+│   └── seo/                # JSON-LD helper
+├── lib/
+│   ├── seo.ts              # Metadata & schema builders
+│   ├── site.ts             # Site constants (name, email, keywords)
+│   ├── api/                # CRUD handlers & auth helpers
+│   └── sync-leetcode-dsa.ts
+├── models/                 # Mongoose schemas
+├── hooks/                  # Form & sync hooks
+├── scripts/                # Deploy, seed, verify utilities
+├── public/                 # Static assets (favicon, pdf, logos)
+├── middleware.ts           # JWT route protection
+├── next.config.ts          # Standalone output, image domains
+└── server.js               # GoDaddy entry shim (uses npm start → next start)
 ```
 
 ---
 
-## 🗄️ Data Models
+## Data models
 
-| Model          | Purpose                                                                                         |
-| -------------- | ----------------------------------------------------------------------------------------------- |
-| **User**       | Stores admin/user accounts with hashed passwords and roles                                      |
-| **Project**    | Portfolio projects — title, description, tech stack, GitHub/live links, category, featured flag |
-| **Skill**      | Skills with category (frontend/backend/database/devops/etc.), icon, proficiency level (1–100)   |
-| **Experience** | Work experience — company, position, dates, responsibilities, tech used                         |
-| **DSA**        | Tracks coding practice progress across LeetCode, Striver, Codeforces, GFG                       |
-| **Enquiry**    | Stores contact form submissions with read/replied status                                        |
-
----
-
-## 🛠️ Custom CMS
-
-This portfolio includes a **self-built admin panel** — no third-party CMS like Sanity or Contentful is used. The CMS is built entirely within the Next.js app and provides:
-
-- 🔐 **Protected admin routes** via JWT middleware
-- 📁 **Full CRUD** for all content types — Projects, Skills, Experience, DSA entries, and Enquiries
-- 📬 **Enquiry management** — view, mark as read, and track replies on contact form submissions
-- 📊 **Dashboard overview** of all portfolio data in one place
-
-All data is stored in **MongoDB** and managed through API routes built with Next.js App Router.
+| Model | Purpose |
+|-------|---------|
+| **User** | Admin accounts with hashed passwords and roles |
+| **Project** | Title, description, tech, features, links, category, publish status |
+| **Skill** | Category, icon, proficiency level (1–100), display order |
+| **Experience** | Company, role, dates, responsibilities, technologies |
+| **DSA** | Coding progress (LeetCode, Striver, Codeforces, GFG) |
+| **Enquiry** | Contact form submissions with read/replied status |
 
 ---
 
-## ⚙️ Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js v18 or higher
-- A MongoDB connection string ([MongoDB Atlas](https://www.mongodb.com/atlas) or local)
+- **Node.js** 18.17 or higher
+- **MongoDB Atlas** cluster (or local MongoDB)
+- npm
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/itmepayal/portfolio.git
-cd portfolio
+git clone https://github.com/itmepayal/PORTFOLIO.git
+cd PORTFOLIO
 ```
 
 ### 2. Install dependencies
@@ -117,74 +138,195 @@ cd portfolio
 npm install
 ```
 
-### 3. Set up environment variables
+### 3. Environment variables
 
-Create a `.env.local` file in the root directory:
+Copy `.env.example` to `.env.local` and fill in your values:
 
 ```env
-# MongoDB
-MONGODB_URI=your_mongodb_connection_string
+# Local development
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
-# JWT Auth
-JWT_SECRET=your_jwt_secret_key
+MONGODB_URI=mongodb+srv://USER:PASSWORD@cluster.mongodb.net/portfolio
+JWT_SECRET=your-long-random-secret-min-32-chars
 JWT_EXPIRE_DATE=7d
+
+# Optional — LeetCode sync
+LEETCODE_USERNAME=your-leetcode-username
+LEETCODE_PROGRESS_GOAL=500
 ```
 
-> ⚠️ **Never commit `.env.local` to version control.** Make sure it's listed in `.gitignore`.
->
-> ⚠️ If your real credentials were ever exposed (committed, shared, or pasted anywhere), rotate your MongoDB password and regenerate your `JWT_SECRET` immediately.
+> Never commit `.env.local`. Rotate `JWT_SECRET` and MongoDB credentials if they were ever exposed.
 
-### 4. Run the development server
+### 4. (Optional) Seed demo data
+
+```bash
+npm run seed:demo
+```
+
+### 5. Run development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000).
+
+Dashboard: [http://localhost:3000/auth/login](http://localhost:3000/auth/login)
 
 ---
 
-## 📦 Build for Production
+## Available scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start dev server (webpack) |
+| `npm run build` | Production build |
+| `npm run build:prod` | Build + prepare standalone bundle |
+| `npm run start` | Start production server (`next start`) |
+| `npm run start:prod` | Start standalone server |
+| `npm run lint` | Run ESLint |
+| `npm run seed:demo` | Seed sample projects & experience |
+| `npm run verify:godaddy` | Check GoDaddy deploy readiness |
+| `npm run verify:seo` | List SEO files and post-deploy URLs |
+| `npm run package:godaddy` | Create `dist/godaddy-deploy.zip` |
+
+---
+
+## Production build
 
 ```bash
 npm run build
 npm run start
 ```
 
----
+For standalone output (VPS / manual hosting):
 
-## 🚀 Deployment
-
-This project is deployed on **Vercel**.
-
-1. Push your code to GitHub
-2. Import the repository on [Vercel](https://vercel.com/new)
-3. Add the environment variables listed above in **Project Settings → Environment Variables**
-4. Deploy 🎉
-
-Live at: **[itme-payal.vercel.app](https://itme-payal.vercel.app/)**
+```bash
+npm run build:prod
+npm run start:prod
+```
 
 ---
 
-## 🤝 Contributing
+## Deploy to GoDaddy (itspayal.in)
 
-This is a personal portfolio project, but suggestions and feedback are always welcome — feel free to open an issue or submit a pull request.
+This app is **not static** — it requires **Node.js hosting** (API routes + MongoDB).
+
+### Option A — GoDaddy Node.js Hosting (recommended)
+
+1. Go to **GoDaddy → My Products → Node.js Hosting**
+2. **Connect GitHub** repo `itmepayal/PORTFOLIO` **or** upload ZIP:
+   ```bash
+   npm run package:godaddy
+   ```
+   Upload `dist/godaddy-deploy.zip` (do **not** include `node_modules`)
+3. Set environment variables in the hosting panel:
+
+   | Variable | Production value |
+   |----------|------------------|
+   | `NEXT_PUBLIC_SITE_URL` | `https://itspayal.in` |
+   | `MONGODB_URI` | Your MongoDB Atlas connection string |
+   | `JWT_SECRET` | Long random secret (32+ chars) |
+   | `JWT_EXPIRE_DATE` | `7d` |
+   | `LEETCODE_USERNAME` | Optional |
+   | `LEETCODE_PROGRESS_GOAL` | Optional |
+
+4. Deploy → **Publish** → **Connect domain** `itspayal.in`
+5. Verify readiness before upload:
+   ```bash
+   npm run verify:godaddy
+   ```
+
+### Option B — cPanel (Web Hosting)
+
+1. Build locally: `npm run build:prod`
+2. Upload project via File Manager
+3. cPanel → **Setup Node.js App** → Node 18+, startup `server.js`
+4. Set env vars → Run NPM Install → Start App
+
+### MongoDB Atlas setup
+
+1. Create a free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. Create a database user
+3. Network Access → allow `0.0.0.0/0` (or your server IP)
+4. Copy connection string into `MONGODB_URI`
+5. Test locally:
+   ```bash
+   node --env-file=.env.local scripts/test-mongodb-connection.mjs
+   ```
+
+### Post-deploy checks
+
+```bash
+npm run verify:seo
+```
+
+Then open in browser:
+
+- `https://itspayal.in`
+- `https://itspayal.in/sitemap.xml`
+- `https://itspayal.in/robots.txt`
+- `https://itspayal.in/api/public/stats`
+
+Submit sitemap in [Google Search Console](https://search.google.com/search-console).
 
 ---
 
-## 📄 License
+## SEO
 
-This project is open source and available under the [MIT License](LICENSE).
+| Asset | Path |
+|-------|------|
+| Sitemap | `/sitemap.xml` |
+| Robots | `/robots.txt` |
+| Manifest | `/manifest.webmanifest` |
+| Open Graph image | `/opengraph-image` |
+| Favicon | `/favicon.svg`, `/icon`, `/apple-icon` |
+
+SEO config lives in `lib/seo.ts` and `lib/site.ts`. Production canonical URLs require:
+
+```env
+NEXT_PUBLIC_SITE_URL=https://itspayal.in
+```
 
 ---
 
-## 📬 Contact
+## Security notes
 
-**Payal Yadav**
+- Dashboard and write APIs require JWT authentication
+- Unpublished projects are hidden from public API and detail pages
+- `/dashboard`, `/auth`, and `/api` are disallowed in `robots.txt`
+- Use a strong `JWT_SECRET` in production
+- Keep MongoDB credentials only in environment variables
 
-- Portfolio: [itme-payal.vercel.app](https://itme-payal.vercel.app/)
+---
+
+## Resume
+
+Place your PDF at:
+
+```
+public/pdf/PAYAL_YADAV.pdf
+```
+
+Or set an external URL:
+
+```env
+NEXT_PUBLIC_RESUME_URL=https://itspayal.in/pdf/PAYAL_YADAV.pdf
+```
+
+---
+
+## Contact
+
+**Payal Yadav** — Backend Engineer
+
+- Website: [itspayal.in](https://itspayal.in)
+- Email: [itme.payalyadav@gmail.com](mailto:itme.payalyadav@gmail.com)
 - GitHub: [@itmepayal](https://github.com/itmepayal)
+- LinkedIn: [payal-yadav-dev](https://www.linkedin.com/in/payal-yadav-dev)
 
 ---
 
-⭐️ If you like this project, consider giving it a star on GitHub!
+## License
+
+Personal portfolio project. All rights reserved unless otherwise noted.
