@@ -1,10 +1,15 @@
 /**
  * Next.js Turbopack sometimes resolves modules from the parent folder
  * (Portfolio/) instead of PORTFOLIO/. Link critical CSS packages there.
+ * Skipped on Vercel/CI — not needed in cloud builds.
  */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+
+if (process.env.VERCEL || process.env.CI) {
+  process.exit(0);
+}
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const parentRoot = path.resolve(projectRoot, "..");
@@ -27,10 +32,7 @@ for (const pkg of packagesToLink) {
   const target = path.join(parentNodeModules, pkg);
 
   if (!fs.existsSync(source)) continue;
-
-  if (fs.existsSync(target)) {
-    continue;
-  }
+  if (fs.existsSync(target)) continue;
 
   const type = fs.lstatSync(source).isDirectory() ? "dir" : "file";
   fs.symlinkSync(source, target, type);

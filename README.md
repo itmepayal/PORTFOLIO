@@ -1,72 +1,39 @@
 # Payal Yadav — Backend Engineer Portfolio
 
-A production-ready full-stack portfolio built with **Next.js 16**, **MongoDB**, and a **custom CMS dashboard**. It showcases projects, work experience, skills, DSA progress, GitHub activity, and a live contact form — with full SEO, JWT-protected admin routes, and GoDaddy-ready deployment.
+Production portfolio for **Payal Yadav** — Backend Engineer. Built with **Next.js 16**, **MongoDB**, and a custom CMS dashboard. Deployed on **Vercel** with custom domain **itspayal.in** (GoDaddy DNS).
 
-**Live:** [https://itspayal.in](https://itspayal.in)  
-**Repository:** [github.com/itmepayal/PORTFOLIO](https://github.com/itmepayal/PORTFOLIO)
-
----
-
-## Overview
-
-| Area | Description |
-|------|-------------|
-| Public site | Hero, projects, experience, GitHub stats, skills, contact form |
-| Admin CMS | Dashboard to manage projects, skills, experience, DSA, and enquiries |
-| API layer | Next.js App Router API routes with MongoDB + Mongoose |
-| SEO | Metadata, JSON-LD, sitemap, robots, Open Graph, favicons |
-| Auth | JWT sessions with middleware-protected dashboard routes |
+| | |
+|---|---|
+| **Live site** | [https://itspayal.in](https://itspayal.in) |
+| **GitHub** | [github.com/itmepayal/PORTFOLIO](https://github.com/itmepayal/PORTFOLIO) |
+| **Hosting** | Vercel |
+| **Domain** | GoDaddy → `itspayal.in` |
 
 ---
 
-## Features
+## What this project does
 
-### Public portfolio
-- Responsive, sharp/grid UI with light/dark theme
-- Dynamic stats (projects, skills, experience, problems solved)
-- Project detail pages with tech stack, features, and links
-- Experience timeline with tab and list views
-- GitHub contribution heatmap
-- Skills grid with category filters and proficiency indicators
-- Contact form with enquiry storage in MongoDB
-
-### Custom CMS dashboard
-- CRUD for **Projects**, **Skills**, **Experience**, **DSA**, and **Enquiries**
-- Live preview panels on create/edit forms
-- Pagination, filters, and dashboard stats
-- Publish/draft control for projects (`isPublished`)
-- Enquiry read/reply tracking
-
-### Backend & integrations
-- **MongoDB Atlas** for all content
-- **JWT authentication** (`jose` + `bcryptjs`) with route middleware
-- **LeetCode auto-sync** — background sync on stats fetch + manual “Sync now” in dashboard
-- Public APIs filter unpublished projects for unauthenticated users
-- Write APIs (PUT/DELETE) require authenticated session
-
-### SEO & production
-- Root metadata, Open Graph, Twitter cards, canonical URLs
-- Dynamic `sitemap.xml` and `robots.txt`
-- JSON-LD: Person, WebSite, ProfessionalService, CreativeWork, EmployeeRole
-- PWA manifest, OG image (1200×630), SVG + PNG favicons
-- Dashboard and auth routes set to `noindex`
+- **Public portfolio** — projects, experience, skills, GitHub activity, DSA stats, contact form
+- **Admin CMS** — JWT-protected dashboard to manage all content
+- **REST API** — Next.js App Router API routes + MongoDB
+- **SEO** — metadata, JSON-LD, sitemap, robots, Open Graph, favicons
+- **LeetCode sync** — auto-update DSA progress from LeetCode profile
 
 ---
 
 ## Tech stack
 
-| Category | Technology |
-|----------|------------|
+| Layer | Technology |
+|-------|------------|
 | Framework | Next.js 16 (App Router) |
 | Language | TypeScript |
-| UI | React 19, Tailwind CSS v4, Radix UI / shadcn |
+| UI | React 19, Tailwind CSS v4, shadcn / Radix UI |
 | Animation | Framer Motion |
-| Database | MongoDB + Mongoose |
-| Auth | JWT (`jose`, `jsonwebtoken`) + `bcryptjs` |
+| Database | MongoDB Atlas + Mongoose |
+| Auth | JWT (`jose`) + bcrypt |
 | Forms | React Hook Form + Zod |
-| Charts | Recharts |
-| Icons | Lucide, Tabler Icons, React Icons |
-| Deployment | GoDaddy Node.js Hosting (standalone build supported) |
+| Hosting | **Vercel** |
+| Domain | **GoDaddy** (`itspayal.in`) |
 
 ---
 
@@ -74,241 +41,205 @@ A production-ready full-stack portfolio built with **Next.js 16**, **MongoDB**, 
 
 ```
 PORTFOLIO/
-├── app/                    # Pages, layouts, API routes, SEO routes
-│   ├── api/                # REST API (projects, skills, experience, dsa, enquiries, auth)
-│   ├── dashboard/          # CMS admin pages
-│   ├── auth/               # Login & register
-│   ├── projects/[id]/      # Public project detail
-│   ├── experiences/[id]/   # Public experience detail
-│   ├── sitemap.ts          # Dynamic sitemap
-│   ├── robots.ts           # robots.txt
-│   └── manifest.ts         # PWA manifest
+├── app/
+│   ├── api/              # REST API routes
+│   ├── dashboard/        # CMS admin panel
+│   ├── auth/             # Login & register
+│   ├── projects/[id]/    # Project detail + SEO
+│   ├── experiences/[id]/ # Experience detail + SEO
+│   ├── sitemap.ts        # Dynamic sitemap.xml
+│   ├── robots.ts         # robots.txt
+│   ├── manifest.ts       # PWA manifest
+│   ├── opengraph-image.tsx
+│   ├── icon.tsx / apple-icon.tsx
+│   └── layout.tsx        # Root metadata + JSON-LD
 ├── components/
-│   ├── sections/           # Home, Projects, Experience, Skills, Contact, etc.
-│   ├── dashboard/          # CMS UI (forms, cards, previews)
-│   ├── pages/              # Detail page components
-│   └── seo/                # JSON-LD helper
+│   ├── sections/         # Home, Projects, Skills, Contact…
+│   ├── dashboard/        # CMS forms, cards, previews
+│   └── seo/              # JsonLd component
 ├── lib/
-│   ├── seo.ts              # Metadata & schema builders
-│   ├── site.ts             # Site constants (name, email, keywords)
-│   ├── api/                # CRUD handlers & auth helpers
-│   └── sync-leetcode-dsa.ts
-├── models/                 # Mongoose schemas
-├── hooks/                  # Form & sync hooks
-├── scripts/                # Deploy, seed, verify utilities
-├── public/                 # Static assets (favicon, pdf, logos)
-├── middleware.ts           # JWT route protection
-├── next.config.ts          # Standalone output, image domains
-└── server.js               # GoDaddy entry shim (uses npm start → next start)
+│   ├── site.ts           # Site constants + getSiteUrl()
+│   ├── seo.ts            # Metadata & schema builders
+│   └── api/              # CRUD handlers, auth
+├── models/               # Mongoose schemas
+├── middleware.ts         # JWT route protection
+├── vercel.json           # www redirect, security headers
+└── next.config.ts        # Image domains, Vercel optimization
 ```
 
 ---
 
-## Data models
-
-| Model | Purpose |
-|-------|---------|
-| **User** | Admin accounts with hashed passwords and roles |
-| **Project** | Title, description, tech, features, links, category, publish status |
-| **Skill** | Category, icon, proficiency level (1–100), display order |
-| **Experience** | Company, role, dates, responsibilities, technologies |
-| **DSA** | Coding progress (LeetCode, Striver, Codeforces, GFG) |
-| **Enquiry** | Contact form submissions with read/replied status |
-
----
-
-## Getting started
+## Local development
 
 ### Prerequisites
 
-- **Node.js** 18.17 or higher
-- **MongoDB Atlas** cluster (or local MongoDB)
-- npm
+- Node.js 18.17+
+- MongoDB Atlas cluster (or local MongoDB)
 
-### 1. Clone the repository
+### Setup
 
 ```bash
 git clone https://github.com/itmepayal/PORTFOLIO.git
 cd PORTFOLIO
-```
-
-### 2. Install dependencies
-
-```bash
 npm install
 ```
 
-### 3. Environment variables
-
-Copy `.env.example` to `.env.local` and fill in your values:
+Create `.env.local`:
 
 ```env
-# Local development
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-
 MONGODB_URI=mongodb+srv://USER:PASSWORD@cluster.mongodb.net/portfolio
-JWT_SECRET=your-long-random-secret-min-32-chars
+JWT_SECRET=your-local-dev-secret-min-32-chars
 JWT_EXPIRE_DATE=7d
-
-# Optional — LeetCode sync
-LEETCODE_USERNAME=your-leetcode-username
-LEETCODE_PROGRESS_GOAL=500
 ```
-
-> Never commit `.env.local`. Rotate `JWT_SECRET` and MongoDB credentials if they were ever exposed.
-
-### 4. (Optional) Seed demo data
-
-```bash
-npm run seed:demo
-```
-
-### 5. Run development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
+Open [http://localhost:3000](http://localhost:3000)  
 Dashboard: [http://localhost:3000/auth/login](http://localhost:3000/auth/login)
 
----
-
-## Available scripts
-
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start dev server (webpack) |
-| `npm run build` | Production build |
-| `npm run build:prod` | Build + prepare standalone bundle |
-| `npm run start` | Start production server (`next start`) |
-| `npm run start:prod` | Start standalone server |
-| `npm run lint` | Run ESLint |
-| `npm run seed:demo` | Seed sample projects & experience |
-| `npm run verify:godaddy` | Check GoDaddy deploy readiness |
-| `npm run verify:seo` | List SEO files and post-deploy URLs |
-| `npm run package:godaddy` | Create `dist/godaddy-deploy.zip` |
-
----
-
-## Production build
+Optional demo data:
 
 ```bash
-npm run build
-npm run start
-```
-
-For standalone output (VPS / manual hosting):
-
-```bash
-npm run build:prod
-npm run start:prod
+npm run seed:demo
 ```
 
 ---
 
-## Deploy to GoDaddy (itspayal.in)
+## Deploy: Vercel + GoDaddy domain
 
-This app is **not static** — it requires **Node.js hosting** (API routes + MongoDB).
+This project is designed for **Vercel hosting** with **GoDaddy domain DNS** pointing to Vercel.
 
-### Option A — GoDaddy Node.js Hosting (recommended)
+### Architecture
 
-1. Go to **GoDaddy → My Products → Node.js Hosting**
-2. **Connect GitHub** repo `itmepayal/PORTFOLIO` **or** upload ZIP:
-   ```bash
-   npm run package:godaddy
-   ```
-   Upload `dist/godaddy-deploy.zip` (do **not** include `node_modules`)
-3. Set environment variables in the hosting panel:
+```
+User → itspayal.in (GoDaddy DNS) → Vercel Edge → Next.js App → MongoDB Atlas
+```
 
-   | Variable | Production value |
-   |----------|------------------|
-   | `NEXT_PUBLIC_SITE_URL` | `https://itspayal.in` |
-   | `MONGODB_URI` | Your MongoDB Atlas connection string |
-   | `JWT_SECRET` | Long random secret (32+ chars) |
-   | `JWT_EXPIRE_DATE` | `7d` |
-   | `LEETCODE_USERNAME` | Optional |
-   | `LEETCODE_PROGRESS_GOAL` | Optional |
+### Step 1 — Deploy on Vercel
 
-4. Deploy → **Publish** → **Connect domain** `itspayal.in`
-5. Verify readiness before upload:
-   ```bash
-   npm run verify:godaddy
-   ```
+1. Push code to GitHub: `github.com/itmepayal/PORTFOLIO`
+2. Go to [vercel.com/new](https://vercel.com/new) → Import repository
+3. Framework: **Next.js** (auto-detected)
+4. Build command: `npm run build` (set in `vercel.json`)
+5. Deploy
 
-### Option B — cPanel (Web Hosting)
+### Step 2 — Environment variables (Vercel)
 
-1. Build locally: `npm run build:prod`
-2. Upload project via File Manager
-3. cPanel → **Setup Node.js App** → Node 18+, startup `server.js`
-4. Set env vars → Run NPM Install → Start App
+**Vercel → Project → Settings → Environment Variables → Production:**
 
-### MongoDB Atlas setup
+| Variable | Value |
+|----------|-------|
+| `NEXT_PUBLIC_SITE_URL` | `https://itspayal.in` |
+| `MONGODB_URI` | MongoDB Atlas connection string |
+| `JWT_SECRET` | Long random secret (32+ chars) |
+| `JWT_EXPIRE_DATE` | `7d` |
+| `LEETCODE_USERNAME` | Optional |
+| `LEETCODE_PROGRESS_GOAL` | `500` (optional) |
 
-1. Create a free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-2. Create a database user
-3. Network Access → allow `0.0.0.0/0` (or your server IP)
-4. Copy connection string into `MONGODB_URI`
-5. Test locally:
-   ```bash
-   node --env-file=.env.local scripts/test-mongodb-connection.mjs
-   ```
+Redeploy after adding env vars.
 
-### Post-deploy checks
+### Step 3 — Connect GoDaddy domain
+
+**In Vercel → Project → Settings → Domains:**
+
+1. Add `itspayal.in`
+2. Add `www.itspayal.in` (auto-redirects to apex via `vercel.json`)
+
+**In GoDaddy → DNS for itspayal.in:**
+
+| Type | Name | Value |
+|------|------|-------|
+| `A` | `@` | `76.76.21.21` |
+| `CNAME` | `www` | `cname.vercel-dns.com` |
+
+Or use Vercel nameservers if GoDaddy allows transfer.
+
+DNS propagation: 15 minutes – 48 hours.
+
+### Step 4 — Verify deployment
 
 ```bash
+npm run verify:vercel
 npm run verify:seo
 ```
 
-Then open in browser:
+Live checks:
 
-- `https://itspayal.in`
-- `https://itspayal.in/sitemap.xml`
-- `https://itspayal.in/robots.txt`
-- `https://itspayal.in/api/public/stats`
-
-Submit sitemap in [Google Search Console](https://search.google.com/search-console).
+- [https://itspayal.in](https://itspayal.in)
+- [https://itspayal.in/sitemap.xml](https://itspayal.in/sitemap.xml)
+- [https://itspayal.in/robots.txt](https://itspayal.in/robots.txt)
+- [https://itspayal.in/api/public/stats](https://itspayal.in/api/public/stats)
 
 ---
 
 ## SEO
 
-| Asset | Path |
-|-------|------|
-| Sitemap | `/sitemap.xml` |
-| Robots | `/robots.txt` |
-| Manifest | `/manifest.webmanifest` |
-| Open Graph image | `/opengraph-image` |
-| Favicon | `/favicon.svg`, `/icon`, `/apple-icon` |
+| Feature | Implementation |
+|---------|----------------|
+| Page titles & descriptions | `lib/seo.ts` → `buildRootMetadata()` |
+| Canonical URLs | `https://itspayal.in` via `NEXT_PUBLIC_SITE_URL` |
+| Open Graph + Twitter cards | Root + per-page metadata |
+| JSON-LD structured data | Person, WebSite, ProfessionalService, CreativeWork |
+| Dynamic sitemap | `/sitemap.xml` — homepage + projects + experiences |
+| robots.txt | Blocks `/dashboard`, `/auth`, `/api` |
+| Favicons | SVG + PNG + Apple touch icon |
+| OG image | `/opengraph-image` (1200×630) |
+| www redirect | `www.itspayal.in` → `itspayal.in` (`vercel.json`) |
 
-SEO config lives in `lib/seo.ts` and `lib/site.ts`. Production canonical URLs require:
+### Google Search Console
 
-```env
-NEXT_PUBLIC_SITE_URL=https://itspayal.in
+1. Add property: `https://itspayal.in`
+2. Verify via DNS TXT record (GoDaddy) or HTML tag
+3. Submit sitemap: `https://itspayal.in/sitemap.xml`
+4. Test: [Google Rich Results](https://search.google.com/test/rich-results)
+
+---
+
+## Available scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run start` | Start production server |
+| `npm run lint` | ESLint |
+| `npm run seed:demo` | Seed sample data |
+| `npm run verify:vercel` | Vercel + GoDaddy deploy checklist |
+| `npm run verify:seo` | SEO files + post-deploy URLs |
+
+---
+
+## MongoDB Atlas setup
+
+1. Create free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. **Database Access** → create user
+3. **Network Access** → allow `0.0.0.0/0` (required for Vercel serverless)
+4. **Connect** → copy connection string → set as `MONGODB_URI` in Vercel
+
+Test connection locally:
+
+```bash
+node --env-file=.env.local scripts/test-mongodb-connection.mjs
 ```
 
 ---
 
-## Security notes
+## Security
 
-- Dashboard and write APIs require JWT authentication
-- Unpublished projects are hidden from public API and detail pages
-- `/dashboard`, `/auth`, and `/api` are disallowed in `robots.txt`
-- Use a strong `JWT_SECRET` in production
-- Keep MongoDB credentials only in environment variables
+- JWT middleware protects `/dashboard` routes
+- API write operations require authentication
+- Unpublished projects hidden from public users
+- `/dashboard`, `/auth`, `/api` excluded from search indexing
+- Security headers via `vercel.json`
 
 ---
 
 ## Resume
 
-Place your PDF at:
-
-```
-public/pdf/PAYAL_YADAV.pdf
-```
-
-Or set an external URL:
+Add PDF at `public/pdf/PAYAL_YADAV.pdf` or set:
 
 ```env
 NEXT_PUBLIC_RESUME_URL=https://itspayal.in/pdf/PAYAL_YADAV.pdf
@@ -327,6 +258,4 @@ NEXT_PUBLIC_RESUME_URL=https://itspayal.in/pdf/PAYAL_YADAV.pdf
 
 ---
 
-## License
-
-Personal portfolio project. All rights reserved unless otherwise noted.
+Personal portfolio project. All rights reserved.

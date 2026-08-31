@@ -16,6 +16,7 @@
     "start:prod": "node .next/standalone/server.js",
     "lint": "eslint",
     "seed:demo": "node scripts/seed-demo-data.mjs",
+    "verify:vercel": "node scripts/verify-vercel.mjs",
     "verify:godaddy": "node scripts/verify-godaddy-ready.mjs",
     "verify:seo": "node scripts/verify-seo-local.mjs",
     "package:godaddy": "node scripts/package-godaddy-zip.mjs"

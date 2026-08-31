@@ -9,9 +9,13 @@ const tailwindPostcssPath = path.join(
   "node_modules/@tailwindcss/postcss",
 );
 
+const isVercel = Boolean(process.env.VERCEL);
+
 const nextConfig: NextConfig = {
-  output: "standalone",
-  outputFileTracingRoot: rootDir,
+  // Standalone only for self-hosted (GoDaddy VPS); Vercel uses its own output
+  ...(isVercel
+    ? {}
+    : { output: "standalone" as const, outputFileTracingRoot: rootDir }),
   turbopack: {
     root: rootDir,
     resolveAlias: {
@@ -31,6 +35,16 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "www.vectorlogo.zone" },
       { protocol: "https", hostname: "assets.leetcode.com" },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+        ],
+      },
+    ];
   },
 };
 

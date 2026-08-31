@@ -3,13 +3,16 @@ import { SITE } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: SITE.url,
     name: `${SITE.name} Portfolio`,
-    short_name: "PY Portfolio",
+    short_name: SITE.name,
     description: SITE.description,
     start_url: "/",
+    scope: "/",
     display: "standalone",
     background_color: "#0f172a",
     theme_color: "#4355e8",
+    lang: "en-IN",
     icons: [
       {
         src: "/favicon.svg",

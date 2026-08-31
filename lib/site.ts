@@ -2,6 +2,8 @@ export const SITE = {
   name: "Payal Yadav",
   title: "Backend Engineer",
   shortTitle: "Backend Engineer Portfolio",
+  domain: "itspayal.in",
+  url: "https://itspayal.in",
   email: "itme.payalyadav@gmail.com",
   github: "https://github.com/itmepayal",
   linkedin: "https://www.linkedin.com/in/payal-yadav-dev",
@@ -25,17 +27,28 @@ export const SITE = {
     "System Design",
     "DSA",
     "LeetCode",
+    "itspayal.in",
   ],
 };
 
 export const DEFAULT_PROJECT_HERO_IMAGE =
   "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=80";
 
+/**
+ * Canonical site URL for SEO (sitemap, OG, JSON-LD).
+ * Priority: NEXT_PUBLIC_SITE_URL → production default → Vercel preview → localhost
+ */
 export function getSiteUrl(): string {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (configured) return configured.replace(/\/$/, "");
+
+  if (process.env.VERCEL_ENV === "production") {
+    return SITE.url;
+  }
+
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL.replace(/\/$/, "")}`;
   }
+
   return "http://localhost:3000";
 }
