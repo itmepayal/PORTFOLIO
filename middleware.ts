@@ -63,14 +63,12 @@ export async function middleware(req: NextRequest) {
       return notFound();
     }
 
+    const response = NextResponse.next();
     if (shouldSetCmsGateCookie(req)) {
-      const cleanUrl = new URL(req.url);
-      cleanUrl.searchParams.delete("key");
-      const redirectResponse = NextResponse.redirect(cleanUrl);
-      return withCmsGateCookie(redirectResponse);
+      return withCmsGateCookie(response);
     }
 
-    return NextResponse.next();
+    return response;
   }
 
   if (isDashboard || isAdminRoute) {
