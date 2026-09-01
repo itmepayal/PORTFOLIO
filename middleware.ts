@@ -1,18 +1,76 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import {
+  CMS_GATE_COOKIE,
+  hasCmsGateAccess,
+  shouldSetCmsGateCookie,
+} from "@/lib/cms-gate";
+import { CMS_LOGIN_PATH } from "@/lib/auth-paths";
+
+function notFound() {
+  return new NextResponse(null, { status: 404 });
+}
+
+function gone() {
+  return new NextResponse(null, { status: 410 });
+}
+
+function redirectHome(req: NextRequest) {
+  return NextResponse.redirect(new URL("/", req.url));
+}
+
+function withCmsGateCookie(response: NextResponse) {
+  response.cookies.set(CMS_GATE_COOKIE, "1", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24,
+  });
+  return response;
+}
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
-  const isAuthPage =
-    pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
+  if (pathname.startsWith("/auth")) {
+    return gone();
+  }
 
+  if (pathname === "/api/account/register") {
+    return gone();
+  }
+
+  if (
+    pathname === "/api/account/login" &&
+    process.env.NODE_ENV === "production" &&
+    !hasCmsGateAccess(req)
+  ) {
+    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+  }
+
+  const isCmsLogin = pathname === CMS_LOGIN_PATH;
   const isDashboard = pathname.startsWith("/dashboard");
   const isAdminRoute = pathname.startsWith("/admin");
 
-  if (token && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+  if (isCmsLogin) {
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    if (!hasCmsGateAccess(req)) {
+      return notFound();
+    }
+
+    if (shouldSetCmsGateCookie(req)) {
+      const cleanUrl = new URL(req.url);
+      cleanUrl.searchParams.delete("key");
+      const redirectResponse = NextResponse.redirect(cleanUrl);
+      return withCmsGateCookie(redirectResponse);
+    }
+
+    return NextResponse.next();
   }
 
   if (isDashboard || isAdminRoute) {
@@ -20,26 +78,25 @@ export async function middleware(req: NextRequest) {
 
     if (!jwtSecret) {
       console.error("JWT_SECRET is not configured");
-      return NextResponse.redirect(new URL("/auth/login", req.url));
+      return redirectHome(req);
     }
 
     if (!token) {
-      return NextResponse.redirect(new URL("/auth/login", req.url));
+      return notFound();
     }
 
     try {
       const secret = new TextEncoder().encode(jwtSecret);
       const { payload } = await jwtVerify(token, secret);
-
       const role = payload.role as string;
 
       if (isAdminRoute && role !== "admin") {
-        return NextResponse.redirect(new URL("/unauthorized", req.url));
+        return redirectHome(req);
       }
 
       return NextResponse.next();
     } catch {
-      return NextResponse.redirect(new URL("/auth/login", req.url));
+      return notFound();
     }
   }
 
@@ -47,5 +104,12 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/auth/login", "/auth/register"],
+  matcher: [
+    "/dashboard/:path*",
+    "/admin/:path*",
+    "/auth/:path*",
+    "/cms-access",
+    "/api/account/login",
+    "/api/account/register",
+  ],
 };

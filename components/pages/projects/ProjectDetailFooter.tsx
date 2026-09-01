@@ -2,6 +2,7 @@ import Link from "next/link";
 import { HiArrowRight, HiExternalLink } from "react-icons/hi";
 import { FaGithub } from "react-icons/fa6";
 import { CLIP_PATH } from "@/components/pages/shared/detail-constants";
+import { isSafeHttpsUrl } from "@/lib/utils";
 import type { Project } from "./project-types";
 
 type ProjectDetailFooterProps = {
@@ -16,25 +17,29 @@ export const ProjectDetailActions = ({
 }: Pick<ProjectDetailFooterProps, "project" | "formattedDate">) => (
   <section className="bg-surface px-[5%] py-12">
     <div className="mx-auto flex max-w-300 flex-wrap items-center justify-center gap-3 border border-border bg-card p-6">
-      <a
-        href={project.live}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex flex-1 items-center justify-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:flex-none"
-        style={{ clipPath: CLIP_PATH }}
-      >
-        <HiExternalLink className="size-4" />
-        Live Demo
-      </a>
-      <a
-        href={project.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex flex-1 items-center justify-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary sm:flex-none"
-      >
-        <FaGithub className="size-4" />
-        View Source
-      </a>
+      {isSafeHttpsUrl(project.live) && (
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex flex-1 items-center justify-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:flex-none"
+          style={{ clipPath: CLIP_PATH }}
+        >
+          <HiExternalLink className="size-4" />
+          Live Demo
+        </a>
+      )}
+      {isSafeHttpsUrl(project.github) && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex flex-1 items-center justify-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary sm:flex-none"
+        >
+          <FaGithub className="size-4" />
+          View Source
+        </a>
+      )}
       <div className="hidden h-6 w-px bg-border sm:block" />
       <p className="hidden font-mono text-[0.68rem] text-muted-foreground sm:block">
         Published {formattedDate}

@@ -6,6 +6,7 @@ import { SectionHeader } from "../common/SectionHeader";
 import { SectionEmptyState } from "../common/SectionEmptyState";
 import { ProjectsViewToolbar } from "../common/ProjectsViewToolbar";
 import { getProjectWorkTypeLabel } from "@/lib/project";
+import { isSafeHttpsUrl } from "@/lib/utils";
 import { techIconMap } from "@/lib/tech-icons";
 import { FaGithub } from "react-icons/fa6";
 import {
@@ -230,7 +231,7 @@ export const Projects = () => {
                     </div>
 
                     <div className="flex gap-4">
-                      {project.github && (
+                      {isSafeHttpsUrl(project.github) && (
                         <a
                           href={project.github}
                           target="_blank"
@@ -242,7 +243,7 @@ export const Projects = () => {
                           <TbExternalLink className="text-[0.8rem]" />
                         </a>
                       )}
-                      {project.live && (
+                      {isSafeHttpsUrl(project.live) && (
                         <a
                           href={project.live}
                           target="_blank"

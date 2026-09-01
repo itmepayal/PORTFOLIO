@@ -8,6 +8,7 @@ import { Container } from "../common/Container";
 import { SectionHeader } from "../common/SectionHeader";
 import { ExperienceViewToggle } from "../common/ExperienceViewToggle";
 import { SectionEmptyState } from "../common/SectionEmptyState";
+import { isSafeHttpsUrl } from "@/lib/utils";
 import {
   TbExternalLink,
   TbBriefcase,
@@ -196,7 +197,7 @@ export const Experience = () => {
                           </div>
 
                           <div className="flex items-center gap-3 text-sm font-mono text-muted-foreground flex-wrap mt-2">
-                            {active.companyWebsite ? (
+                            {isSafeHttpsUrl(active.companyWebsite) ? (
                               <a
                                 href={active.companyWebsite}
                                 target="_blank"
@@ -300,7 +301,7 @@ export const Experience = () => {
                           <TbArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         </Link>
 
-                        {active.companyWebsite && (
+                        {isSafeHttpsUrl(active.companyWebsite) && (
                           <a
                             href={active.companyWebsite}
                             target="_blank"

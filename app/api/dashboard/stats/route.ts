@@ -1,5 +1,6 @@
 import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
+import { requireAuthSessionOrResponse } from "@/lib/api/auth";
 
 import DSA from "@/models/dsa";
 import Enquiry from "@/models/enquiry";
@@ -8,6 +9,9 @@ import Project from "@/models/project";
 import Skill from "@/models/skills";
 
 export async function GET() {
+  const { response } = await requireAuthSessionOrResponse();
+  if (response) return response;
+
   try {
     await connectDB();
 

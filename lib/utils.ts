@@ -11,6 +11,19 @@ export function isValidMediaUrl(value?: string | null): boolean {
   return src.startsWith("http://") || src.startsWith("https://") || src.startsWith("/");
 }
 
+/** Only allow https links on public pages — blocks javascript: and data: URLs. */
+export function isSafeHttpsUrl(value?: string | null): boolean {
+  const src = value?.trim();
+  if (!src) return false;
+
+  try {
+    const url = new URL(src);
+    return url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export function getErrorMessage(
   error: unknown,
   fallback = "An unexpected error occurred",

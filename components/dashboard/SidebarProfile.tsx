@@ -29,7 +29,7 @@ export default function SidebarProfile() {
 
       toast.success("Logged out successfully");
 
-      router.push("/auth/login");
+      router.push("/");
       router.refresh();
     } catch (error: unknown) {
       toast.error(getErrorMessage(error));

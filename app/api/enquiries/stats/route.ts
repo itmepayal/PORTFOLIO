@@ -1,12 +1,16 @@
 import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 import Enquiry from "@/models/enquiry";
+import { requireAuthSessionOrResponse } from "@/lib/api/auth";
 
 /* ====================================================== */
 /* GET ENQUIRY STATS */
 /* ====================================================== */
 
 export async function GET() {
+  const { response } = await requireAuthSessionOrResponse();
+  if (response) return response;
+
   try {
     await connectDB();
 

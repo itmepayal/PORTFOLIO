@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 
 import { connectDB } from "@/lib/db";
 import User from "@/models/user";
 import { generateToken } from "@/lib/jwt";
+import { CMS_GATE_COOKIE } from "@/lib/cms-gate";
 
 interface LoginRequestBody {
   email: string;
@@ -11,6 +13,13 @@ interface LoginRequestBody {
 }
 
 export async function POST(req: Request) {
+  if (process.env.NODE_ENV === "production") {
+    const cookieStore = await cookies();
+    if (cookieStore.get(CMS_GATE_COOKIE)?.value !== "1") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+  }
+
   try {
     await connectDB();
 
@@ -19,7 +28,7 @@ export async function POST(req: Request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { message: "Email and password are required" },
+        { message: "Email and passphrase are required" },
         { status: 400 },
       );
     }

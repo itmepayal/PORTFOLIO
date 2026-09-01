@@ -1,5 +1,6 @@
 import { getErrorMessage } from "@/lib/utils";
 import { getAuthSession } from "@/lib/auth";
+import { requireAuthSessionOrResponse } from "@/lib/api/auth";
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
@@ -13,6 +14,9 @@ export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { response } = await requireAuthSessionOrResponse();
+  if (response) return response;
+
   try {
     await connectDB();
 
@@ -66,6 +70,9 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { response } = await requireAuthSessionOrResponse();
+  if (response) return response;
+
   try {
     await connectDB();
 
@@ -140,6 +147,9 @@ export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { response } = await requireAuthSessionOrResponse();
+  if (response) return response;
+
   try {
     await connectDB();
 

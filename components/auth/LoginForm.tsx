@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { HiOutlineMail } from "react-icons/hi";
 import { HiArrowRight } from "react-icons/hi2";
 import { AuthCardHeader, AuthLayout } from "./AuthLayout";
-import { AuthFormFooter } from "./AuthFormFooter";
 import { AuthPasswordInput } from "./AuthPasswordInput";
 
 export const LoginForm = () => {
@@ -60,19 +59,15 @@ export const LoginForm = () => {
       >
         <div>
           <div className="mb-1 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-chart-3">
-            Dashboard access
+            Private CMS
           </div>
           <h1 className="text-[1.5rem] font-bold leading-tight tracking-[-0.02em] text-foreground">
-            Welcome back
+            Portfolio CMS
           </h1>
-          <p className="mt-1 text-[0.8rem] font-light text-muted-foreground">
-            New here?{" "}
-            <Link
-              href="/auth/register"
-              className="font-medium text-primary no-underline hover:opacity-80"
-            >
-              Create an account →
-            </Link>
+          <p className="mt-2 text-[0.8rem] leading-relaxed text-muted-foreground">
+            Private content management for Payal Yadav&apos;s personal portfolio
+            at itspayal.in. Not affiliated with any bank, payment service, or
+            third-party login provider.
           </p>
         </div>
 
@@ -102,27 +97,14 @@ export const LoginForm = () => {
 
         <AuthPasswordInput
           id="login-password"
-          label="Password"
+          label="Admin passphrase"
           placeholder="••••••••"
-          autoComplete="current-password"
+          autoComplete="off"
           value={password}
           onChange={setPassword}
           showPassword={showPassword}
           onTogglePassword={() => setShowPassword(!showPassword)}
         />
-
-        <div className="-mt-1 flex items-center justify-between">
-          <label className="flex cursor-pointer items-center gap-2 font-mono text-[0.68rem] text-muted-foreground">
-            <input type="checkbox" defaultChecked className="accent-primary" />
-            Remember me
-          </label>
-          <a
-            href="#"
-            className="font-mono text-[0.68rem] tracking-[0.03em] text-primary no-underline hover:opacity-80"
-          >
-            Forgot password?
-          </a>
-        </div>
 
         <button
           type="submit"
@@ -133,18 +115,21 @@ export const LoginForm = () => {
           }}
           className="mt-0.5 flex items-center justify-center gap-2 bg-linear-to-br from-primary to-secondary-foreground px-8 py-3.5 font-mono text-[0.82rem] tracking-[0.05em] text-white transition-opacity duration-200 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loading ? "Signing in…" : "Sign In"}
+          {loading ? "Opening dashboard…" : "Open dashboard"}
           {!loading && (
             <HiArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
           )}
         </button>
       </form>
 
-      <AuthFormFooter
-        prompt="Don't have an account?"
-        linkHref="/auth/register"
-        linkLabel="Create account →"
-      />
+      <div className="border-t border-border px-7 py-5 text-center sm:px-8">
+        <Link
+          href="/"
+          className="font-mono text-[0.68rem] text-primary no-underline hover:opacity-80"
+        >
+          ← Back to Payal Yadav portfolio
+        </Link>
+      </div>
     </AuthLayout>
   );
 };

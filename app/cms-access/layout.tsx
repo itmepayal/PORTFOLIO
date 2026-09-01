@@ -3,6 +3,10 @@ import { privateAreaMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = privateAreaMetadata;
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function CmsAccessLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return children;
 }

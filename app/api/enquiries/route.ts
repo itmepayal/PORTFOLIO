@@ -1,12 +1,16 @@
 import { getErrorMessage } from "@/lib/utils";
 import { connectDB } from "@/lib/db";
 import Enquiry from "@/models/enquiry";
+import { requireAuthSessionOrResponse } from "@/lib/api/auth";
 
 /* ====================================================== */
 /* GET ALL ENQUIRIES */
 /* ====================================================== */
 
 export async function GET(request: Request) {
+  const { response } = await requireAuthSessionOrResponse();
+  if (response) return response;
+
   try {
     await connectDB();
 
@@ -98,8 +102,18 @@ export async function POST(req: Request) {
     await connectDB();
 
     const body = await req.json();
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const email = typeof body.email === "string" ? body.email.trim() : "";
+    const message = typeof body.message === "string" ? body.message.trim() : "";
 
-    const enquiry = await Enquiry.create(body);
+    if (!name || !email || !message) {
+      return Response.json(
+        { success: false, message: "Name, email, and message are required" },
+        { status: 400 },
+      );
+    }
+
+    const enquiry = await Enquiry.create({ name, email, message });
 
     return Response.json(
       {

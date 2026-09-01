@@ -236,10 +236,7 @@ export const GithubPanel = () => {
     const fetchContributions = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`,
-          { cache: "no-store" },
-        );
+        const res = await fetch("/api/github-contributions", { cache: "no-store" });
         if (!res.ok) throw new Error("API error");
         const data = await res.json();
         setCalData(buildCalendar(data.contributions as ApiContribution[]));

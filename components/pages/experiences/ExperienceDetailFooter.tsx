@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HiArrowRight, HiBriefcase, HiExternalLink } from "react-icons/hi";
 import { CLIP_PATH } from "@/components/pages/shared/detail-constants";
+import { isSafeHttpsUrl } from "@/lib/utils";
 import type { Experience } from "./experience-types";
 
 export const ExperienceDetailActions = ({
@@ -14,16 +15,18 @@ export const ExperienceDetailActions = ({
 }) => (
   <section className="bg-surface px-[5%] py-12">
     <div className="mx-auto flex max-w-300 flex-wrap items-center justify-center gap-3 border border-border bg-card p-6">
-      <a
-        href={experience.companyWebsite}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex flex-1 items-center justify-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:flex-none"
-        style={{ clipPath: CLIP_PATH }}
-      >
-        <HiExternalLink className="size-4" />
-        Visit {experience.company}
-      </a>
+      {isSafeHttpsUrl(experience.companyWebsite) && (
+        <a
+          href={experience.companyWebsite}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex flex-1 items-center justify-center gap-2 bg-linear-to-br from-primary to-accent2 px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 sm:flex-none"
+          style={{ clipPath: CLIP_PATH }}
+        >
+          <HiExternalLink className="size-4" />
+          Visit {experience.company}
+        </a>
+      )}
       <button
         onClick={onBack}
         className="inline-flex flex-1 items-center justify-center gap-2 border border-border px-7 py-3 font-mono text-[0.78rem] tracking-[0.04em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary sm:flex-none"
