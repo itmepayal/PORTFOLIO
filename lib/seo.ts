@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { getSiteUrl, SITE } from "@/lib/site";
 
+function getGoogleSiteVerification(): string | undefined {
+  const token = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+  return token || undefined;
+}
+
 export function buildRootMetadata(): Metadata {
   const siteUrl = getSiteUrl();
   const ogImage = `${siteUrl}/opengraph-image`;
   const pageTitle = `${SITE.name} | ${SITE.title}`;
+  const googleVerification = getGoogleSiteVerification();
 
   return {
     metadataBase: new URL(siteUrl),
@@ -59,6 +65,13 @@ export function buildRootMetadata(): Metadata {
     alternates: {
       canonical: siteUrl,
     },
+    ...(googleVerification
+      ? {
+          verification: {
+            google: googleVerification,
+          },
+        }
+      : {}),
     icons: {
       icon: [
         { url: "/favicon.svg", type: "image/svg+xml" },

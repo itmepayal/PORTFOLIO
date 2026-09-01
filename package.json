@@ -17,6 +17,8 @@
     "lint": "eslint",
     "seed:demo": "node scripts/seed-demo-data.mjs",
     "verify:vercel": "node scripts/verify-vercel.mjs",
+    "verify:domain": "node scripts/verify-domain-redirect.mjs",
+    "setup:search-console": "node scripts/setup-search-console.mjs",
     "verify:godaddy": "node scripts/verify-godaddy-ready.mjs",
     "verify:seo": "node scripts/verify-seo-local.mjs",
     "package:godaddy": "node scripts/package-godaddy-zip.mjs"

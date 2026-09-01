@@ -138,6 +138,7 @@ User → itspayal.in (GoDaddy DNS) → Vercel Edge → Next.js App → MongoDB A
 | `JWT_EXPIRE_DATE` | `7d` |
 | `LEETCODE_USERNAME` | Optional |
 | `LEETCODE_PROGRESS_GOAL` | `500` (optional) |
+| `GOOGLE_SITE_VERIFICATION` | Search Console HTML tag token (optional) |
 
 Redeploy after adding env vars.
 
@@ -145,8 +146,11 @@ Redeploy after adding env vars.
 
 **In Vercel → Project → Settings → Domains:**
 
-1. Add `itspayal.in`
-2. Add `www.itspayal.in` (auto-redirects to apex via `vercel.json`)
+1. Add `itspayal.in` and set it as **Primary domain**
+2. Add `www.itspayal.in` and set it to **Redirect to** `itspayal.in`
+3. Redeploy production after changing domain settings
+
+> If `itspayal.in` redirects to `www` instead, fix this in Vercel Domains (not just `vercel.json`). Run `npm run verify:domain` to confirm.
 
 **In GoDaddy → DNS for itspayal.in:**
 
@@ -163,6 +167,7 @@ DNS propagation: 15 minutes – 48 hours.
 
 ```bash
 npm run verify:vercel
+npm run verify:domain
 npm run verify:seo
 ```
 
@@ -187,14 +192,22 @@ Live checks:
 | robots.txt | Blocks `/dashboard`, `/auth`, `/api` |
 | Favicons | SVG + PNG + Apple touch icon |
 | OG image | `/opengraph-image` (1200×630) |
-| www redirect | `www.itspayal.in` → `itspayal.in` (`vercel.json`) |
+| www redirect | `www.itspayal.in` → `itspayal.in` (`vercel.json` + `next.config.ts`) |
+| Search Console verification | `GOOGLE_SITE_VERIFICATION` env var in `lib/seo.ts` |
 
 ### Google Search Console
 
+Run the full setup guide:
+
+```bash
+npm run setup:search-console
+```
+
 1. Add property: `https://itspayal.in`
-2. Verify via DNS TXT record (GoDaddy) or HTML tag
+2. Verify via **DNS TXT** (GoDaddy, recommended) or `GOOGLE_SITE_VERIFICATION` env var
 3. Submit sitemap: `https://itspayal.in/sitemap.xml`
-4. Test: [Google Rich Results](https://search.google.com/test/rich-results)
+4. If Chrome shows **Dangerous site**, go to **Security & Manual Actions** → request a review
+5. Test: [Google Rich Results](https://search.google.com/test/rich-results)
 
 ---
 
@@ -208,6 +221,8 @@ Live checks:
 | `npm run lint` | ESLint |
 | `npm run seed:demo` | Seed sample data |
 | `npm run verify:vercel` | Vercel + GoDaddy deploy checklist |
+| `npm run verify:domain` | Check www ↔ apex redirect chain |
+| `npm run setup:search-console` | Search Console + Safe Browsing guide |
 | `npm run verify:seo` | SEO files + post-deploy URLs |
 
 ---

@@ -47,8 +47,11 @@ for (const p of paths) {
 }
 
 console.log("\nGoogle Search Console:");
-console.log(`  1. Add property: ${siteUrl}`);
-console.log(`  2. Submit sitemap: ${siteUrl}/sitemap.xml`);
-console.log("  3. Test rich results: https://search.google.com/test/rich-results\n");
+console.log(`  1. Run: npm run setup:search-console`);
+console.log(`  2. Add property: ${siteUrl}`);
+console.log(`  3. Verify via DNS TXT (GoDaddy) or GOOGLE_SITE_VERIFICATION env var`);
+console.log(`  4. Submit sitemap: ${siteUrl}/sitemap.xml`);
+console.log("  5. Request Safe Browsing review if Chrome shows 'Dangerous site'");
+console.log("  6. Test rich results: https://search.google.com/test/rich-results\n");
 
 process.exit(missing > 0 ? 1 : 0);

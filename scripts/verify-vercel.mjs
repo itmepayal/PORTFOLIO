@@ -54,12 +54,12 @@ console.log("  CNAME www  →  cname.vercel-dns.com");
 console.log("  (Or use Vercel nameservers if domain transferred)");
 
 console.log("\nVercel → Project → Settings → Domains:");
-console.log("  Add: itspayal.in");
-console.log("  Add: www.itspayal.in (redirects to apex via vercel.json)");
+console.log("  Primary: itspayal.in");
+console.log("  Redirect: www.itspayal.in → itspayal.in");
+console.log("  (If apex redirects to www, fix in Vercel Domains — see npm run setup:search-console)");
 
 console.log("\nAfter deploy, verify:");
-console.log("  https://itspayal.in");
-console.log("  https://itspayal.in/sitemap.xml");
-console.log("  https://itspayal.in/robots.txt");
+console.log("  npm run verify:domain");
+console.log("  npm run setup:search-console");
 
 process.exit(ok ? 0 : 1);
