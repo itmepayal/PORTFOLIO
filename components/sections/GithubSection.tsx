@@ -308,197 +308,197 @@ export const GithubPanel = () => {
       />
 
       <div className="reveal flex flex-col gap-6 lg:flex-row">
-            <div className="lg:w-[35%]">
-              {loading ? (
-                <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
-                  {[...Array(4)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem]"
-                    >
-                      <div
-                        className="mb-3 h-7 w-16 rounded bg-muted/40"
-                        style={{
-                          animation: "gh-pulse 1.6s ease-in-out infinite",
-                        }}
-                      />
-                      <div
-                        className="h-3 w-24 rounded bg-muted/40"
-                        style={{
-                          animation: "gh-pulse 1.6s ease-in-out infinite",
-                          animationDelay: "150ms",
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                calData && (
-                  <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
-                    {stats.map(
-                      ({ value, label, suffix, icon: Icon, accent }) => (
-                        <div
-                          key={label}
-                          className="group relative overflow-hidden bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem] transition-colors hover:bg-card-h"
-                        >
-                          <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-primary to-cyan opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                          <Icon
-                            className={`absolute right-4 top-4 sm:right-[1.3rem] sm:top-[1.2rem] text-base opacity-40 transition-opacity group-hover:opacity-70 ${accent}`}
-                          />
-                          <div className="flex items-baseline gap-1 font-sans text-[1.6rem] tabular-nums sm:text-[1.9rem] font-bold leading-none">
-                            <span className="bg-linear-to-br from-primary to-cyan bg-clip-text text-transparent">
-                              {value}
-                            </span>
-                            {suffix && (
-                              <span className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-muted-foreground">
-                                {suffix}
-                              </span>
-                            )}
-                          </div>
-                          <div className="mt-2 font-mono text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.08em] text-muted-foreground">
-                            {label}
-                          </div>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )
-              )}
-            </div>
-
-            <div className="lg:w-[65%]">
-              {loading ? (
-                <div className="h-full border border-border bg-card p-4 sm:p-6">
+        <div className="lg:w-[35%]">
+          {loading ? (
+            <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem]"
+                >
                   <div
-                    className="mb-4 h-3.5 w-40 rounded bg-muted/40"
-                    style={{ animation: "gh-pulse 1.6s ease-in-out infinite" }}
+                    className="mb-3 h-7 w-16 rounded bg-muted/40"
+                    style={{
+                      animation: "gh-pulse 1.6s ease-in-out infinite",
+                    }}
                   />
-                  <div className="overflow-hidden pl-8.5">
-                    <HeatmapSkeleton />
-                  </div>
+                  <div
+                    className="h-3 w-24 rounded bg-muted/40"
+                    style={{
+                      animation: "gh-pulse 1.6s ease-in-out infinite",
+                      animationDelay: "150ms",
+                    }}
+                  />
                 </div>
-              ) : error ? (
-                <div className="flex h-full items-center gap-3 border border-border bg-card p-6 font-mono text-[0.78rem] text-muted-foreground">
-                  <TbBrandGithub className="shrink-0 text-xl" />
-                  Couldn&apos;t load contribution data. Check back later.
-                </div>
-              ) : (
-                calData && (
-                  <div className="h-full overflow-x-auto border border-border bg-card p-4 sm:p-6 [-webkit-overflow-scrolling:touch]">
-                    <div className="flex w-full min-w-150 flex-col gap-2">
-                      <div
-                        className="relative mb-2 h-3.5"
-                        style={{ paddingLeft: WEEKDAY_COL_PX }}
-                      >
-                        {calData.monthLabels.map((m, i) => (
-                          <span
-                            key={`${m.label}-${i}`}
-                            className="absolute whitespace-nowrap font-mono text-[0.63rem] text-muted-foreground"
-                            style={{
-                              left: WEEKDAY_COL_PX + m.weekIndex * STEP_PX,
-                            }}
-                          >
-                            {m.label}
+              ))}
+            </div>
+          ) : (
+            calData && (
+              <div className="grid h-full grid-cols-2 gap-px border border-border bg-border">
+                {stats.map(
+                  ({ value, label, suffix, icon: Icon, accent }) => (
+                    <div
+                      key={label}
+                      className="group relative overflow-hidden bg-card px-5 py-5 sm:px-6 sm:py-[1.4rem] transition-colors hover:bg-card-h"
+                    >
+                      <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-primary to-cyan opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      <Icon
+                        className={`absolute right-4 top-4 sm:right-[1.3rem] sm:top-[1.2rem] text-base opacity-40 transition-opacity group-hover:opacity-70 ${accent}`}
+                      />
+                      <div className="flex items-baseline gap-1 font-sans text-[1.6rem] tabular-nums sm:text-[1.9rem] font-bold leading-none">
+                        <span className="bg-linear-to-br from-primary to-cyan bg-clip-text text-transparent">
+                          {value}
+                        </span>
+                        {suffix && (
+                          <span className="font-mono text-[0.85rem] sm:text-[0.95rem] font-normal text-muted-foreground">
+                            {suffix}
                           </span>
-                        ))}
+                        )}
                       </div>
-
-                      <div className="flex gap-1">
-                        <div
-                          className="mr-2 flex flex-col gap-1 pt-px"
-                          style={{ width: WEEKDAY_COL_PX - 8 }}
-                        >
-                          {["", "Mon", "", "Wed", "", "Fri", ""].map((d, i) => (
-                            <div
-                              key={i}
-                              className="h-3 font-mono text-[0.6rem] leading-3 text-muted-foreground"
-                            >
-                              {d}
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="flex flex-1 gap-1">
-                          {calData.weeks.map((week, wi) => (
-                            <div key={wi} className="flex flex-col gap-1">
-                              {week.map((cell, di) => (
-                                <div
-                                  key={di}
-                                  className={[
-                                    "h-3 w-3 rounded-[3px] transition-transform duration-150 motion-reduce:transition-none",
-                                    cell.level === -1
-                                      ? "invisible"
-                                      : "cursor-default hover:z-10 hover:scale-125 hover:ring-2 hover:ring-primary motion-reduce:hover:scale-100",
-                                    cell.level === 0
-                                      ? "shadow-[inset_0_0_0_1px_var(--border)]"
-                                      : "",
-                                  ].join(" ")}
-                                  style={{
-                                    backgroundColor:
-                                      cell.level === -1
-                                        ? undefined
-                                        : LEVEL_BG[cell.level],
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    if (cell.level === -1) return;
-                                    const r = (
-                                      e.target as HTMLDivElement
-                                    ).getBoundingClientRect();
-                                    setHover({
-                                      x: r.left + r.width / 2,
-                                      y: r.top,
-                                      text: cell.title,
-                                    });
-                                  }}
-                                  onMouseLeave={() => setHover(null)}
-                                />
-                              ))}
-                            </div>
-                          ))}
-                        </div>
+                      <div className="mt-2 font-mono text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.08em] text-muted-foreground">
+                        {label}
                       </div>
                     </div>
+                  ),
+                )}
+              </div>
+            )
+          )}
+        </div>
 
-                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
-                      <p className="font-mono text-[0.68rem] sm:text-xs text-muted-foreground">
-                        Most active on{" "}
-                        <span className="font-semibold text-green">
-                          {calData.bestDayOfWeek}
-                        </span>{" "}
-                        · avg{" "}
-                        <span className="font-semibold text-green">
-                          {calData.avgPerDay}
-                        </span>
-                        /day
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[0.62rem] text-muted-foreground">
-                          Less
-                        </span>
-                        <div className="flex gap-0.75">
-                          {[0, 1, 2, 3, 4].map((l) => (
-                            <span
-                              key={l}
+        <div className="lg:w-[65%]">
+          {loading ? (
+            <div className="h-full border border-border bg-card p-4 sm:p-6">
+              <div
+                className="mb-4 h-3.5 w-40 rounded bg-muted/40"
+                style={{ animation: "gh-pulse 1.6s ease-in-out infinite" }}
+              />
+              <div className="overflow-hidden pl-8.5">
+                <HeatmapSkeleton />
+              </div>
+            </div>
+          ) : error ? (
+            <div className="flex h-full items-center gap-3 border border-border bg-card p-6 font-mono text-[0.78rem] text-muted-foreground">
+              <TbBrandGithub className="shrink-0 text-xl" />
+              Couldn&apos;t load contribution data. Check back later.
+            </div>
+          ) : (
+            calData && (
+              <div className="h-full overflow-x-auto border border-border bg-card p-4 sm:p-6 [-webkit-overflow-scrolling:touch]">
+                <div className="flex w-full min-w-150 flex-col gap-2">
+                  <div
+                    className="relative mb-2 h-3.5"
+                    style={{ paddingLeft: WEEKDAY_COL_PX }}
+                  >
+                    {calData.monthLabels.map((m, i) => (
+                      <span
+                        key={`${m.label}-${i}`}
+                        className="absolute whitespace-nowrap font-mono text-[0.63rem] text-muted-foreground"
+                        style={{
+                          left: WEEKDAY_COL_PX + m.weekIndex * STEP_PX,
+                        }}
+                      >
+                        {m.label}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-1">
+                    <div
+                      className="mr-2 flex flex-col gap-1 pt-px"
+                      style={{ width: WEEKDAY_COL_PX - 8 }}
+                    >
+                      {["", "Mon", "", "Wed", "", "Fri", ""].map((d, i) => (
+                        <div
+                          key={i}
+                          className="h-3 font-mono text-[0.6rem] leading-3 text-muted-foreground"
+                        >
+                          {d}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-1 gap-1">
+                      {calData.weeks.map((week, wi) => (
+                        <div key={wi} className="flex flex-col gap-1">
+                          {week.map((cell, di) => (
+                            <div
+                              key={di}
                               className={[
-                                "h-3 w-3 rounded-[3px]",
-                                l === 0
+                                "h-3 w-3 rounded-[3px] transition-transform duration-150 motion-reduce:transition-none",
+                                cell.level === -1
+                                  ? "invisible"
+                                  : "cursor-default hover:z-10 hover:scale-125 hover:ring-2 hover:ring-primary motion-reduce:hover:scale-100",
+                                cell.level === 0
                                   ? "shadow-[inset_0_0_0_1px_var(--border)]"
                                   : "",
                               ].join(" ")}
-                              style={{ backgroundColor: LEVEL_BG[l] }}
+                              style={{
+                                backgroundColor:
+                                  cell.level === -1
+                                    ? undefined
+                                    : LEVEL_BG[cell.level],
+                              }}
+                              onMouseEnter={(e) => {
+                                if (cell.level === -1) return;
+                                const r = (
+                                  e.target as HTMLDivElement
+                                ).getBoundingClientRect();
+                                setHover({
+                                  x: r.left + r.width / 2,
+                                  y: r.top,
+                                  text: cell.title,
+                                });
+                              }}
+                              onMouseLeave={() => setHover(null)}
                             />
                           ))}
                         </div>
-                        <span className="font-mono text-[0.62rem] text-muted-foreground">
-                          More
-                        </span>
-                      </div>
+                      ))}
                     </div>
                   </div>
-                )
-              )}
-            </div>
-          </div>
+                </div>
+
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-5">
+                  <p className="font-mono text-[0.68rem] sm:text-xs text-muted-foreground">
+                    Most active on{" "}
+                    <span className="font-semibold text-green">
+                      {calData.bestDayOfWeek}
+                    </span>{" "}
+                    · avg{" "}
+                    <span className="font-semibold text-green">
+                      {calData.avgPerDay}
+                    </span>
+                    /day
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[0.62rem] text-muted-foreground">
+                      Less
+                    </span>
+                    <div className="flex gap-0.75">
+                      {[0, 1, 2, 3, 4].map((l) => (
+                        <span
+                          key={l}
+                          className={[
+                            "h-3 w-3 rounded-[3px]",
+                            l === 0
+                              ? "shadow-[inset_0_0_0_1px_var(--border)]"
+                              : "",
+                          ].join(" ")}
+                          style={{ backgroundColor: LEVEL_BG[l] }}
+                        />
+                      ))}
+                    </div>
+                    <span className="font-mono text-[0.62rem] text-muted-foreground">
+                      More
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      </div>
 
       {hover && (
         <div
