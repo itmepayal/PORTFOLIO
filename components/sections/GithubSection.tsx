@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLoading } from "@/context/LoadingContext";
 import { Container } from "../common/Container";
 import { SectionHeader } from "../common/SectionHeader";
 import {
@@ -223,6 +224,7 @@ const HeatmapSkeleton = () => (
 );
 
 export const GithubPanel = () => {
+  const { trackPromise } = useLoading();
   const [calData, setCalData] = useState<CalendarData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -236,9 +238,11 @@ export const GithubPanel = () => {
     const fetchContributions = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/github-contributions", { cache: "no-store" });
-        if (!res.ok) throw new Error("API error");
-        const data = await res.json();
+        const reqPromise = fetch("/api/github-contributions", { cache: "no-store" }).then(async (res) => {
+          if (!res.ok) throw new Error("API error");
+          return res.json();
+        });
+        const data = await trackPromise("github-contributions", reqPromise);
         setCalData(buildCalendar(data.contributions as ApiContribution[]));
       } catch (e) {
         console.error(e);
@@ -248,7 +252,7 @@ export const GithubPanel = () => {
       }
     };
     fetchContributions();
-  }, []);
+  }, [trackPromise]);
 
   const now = new Date();
   const yearLabel = `${MONTHS[now.getMonth()]} ${now.getFullYear() - 1} — ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;

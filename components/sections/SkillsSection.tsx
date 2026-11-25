@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLoading } from "@/context/LoadingContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Database, Globe, LayoutGrid, Server, Box } from "lucide-react";
 import { Container } from "../common/Container";
@@ -33,6 +34,7 @@ function levelToDots(level: number) {
 }
 
 export const Skills = () => {
+  const { trackPromise } = useLoading();
   const [skills, setSkills] = useState<ApiSkill[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
@@ -40,8 +42,8 @@ export const Skills = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await fetch("/api/skills?limit=100");
-        const data = await response.json();
+        const reqPromise = fetch("/api/skills?limit=100").then((res) => res.json());
+        const data = await trackPromise("skills-list", reqPromise);
         if (data.success) {
           setSkills(data.skills || []);
         }
@@ -53,7 +55,7 @@ export const Skills = () => {
     };
 
     fetchSkills();
-  }, []);
+  }, [trackPromise]);
 
   const filteredSkills =
     activeCategory === "all"

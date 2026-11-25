@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useLoading } from "@/context/LoadingContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "../common/Container";
 import { SectionHeader } from "../common/SectionHeader";
@@ -70,6 +71,7 @@ const getDuration = (startDate: string, endDate: string, current: boolean) => {
 };
 
 export const Experience = () => {
+  const { trackPromise } = useLoading();
   const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -80,8 +82,8 @@ export const Experience = () => {
     const fetchExperiences = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/experiences");
-        const data = await response.json();
+        const reqPromise = fetch("/api/experiences").then((res) => res.json());
+        const data = await trackPromise("experiences-list", reqPromise);
         if (data.success) {
           const sorted = data.experiences.sort(
             (a: ExperienceItem, b: ExperienceItem) => a.order - b.order
@@ -95,7 +97,7 @@ export const Experience = () => {
       }
     };
     fetchExperiences();
-  }, []);
+  }, [trackPromise]);
 
   const active = experiences[activeIndex];
   const hasExperiences = experiences.length > 0;

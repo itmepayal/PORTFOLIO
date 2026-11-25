@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useLoading } from "@/context/LoadingContext";
 import { DetailLoading } from "@/components/pages/shared/DetailLoading";
 import { DetailNotFound } from "@/components/pages/shared/DetailNotFound";
 import { getAccentLine } from "@/components/pages/shared/detail-constants";
@@ -28,6 +29,7 @@ export const ExperienceDetailPage = () => {
   const params = useParams();
   const router = useRouter();
   const id = params?.id as string;
+  const { trackPromise } = useLoading();
 
   const [experience, setExperience] = useState<Experience | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,8 +40,8 @@ export const ExperienceDetailPage = () => {
     (async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/experiences/${id}`);
-        const data = await res.json();
+        const reqPromise = fetch(`/api/experiences/${id}`).then((res) => res.json());
+        const data = await trackPromise(`experience-detail-${id}`, reqPromise);
         if (data.success) {
           setExperience(data.experience);
         } else {
@@ -51,7 +53,7 @@ export const ExperienceDetailPage = () => {
         setLoading(false);
       }
     })();
-  }, [id]);
+  }, [id, trackPromise]);
 
   if (loading) return <DetailLoading />;
   if (error || !experience) {

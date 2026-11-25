@@ -3,10 +3,7 @@ import { connectDB } from "@/lib/db";
 import Project from "@/models/project";
 import { ProjectDetailPage } from "@/components/pages/projects/ProjectDetailPage";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  buildCreativeWorkJsonLd,
-  buildProjectMetadata,
-} from "@/lib/seo";
+import { buildCreativeWorkJsonLd, buildProjectMetadata } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ id: string }>;

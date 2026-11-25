@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useLoading } from "@/context/LoadingContext";
 import { DashboardStats as DashboardStatsSkeleton } from "../skeletons/DashboardStatsSkeleton";
 
 type DashboardStat = {
@@ -33,6 +34,7 @@ const iconMap = {
 };
 
 export default function DashboardHero() {
+  const { trackPromise } = useLoading();
   const [stats, setStats] = useState<DashboardStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [completion, setCompletion] = useState(0);
@@ -40,11 +42,14 @@ export default function DashboardHero() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("/api/dashboard/stats");
-        if (!response.ok) {
-          throw new Error("Failed to fetch stats");
-        }
-        const data = await response.json();
+        const statsReq = fetch("/api/dashboard/stats").then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch stats");
+          }
+          return response.json();
+        });
+
+        const data = await trackPromise("dashboard-stats", statsReq);
         if (data.success) {
           setStats(data.stats);
           setCompletion(data.completionPercentage);
@@ -57,7 +62,7 @@ export default function DashboardHero() {
     };
 
     fetchStats();
-  }, []);
+  }, [trackPromise]);
 
   const actions = [
     {
